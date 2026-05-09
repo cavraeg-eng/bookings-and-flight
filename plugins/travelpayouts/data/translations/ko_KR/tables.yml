@@ -1,0 +1,154 @@
+flights:
+  departure_at: '출발 일시:'
+  number_of_changes: 경유
+  button_column_title: '항공권 찾기'
+  button:
+    'Tickets from {price}': '{price} 이상 항공권'
+    'OW tickets from {price}': '{price} 이상 편도 항공권'
+    'Find tickets': '항공권 찾기'
+    'Select dates': '날짜 선택'
+  price: 가격
+  trip_class: '여행 좌석 등급'
+  distance: 거리
+  return_at: '귀환 일시:'
+  airline_logo: 항공사
+  service_airline_logo: 항공사
+  flight_number: '항공편 번호'
+  service_flight_number: '편명'
+  flight: 항공편
+  airline: 항공사
+  service_airline: 항공사
+  destination: 목적지
+  origin_destination: '출발 - 도착'
+  place: 장소
+  direction: 방향
+  origin: 출발지
+  found_at: '검색 일시:'
+  price_distance: 가격/거리
+  time_and_stops: '시간 및 경유 수'
+  route: 항로
+  schedule: 일정
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': '가장 저렴한 {origin}행 {destination}발 왕복 항공권'
+    'The cheapest flights from {origin} to {destination} for the year ahead': '일 년 내 가장 저렴한 {origin}행 {destination}발 항공권'
+    'The cheapest flights for this month from {origin} to {destination}': '이번 달 가장 저렴한 {origin}행 {destination}발 항공권'
+    'Flights that have been found on our website': '이 웹 사이트에서 검색된 항공권'
+    'Direct flights from {origin}': '{origin}발 직항'
+    'Cheap flights from {origin}': '{origin}발 저렴한 항공편'
+    'Direct flights from {origin} to {destination}': '{origin}발 {destination}행 직항'
+    'Cheap flights to {destination}': '{destination}행 저렴한 항공편'
+    'Flight prices for a month from {origin} to {destination}, one way': '{origin}발 {destination}행 편도, 한 달 내 항공권 가격'
+    'Flights from {origin}': '{origin}발 항공권'
+    'Airline''s popular flights: {airline}': '항공사 인기 항공편: {airline}'
+    'Flights from {origin} to {destination} for the next few days': '며칠 내 {origin}발 {destination}행 항공권'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': '{flights_number}개 항공편{flights_every_day} 이상, {min_flight_duration}개 항공편 부터'
+    duration_short_days: '일'
+    duration_short_hours: '시간'
+    duration_short_min: '분'
+    every_day: '매일'
+  class_name:
+    Economy: '이코노미'
+    Business: '비즈니스'
+    'First class': 'First class'
+  stops:
+    Direct: '직항'
+    nominative: '정거장'
+    genitive: '정거장'
+    prepositional: '정거장'
+  schedule_days:
+    day_0: '월'
+    day_1: '화'
+    day_2: '수'
+    day_3: '목'
+    day_4: '금'
+    day_5: '토'
+    day_6: '일'
+hotel:
+  name: 호텔
+  stars: 별점
+  discount: 할인율
+  old_price_and_new_price: '사전 가격 및 할인가'
+  button_column_title: '날짜 선택'
+  button:
+    'View Hotel': '호텔 보기'
+  price_pn: '1박당 가격'
+  old_price_and_discount: '할인 전 가격'
+  distance: 거리
+  old_price_pn: '할인 전 가격'
+  rating: 평점
+  title:
+    'Hotels in {location}: {selection_name}': '{location} 소재 호텔: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': '{location} 소재 호텔: {selection_name} ({dates})'
+  selections:
+    'Top hotels': '인기높음'
+    Popularity: '인기도'
+    Cheap: '낮은 가격'
+    Distance: '거리'
+    Rating: '평점'
+    '0 stars': '별 0개'
+    '1 star': '별 1개'
+    '2 stars': '별 2개'
+    '3 stars': '별 3개'
+    '4 stars': '별 4개'
+    '5 stars': '별 5개'
+    Luxury: '럭셔리'
+    Expensive: '가격 높음'
+    'Hotels in the center': '시내에 있는 호텔'
+    Pool: '수영장'
+    'Gay friendly': '성소수자 친화적'
+    'Smoking friendly': '흡연 가능'
+    Restaurant: '레스토랑'
+    'Pet friendly': '애완동물 입장가능'
+    'Russian guests': '러시아인 게스트'
+    'Sea view': '바다 전망'
+    'Lake view': '호수 전망'
+    'River view': '강 전망'
+    'Panoramic view': '파노라마 뷰'
+    'Cheap hotels': '저렴한 호텔'
+    tophotels: '인기높음'
+    popularity: '인기도'
+    cheap: '낮은 가격'
+    distance: '거리'
+    rating: '평점'
+    0-stars: '별 0개'
+    1-star: '별 1개'
+    2-stars: '별 2개'
+    3-stars: '별 3개'
+    4-stars: '별 4개'
+    5-stars: '별 5개'
+    0stars: '별 0개'
+    1star: '별 1개'
+    2stars: '별 2개'
+    3stars: '별 3개'
+    4stars: '별 4개'
+    5stars: '별 5개'
+    luxury: '럭셔리'
+    expensive: '가격 높음'
+    center: '시내에 있는 호텔'
+    pool: '수영장'
+    gay: '성소수자 친화적'
+    smoke: '흡연 가능'
+    restaurant: '레스토랑'
+    pets: '애완동물 입장가능'
+    russians: '러시아인 게스트'
+    sea_view: '바다 전망'
+    lake_view: '호수 전망'
+    river_view: '강 전망'
+    Panoramic_view: '파노라마 뷰'
+    price: '저렴한 호텔'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

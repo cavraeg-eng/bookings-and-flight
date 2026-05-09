@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Kalkış zamanı'
+  number_of_changes: Durak
+  button_column_title: 'Bilet bul'
+  button:
+    'Tickets from {price}': 'Bilet başlangıç fiyatı {price}'
+    'OW tickets from {price}': 'Tek Yön başlangıç fiyatı {price}'
+    'Find tickets': 'Bilet bul'
+    'Select dates': 'Tarihleri seçin'
+  price: Fiyat
+  trip_class: 'Yolculuk sınıfı'
+  distance: Mesafe
+  return_at: 'Dönüş zamanı'
+  airline_logo: Havayolu
+  service_airline_logo: Havayolu
+  flight_number: 'Uçuş no'
+  service_flight_number: 'Uçuş numarası'
+  flight: Uçuş
+  airline: Havayolu
+  service_airline: Havayolu
+  destination: Varış
+  origin_destination: 'Kalkış - Varış'
+  place: Yer
+  direction: Yön
+  origin: Kalkış
+  found_at: 'Bulunan tarih'
+  price_distance: Fiyat/mesafe
+  time_and_stops: 'Zaman ve duraklar'
+  route: Rota
+  schedule: Program
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': '{origin} çıkışlı {destination} varışlı En Ucuz Gidiş Dönüş Biletleri'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'Gelecek Yılın {origin} çıkışlı {destination} varışlı En Ucuz Uçuşları'
+    'The cheapest flights for this month from {origin} to {destination}': 'Bu Ayın {origin} çıkışlı {destination} varışlı En Ucuz Uçuşları'
+    'Flights that have been found on our website': 'Sitemizde Bulunan Uçuşlar'
+    'Direct flights from {origin}': '{origin} çıkışlı Direkt Uçuşlar'
+    'Cheap flights from {origin}': '{origin} çıkışlı Ucuz Uçuşlar'
+    'Direct flights from {origin} to {destination}': '{origin} çıkışlı {destination} varışlı Direkt Uçuşlar'
+    'Cheap flights to {destination}': '{destination} varışlı Ucuz Uçuşlar'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Bir Aylık {origin} çıkışlı {destination} varışlı, Tek Yön Uçuş Fiyatları'
+    'Flights from {origin}': '{origin} çıkışlı Uçuşlar'
+    'Airline''s popular flights: {airline}': 'Havayolunun popüler uçuşları: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Gelecek Bir Kaç Günün {origin} çıkışlı {destination} varışlı Uçuşları'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': '{flights_number}''dan daha fazla uçuş{flights_every_day}, {min_flight_duration}''dan başlayan'
+    duration_short_days: 'g'
+    duration_short_hours: 'sa'
+    duration_short_min: 'dk'
+    every_day: 'her gün'
+  class_name:
+    Economy: 'Ekonomi'
+    Business: 'Business'
+    'First class': 'First class'
+  stops:
+    Direct: 'Doğrudan'
+    nominative: 'Durak'
+    genitive: 'Durak'
+    prepositional: 'Durak'
+  schedule_days:
+    day_0: 'pzt'
+    day_1: 'sal'
+    day_2: 'çar'
+    day_3: 'per'
+    day_4: 'cum'
+    day_5: 'cmt'
+    day_6: 'paz'
+hotel:
+  name: Otel
+  stars: Yıldız
+  discount: İndirim
+  old_price_and_new_price: 'İndirimsiz Fiyat'
+  button_column_title: 'Tarih seç'
+  button:
+    'View Hotel': 'Oteli Göster'
+  price_pn: 'Gecelik Fiyat'
+  old_price_and_discount: 'İndirimsiz fiyat'
+  distance: Mesafe
+  old_price_pn: 'İndirimsiz fiyat'
+  rating: Puan
+  title:
+    'Hotels in {location}: {selection_name}': '{location} konumundaki oteller: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': '{location} konumundaki oteller: {selection_name}({dates})'
+  selections:
+    'Top hotels': 'En iyi oteller'
+    Popularity: 'Popülerlik'
+    Cheap: 'Uygun'
+    Distance: 'Mesafe'
+    Rating: 'Puanlama'
+    '0 stars': '0 yıldız'
+    '1 star': '1 yıldız'
+    '2 stars': '2 yıldız'
+    '3 stars': '3 yıldız'
+    '4 stars': '4 yıldız'
+    '5 stars': '5 yıldız'
+    Luxury: 'Lüks'
+    Expensive: 'Pahalı'
+    'Hotels in the center': 'Merkezi oteller'
+    Pool: 'Havuz'
+    'Gay friendly': 'Eşcinsel dostu'
+    'Smoking friendly': 'Sigara içilebilir'
+    Restaurant: 'Restoran'
+    'Pet friendly': 'Evcil hayvan dostu'
+    'Russian guests': 'Rus misafirler'
+    'Sea view': 'Deniz manzaralı'
+    'Lake view': 'Göl manzaralı'
+    'River view': 'Nehir manzaralı'
+    'Panoramic view': 'Panaromik manzara'
+    'Cheap hotels': 'Ucuz oteller'
+    tophotels: 'En iyi oteller'
+    popularity: 'Popülerlik'
+    cheap: 'Uygun'
+    distance: 'Mesafe'
+    rating: 'Puanlama'
+    0-stars: '0 yıldız'
+    1-star: '1 yıldız'
+    2-stars: '2 yıldız'
+    3-stars: '3 yıldız'
+    4-stars: '4 yıldız'
+    5-stars: '5 yıldız'
+    0stars: '0 yıldız'
+    1star: '1 yıldız'
+    2stars: '2 yıldız'
+    3stars: '3 yıldız'
+    4stars: '4 yıldız'
+    5stars: '5 yıldız'
+    luxury: 'Lüks'
+    expensive: 'Pahalı'
+    center: 'Merkezi oteller'
+    pool: 'Havuz'
+    gay: 'Eşcinsel dostu'
+    smoke: 'Sigara içilebilir'
+    restaurant: 'Restoran'
+    pets: 'Evcil hayvan dostu'
+    russians: 'Rus misafirler'
+    sea_view: 'Deniz manzaralı'
+    lake_view: 'Göl manzaralı'
+    river_view: 'Nehir manzaralı'
+    Panoramic_view: 'Panaromik manzara'
+    price: 'Ucuz oteller'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

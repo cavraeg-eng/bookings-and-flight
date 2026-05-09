@@ -1,0 +1,35 @@
+{
+    "name": "travelpayouts-snowplow/snowplow-tracker",
+    "description": "Snowplow event tracker for PHP. Add analytics into your PHP apps and scripts",
+    "type": "library",
+    "license": "Apache-2.0",
+    "keywords": [
+        "snowplow",
+        "analytics",
+        "event analytics"
+    ],
+    "homepage": "http://snowplowanalytics.com/",
+    "support": {
+        "email": "support@snowplowanalytics.com"
+    },
+    "require": {
+        "php": ">=7.2",
+        "travelpayouts-ramsey/uuid": "4.2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.1.4",
+        "php-coveralls/php-coveralls": "^2.1.0",
+        "phpunit/php-token-stream": "^3.1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Travelpayouts\\Vendor\\Snowplow\\Tracker\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Snowplow Analytics Ltd"
+        }
+    ],
+    "version": "0.4.0"
+}

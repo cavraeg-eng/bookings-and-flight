@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Plecarea la'
+  number_of_changes: Opriri
+  button_column_title: 'Găsește bilete'
+  button:
+    'Tickets from {price}': 'Bilete de la {price}'
+    'OW tickets from {price}': 'Bilete OW de la {price}'
+    'Find tickets': 'Găsește bilete'
+    'Select dates': 'Selectare date'
+  price: Preț
+  trip_class: 'Clasa de călătorie'
+  distance: Distanța
+  return_at: 'Întoarcerea la'
+  airline_logo: Compania aeriană
+  service_airline_logo: Linie aeriană
+  flight_number: 'Numărul zborului'
+  service_flight_number: 'Numărul zborului'
+  flight: Zborul
+  airline: Compania aeriană
+  service_airline: Linie aeriană
+  destination: Destinația
+  origin_destination: 'Locul de plecare - Destinația'
+  place: Locul
+  direction: Direcția
+  origin: Locul de plecare
+  found_at: 'Găsit la'
+  price_distance: Preț/distanță
+  time_and_stops: 'Durată și opriri'
+  route: Rută
+  schedule: Program
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'Cele mai ieftine bilete dus-întors de la {origin} la {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'Cele mai ieftine bilete de la {origin} la {destination} pentru anul viitor'
+    'The cheapest flights for this month from {origin} to {destination}': 'Cele mai ieftine zboruri din luna aceasta de la {origin} la {destination}'
+    'Flights that have been found on our website': 'Zboruri găsite pe siteul nostru'
+    'Direct flights from {origin}': 'Zboruri directe de la {origin}'
+    'Cheap flights from {origin}': 'Zboruri ieftine de la {origin}'
+    'Direct flights from {origin} to {destination}': 'Zboruri directe de la {origin} la {destination}'
+    'Cheap flights to {destination}': 'Zboruri ieftine spre {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Prețurile zborurilor pentru o lună de la {origin} la {destination}, doar dus'
+    'Flights from {origin}': 'Zboruri de la {origin}'
+    'Airline''s popular flights: {airline}': 'Zboruri populare ale companiei aeriene: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Zboruri de la {origin} la {destination} pentru următoarele câteva zile'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Peste {flights_number} de zboruri{flights_every_day}, începând de la {min_flight_duration}'
+    duration_short_days: 'z'
+    duration_short_hours: 'o'
+    duration_short_min: 'l'
+    every_day: 'în fiecare zi'
+  class_name:
+    Economy: 'Economica'
+    Business: 'Business'
+    'First class': 'First class'
+  stops:
+    Direct: 'Direct'
+    nominative: 'Stație'
+    genitive: 'Stații'
+    prepositional: 'Stații'
+  schedule_days:
+    day_0: 'l'
+    day_1: 'm'
+    day_2: 'm'
+    day_3: 'j'
+    day_4: 'v'
+    day_5: 's'
+    day_6: 'd'
+hotel:
+  name: Hotel
+  stars: Stele
+  discount: Reducere
+  old_price_and_new_price: 'Prețul înainte și reducerea'
+  button_column_title: 'Selectează datele'
+  button:
+    'View Hotel': 'Vezi hotel'
+  price_pn: 'Preț pe noapte'
+  old_price_and_discount: 'Preț înainte de reducere'
+  distance: Distanța
+  old_price_pn: 'Preț înainte de reducere'
+  rating: Evaluare
+  title:
+    'Hotels in {location}: {selection_name}': 'Hoteluri din {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Hoteluri din {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Top hoteluri'
+    Popularity: 'Popularitate'
+    Cheap: 'Ieftin'
+    Distance: 'Distanța'
+    Rating: 'evaluare'
+    '0 stars': '0 stele'
+    '1 star': '1 stea'
+    '2 stars': '2 stele'
+    '3 stars': '3 stele'
+    '4 stars': '4 stele'
+    '5 stars': '5 stele'
+    Luxury: 'Lux'
+    Expensive: 'Scump'
+    'Hotels in the center': 'Hoteluri din centru'
+    Pool: 'Piscină'
+    'Gay friendly': 'Tip prietenos'
+    'Smoking friendly': 'Fumat prietenos'
+    Restaurant: 'Restaurant'
+    'Pet friendly': 'Prietenos cu animalele'
+    'Russian guests': 'Oaspeții ruși'
+    'Sea view': 'Vedere la mare'
+    'Lake view': 'Vedere spre lac'
+    'River view': 'Cu vedere la râu'
+    'Panoramic view': 'Vedere panoramică'
+    'Cheap hotels': 'Hoteluri ieftine'
+    tophotels: 'Top hoteluri'
+    popularity: 'Popularitate'
+    cheap: 'Ieftin'
+    distance: 'Distanța'
+    rating: 'evaluare'
+    0-stars: '0 stele'
+    1-star: '1 stea'
+    2-stars: '2 stele'
+    3-stars: '3 stele'
+    4-stars: '4 stele'
+    5-stars: '5 stele'
+    0stars: '0 stele'
+    1star: '1 stea'
+    2stars: '2 stele'
+    3stars: '3 stele'
+    4stars: '4 stele'
+    5stars: '5 stele'
+    luxury: 'Lux'
+    expensive: 'Scump'
+    center: 'Hoteluri din centru'
+    pool: 'Piscină'
+    gay: 'Tip prietenos'
+    smoke: 'Fumat prietenos'
+    restaurant: 'Restaurant'
+    pets: 'Prietenos cu animalele'
+    russians: 'Oaspeții ruși'
+    sea_view: 'Vedere la mare'
+    lake_view: 'Vedere spre lac'
+    river_view: 'Cu vedere la râu'
+    Panoramic_view: 'Vedere panoramică'
+    price: 'Hoteluri ieftine'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

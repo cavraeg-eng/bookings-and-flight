@@ -1,0 +1,1 @@
+!function(a){"use strict";a("#travelpayouts_travelpayouts_clear_tables_cache_button").on("click",function(){a.ajax({url:ajaxurl,type:"POST",data:{action:"travelpayouts_clear_tables_cache"},cache:!1,dataType:"json",success:function(a,o,c){window.onbeforeunload=function(){window.scrollTo(0,0)},location.reload(!0)},error:function(){console.log("clear cache error")}})})}(jQuery);

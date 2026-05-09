@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Відправлення о'
+  number_of_changes: Зупинки
+  button_column_title: 'Знайти квитки'
+  button:
+    'Tickets from {price}': 'Квитки від {price}'
+    'OW tickets from {price}': 'Квитки в один бік від {price}'
+    'Find tickets': 'Знайти квитки'
+    'Select dates': 'Виберіть дати'
+  price: Ціна
+  trip_class: 'Клас подорожі'
+  distance: Відстань
+  return_at: 'Назад'
+  airline_logo: Авіакомпанія
+  service_airline_logo: Авіакомпанія
+  flight_number: 'Номер рейсу'
+  service_flight_number: 'Номер рейсу'
+  flight: Рейс
+  airline: Авіакомпанія
+  service_airline: Авіакомпанія
+  destination: Місце призначення
+  origin_destination: 'Місце Вильоту - Призначення'
+  place: Місце
+  direction: Напрямок
+  origin: Місце Вильоту
+  found_at: 'Знайдено'
+  price_distance: Ціна/відстань
+  time_and_stops: 'Час і пересадки'
+  route: Маршрут
+  schedule: Розклад
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'Найдешевші квитки в обидва боки з {origin} до {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'Найдешевші квитки з {origin} до {destination} на рік наперед'
+    'The cheapest flights for this month from {origin} to {destination}': 'Найдешевші квитки на цей місяць з {origin} до {destination}'
+    'Flights that have been found on our website': 'Рейси, знайдені на нашому сайті'
+    'Direct flights from {origin}': 'Прямі рейси з {origin} '
+    'Cheap flights from {origin}': 'Дешеві рейси з  {origin} '
+    'Direct flights from {origin} to {destination}': 'Прямі рейси з {origin} до {destination} '
+    'Cheap flights to {destination}': 'Дешеві рейси до {destination} '
+    'Flight prices for a month from {origin} to {destination}, one way': 'Ціни на рейси на місяць з {origin} до {destination} в один бік'
+    'Flights from {origin}': 'Рейси з  {origin} '
+    'Airline''s popular flights: {airline}': 'Популярні рейси авіалінії: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Рейси з {origin} до {destination} на кілька наступних днів'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Більше, ніж {flights_number} рейсів{flights_every_day}, від {min_flight_duration}'
+    duration_short_days: 'день'
+    duration_short_hours: 'година'
+    duration_short_min: 'хвилина'
+    every_day: 'кожний день'
+  class_name:
+    Economy: 'Економія'
+    Business: 'Бізнес'
+    'First class': 'First class'
+  stops:
+    Direct: 'Прямий рейс'
+    nominative: 'Зупинка'
+    genitive: 'Зупинки'
+    prepositional: 'Зупинок'
+  schedule_days:
+    day_0: 'понеділок'
+    day_1: 'вівторок'
+    day_2: 'середа'
+    day_3: 'четвер'
+    day_4: 'п''ятниця'
+    day_5: 'субота'
+    day_6: 'неділя'
+hotel:
+  name: Готель
+  stars: Зірки
+  discount: Знижка
+  old_price_and_new_price: 'Ціна до та знижка'
+  button_column_title: 'Обрати дати'
+  button:
+    'View Hotel': 'Переглянути готель'
+  price_pn: 'Ціна за ніч'
+  old_price_and_discount: 'Ціна до знижки'
+  distance: Відстань
+  old_price_pn: 'Ціна до знижки'
+  rating: Рейтинг
+  title:
+    'Hotels in {location}: {selection_name}': 'Готелі в {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Готелі в {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Популярні'
+    Popularity: 'Популярність'
+    Cheap: 'Дешеві'
+    Distance: 'Відстань'
+    Rating: 'Рейтинг'
+    '0 stars': '0 зірок'
+    '1 star': '1 зірка'
+    '2 stars': '2 зірки'
+    '3 stars': '3 зірки'
+    '4 stars': '4 зірки'
+    '5 stars': '5 зірок'
+    Luxury: 'Розкішні'
+    Expensive: 'Дорогі'
+    'Hotels in the center': 'Готелі в центрі'
+    Pool: 'З басейном'
+    'Gay friendly': 'Гей френдлі'
+    'Smoking friendly': 'Для курців'
+    Restaurant: 'Ресторан'
+    'Pet friendly': 'Тварини'
+    'Russian guests': 'Для росіян'
+    'Sea view': 'З видом на море'
+    'Lake view': 'З видом на озеро'
+    'River view': 'З видом на річку'
+    'Panoramic view': 'З панорамним видом'
+    'Cheap hotels': 'Дешеві готелі'
+    tophotels: 'Популярні'
+    popularity: 'Популярність'
+    cheap: 'Дешеві'
+    distance: 'Відстань'
+    rating: 'Рейтинг'
+    0-stars: '0 зірок'
+    1-star: '1 зірка'
+    2-stars: '2 зірки'
+    3-stars: '3 зірки'
+    4-stars: '4 зірки'
+    5-stars: '5 зірок'
+    0stars: '0 зірок'
+    1star: '1 зірка'
+    2stars: '2 зірки'
+    3stars: '3 зірки'
+    4stars: '4 зірки'
+    5stars: '5 зірок'
+    luxury: 'Розкішні'
+    expensive: 'Дорогі'
+    center: 'Готелі в центрі'
+    pool: 'З басейном'
+    gay: 'Гей френдлі'
+    smoke: 'Для курців'
+    restaurant: 'Ресторан'
+    pets: 'Тварини'
+    russians: 'Для росіян'
+    sea_view: 'З видом на море'
+    lake_view: 'З видом на озеро'
+    river_view: 'З видом на річку'
+    Panoramic_view: 'З панорамним видом'
+    price: 'Дешеві готелі'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

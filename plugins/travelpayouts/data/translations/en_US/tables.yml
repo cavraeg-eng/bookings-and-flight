@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Departure at'
+  number_of_changes: Stops
+  button_column_title: 'Find tickets'
+  button:
+    'Tickets from {price}': 'Tickets from {price}'
+    'OW tickets from {price}': 'OW tickets from {price}'
+    'Find tickets': 'Find tickets'
+    'Select dates': 'Select dates'
+  price: Price
+  trip_class: 'Trip class'
+  distance: Distance
+  return_at: 'Return at'
+  airline_logo: Airline
+  service_airline_logo: Airline
+  flight_number: 'Flight number'
+  service_flight_number: 'Flight number'
+  flight: Flight
+  airline: Airline
+  service_airline: Airline
+  destination: Destination
+  origin_destination: 'Origin - Destination'
+  place: Place
+  direction: Direction
+  origin: Origin
+  found_at: 'Found at'
+  price_distance: Price/distance
+  time_and_stops: 'Time and stops'
+  route: Route
+  schedule: Schedule
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'The cheapest round-trip tickets from {origin} to {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'The cheapest flights from {origin} to {destination} for the year ahead'
+    'The cheapest flights for this month from {origin} to {destination}': 'The cheapest flights for this month from {origin} to {destination}'
+    'Flights that have been found on our website': 'Flights that have been found on our website'
+    'Direct flights from {origin}': 'Direct flights from {origin}'
+    'Cheap flights from {origin}': 'Cheap flights from {origin}'
+    'Direct flights from {origin} to {destination}': 'Direct flights from {origin} to {destination}'
+    'Cheap flights to {destination}': 'Cheap flights to {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Flight prices for a month from {origin} to {destination}, one way'
+    'Flights from {origin}': 'Flights from {origin}'
+    'Airline''s popular flights: {airline}': 'Airline''s popular flights: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Flights from {origin} to {destination} for the next few days'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}'
+    duration_short_days: 'd'
+    duration_short_hours: 'h'
+    duration_short_min: 'm'
+    every_day: 'every day'
+  class_name:
+    Economy: 'Economy'
+    Business: 'Business'
+    'First class': 'First class'
+  stops:
+    Direct: 'Direct'
+    nominative: 'Stop'
+    genitive: 'Stops'
+    prepositional: 'Stops'
+  schedule_days:
+    day_0: 'm'
+    day_1: 't'
+    day_2: 'w'
+    day_3: 't'
+    day_4: 'f'
+    day_5: 's'
+    day_6: 's'
+hotel:
+  name: Hotel
+  stars: Stars
+  discount: Discount
+  old_price_and_new_price: 'Price before and discount'
+  button_column_title: 'Select dates'
+  button:
+    'View Hotel': 'View hotel'
+  price_pn: 'Price per night'
+  old_price_and_discount: 'Price before discount'
+  distance: Distance
+  old_price_pn: 'Price before discount'
+  rating: Rating
+  title:
+    'Hotels in {location}: {selection_name}': 'Hotels in {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Hotels in {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Top hotels'
+    Popularity: 'Popularity'
+    Cheap: 'Cheap'
+    Distance: 'Distance'
+    Rating: 'Rating'
+    '0 stars': '0 stars'
+    '1 star': '1 star'
+    '2 stars': '2 stars'
+    '3 stars': '3 stars'
+    '4 stars': '4 stars'
+    '5 stars': '5 stars'
+    Luxury: 'Luxury'
+    Expensive: 'Expensive'
+    'Hotels in the center': 'Hotels in the center'
+    Pool: 'Pool'
+    'Gay friendly': 'Gay friendly'
+    'Smoking friendly': 'Smoking friendly'
+    Restaurant: 'Restaurant'
+    'Pet friendly': 'Pet friendly'
+    'Russian guests': 'Russian guests'
+    'Sea view': 'Sea view'
+    'Lake view': 'Lake view'
+    'River view': 'River view'
+    'Panoramic view': 'Panoramic view'
+    'Cheap hotels': 'Cheap hotels'
+    tophotels: 'Top hotels'
+    popularity: 'Popularity'
+    cheap: 'Cheap'
+    distance: 'Distance'
+    rating: 'Rating'
+    0-stars: '0 stars'
+    1-star: '1 star'
+    2-stars: '2 stars'
+    3-stars: '3 stars'
+    4-stars: '4 stars'
+    5-stars: '5 stars'
+    0stars: '0 stars'
+    1star: '1 star'
+    2stars: '2 stars'
+    3stars: '3 stars'
+    4stars: '4 stars'
+    5stars: '5 stars'
+    luxury: 'Luxury'
+    expensive: 'Expensive'
+    center: 'Hotels in the center'
+    pool: 'Pool'
+    gay: 'Gay friendly'
+    smoke: 'Smoking friendly'
+    restaurant: 'Restaurant'
+    pets: 'Pet friendly'
+    russians: 'Russian guests'
+    sea_view: 'Sea view'
+    lake_view: 'Lake view'
+    river_view: 'River view'
+    Panoramic_view: 'Panoramic view'
+    price: 'Cheap hotels'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

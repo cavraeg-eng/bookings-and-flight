@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Lähtö'
+  number_of_changes: Lennonvaihdot
+  button_column_title: 'Etsi lippuja'
+  button:
+    'Tickets from {price}': 'Liput alkaen {price}'
+    'OW tickets from {price}': 'Liput alkaen {price}'
+    'Find tickets': 'Etsi lippuja'
+    'Select dates': 'Valitse päivämäärät'
+  price: Hinta
+  trip_class: 'Matkan luokka'
+  distance: Pituus
+  return_at: 'Paluu'
+  airline_logo: Lentoyhtiö
+  service_airline_logo: Lentoyhtiö
+  flight_number: 'Lennon numero'
+  service_flight_number: 'Lennon numero'
+  flight: Lento
+  airline: Lentoyhtiö
+  service_airline: Lentoyhtiö
+  destination: Määränpää
+  origin_destination: 'Lähtöpaikka – määränpää'
+  place: Sijoitus
+  direction: Suunta
+  origin: Lähtöpaikka
+  found_at: 'Löydetty'
+  price_distance: Hinta/pituus
+  time_and_stops: 'Aika ja pysähdykset'
+  route: Reitti
+  schedule: Aikataulu
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'Halvimmat menopaluuliput kohteesta {origin} kohteeseen {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'Halvimmat menopaluuliput kohteesta {origin} kohteeseen {destination} tulevana vuonna'
+    'The cheapest flights for this month from {origin} to {destination}': 'Tämän kuun halvimmat lennot kohteesta {origin} kohteeseen {destination}'
+    'Flights that have been found on our website': 'Verkkosivustollamme löydetyt lennot'
+    'Direct flights from {origin}': 'Suorat lennot kohteesta {origin}'
+    'Cheap flights from {origin}': 'Halvat lennot kohteesta {origin}'
+    'Direct flights from {origin} to {destination}': 'Suorat lennot kohteesta {origin} kohteeseen {destination}'
+    'Cheap flights to {destination}': 'Halvat lennot kohteeseen {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Kuukauden lentohinnat kohteesta {origin} kohteeseen {destination}, yhdensuuntainen'
+    'Flights from {origin}': 'Lennot kohteesta {origin}'
+    'Airline''s popular flights: {airline}': 'Lentoyhtiön suositut lennot: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Seuraavien päivien lennot kohteesta {origin} kohteeseen {destination}'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Yli {flights_number} lentoa{flights_every_day} alkaen {min_flight_duration}'
+    duration_short_days: 'p'
+    duration_short_hours: 't'
+    duration_short_min: 'm'
+    every_day: 'joka päivä'
+  class_name:
+    Economy: 'Economy'
+    Business: 'Business'
+    'First class': 'First class'
+  stops:
+    Direct: 'Suora'
+    nominative: 'Pysäkki'
+    genitive: 'Pysäkkiä'
+    prepositional: 'Pysäkkiä'
+  schedule_days:
+    day_0: 'm'
+    day_1: 't'
+    day_2: 'k'
+    day_3: 't'
+    day_4: 'p'
+    day_5: 'l'
+    day_6: 's'
+hotel:
+  name: Hotelli
+  stars: Tähdet
+  discount: Alennus
+  old_price_and_new_price: 'Aiempi hinta ja alennus'
+  button_column_title: 'Valitse päivämäärät'
+  button:
+    'View Hotel': 'Katso hotellia'
+  price_pn: 'Hinta per yö'
+  old_price_and_discount: 'Hinta ilman alennusta'
+  distance: Etäisyys
+  old_price_pn: 'Hinta ilman alennusta'
+  rating: Arvostelu
+  title:
+    'Hotels in {location}: {selection_name}': 'Hotellit kohteessa {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Hotellit kohteessa {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Huippuhotellit'
+    Popularity: 'Suosituimmat'
+    Cheap: 'Halvat'
+    Distance: 'Pituus'
+    Rating: 'Luokitus'
+    '0 stars': '0 tähteä'
+    '1 star': '1 tähti'
+    '2 stars': '2 tähteä'
+    '3 stars': '3 tähteä'
+    '4 stars': '4 tähteä'
+    '5 stars': '5 tähteä'
+    Luxury: 'Luksus'
+    Expensive: 'Kallis'
+    'Hotels in the center': 'Keskustahotellit'
+    Pool: 'Uima-allas'
+    'Gay friendly': 'Homoystävällinen'
+    'Smoking friendly': 'Tupakointiystävällinen'
+    Restaurant: 'Ravintola'
+    'Pet friendly': 'Lemmikkiystävällinen'
+    'Russian guests': 'Venäläisille'
+    'Sea view': 'Merinäkymä'
+    'Lake view': 'Järvinäkymä'
+    'River view': 'Jokinäkymä'
+    'Panoramic view': 'Panoraamanäkymä'
+    'Cheap hotels': 'Halvat hotellit'
+    tophotels: 'Huippuhotellit'
+    popularity: 'Suosituimmat'
+    cheap: 'Halvat'
+    distance: 'Pituus'
+    rating: 'Luokitus'
+    0-stars: '0 tähteä'
+    1-star: '1 tähti'
+    2-stars: '2 tähteä'
+    3-stars: '3 tähteä'
+    4-stars: '4 tähteä'
+    5-stars: '5 tähteä'
+    0stars: '0 tähteä'
+    1star: '1 tähti'
+    2stars: '2 tähteä'
+    3stars: '3 tähteä'
+    4stars: '4 tähteä'
+    5stars: '5 tähteä'
+    luxury: 'Luksus'
+    expensive: 'Kallis'
+    center: 'Keskustahotellit'
+    pool: 'Uima-allas'
+    gay: 'Homoystävällinen'
+    smoke: 'Tupakointiystävällinen'
+    restaurant: 'Ravintola'
+    pets: 'Lemmikkiystävällinen'
+    russians: 'Venäläisille'
+    sea_view: 'Merinäkymä'
+    lake_view: 'Järvinäkymä'
+    river_view: 'Jokinäkymä'
+    Panoramic_view: 'Panoraamanäkymä'
+    price: 'Halvat hotellit'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

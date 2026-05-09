@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'გამგზავრება'
+  number_of_changes: გაჩერება
+  button_column_title: 'ბილეთების პოვნა'
+  button:
+    'Tickets from {price}': 'ბილეთები {price} - დან'
+    'OW tickets from {price}': 'ბილეთები {price}-დან'
+    'Find tickets': 'ბილეთების პოვნა'
+    'Select dates': 'შეარჩიეთ თარიღები'
+  price: ფასი
+  trip_class: 'მგზავრობის კლასი'
+  distance: მანძილი
+  return_at: 'დაბრუნება'
+  airline_logo: ავიაკომპანია
+  service_airline_logo: ავიაკომპანია
+  flight_number: 'ფრენის ნომერი'
+  service_flight_number: 'ფრენის ნომერი'
+  flight: ფრენა
+  airline: ავიაკომპანია
+  service_airline: ავიაკომპანია
+  destination: დანიშნულების ადგილი
+  origin_destination: 'გამგზავრების ადგილი-დანიშნულების ადგილი'
+  place: ადგილი
+  direction: მიმართულება
+  origin: გამგზავრების ადგილი
+  found_at: 'ნაპოვნია'
+  price_distance: ფასი/მანძილი
+  time_and_stops: 'დრო და გაჩერებები'
+  route: მარშრუტი
+  schedule: განრიგი
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'ყველაზე იაფი ბილეთები {origin} -დან {destination}-მდე'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'ყველაზე იაფი ბილეთები {origin}-დან {destination}-მდე შემდეგი წლისთვის'
+    'The cheapest flights for this month from {origin} to {destination}': 'ამ თვის ყველაზე იაფი ავიაბილეთები {origin}-დან {destination}-მდე'
+    'Flights that have been found on our website': 'ფრენები რომლებიც ნაპოვნია ჩვენს ვებ გვერდზე'
+    'Direct flights from {origin}': 'პირდაპირი ფრენები {origin} - დან'
+    'Cheap flights from {origin}': 'იაფი ფრენები {origin} - დან'
+    'Direct flights from {origin} to {destination}': 'პირდაპირი ფრენები {origin} დან {destination} მიმართულებით'
+    'Cheap flights to {destination}': 'იაფი ფრენები {destination} მიმართულებით'
+    'Flight prices for a month from {origin} to {destination}, one way': 'ფრენის ფასები ერთი თვის განმავლობაში {origin} დან {destination} მიმართულებით, ერთი გზა'
+    'Flights from {origin}': 'ფრენები {origin} დან'
+    'Airline''s popular flights: {airline}': 'ავიაკომპანიის პოპულარული ფრენები: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'ფრენები {origin} დან {destination} მიმართულებით მომდევნო რამდენიმე დღის განმავლობაში'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'ფრენაზე მეტი {flights_number} {flights_every_day}, {min_flight_duration}-დან'
+    duration_short_days: 'დ'
+    duration_short_hours: 'ს'
+    duration_short_min: 'წ'
+    every_day: 'ყოველ დღე'
+  class_name:
+    Economy: 'ეკონომი'
+    Business: 'ბიზნესი'
+    'First class': 'პირველი კლასი'
+  stops:
+    Direct: 'პირდაპირი'
+    nominative: 'Გაჩერება'
+    genitive: 'Გაჩერება'
+    prepositional: 'Გაჩერება'
+  schedule_days:
+    day_0: 'წ'
+    day_1: 'ტ'
+    day_2: 'ვ'
+    day_3: 'ტ'
+    day_4: 'ფ'
+    day_5: 'ს'
+    day_6: 'ს'
+hotel:
+  name: სასტუმრო
+  stars: ვარსკვლავები
+  discount: ფასდაკლება
+  old_price_and_new_price: 'ფასი ფასდაკლებამდე'
+  button_column_title: 'შეარჩიეთ თარიღები'
+  button:
+    'View Hotel': 'სასტუმროს ნახვა'
+  price_pn: 'ერთი ღამის ფასი'
+  old_price_and_discount: 'ფასი ფასდაკლებამდე'
+  distance: მანძილი
+  old_price_pn: 'ფასი ფასდაკლებამდე'
+  rating: რეიტინგი
+  title:
+    'Hotels in {location}: {selection_name}': 'სასტუმროები {location} ში: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'სასტუმროები {location} ში: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'საუკეთესო სასტუმროები'
+    Popularity: 'პოპულარობა'
+    Cheap: 'იაფი'
+    Distance: 'მანძილი'
+    Rating: 'რეიტინგი'
+    '0 stars': '0 ვარსკვლავი'
+    '1 star': '1 ვარსკვლავი'
+    '2 stars': '2 ვარსკვლავი'
+    '3 stars': '3 ვარსკვლავი'
+    '4 stars': '4 ვარსკვლავი'
+    '5 stars': '5 ვარსკვლავი'
+    Luxury: 'ძვირადღირებული'
+    Expensive: 'ძვირი'
+    'Hotels in the center': 'სასტუმროები ცენტრში'
+    Pool: 'საცურაო აუზი'
+    'Gay friendly': 'გეი მეგობრული'
+    'Smoking friendly': 'მოწევა მეგობრული'
+    Restaurant: 'რესტორანი'
+    'Pet friendly': 'შინაური ცხოველებისთვის მეგობრული'
+    'Russian guests': 'რუსი სტუმრები'
+    'Sea view': 'ზღვის ხედი'
+    'Lake view': 'ტბის ხედი'
+    'River view': 'მდინარის ხედი'
+    'Panoramic view': 'პანორამული ხედი'
+    'Cheap hotels': 'იაფი სასტუმროები'
+    tophotels: 'საუკეთესო სასტუმროები'
+    popularity: 'პოპულარობა'
+    cheap: 'იაფი'
+    distance: 'მანძილი'
+    rating: 'რეიტინგი'
+    0-stars: '0 ვარსკვლავი'
+    1-star: '1 ვარსკვლავი'
+    2-stars: '2 ვარსკვლავი'
+    3-stars: '3 ვარსკვლავი'
+    4-stars: '4 ვარსკვლავი'
+    5-stars: '5 ვარსკვლავი'
+    0stars: '0 ვარსკვლავი'
+    1star: '1 ვარსკვლავი'
+    2stars: '2 ვარსკვლავი'
+    3stars: '3 ვარსკვლავი'
+    4stars: '4 ვარსკვლავი'
+    5stars: '5 ვარსკვლავი'
+    luxury: 'ძვირადღირებული'
+    expensive: 'ძვირი'
+    center: 'სასტუმროები ცენტრში'
+    pool: 'საცურაო აუზი'
+    gay: 'გეი მეგობრული'
+    smoke: 'მოწევა მეგობრული'
+    restaurant: 'რესტორანი'
+    pets: 'შინაური ცხოველებისთვის მეგობრული'
+    russians: 'რუსი სტუმრები'
+    sea_view: 'ზღვის ხედი'
+    lake_view: 'ტბის ხედი'
+    river_view: 'მდინარის ხედი'
+    Panoramic_view: 'პანორამული ხედი'
+    price: 'იაფი სასტუმროები'
+railway:
+  train: 'მატარებლის ნომერი'
+  route: მარშრუტი
+  departure: გამგზავრება
+  arrival: ჩამოსვლა
+  duration: ხანგრძლივობა
+  prices: ფასები
+  dates: თარიღები
+  origin: წარმომავლობა
+  destination: დანიშნულების ადგილი
+  departure_time: 'გამგზავრების დრო'
+  arrival_time: 'ჩამოსვლის დრო'
+  route_first_station: 'მარშრუტების პირველი სადგური'
+  route_last_station: 'მარშრუტების ბოლო სადგური'
+  route_short: მარშრუტი
+  route_info: მარშრუტი

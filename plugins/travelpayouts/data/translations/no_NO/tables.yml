@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Avgang klokken'
+  number_of_changes: Stopper
+  button_column_title: 'Finn billetter'
+  button:
+    'Tickets from {price}': 'Billetter fra {price}'
+    'OW tickets from {price}': 'Billetter fra {price}'
+    'Find tickets': 'Finn billetter'
+    'Select dates': 'Velg datoer'
+  price: Pris
+  trip_class: 'Reiseklasse'
+  distance: Avstand
+  return_at: 'Returnerer klokken'
+  airline_logo: Flyselskap
+  service_airline_logo: Flyselskap
+  flight_number: 'Flight nummer'
+  service_flight_number: 'Flightnummer'
+  flight: Flyvning
+  airline: Flyselskap
+  service_airline: Flyselskap
+  destination: Reisemål
+  origin_destination: 'Avreisested–reisemål'
+  place: Plass
+  direction: Retning
+  origin: Avreisested
+  found_at: 'Funnet på'
+  price_distance: Pris/distanse
+  time_and_stops: 'Tider og stopp'
+  route: Rute
+  schedule: Rutetider
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'De billigste rundreisebillettene fra {origin} til {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'De billigste flyreisene fra {origin} til {destination} i et år fremover'
+    'The cheapest flights for this month from {origin} to {destination}': 'De billigste flyreisene denne måneden fra {origin} til {destination}'
+    'Flights that have been found on our website': 'Flyreiser som er funnet på nettstedet vårt'
+    'Direct flights from {origin}': 'Direktefly fra {origin}'
+    'Cheap flights from {origin}': 'Billige flyreiser fra {origin}'
+    'Direct flights from {origin} to {destination}': 'Direktefly fra {origin} til {destination}'
+    'Cheap flights to {destination}': 'Billige flyreiser til {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Flypriser i en måned fra {origin} til {destination}, en vei'
+    'Flights from {origin}': 'Flyvninger fra {origin}'
+    'Airline''s popular flights: {airline}': 'Flyselskapets populære flyreiser: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Flyvninger fra {origin} til {destination} de neste dagene'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Mer enn {flights_number} flyvninger{flights_every_day}, fra {min_flight_duration}'
+    duration_short_days: 'dg.'
+    duration_short_hours: 't'
+    duration_short_min: 'min'
+    every_day: 'hver dag'
+  class_name:
+    Economy: 'Økonomi'
+    Business: 'Business'
+    'First class': 'First class'
+  stops:
+    Direct: 'Direkte'
+    nominative: 'Holdeplass'
+    genitive: 'Holdeplasser'
+    prepositional: 'Holdeplasser'
+  schedule_days:
+    day_0: 'ma.'
+    day_1: 'ti.'
+    day_2: 'on.'
+    day_3: 'to.'
+    day_4: 'fr.'
+    day_5: 'lø.'
+    day_6: 'sø.'
+hotel:
+  name: Hotell
+  stars: Stjerner
+  discount: Rabatt
+  old_price_and_new_price: 'Tidligere pris og rabatt'
+  button_column_title: 'Velg datoer'
+  button:
+    'View Hotel': 'Se hotell'
+  price_pn: 'Pris per natt'
+  old_price_and_discount: 'Pris før rabatt'
+  distance: Distanse
+  old_price_pn: 'Pris før rabatt'
+  rating: Vurdering
+  title:
+    'Hotels in {location}: {selection_name}': 'Hoteller i {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Hoteller i {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Topp hoteller'
+    Popularity: 'Popularitet'
+    Cheap: 'Billig'
+    Distance: 'Avstand'
+    Rating: 'Vurdering'
+    '0 stars': '0 stjerner'
+    '1 star': '1 stjerner'
+    '2 stars': '2 stjerner'
+    '3 stars': '3 stjerner'
+    '4 stars': '4 stjerner'
+    '5 stars': '5 stjerner'
+    Luxury: 'Luksus'
+    Expensive: 'Dyrt'
+    'Hotels in the center': 'Hoteller i sentrum'
+    Pool: 'Svømmebasseng'
+    'Gay friendly': 'Homovennlig'
+    'Smoking friendly': 'Røyking vennlig'
+    Restaurant: 'Restaurant '
+    'Pet friendly': 'Kjeledyrvennlig'
+    'Russian guests': 'Russiske gjester'
+    'Sea view': 'Havutsikt'
+    'Lake view': 'Sjøutsikt'
+    'River view': 'Utsikt mot elv'
+    'Panoramic view': 'Panoramautsikt'
+    'Cheap hotels': 'Billige hoteller'
+    tophotels: 'Topp hoteller'
+    popularity: 'Popularitet'
+    cheap: 'Billig'
+    distance: 'Avstand'
+    rating: 'Vurdering'
+    0-stars: '0 stjerner'
+    1-star: '1 stjerner'
+    2-stars: '2 stjerner'
+    3-stars: '3 stjerner'
+    4-stars: '4 stjerner'
+    5-stars: '5 stjerner'
+    0stars: '0 stjerner'
+    1star: '1 stjerner'
+    2stars: '2 stjerner'
+    3stars: '3 stjerner'
+    4stars: '4 stjerner'
+    5stars: '5 stjerner'
+    luxury: 'Luksus'
+    expensive: 'Dyrt'
+    center: 'Hoteller i sentrum'
+    pool: 'Svømmebasseng'
+    gay: 'Homovennlig'
+    smoke: 'Røyking vennlig'
+    restaurant: 'Restaurant '
+    pets: 'Kjeledyrvennlig'
+    russians: 'Russiske gjester'
+    sea_view: 'Havutsikt'
+    lake_view: 'Sjøutsikt'
+    river_view: 'Utsikt mot elv'
+    Panoramic_view: 'Panoramautsikt'
+    price: 'Billige hoteller'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

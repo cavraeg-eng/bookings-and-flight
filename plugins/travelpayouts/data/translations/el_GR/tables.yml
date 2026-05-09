@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Αναχώρηση στις'
+  number_of_changes: Στάσεις
+  button_column_title: 'Βρείτε εισιτήρια'
+  button:
+    'Tickets from {price}': 'Εισιτήρια από {price}'
+    'OW tickets from {price}': 'Εισιτήρια απλής μετάβασης από {price}'
+    'Find tickets': 'Βρείτε εισιτήρια'
+    'Select dates': 'Επιλέξτε ημερομηνίες'
+  price: Τιμή
+  trip_class: 'Θέση'
+  distance: Απόσταση
+  return_at: 'Επιστροφή στις'
+  airline_logo: Αεροπορική Εταιρεία
+  service_airline_logo: Αεροπορική εταιρεία
+  flight_number: 'Αριθμός πτήσης'
+  service_flight_number: 'Αριθμός πτήσης'
+  flight: Πτήση
+  airline: Αεροπορική Εταιρεία
+  service_airline: "	\nΑεροπορική εταιρεία"
+  destination: Προορισμός
+  origin_destination: 'Προέλευση - Προορισμός'
+  place: Τοποθεσία
+  direction: Κατεύθυνση
+  origin: Προέλευση
+  found_at: 'Βρέθηκε στις'
+  price_distance: Τιμή/απόσταση
+  time_and_stops: 'Χρόνος και στάσεις'
+  route: Διαδρομή
+  schedule: Πρόγραμμα
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'Τα Φθηνότερα Εισιτήρια μετ'' Επιστροφής από {origin} προς {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'Οι Φθηνότερες Πτήσεις από {origin} προς {destination} το Προσεχές Έτος'
+    'The cheapest flights for this month from {origin} to {destination}': 'Οι Φθηνότερες Πτήσεις του Μήνα από {origin} προς {destination}'
+    'Flights that have been found on our website': 'Πτήσεις Που Βρέθηκαν στην Ιστοσελίδα Μας'
+    'Direct flights from {origin}': 'Απευθείας Πτήσεις από {origin}'
+    'Cheap flights from {origin}': 'Φθηνές Πτήσεις από {origin}'
+    'Direct flights from {origin} to {destination}': 'Απευθείας Πτήσεις από {origin} προς {destination}'
+    'Cheap flights to {destination}': 'Φθηνές Πτήσεις προς {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Τιμές Πτήσεων για Ένα Μήνα από {origin} προς {destination}, Απλή Μετάβαση'
+    'Flights from {origin}': 'Πτήσεις από {origin}'
+    'Airline''s popular flights: {airline}': 'Δημοφιλείς πτήσεις της αεροπορικής εταιρείας: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Πτήσεις από {origin} προς {destination} τις Επόμενες Λίγες Μέρες'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Περισσότερες από {flights_number} πτήσεις{flights_every_day}, από {min_flight_duration}'
+    duration_short_days: 'μ'
+    duration_short_hours: 'ώ'
+    duration_short_min: 'λ'
+    every_day: 'καθημερινά'
+  class_name:
+    Economy: 'Οικονομική'
+    Business: 'Διακεκριμένη'
+    'First class': 'First class'
+  stops:
+    Direct: 'Απευθείας'
+    nominative: 'Στάση'
+    genitive: 'Στάσεις'
+    prepositional: 'Στάσεις'
+  schedule_days:
+    day_0: 'Δ'
+    day_1: 'Τ'
+    day_2: 'Τ'
+    day_3: 'Π'
+    day_4: 'Π'
+    day_5: 'Σ'
+    day_6: 'Κ'
+hotel:
+  name: Ξενοδοχείο
+  stars: Αστέρια
+  discount: Έκπτωση
+  old_price_and_new_price: 'Προηγούμενη τιμή και έκπτωση'
+  button_column_title: 'Επιλέξτε ημερομηνίες'
+  button:
+    'View Hotel': 'Προβολή Ξενοδοχείου'
+  price_pn: 'Τιμή διανυκτέρευσης'
+  old_price_and_discount: 'Τιμή πριν την έκπτωση'
+  distance: Απόσταση
+  old_price_pn: 'Τιμή πριν την έκπτωση'
+  rating: Βαθμολογία
+  title:
+    'Hotels in {location}: {selection_name}': 'Ξενοδοχεία σε {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Ξενοδοχεία σε {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Καλύτερα ξενοδοχεία'
+    Popularity: 'Δημοφιλία'
+    Cheap: 'Οικονομικά'
+    Distance: 'Απόσταση'
+    Rating: 'Αξιολόγηση'
+    '0 stars': '0 αστέρια'
+    '1 star': '1 αστέρι'
+    '2 stars': '2 αστέρια'
+    '3 stars': '3 αστέρια'
+    '4 stars': '4 αστέρια'
+    '5 stars': '5 αστέρια'
+    Luxury: 'Πολυτελές'
+    Expensive: 'Ακριβά'
+    'Hotels in the center': 'Ξενοδοχεία στο κέντρο'
+    Pool: 'Με πισίνα'
+    'Gay friendly': 'Φιλικό σε Gays'
+    'Smoking friendly': 'Φιλικό σε καπνιστές'
+    Restaurant: 'Εστιατόριο'
+    'Pet friendly': 'Φιλικό σε κατοικίδια'
+    'Russian guests': 'Ρώσοι επισκέπτες'
+    'Sea view': 'Θέα σε θάλασσα'
+    'Lake view': 'Θέα σε λίμνη'
+    'River view': 'Θέα σε ποτάμι'
+    'Panoramic view': 'Πανοραμική θέα'
+    'Cheap hotels': 'Φθηνά ξενοδοχεία'
+    tophotels: 'Καλύτερα ξενοδοχεία'
+    popularity: 'Δημοφιλία'
+    cheap: 'Οικονομικά'
+    distance: 'Απόσταση'
+    rating: 'Αξιολόγηση'
+    0-stars: '0 αστέρια'
+    1-star: '1 αστέρι'
+    2-stars: '2 αστέρια'
+    3-stars: '3 αστέρια'
+    4-stars: '4 αστέρια'
+    5-stars: '5 αστέρια'
+    0stars: '0 αστέρια'
+    1star: '1 αστέρι'
+    2stars: '2 αστέρια'
+    3stars: '3 αστέρια'
+    4stars: '4 αστέρια'
+    5stars: '5 αστέρια'
+    luxury: 'Πολυτελές'
+    expensive: 'Ακριβά'
+    center: 'Ξενοδοχεία στο κέντρο'
+    pool: 'Με πισίνα'
+    gay: 'Φιλικό σε Gays'
+    smoke: 'Φιλικό σε καπνιστές'
+    restaurant: 'Εστιατόριο'
+    pets: 'Φιλικό σε κατοικίδια'
+    russians: 'Ρώσοι επισκέπτες'
+    sea_view: 'Θέα σε θάλασσα'
+    lake_view: 'Θέα σε λίμνη'
+    river_view: 'Θέα σε ποτάμι'
+    Panoramic_view: 'Πανοραμική θέα'
+    price: 'Φθηνά ξενοδοχεία'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

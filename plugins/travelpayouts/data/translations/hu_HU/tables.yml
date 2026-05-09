@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Indulás'
+  number_of_changes: Megállók
+  button_column_title: 'Jegyek keresése'
+  button:
+    'Tickets from {price}': 'Jegyek {price} ártól'
+    'OW tickets from {price}': 'OW jegyek {price} ártól'
+    'Find tickets': 'Jegyek keresése'
+    'Select dates': 'Válasszon dátumokat'
+  price: Ár
+  trip_class: 'Utazási osztály'
+  distance: Távolság
+  return_at: 'Visszaút'
+  airline_logo: Légitársaság
+  service_airline_logo: Légitársaság
+  flight_number: 'Járatszám'
+  service_flight_number: 'Járatszám'
+  flight: Járat
+  airline: Légitársaság
+  service_airline: Légitársaság
+  destination: Uticél
+  origin_destination: 'Indulási pont - Uticél'
+  place: Hely
+  direction: Irány
+  origin: Indulási pont
+  found_at: 'Itt találva'
+  price_distance: Ár/távolság
+  time_and_stops: 'Idő és megállók'
+  route: Útvonal
+  schedule: Menetrend
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': "A legolcsóbb oda-vissza jegyek innen: {origin} ide: \n {destination}"
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'A legolcsóbb jegyek innen: {origin} ide: {destination} az előttünk álló évre'
+    'The cheapest flights for this month from {origin} to {destination}': 'A legolcsóbb járatok erre a hónapra innen: {origin} ide: {destination}'
+    'Flights that have been found on our website': 'A weboldalunkon megtalált járatok'
+    'Direct flights from {origin}': 'Közvetlen járatok innen: {origin}'
+    'Cheap flights from {origin}': 'Olcsó járatok innen: {origin}'
+    'Direct flights from {origin} to {destination}': 'Közvetlen ráatok innen: {origin} ide: {destination}'
+    'Cheap flights to {destination}': 'Olcsó járatok ide: {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Repjegy árak egy hónapra innen: {origin} ide: {destination}, Egyirányú'
+    'Flights from {origin}': 'Repülőjegyek innen: {origin}'
+    'Airline''s popular flights: {airline}': 'A légitársaság népszerű járatai: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Repülőjáratok innen: {origin} ide: {destination} a elkövetkezendő néhány napra'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Több mint {flights_number} járat{flights_every_day}, {min_flight_duration} repülési időtől'
+    duration_short_days: 'n'
+    duration_short_hours: 'ó'
+    duration_short_min: 'p'
+    every_day: 'minden nap'
+  class_name:
+    Economy: 'turista'
+    Business: 'üzleti'
+    'First class': 'First class'
+  stops:
+    Direct: 'Közvetlen'
+    nominative: 'Megálló'
+    genitive: 'Megálló'
+    prepositional: 'Megálló'
+  schedule_days:
+    day_0: 'h'
+    day_1: 'k'
+    day_2: 'sz'
+    day_3: 'cs'
+    day_4: 'p'
+    day_5: 'sz'
+    day_6: 'v'
+hotel:
+  name: Hotel
+  stars: Csillagok
+  discount: Kedvezmény
+  old_price_and_new_price: 'Korábbi ár és kedvezmény'
+  button_column_title: 'Válassza ki a dátumokat'
+  button:
+    'View Hotel': 'Hotel megtekintése'
+  price_pn: 'Egy éjszaka ára'
+  old_price_and_discount: 'Kedvezmény nélküli ár'
+  distance: Távolság
+  old_price_pn: 'Kedvezmény nélküli ár'
+  rating: Értékelés
+  title:
+    'Hotels in {location}: {selection_name}': 'Hotelek itt: {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Hotelek itt: {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Népszerű'
+    Popularity: 'Népszerűség'
+    Cheap: 'Olcsó'
+    Distance: 'Távolság'
+    Rating: 'Értékelés'
+    '0 stars': '0 csillag'
+    '1 star': '1 csillag'
+    '2 stars': '2 csillag'
+    '3 stars': '3 csillag'
+    '4 stars': '4 csillag'
+    '5 stars': '5 csillag'
+    Luxury: 'Luxus'
+    Expensive: 'Drága'
+    'Hotels in the center': 'Szállodák a központban'
+    Pool: 'Medence'
+    'Gay friendly': 'Meleg barát'
+    'Smoking friendly': 'Dohányzó barát'
+    Restaurant: 'Étterem'
+    'Pet friendly': 'Állatbarát'
+    'Russian guests': 'Orosz vendégek'
+    'Sea view': 'Tengeri kilátás'
+    'Lake view': 'Kilátás a tóra'
+    'River view': 'Kilátás a folyóra'
+    'Panoramic view': 'Panoráma kilátás'
+    'Cheap hotels': 'Olcsó hotelek'
+    tophotels: 'Népszerű'
+    popularity: 'Népszerűség'
+    cheap: 'Olcsó'
+    distance: 'Távolság'
+    rating: 'Értékelés'
+    0-stars: '0 csillag'
+    1-star: '1 csillag'
+    2-stars: '2 csillag'
+    3-stars: '3 csillag'
+    4-stars: '4 csillag'
+    5-stars: '5 csillag'
+    0stars: '0 csillag'
+    1star: '1 csillag'
+    2stars: '2 csillag'
+    3stars: '3 csillag'
+    4stars: '4 csillag'
+    5stars: '5 csillag'
+    luxury: 'Luxus'
+    expensive: 'Drága'
+    center: 'Szállodák a központban'
+    pool: 'Medence'
+    gay: 'Meleg barát'
+    smoke: 'Dohányzó barát'
+    restaurant: 'Étterem'
+    pets: 'Állatbarát'
+    russians: 'Orosz vendégek'
+    sea_view: 'Tengeri kilátás'
+    lake_view: 'Kilátás a tóra'
+    river_view: 'Kilátás a folyóra'
+    Panoramic_view: 'Panoráma kilátás'
+    price: 'Olcsó hotelek'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

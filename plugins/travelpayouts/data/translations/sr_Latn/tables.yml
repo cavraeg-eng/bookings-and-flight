@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Polazak'
+  number_of_changes: Stanice
+  button_column_title: 'Pronađi karte'
+  button:
+    'Tickets from {price}': 'Karte od {price}'
+    'OW tickets from {price}': 'karte od {price}'
+    'Find tickets': 'Pronađi karte'
+    'Select dates': 'Izaberite datume'
+  price: Cena
+  trip_class: 'Putnička klasa'
+  distance: Razdaljina
+  return_at: 'Povratak'
+  airline_logo: Avio-kompanija
+  service_airline_logo: Avio-kompanija
+  flight_number: 'Broj leta'
+  service_flight_number: 'Broj leta'
+  flight: Let
+  airline: Avio-kompanija
+  service_airline: Avio-kompanija
+  destination: Odredište
+  origin_destination: 'Polazište - Odredište'
+  place: Mesto
+  direction: Pravac
+  origin: Polazište
+  found_at: 'Pronađeno'
+  price_distance: Cena/razdaljina
+  time_and_stops: 'Vreme i usputne stanice'
+  route: Ruta
+  schedule: Red letenja
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'Najjeftinije povratne karte iz {origin} do {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'Najjeftiniji letovi od {origin} do {destination} za sledeću godinu'
+    'The cheapest flights for this month from {origin} to {destination}': 'Najjeftiniji letovi za ovaj mesec od {origin} do {destination}'
+    'Flights that have been found on our website': 'Letovi koji su pronađeni na našoj veb lokaciji'
+    'Direct flights from {origin}': 'Direktni letovi od {origin}'
+    'Cheap flights from {origin}': 'Jeftiniji letovi od {origin}'
+    'Direct flights from {origin} to {destination}': 'Direktni letovi od {origin} do {destination}'
+    'Cheap flights to {destination}': 'Jeftini letovi do {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Cene letova za mesec dana od {origin} do {destination}, u jednom pravcu'
+    'Flights from {origin}': 'Letovi od {origin}'
+    'Airline''s popular flights: {airline}': 'Popularni letovi avio-kompanije: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Letovi od {origin} ka {destination} u narednih nekoliko dana'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Više od {flights_number} leta/letova{flights_every_day}, u trajanju od {min_flight_duration}'
+    duration_short_days: 'dani'
+    duration_short_hours: 'sati'
+    duration_short_min: 'minuti'
+    every_day: 'svakodnevno'
+  class_name:
+    Economy: 'Ekonomska'
+    Business: 'Poslovna'
+    'First class': 'First class'
+  stops:
+    Direct: 'Direktno'
+    nominative: 'Stanica'
+    genitive: 'Stanice'
+    prepositional: 'Stanica'
+  schedule_days:
+    day_0: 'ponedeljak'
+    day_1: 'utorak'
+    day_2: 'sreda'
+    day_3: 'četvrtak'
+    day_4: 'petak'
+    day_5: 'subota'
+    day_6: 'nedelja'
+hotel:
+  name: Hotel
+  stars: Zvezdice
+  discount: Popust
+  old_price_and_new_price: 'Cena bez popusta i sa popustom'
+  button_column_title: 'Izaberite datume'
+  button:
+    'View Hotel': 'Prikaži hotel'
+  price_pn: 'Cena po noćenju'
+  old_price_and_discount: 'Cena bez popusta'
+  distance: Razdaljina
+  old_price_pn: 'Cena bez popusta'
+  rating: Ocena
+  title:
+    'Hotels in {location}: {selection_name}': 'Hoteli u {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Hoteli u {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Najbolji hoteli'
+    Popularity: 'Popularnost'
+    Cheap: 'Jeftino'
+    Distance: 'Razdaljina'
+    Rating: 'Ocena'
+    '0 stars': '0 zvezdica'
+    '1 star': '1 zvezdica'
+    '2 stars': '2 zvezdice'
+    '3 stars': '3 zvezdice'
+    '4 stars': '4 zvezdice'
+    '5 stars': '5 zvezdica'
+    Luxury: 'Luksuzan'
+    Expensive: 'Skupo'
+    'Hotels in the center': 'Hoteli u centru'
+    Pool: 'Bazen'
+    'Gay friendly': 'Dobrodošli su homoseksualci'
+    'Smoking friendly': 'Dozvoljeno pušenje'
+    Restaurant: 'Restoran'
+    'Pet friendly': 'Dozvoljeno za kućne ljubimce'
+    'Russian guests': 'Ruski gosti'
+    'Sea view': 'Pogled na more'
+    'Lake view': 'Pogled na jezero'
+    'River view': 'Pogled na reku'
+    'Panoramic view': 'Panoramski pogled'
+    'Cheap hotels': 'Jeftini hoteli'
+    tophotels: 'Najbolji hoteli'
+    popularity: 'Popularnost'
+    cheap: 'Jeftino'
+    distance: 'Razdaljina'
+    rating: 'Ocena'
+    0-stars: '0 zvezdica'
+    1-star: '1 zvezdica'
+    2-stars: '2 zvezdice'
+    3-stars: '3 zvezdice'
+    4-stars: '4 zvezdice'
+    5-stars: '5 zvezdica'
+    0stars: '0 zvezdica'
+    1star: '1 zvezdica'
+    2stars: '2 zvezdice'
+    3stars: '3 zvezdice'
+    4stars: '4 zvezdice'
+    5stars: '5 zvezdica'
+    luxury: 'Luksuzan'
+    expensive: 'Skupo'
+    center: 'Hoteli u centru'
+    pool: 'Bazen'
+    gay: 'Dobrodošli su homoseksualci'
+    smoke: 'Dozvoljeno pušenje'
+    restaurant: 'Restoran'
+    pets: 'Dozvoljeno za kućne ljubimce'
+    russians: 'Ruski gosti'
+    sea_view: 'Pogled na more'
+    lake_view: 'Pogled na jezero'
+    river_view: 'Pogled na reku'
+    Panoramic_view: 'Panoramski pogled'
+    price: 'Jeftini hoteli'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

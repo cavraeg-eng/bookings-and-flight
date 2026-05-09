@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Заминаване в'
+  number_of_changes: Прекачвания
+  button_column_title: 'Намерете билети'
+  button:
+    'Tickets from {price}': 'Билети от {price}'
+    'OW tickets from {price}': 'OW tickets from {price}'
+    'Find tickets': 'Намерете билети'
+    'Select dates': 'Изберете дати'
+  price: Цена
+  trip_class: 'Клас на пътуването'
+  distance: Разстояние
+  return_at: 'Връщане в'
+  airline_logo: Авиолиния
+  service_airline_logo: Авиокомпания
+  flight_number: 'Номер на полета'
+  service_flight_number: 'Номер на полета'
+  flight: Полет
+  airline: Авиолиния
+  service_airline: Авиокомпания
+  destination: Дестинация
+  origin_destination: 'Изходна точка - дестинация'
+  place: Място
+  direction: Посока
+  origin: Изходна точка
+  found_at: 'Намерено в'
+  price_distance: Цена/разстояние
+  time_and_stops: 'Време и спирки'
+  route: Маршрут
+  schedule: Разписание
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'Най-евтините двупосочни билети от {origin} до {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'Най-евтините полети от {origin} до {destination} за следващата година'
+    'The cheapest flights for this month from {origin} to {destination}': 'Най-евтините полети за този месец от {origin} до {destination}'
+    'Flights that have been found on our website': 'Полети, които са намерени на нашия уебсайт'
+    'Direct flights from {origin}': 'Директни полети от {origin}'
+    'Cheap flights from {origin}': 'Cheap flights from {origin}'
+    'Direct flights from {origin} to {destination}': 'Директни полети от {origin} до {destination}'
+    'Cheap flights to {destination}': 'Евтини полети до {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Цени на полетите за един месец от {origin} до {destination}, еднопосочни'
+    'Flights from {origin}': 'Полети от {origin}'
+    'Airline''s popular flights: {airline}': 'Популярни полети на авиокомпанията: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Полети от {origin} до {destination} за следващите няколко дни'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Над {flights_number} полета{flights_every_day}, от {min_flight_duration}'
+    duration_short_days: 'д'
+    duration_short_hours: 'ч'
+    duration_short_min: 'м'
+    every_day: 'всеки ден'
+  class_name:
+    Economy: 'Икономична'
+    Business: 'Бизнес'
+    'First class': 'First class'
+  stops:
+    Direct: 'Директен'
+    nominative: 'Спирка'
+    genitive: 'Спирки'
+    prepositional: 'Спирки'
+  schedule_days:
+    day_0: 'п'
+    day_1: 'в'
+    day_2: 'с'
+    day_3: 'ч'
+    day_4: 'п'
+    day_5: 'с'
+    day_6: 'н'
+hotel:
+  name: Хотел
+  stars: Звезди
+  discount: Отстъпка
+  old_price_and_new_price: 'Цена преди и отстъпка'
+  button_column_title: 'Изберете дати'
+  button:
+    'View Hotel': 'Преглед на хотела'
+  price_pn: 'Цена за нощувка'
+  old_price_and_discount: 'Цена преди отстъпката'
+  distance: Разстояние
+  old_price_pn: 'Цена преди отстъпката'
+  rating: Оценка
+  title:
+    'Hotels in {location}: {selection_name}': 'Хотели в {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Хотели в {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Топ хотели'
+    Popularity: 'Популярност'
+    Cheap: 'Евтин'
+    Distance: 'Разстояние'
+    Rating: 'Оценка'
+    '0 stars': '0 звезди'
+    '1 star': '1 звезда'
+    '2 stars': '2 звезди'
+    '3 stars': '3 звезди'
+    '4 stars': '4 звезди'
+    '5 stars': '5 звезди'
+    Luxury: 'Луксозен'
+    Expensive: 'Скъп'
+    'Hotels in the center': 'Хотели в центъра'
+    Pool: 'Басейн'
+    'Gay friendly': 'Приятелски към хомосексуалисти'
+    'Smoking friendly': 'Пушенето е разрешено'
+    Restaurant: 'Ресторант'
+    'Pet friendly': 'Домашните любимци са разрешени'
+    'Russian guests': 'Руски гости'
+    'Sea view': 'Изглед към море'
+    'Lake view': 'Изглед към езеро'
+    'River view': 'Изглед към река'
+    'Panoramic view': 'Панора'
+    'Cheap hotels': 'Евтини хотели'
+    tophotels: 'Топ хотели'
+    popularity: 'Популярност'
+    cheap: 'Евтин'
+    distance: 'Разстояние'
+    rating: 'Оценка'
+    0-stars: '0 звезди'
+    1-star: '1 звезда'
+    2-stars: '2 звезди'
+    3-stars: '3 звезди'
+    4-stars: '4 звезди'
+    5-stars: '5 звезди'
+    0stars: '0 звезди'
+    1star: '1 звезда'
+    2stars: '2 звезди'
+    3stars: '3 звезди'
+    4stars: '4 звезди'
+    5stars: '5 звезди'
+    luxury: 'Луксозен'
+    expensive: 'Скъп'
+    center: 'Хотели в центъра'
+    pool: 'Басейн'
+    gay: 'Приятелски към хомосексуалисти'
+    smoke: 'Пушенето е разрешено'
+    restaurant: 'Ресторант'
+    pets: 'Домашните любимци са разрешени'
+    russians: 'Руски гости'
+    sea_view: 'Изглед към море'
+    lake_view: 'Изглед към езеро'
+    river_view: 'Изглед към река'
+    Panoramic_view: 'Панора'
+    price: 'Евтини хотели'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

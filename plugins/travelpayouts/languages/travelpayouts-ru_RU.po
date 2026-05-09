@@ -1,0 +1,2793 @@
+# Copyright (C) 2025 travelpayouts
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: fb3a2da1078dffb0d6ee5f2c37d7063d\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/tp_wp_last_hope\n"
+"POT-Creation-Date: 2025-10-23 09:19:31+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2025-10-23 09:21\n"
+"Last-Translator: \n"
+"Language-Team: Russian\n"
+"X-Generator: node-wp-i18n 1.2.7\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: fb3a2da1078dffb0d6ee5f2c37d7063d\n"
+"X-Crowdin-Project-ID: 11\n"
+"X-Crowdin-Language: ru\n"
+"X-Crowdin-File: /languages/travelpayouts.pot\n"
+"X-Crowdin-File-ID: 3355\n"
+"Language: ru_RU\n"
+
+#: src/admin/AdminHooks.php:249 src/admin/AdminHooks.php:269
+#: src/admin/AdminHooks.php:284 src/admin/AdminHooks.php:301
+#: src/admin/AdminHooks.php:318 src/admin/AdminHooks.php:358
+#: src/admin/AdminHooks.php:439
+#: src/admin/controllers/NotificationController.php:52
+#: src/admin/controllers/NotificationController.php:64
+msgid "Insufficient access rights!"
+msgstr "Недостаточно прав доступа!"
+
+#: src/admin/AdminHooks.php:340
+msgid "Clear cache failed"
+msgstr "Не удалось очистить кеш"
+
+#: src/admin/AdminHooks.php:349
+msgid "Cache has been cleared"
+msgstr "Кеш очищен успешно"
+
+#: src/admin/AdminHooks.php:350
+msgid "Tables cache has been cleared successfully"
+msgstr "Кеш таблиц очищен успешно"
+
+#: src/admin/AdminHooks.php:372
+msgid "Import failed"
+msgstr "Сбой импорта"
+
+#: src/admin/AdminHooks.php:381
+msgid "Import completed"
+msgstr "Импорт завершен"
+
+#: src/admin/AdminHooks.php:411
+msgid "Travelpayouts WordPress plugin"
+msgstr "Плагин Travelpayouts для WordPress"
+
+#: src/admin/AdminHooks.php:450
+msgid "WP nonce verification failed!"
+msgstr "Не удалось верифицировать WP nonce!"
+
+#: src/admin/AdminHooks.php:477
+msgid "Activate the Travelpayouts plugin"
+msgstr "Активировать плагин Travelpayouts"
+
+#: src/admin/AdminHooks.php:478
+msgid "Enter your Travelpayouts authorization details and start earning now"
+msgstr "Введите ваши данные авторизации в Travelpayouts и начните зарабатывать прямо сейчас"
+
+#: src/admin/AdminHooks.php:480
+#: src/admin/components/landingPage/LandingModel.php:172
+msgid "Activate the plugin"
+msgstr "Активировать плагин"
+
+#: src/admin/AdminHooks.php:504
+msgid "Import settings from the previous version"
+msgstr "Импортировать настройки из предыдущей версии"
+
+#: src/admin/AdminHooks.php:505
+msgid "You updated the Travelpayotus WordPress plugin. This is a new version and has differences with your previous one. To be sure that your existing settings were imported correctly, you have to confirm and click the button on the right. Please double-check after importing."
+msgstr "Вы обновили плагин Travelpayouts Wordpress. Это новая версия, которая имеет отличия от предыдущей. Чтобы убедиться, что ваши текущие настройки были импортированы правильно, подтвердите их и нажмите на кнопку справа. Проверьте настройки ещё раз после завершения импорта."
+
+#: src/admin/AdminHooks.php:512
+msgid "Import settings"
+msgstr "Импортировать настройки"
+
+#: src/admin/AdminHooks.php:540
+msgid "Transient cache could slow down your resource!"
+msgstr "Временный кэш может замедлить работу вашего ресурса!"
+
+#: src/admin/AdminHooks.php:541
+msgid "We highly recommend you to use our file cache feature to decrease transient cache records in your options table."
+msgstr "Рекомендуем использовать функцию FileCache, чтобы сократить количество записей временного кеша в таблице wp_options"
+
+#: src/admin/AdminHooks.php:543
+msgid "Plugin settings"
+msgstr "Настройки плагина"
+
+#: src/admin/AdminHooks.php:567 src/admin/AdminHooks.php:585
+msgid "Action is required!"
+msgstr "Требуется действие!"
+
+#: src/admin/AdminHooks.php:568
+msgid "Choose a traffic source<br>To correctly track your stats for your website, please select a traffic source it belongs to in the settings"
+msgstr "Выберите источник траффика <br> Чтобы корректно собирать статистику по Вашему сайту, пожалуйста, выберите соответствующую ему Площадку в настройках"
+
+#: src/admin/AdminHooks.php:570
+msgid "Account settings"
+msgstr "Настройки аккаунта"
+
+#: src/admin/AdminHooks.php:586
+msgid "Please join Aviasales program with selected project in the partners dashboard to add this tool."
+msgstr "Чтобы добавить этот инструмент, присоединитесь к программе Aviasales, выбрав проект в панели партнеров."
+
+#: src/admin/AdminHooks.php:588
+msgid "Activate programs"
+msgstr "Активировать программы"
+
+#: src/admin/components/elementor/ElementorWidget.php:53
+msgid "Travelpayouts shortcodes"
+msgstr "Шорткоды Travelpayouts"
+
+#: src/admin/components/elementor/ElementorWidget.php:81
+#: src/components/rest/models/GutenbergModulesModel.php:48
+#: src/modules/settings/SettingsForm.php:145
+#: src/modules/tables/components/settings/SettingsSection.php:21
+msgid "Settings"
+msgstr "Настройки"
+
+#: src/admin/components/elementor/ElementorWidget.php:88
+msgid "Content"
+msgstr "Содержание"
+
+#: src/admin/components/landingPage/LandingModel.php:175
+msgid "Install the plugin"
+msgstr "Установить плагин"
+
+#: src/admin/redux/ReduxOptions.php:127
+#: src/modules/tables/components/BaseTableFields.php:246
+msgid "All"
+msgstr "Все"
+
+#: src/admin/redux/ReduxOptions.php:128
+#: src/modules/tables/components/BaseTableFields.php:247
+msgid "No more than one stop"
+msgstr "Не более одной пересадки"
+
+#: src/admin/redux/ReduxOptions.php:129
+#: src/modules/tables/components/BaseTableFields.php:248
+msgid "Direct"
+msgstr "Прямой"
+
+#: src/admin/redux/ReduxOptions.php:136
+msgid "Tile"
+msgstr "Плитка"
+
+#: src/admin/redux/ReduxOptions.php:137
+msgid "Slider"
+msgstr "Слайдер"
+
+#: src/admin/redux/ReduxOptions.php:144
+msgid "Full"
+msgstr "Полностью"
+
+#: src/admin/redux/ReduxOptions.php:145
+#: src/modules/settings/SettingsForm.php:235
+msgid "Compact"
+msgstr "Компактный"
+
+#: src/admin/redux/ReduxOptions.php:152
+msgid "Current month only"
+msgstr "Только в текущем месяце"
+
+#: src/admin/redux/ReduxOptions.php:153
+msgid "Whole year"
+msgstr "Целый год"
+
+#: src/admin/redux/ReduxOptions.php:155
+msgid "December"
+msgstr "Декабрь"
+
+#: src/admin/redux/ReduxOptions.php:156
+msgid "January"
+msgstr "Январь"
+
+#: src/admin/redux/ReduxOptions.php:157
+msgid "February"
+msgstr "Февраль"
+
+#: src/admin/redux/ReduxOptions.php:158
+msgid "March"
+msgstr "Март"
+
+#: src/admin/redux/ReduxOptions.php:159
+msgid "April"
+msgstr "Апрель"
+
+#: src/admin/redux/ReduxOptions.php:160
+msgid "May"
+msgstr "Май"
+
+#: src/admin/redux/ReduxOptions.php:161
+msgid "June"
+msgstr "Июнь"
+
+#: src/admin/redux/ReduxOptions.php:162
+msgid "July"
+msgstr "Июль"
+
+#: src/admin/redux/ReduxOptions.php:163
+msgid "August"
+msgstr "Август"
+
+#: src/admin/redux/ReduxOptions.php:164
+msgid "September"
+msgstr "Сентябрь"
+
+#: src/admin/redux/ReduxOptions.php:165
+msgid "October"
+msgstr "Октябрь"
+
+#: src/admin/redux/ReduxOptions.php:166
+msgid "November"
+msgstr "Ноябрь"
+
+#: src/admin/redux/ReduxOptions.php:220
+#: src/modules/settings/components/fields/CurrencyField.php:89
+msgid "RUB"
+msgstr "RUB"
+
+#: src/admin/redux/ReduxOptions.php:221
+#: src/modules/settings/components/fields/CurrencyField.php:90
+msgid "USD"
+msgstr "USD"
+
+#: src/admin/redux/ReduxOptions.php:222
+#: src/modules/settings/components/fields/CurrencyField.php:91
+msgid "EUR"
+msgstr "EUR"
+
+#: src/admin/redux/ReduxOptions.php:223
+#: src/modules/settings/components/fields/CurrencyField.php:92
+msgid "AED"
+msgstr "AED"
+
+#: src/admin/redux/ReduxOptions.php:224
+#: src/modules/settings/components/fields/CurrencyField.php:93
+msgid "AMD"
+msgstr "AMD"
+
+#: src/admin/redux/ReduxOptions.php:225
+#: src/modules/settings/components/fields/CurrencyField.php:94
+msgid "ARS"
+msgstr "ARS"
+
+#: src/admin/redux/ReduxOptions.php:226
+#: src/modules/settings/components/fields/CurrencyField.php:95
+msgid "AUD"
+msgstr "AUD"
+
+#: src/admin/redux/ReduxOptions.php:227
+#: src/modules/settings/components/fields/CurrencyField.php:96
+msgid "AZN"
+msgstr "AZN"
+
+#: src/admin/redux/ReduxOptions.php:228
+#: src/modules/settings/components/fields/CurrencyField.php:97
+msgid "BDT"
+msgstr "BDT"
+
+#: src/admin/redux/ReduxOptions.php:229
+#: src/modules/settings/components/fields/CurrencyField.php:98
+msgid "BGN"
+msgstr "BGN"
+
+#: src/admin/redux/ReduxOptions.php:230
+#: src/modules/settings/components/fields/CurrencyField.php:99
+msgid "BHD"
+msgstr "BHD"
+
+#: src/admin/redux/ReduxOptions.php:231
+#: src/modules/settings/components/fields/CurrencyField.php:100
+msgid "BRL"
+msgstr "BRL"
+
+#: src/admin/redux/ReduxOptions.php:232
+#: src/modules/settings/components/fields/CurrencyField.php:101
+msgid "BYN"
+msgstr "BYN"
+
+#: src/admin/redux/ReduxOptions.php:233
+#: src/modules/settings/components/fields/CurrencyField.php:102
+msgid "CAD"
+msgstr "CAD"
+
+#: src/admin/redux/ReduxOptions.php:234
+#: src/modules/settings/components/fields/CurrencyField.php:103
+msgid "CHF"
+msgstr "CHF"
+
+#: src/admin/redux/ReduxOptions.php:235
+#: src/modules/settings/components/fields/CurrencyField.php:104
+msgid "CLP"
+msgstr "CLP"
+
+#: src/admin/redux/ReduxOptions.php:236
+#: src/modules/settings/components/fields/CurrencyField.php:105
+msgid "CNY"
+msgstr "CNY"
+
+#: src/admin/redux/ReduxOptions.php:237
+#: src/modules/settings/components/fields/CurrencyField.php:106
+msgid "COP"
+msgstr "COP"
+
+#: src/admin/redux/ReduxOptions.php:238
+#: src/modules/settings/components/fields/CurrencyField.php:107
+msgid "CZK"
+msgstr "CZK"
+
+#: src/admin/redux/ReduxOptions.php:239
+#: src/modules/settings/components/fields/CurrencyField.php:108
+msgid "DKK"
+msgstr "DKK"
+
+#: src/admin/redux/ReduxOptions.php:240
+#: src/modules/settings/components/fields/CurrencyField.php:109
+msgid "EGP"
+msgstr "EGP"
+
+#: src/admin/redux/ReduxOptions.php:241
+#: src/modules/settings/components/fields/CurrencyField.php:110
+msgid "GBP"
+msgstr "GBP"
+
+#: src/admin/redux/ReduxOptions.php:242
+#: src/modules/settings/components/fields/CurrencyField.php:111
+msgid "GEL"
+msgstr "GEL"
+
+#: src/admin/redux/ReduxOptions.php:243
+#: src/modules/settings/components/fields/CurrencyField.php:112
+msgid "HKD"
+msgstr "HKD"
+
+#: src/admin/redux/ReduxOptions.php:244
+#: src/modules/settings/components/fields/CurrencyField.php:113
+msgid "HUF"
+msgstr "HUF"
+
+#: src/admin/redux/ReduxOptions.php:245
+#: src/modules/settings/components/fields/CurrencyField.php:114
+msgid "IDR"
+msgstr "IDR"
+
+#: src/admin/redux/ReduxOptions.php:246
+#: src/modules/settings/components/fields/CurrencyField.php:115
+msgid "ILS"
+msgstr "ILS"
+
+#: src/admin/redux/ReduxOptions.php:247
+#: src/modules/settings/components/fields/CurrencyField.php:116
+msgid "INR"
+msgstr "INR"
+
+#: src/admin/redux/ReduxOptions.php:248
+#: src/modules/settings/components/fields/CurrencyField.php:117
+msgid "IQD"
+msgstr "IQD"
+
+#: src/admin/redux/ReduxOptions.php:249
+#: src/modules/settings/components/fields/CurrencyField.php:118
+msgid "ISK"
+msgstr "ISK"
+
+#: src/admin/redux/ReduxOptions.php:250
+#: src/modules/settings/components/fields/CurrencyField.php:119
+msgid "JOD"
+msgstr "JOD"
+
+#: src/admin/redux/ReduxOptions.php:251
+#: src/modules/settings/components/fields/CurrencyField.php:120
+msgid "JPY"
+msgstr "JPY"
+
+#: src/admin/redux/ReduxOptions.php:252
+#: src/modules/settings/components/fields/CurrencyField.php:121
+msgid "KGS"
+msgstr "KGS"
+
+#: src/admin/redux/ReduxOptions.php:253
+#: src/modules/settings/components/fields/CurrencyField.php:122
+msgid "KRW"
+msgstr "KRW"
+
+#: src/admin/redux/ReduxOptions.php:254
+#: src/modules/settings/components/fields/CurrencyField.php:123
+msgid "KWD"
+msgstr "KWD"
+
+#: src/admin/redux/ReduxOptions.php:255
+#: src/modules/settings/components/fields/CurrencyField.php:124
+msgid "KZT"
+msgstr "KZT"
+
+#: src/admin/redux/ReduxOptions.php:256
+#: src/modules/settings/components/fields/CurrencyField.php:125
+msgid "LKR"
+msgstr "LKR"
+
+#: src/admin/redux/ReduxOptions.php:257
+#: src/modules/settings/components/fields/CurrencyField.php:126
+msgid "LYD"
+msgstr "LYD"
+
+#: src/admin/redux/ReduxOptions.php:258
+#: src/modules/settings/components/fields/CurrencyField.php:127
+msgid "MUR"
+msgstr "MUR"
+
+#: src/admin/redux/ReduxOptions.php:259
+#: src/modules/settings/components/fields/CurrencyField.php:128
+msgid "MXN"
+msgstr "MXN"
+
+#: src/admin/redux/ReduxOptions.php:260
+#: src/modules/settings/components/fields/CurrencyField.php:129
+msgid "MYR"
+msgstr "MYR"
+
+#: src/admin/redux/ReduxOptions.php:261
+#: src/modules/settings/components/fields/CurrencyField.php:130
+msgid "NGN"
+msgstr "NGN"
+
+#: src/admin/redux/ReduxOptions.php:262
+#: src/modules/settings/components/fields/CurrencyField.php:131
+msgid "NOK"
+msgstr "NOK"
+
+#: src/admin/redux/ReduxOptions.php:263
+#: src/modules/settings/components/fields/CurrencyField.php:132
+msgid "NPR"
+msgstr "NPR"
+
+#: src/admin/redux/ReduxOptions.php:264
+#: src/modules/settings/components/fields/CurrencyField.php:133
+msgid "NZD"
+msgstr "NZD"
+
+#: src/admin/redux/ReduxOptions.php:265
+#: src/modules/settings/components/fields/CurrencyField.php:134
+msgid "OMR"
+msgstr "OMR"
+
+#: src/admin/redux/ReduxOptions.php:266
+#: src/modules/settings/components/fields/CurrencyField.php:135
+msgid "PEN"
+msgstr "PEN"
+
+#: src/admin/redux/ReduxOptions.php:267
+#: src/modules/settings/components/fields/CurrencyField.php:136
+msgid "PHP"
+msgstr "PHP"
+
+#: src/admin/redux/ReduxOptions.php:268
+#: src/modules/settings/components/fields/CurrencyField.php:137
+msgid "PKR"
+msgstr "PKR"
+
+#: src/admin/redux/ReduxOptions.php:269
+#: src/modules/settings/components/fields/CurrencyField.php:138
+msgid "PLN"
+msgstr "PLN"
+
+#: src/admin/redux/ReduxOptions.php:270
+#: src/modules/settings/components/fields/CurrencyField.php:139
+msgid "QAR"
+msgstr "QAR"
+
+#: src/admin/redux/ReduxOptions.php:271
+#: src/modules/settings/components/fields/CurrencyField.php:140
+msgid "RON"
+msgstr "RON"
+
+#: src/admin/redux/ReduxOptions.php:272
+#: src/modules/settings/components/fields/CurrencyField.php:141
+msgid "RSD"
+msgstr "RSD"
+
+#: src/admin/redux/ReduxOptions.php:273
+#: src/modules/settings/components/fields/CurrencyField.php:142
+msgid "SAR"
+msgstr "SAR"
+
+#: src/admin/redux/ReduxOptions.php:274
+#: src/modules/settings/components/fields/CurrencyField.php:143
+msgid "SEK"
+msgstr "SEK"
+
+#: src/admin/redux/ReduxOptions.php:275
+#: src/modules/settings/components/fields/CurrencyField.php:144
+msgid "SGD"
+msgstr "SGD"
+
+#: src/admin/redux/ReduxOptions.php:276
+#: src/modules/settings/components/fields/CurrencyField.php:145
+msgid "THB"
+msgstr "THB"
+
+#: src/admin/redux/ReduxOptions.php:277
+#: src/modules/settings/components/fields/CurrencyField.php:146
+msgid "TJS"
+msgstr "TJS"
+
+#: src/admin/redux/ReduxOptions.php:278
+#: src/modules/settings/components/fields/CurrencyField.php:147
+msgid "TRY"
+msgstr "TRY"
+
+#: src/admin/redux/ReduxOptions.php:279
+#: src/modules/settings/components/fields/CurrencyField.php:148
+msgid "UAH"
+msgstr "UAH"
+
+#: src/admin/redux/ReduxOptions.php:280
+#: src/modules/settings/components/fields/CurrencyField.php:149
+msgid "VND"
+msgstr "VND"
+
+#: src/admin/redux/ReduxOptions.php:281
+#: src/modules/settings/components/fields/CurrencyField.php:150
+msgid "XOF"
+msgstr "XOF"
+
+#: src/admin/redux/ReduxOptions.php:282
+#: src/modules/settings/components/fields/CurrencyField.php:151
+msgid "ZAR"
+msgstr "ZAR"
+
+#: src/admin/redux/ReduxOptions.php:316
+msgid "These settings are for default settings of widgets, those were embedded  via shortcodes (plugin version before v. 1). The current version of the plugin  embeds all widgets via scripts"
+msgstr "Эти настройки предназначены для настроек по умолчанию виджетов, которые были вставлены через шорткод (в версии плагина меньше v. 1). Текущая версия плагина вставляет виджеты через скрипт"
+
+#: src/admin/redux/extensions/SettingsImportField.php:20
+msgid "Import"
+msgstr "Импортировать"
+
+#: src/admin/redux/extensions/clearTableCache/ClearTableCacheField.php:18
+msgid "Delete cache"
+msgstr "Очистить кеш"
+
+#: src/admin/redux/extensions/linksForms/LinksForms.php:31
+#: src/admin/redux/extensions/linksForms/LinksForms.php:66
+#: src/admin/redux/extensions/linksForms/LinksForms.php:122
+msgid "Link"
+msgstr "Ссылка"
+
+#: src/admin/redux/extensions/linksForms/LinksForms.php:36
+#: src/admin/redux/extensions/linksForms/LinksForms.php:119
+msgid "New %s"
+msgstr "Новый %s"
+
+#: src/admin/redux/extensions/linksForms/LinksForms.php:71
+#: src/admin/redux/extensions/linksForms/LinksForms.php:127
+msgid "Anchor phrases"
+msgstr "Якорные фразы"
+
+#: src/admin/redux/extensions/linksForms/LinksForms.php:76
+#: src/admin/redux/extensions/linksForms/LinksForms.php:132
+msgid "Onclick event"
+msgstr "Событие onclick"
+
+#: src/admin/redux/extensions/linksForms/LinksForms.php:81
+msgid "Add nofollow attribute"
+msgstr "Добавить атрибут nofollow"
+
+#: src/admin/redux/extensions/linksForms/LinksForms.php:91
+#: src/admin/redux/extensions/linksForms/LinksForms.php:142
+msgid "Replace existing links"
+msgstr "Заменить существующие ссылки"
+
+#: src/admin/redux/extensions/linksForms/LinksForms.php:101
+msgid "Open in new window"
+msgstr "Открыть в новом окне"
+
+#: src/admin/redux/extensions/linksForms/LinksForms.php:112
+#: src/admin/redux/extensions/linksForms/LinksForms.php:153
+#: src/modules/searchForms/controllers/SearchFormsController.php:128
+msgid "Delete"
+msgstr "Удалить"
+
+#: src/admin/redux/extensions/linksForms/LinksForms.php:137
+#: src/modules/settings/SettingsForm.php:264
+msgid "Add the nofollow attribute"
+msgstr "Добавить атрибут nofollow"
+
+#: src/admin/redux/extensions/linksForms/LinksForms.php:147
+msgid "Open in a new window"
+msgstr "Открыть в новом окне"
+
+#: src/admin/redux/extensions/linksForms/LinksForms.php:156
+msgid "Add %s"
+msgstr "Добавить %s"
+
+#: src/admin/redux/extensions/platformSelect/PlatformSelectField.php:73
+#: src/admin/redux/extensions/sortBy/SortByField.php:90
+msgid "Select an item"
+msgstr "Выбрать элемент"
+
+#: src/admin/redux/extensions/platformSelect/PlatformSelectField.php:124
+#: src/admin/redux/extensions/sortBy/SortByField.php:141
+msgid "No items of this type were found."
+msgstr "Элементы этого типа не были обнаружены."
+
+#: src/admin/redux/extensions/reimportSearchForms/ReimportSearchFormField.php:18
+msgid "Re-import search forms"
+msgstr "Повторно импортировать поисковые формы"
+
+#: src/admin/redux/templates/panel/footer.tpl.php:22
+#: src/admin/redux/templates/panel/header-stickybar.tpl.php:37
+#: src/admin/templates/landingPage/landing.php:157
+msgid "Save changes"
+msgstr "Сохранить изменения"
+
+#: src/admin/redux/templates/panel/footer.tpl.php:34
+#: src/admin/redux/templates/panel/header-stickybar.tpl.php:43
+msgid "Working..."
+msgstr "Сохраняем информацию..."
+
+#: src/admin/redux/templates/panel/header-stickybar.tpl.php:21
+msgid "Expand"
+msgstr "Развернуть"
+
+#: src/admin/redux/templates/panel/header-stickybar.tpl.php:28
+msgid "Reset Section"
+msgstr "Сбросить раздел"
+
+#: src/admin/redux/templates/panel/header-stickybar.tpl.php:32
+msgid "Reset All"
+msgstr "Сбросить все"
+
+#: src/admin/redux/templates/panel/header.tpl.php:11
+msgid "Developer Mode Enabled"
+msgstr "Режим разработчика включен"
+
+#: src/admin/redux/templates/panel/header.tpl.php:20
+msgid "WP_DEBUG is enabled"
+msgstr "WP_DEBUG активирован"
+
+#: src/admin/redux/templates/panel/header.tpl.php:26
+msgid "you are working in a localhost environment"
+msgstr "вы работаете в локальной среде"
+
+#: src/admin/redux/templates/panel/header.tpl.php:31
+msgid "and"
+msgstr "и"
+
+#: src/admin/redux/templates/panel/header.tpl.php:34
+msgid "This has been automatically enabled because"
+msgstr "Это было автоматически включено, потому что"
+
+#: src/admin/redux/templates/panel/header.tpl.php:36
+msgid "If you are not a developer, your theme/plugin author shipped with developer mode enabled. Contact them directly to fix it."
+msgstr "Если вы не разработчик, ваша тема / плагин автор отправлены с включенным режимом разработчика. Свяжитесь с ними, чтобы исправить это."
+
+#: src/admin/templates/deactivationFeedback/modal.php:140
+msgid "Skip & Deactivate"
+msgstr "Пропустить и деактивировать"
+
+#: src/admin/templates/landingPage/landing.php:31
+msgid "Earn by selling tourist services"
+msgstr "Зарабатывайте на продаже туристических услуг"
+
+#: src/admin/templates/landingPage/landing.php:33
+msgid "Install our convenient and useful tools on your website and help your visitors find the cheapest flights and hotels. Earn commission for each booking."
+msgstr "Установите наши удобные и полезные инструменты на свой сайт и помогите его посетителям найти самые дешевые авиабилеты и отели. Зарабатывайте комиссию за каждое бронирование."
+
+#: src/admin/templates/landingPage/landing.php:36
+#: src/admin/templates/landingPage/landing.php:181
+#: src/admin/templates/landingPage/landing.php:319
+msgid "Create an account"
+msgstr "Создать аккаунт"
+
+#: src/admin/templates/landingPage/landing.php:37
+#: src/admin/templates/landingPage/landing.php:320
+msgid "go to travelpayouts.com"
+msgstr "перейти на travelpayouts.com"
+
+#: src/admin/templates/landingPage/landing.php:42
+msgid "+$50"
+msgstr "+50$"
+
+#: src/admin/templates/landingPage/landing.php:43
+msgid "Hotel, 2 people, <br>to Hong-Kong"
+msgstr "Отель, 2 человека, <br>в Гонконг"
+
+#: src/admin/templates/landingPage/landing.php:46
+msgid "+$27"
+msgstr "+27$"
+
+#: src/admin/templates/landingPage/landing.php:47
+msgid "Flight, 1 person,<br>to Prague"
+msgstr "Перелет, 1 человек,<br>в Прагу"
+
+#: src/admin/templates/landingPage/landing.php:50
+msgid "+$75"
+msgstr "+75$"
+
+#: src/admin/templates/landingPage/landing.php:51
+msgid "Flight, 1 person,<br>to San Francisco"
+msgstr "Перелет, 1 человек,<br>в Сан-Франциско"
+
+#: src/admin/templates/landingPage/landing.php:68
+msgid "I have a Travelpayouts account"
+msgstr "У меня есть аккаунт Travelpayouts"
+
+#: src/admin/templates/landingPage/landing.php:80
+msgid "New at Travelpayouts?"
+msgstr "Ещё не зарегистрированы в Travelpayouts?"
+
+#: src/admin/templates/landingPage/landing.php:85
+msgid "Enter your API token and Travelpayouts ID"
+msgstr "Добавьте ваш токен API и партнерский ID в Travelpayouts"
+
+#: src/admin/templates/landingPage/landing.php:90
+msgid "To identify you, we need your API token and affiliate ID"
+msgstr "Чтобы идентифицировать вас, нам нужен ваш API токен и партнерский ID"
+
+#: src/admin/templates/landingPage/landing.php:94
+msgid "Get your API token or Partner ID"
+msgstr "Получить API токен и партнерский ID"
+
+#: src/admin/templates/landingPage/landing.php:105
+msgid "your API token"
+msgstr "ваш токен API"
+
+#: src/admin/templates/landingPage/landing.php:116
+msgid "your affiliate ID"
+msgstr "ваш партнерский ID"
+
+#: src/admin/templates/landingPage/landing.php:125
+msgid "Select tables language and currency"
+msgstr "Выбрать язык и валюту таблицы"
+
+#: src/admin/templates/landingPage/landing.php:130
+msgid "widget and table language"
+msgstr "язык виджетов и таблиц"
+
+#: src/admin/templates/landingPage/landing.php:141
+msgid "currency"
+msgstr "валюта"
+
+#: src/admin/templates/landingPage/landing.php:153
+msgid "By pressing the <strong>Save changes</strong> button you agree to <br>send the plugin activation data to Travelpayouts."
+msgstr "При нажатии на кнопку <strong>Сохранить изменения</strong>, вы соглашаетесь <br> отправить Travelpayouts данные активации плагина."
+
+#: src/admin/templates/landingPage/landing.php:177
+msgid "1. Create an account"
+msgstr "1. Создать аккаунт"
+
+#: src/admin/templates/landingPage/landing.php:178
+msgid "Before you start, sign up and get your API token with affiliate ID"
+msgstr "Прежде чем начать, зарегистрируйтесь и получите ваш API токен с партнерским ID"
+
+#: src/admin/templates/landingPage/landing.php:199
+msgid "2. Setup the plugin"
+msgstr "2. Настроить плагин"
+
+#: src/admin/templates/landingPage/landing.php:202
+msgid "Enter your information and start earning on tourist services"
+msgstr "Укажите ваши данные и начните зарабатывать на туристических услугах"
+
+#: src/admin/templates/landingPage/landing.php:207
+msgid "Start setup"
+msgstr "Начать настройку"
+
+#: src/admin/templates/landingPage/landing.php:218
+msgid "How it works?"
+msgstr "Как это работает?"
+
+#: src/admin/templates/landingPage/landing.php:224
+msgid "User visits of your site"
+msgstr "Пользователи посещают ваш сайт"
+
+#: src/admin/templates/landingPage/landing.php:230
+msgid "Click on your affiliate link"
+msgstr "Нажмите на вашу партнерскую ссылку"
+
+#: src/admin/templates/landingPage/landing.php:236
+msgid "Performs an action, for example, buys a ticket"
+msgstr "Выполняет действие, например, покупает билет"
+
+#: src/admin/templates/landingPage/landing.php:242
+msgid "You get money for action"
+msgstr "Вы получаете деньги за действия"
+
+#: src/admin/templates/landingPage/landing.php:250
+msgid "Amazing tools"
+msgstr "Удивительные инструменты"
+
+#: src/admin/templates/landingPage/landing.php:255
+msgid "12 customizable tables with flights"
+msgstr "12 настраиваемых таблиц с вариантами перелетов"
+
+#: src/admin/templates/landingPage/landing.php:266
+#: src/modules/searchForms/SearchFormSection.php:21
+msgid "Search forms"
+msgstr "Поисковые формы"
+
+#: src/admin/templates/landingPage/landing.php:276
+msgid "Low cost flights and hotels map"
+msgstr "Карта низких цен на авиабилеты и отели"
+
+#: src/admin/templates/landingPage/landing.php:286
+msgid "Low prices calendar"
+msgstr "Календарь низких цен"
+
+#: src/admin/templates/landingPage/landing.php:296
+#: src/modules/widgets/components/forms/hotels/hotel/TpHotelWidget.php:68
+msgid "Hotel widget"
+msgstr "Виджет отелей"
+
+#: src/admin/templates/landingPage/landing.php:306
+msgid "Popular flight destinations widget"
+msgstr "Виджет популярных направлений перелетов"
+
+#: src/admin/templates/notices/_notificationCloseDialog.php:15
+msgid "Want to hide this notification?"
+msgstr "Хотите скрыть это уведомление?"
+
+#: src/admin/templates/notices/_notificationCloseDialog.php:32
+msgid "If you'd like to hide this notification and keep receiving future notifications, click 'Hide Notification'. If you'd like to turn off notifications permanently, click 'Turn Notifications Off'."
+msgstr "Чтобы временно скрыть это уведомление нажмите \"Скрыть уведомление\". Чтобы отключить такие уведомления навсегда, выберите \"Отключить уведомления\"."
+
+#: src/admin/templates/notices/_notificationCloseDialog.php:38
+msgid "Turn Notifications Off"
+msgstr "Отключить уведомление"
+
+#: src/admin/templates/notices/_notificationCloseDialog.php:41
+msgid "Hide Notification"
+msgstr "Скрыть уведомление"
+
+#: src/components/ApiModel.php:216
+msgid "Validation failed"
+msgstr "Сбой проверки"
+
+#: src/components/Assets.php:38 src/components/validators/ValidatorEach.php:81
+#: src/components/validators/ValidatorRequired.php:48
+msgid "{attribute} cannot be blank."
+msgstr "Поле «{attribute}» не может быть пустым."
+
+#: src/components/ErrorHelper.php:13
+msgid "Shortcode validation failed:"
+msgstr "Проверка шорткода не удалась:"
+
+#: src/components/assets/WebpackAssets.php:78
+msgid "Chunk with name \"{name}\" not found in \"{path}\""
+msgstr "Чанк с названием \"{name}\" не найден в \"{path}\""
+
+#: src/components/brands/PlatformsEndpoint.php:40
+msgid "Your account doesn't have traffic sources yet"
+msgstr "Для Вашего аккаунта еще не созданы площадки"
+
+#: src/components/brands/PlatformsEndpoint.php:44
+msgid "Please select a source for your website"
+msgstr "Пожалуйста, укажите соответстующую Вашему сайту Площадку"
+
+#: src/components/exceptions/TravelpayoutsException.php:14
+#: src/components/web/views/error.php:94
+msgid "Error"
+msgstr "Ошибка"
+
+#: src/components/rest/models/GutenbergModulesModel.php:45
+#: src/modules/searchForms/controllers/SearchFormsController.php:126
+msgid "Save"
+msgstr "Сохранить"
+
+#: src/components/rest/models/GutenbergModulesModel.php:46
+#: src/modules/searchForms/controllers/SearchFormsController.php:125
+msgid "Cancel"
+msgstr "Отменить"
+
+#: src/components/rest/models/GutenbergModulesModel.php:47
+#: src/modules/tables/components/GutenbergRestModule.php:54
+msgid "Select a program"
+msgstr "Выберите программу"
+
+#: src/components/rest/models/GutenbergModulesModel.php:49
+msgid "An error occured while pasting the shortcode"
+msgstr "При вставке шорткода произошла ошибка"
+
+#: src/components/rest/models/GutenbergModulesModel.php:50
+#: src/components/section/fields/InputWithVariablesInDescription.php:64
+msgid "You can use the following variables in this field:"
+msgstr "Вы можете использовать следующие переменные в этом поле:"
+
+#: src/components/tables/TableShortcode.php:185
+msgid "Alternate title"
+msgstr "Изменить заголовок"
+
+#: src/components/tables/TableShortcode.php:186
+#: src/modules/tables/components/hotels/HotelTableShortcodeModel.php:78
+msgid "Hide title"
+msgstr "Скрыть заголовок"
+
+#: src/components/tables/TableShortcode.php:187
+msgid "Alternate button title"
+msgstr "Альтернативный заголовок кнопки"
+
+#: src/components/tables/TableShortcode.php:188
+#: src/modules/links/components/BaseLinkShortcode.php:144
+#: src/modules/searchForms/components/SearchFormShortcode.php:427
+#: src/modules/tables/components/BaseTableFields.php:233
+#: src/modules/widgets/components/forms/flights/schedule/TpScheduleWidget.php:26
+msgid "Sub ID"
+msgstr "Sub ID"
+
+#: src/components/tables/TableShortcode.php:189
+#: src/modules/tables/components/BaseTableFields.php:209
+msgid "Paginate"
+msgstr "Включить пагинацию"
+
+#: src/components/tables/TableShortcode.php:190
+msgid "Disable table header"
+msgstr "Отключить шапку таблицы"
+
+#: src/components/tables/TableShortcode.php:191
+msgid "Table language"
+msgstr "Язык таблицы"
+
+#: src/components/tables/TableShortcode.php:192
+#: src/modules/settings/components/fields/CurrencyField.php:82
+msgid "Currency"
+msgstr "Валюта"
+
+#: src/components/tables/TableShortcode.php:193
+#: src/modules/links/components/flights/Shortcode.php:217
+#: src/modules/searchForms/components/SearchFormShortcode.php:425
+#: src/modules/tables/components/flights/ColumnLabels.php:96
+#: src/modules/tables/components/flights/FlightsShortcodeModel.php:415
+#: src/modules/tables/components/railway/tutu/TutuShortcodeModel.php:305
+msgid "Origin"
+msgstr "Откуда"
+
+#: src/components/tables/TableShortcode.php:194
+#: src/modules/links/components/flights/Shortcode.php:218
+#: src/modules/searchForms/components/SearchFormShortcode.php:426
+#: src/modules/tables/components/flights/ColumnLabels.php:92
+#: src/modules/tables/components/flights/FlightsShortcodeModel.php:416
+#: src/modules/tables/components/railway/tutu/TutuShortcodeModel.php:306
+msgid "Destination"
+msgstr "Пункт назначения"
+
+#: src/components/tables/TableShortcode.php:494
+#: src/modules/tables/components/settings/HotelSettingsSection.php:43
+msgid "Default theme"
+msgstr "Тема по умолчанию"
+
+#: src/components/tables/TableShortcode.php:495
+#: src/modules/tables/components/settings/HotelSettingsSection.php:44
+msgid "Bright theme with a red button"
+msgstr "Яркая тема с красной кнопкой"
+
+#: src/components/tables/TableShortcode.php:496
+#: src/modules/tables/components/settings/HotelSettingsSection.php:45
+msgid "Light theme with a blue button"
+msgstr "Светлая тема с синей кнопкой"
+
+#: src/components/tables/TableShortcode.php:497
+#: src/modules/tables/components/settings/HotelSettingsSection.php:46
+msgid "Light theme with a light green button"
+msgstr "Светлая тема со светло-зеленой кнопкой"
+
+#: src/components/tables/TableShortcode.php:498
+#: src/modules/tables/components/settings/HotelSettingsSection.php:47
+msgid "Light theme with a purple button"
+msgstr "Светлая тема с фиолетовой кнопкой"
+
+#: src/components/tables/TableShortcode.php:499
+#: src/modules/tables/components/settings/HotelSettingsSection.php:48
+msgid "Dark theme with a yellow button"
+msgstr "Темная тема с желтой кнопкой"
+
+#: src/components/tables/TableShortcode.php:500
+#: src/modules/tables/components/settings/HotelSettingsSection.php:49
+msgid "Dark theme with a coral button"
+msgstr "Темная тема с коралловой кнопкой"
+
+#: src/components/tables/TableShortcode.php:501
+#: src/modules/tables/components/settings/HotelSettingsSection.php:50
+msgid "Light theme with a plum search column"
+msgstr "Светлая тема со сливовой поисковой колонкой"
+
+#: src/components/tables/TableShortcode.php:502
+#: src/modules/tables/components/settings/HotelSettingsSection.php:51
+msgid "Light theme with a dark search column"
+msgstr "Светлая тема с темной поисковой колонкой"
+
+#: src/components/tables/TableShortcode.php:503
+#: src/modules/tables/components/settings/HotelSettingsSection.php:52
+msgid "Light theme with a mint button"
+msgstr "Светлая тема с кнопкой мятного цвета"
+
+#: src/components/tables/TableShortcode.php:504
+#: src/modules/tables/components/settings/HotelSettingsSection.php:53
+msgid "Custom theme styles"
+msgstr "Особый стиль"
+
+#: src/components/tables/TableShortcode.php:521
+#: src/modules/tables/components/flights/ColumnLabels.php:81
+msgid "Price"
+msgstr "Цена"
+
+#: src/components/tables/TableShortcode.php:564
+#: src/components/tables/TableShortcode.php:567
+#: src/modules/settings/SettingsForm.php:234
+msgid "Default"
+msgstr "По умолчанию"
+
+#: src/components/validators/RegularExpressionValidator.php:34
+msgid "{attribute} is invalid."
+msgstr "{attribute} является недопустимым."
+
+#: src/components/validators/ValidatorBoolean.php:45
+msgid "The {attribute} must be either \"{true}\" or \"{false}\""
+msgstr "Значение должно быть \"{true}\" или \"{false}\""
+
+#: src/components/validators/ValidatorRequired.php:49
+msgid "{attribute} must be \"{requiredValue}\"."
+msgstr "{attribute} должно быть \"{requiredValue}\"."
+
+#: src/components/validators/ValidatorString.php:83
+msgid "{attribute} must be a string."
+msgstr "{attribute} должно быть строкой."
+
+#: src/components/validators/ValidatorString.php:86
+#: src/modules/searchForms/controllers/SearchFormsController.php:161
+msgid "{attribute} should contain at least {min} characters."
+msgstr "{attribute} должно содержать как минимум {min} знаков."
+
+#: src/components/validators/ValidatorString.php:89
+msgid "{attribute} should contain at most {max} characters."
+msgstr "{attribute} должен содержать максимум {max} символов."
+
+#: src/components/validators/ValidatorString.php:92
+msgid "{attribute} should contain {length} characters."
+msgstr "{attribute} должно содержать {length} символов."
+
+#: src/components/web/views/error.php:13
+msgid "&laquo; Back"
+msgstr "&laquo; Назад"
+
+#: src/components/web/views/error.php:96
+msgid "The above error occurred while the Web server was processing your request."
+msgstr "Произошла ошибка при попытке обработать текущий запрос"
+
+#: src/includes/Travelpayouts.php:214
+msgid "Please make sure or contact your hosting support php.ini setting must be set this way"
+msgstr "Пожалуйста, убедитесь, что или свяжитесь с вашей службой поддержки php.ini должен быть установлен таким образом"
+
+#: src/includes/Travelpayouts.php:216
+msgid "<a href=\"https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.save-comments\" target=\"_blank\">Read more</a>"
+msgstr "<a href=\"https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.save-comments\" target=\"_blank\">Read more</a>"
+
+#: src/modules/account/AccountForm.php:44
+msgid "Account"
+msgstr "Аккаунт"
+
+#: src/modules/account/AccountForm.php:58
+msgid "Your Travelpayouts API token"
+msgstr "Ваш Travelpayouts API токен"
+
+#: src/modules/account/AccountForm.php:59
+msgid "Get API token and affiliate ID"
+msgstr "Получить API токен и партнерский ID"
+
+#: src/modules/account/AccountForm.php:60
+msgid "Enter your API token"
+msgstr "Добавьте ваш токен API"
+
+#: src/modules/account/AccountForm.php:62
+msgid "Your Travelpayouts Partner ID"
+msgstr "Ваш партнёрский маркер"
+
+#: src/modules/account/AccountForm.php:63
+msgid "Enter your Partner ID"
+msgstr "Добавьте ваш партнёрский маркер"
+
+#: src/modules/account/AccountForm.php:65
+msgid "Projects"
+msgstr "Ваш проект"
+
+#: src/modules/account/AccountForm.php:69
+msgid "Select your relevant channel"
+msgstr "Укажите проект с вашим сайтом или другим вашим каналом"
+
+#: src/modules/account/AccountForm.php:73
+msgid "<a href=\"https://support.travelpayouts.com/hc/en-us/articles/360015015439-Traffic-sources\" target=\"_blank\" class=\"tp-link\">What are Projects?</a>"
+msgstr "<a href=\"https://support.travelpayouts.com/hc/ru/articles/360015015439-Проекты\" target=\"_blank\" class=\"tp-link\">Что такое проекты?</a>"
+
+#: src/modules/account/AccountForm.php:75
+msgid "Select Project with your channel, where you use brands’ affiliate tools. This enables an accurate tracking of your views, clicks and other performance stats. Create and edit Projects through your account on <a href=\"https://www.travelpayouts.com/profile/sources\" class=\"tp-link\" target=\"_blank\">Travelpayouts.com</a>"
+msgstr "Выберите ваш проект, в котором планируете размещать партнёрские инструменты брендов. Это позволит точнее отслеживать статистику по просмотрам, кликам и другим параметрам. Создавайте и редактируйте проекты в личном кабинете в <a href=\"https://www.travelpayouts.com/profile/sources\" class=\"tp-link\" target=\"_blank\">Travelpayouts.com</a>"
+
+#: src/modules/account/AccountForm.php:78
+msgid "Your White Label domain"
+msgstr "Домен вашего White Label сайта"
+
+#: src/modules/account/AccountForm.php:79
+msgid "The domain name you entered in your White Label settings in Travelpayouts"
+msgstr "Домен, который вы указали в настройках White Label Web в Travelpayouts"
+
+#: src/modules/account/AccountForm.php:81
+msgid "White Label with flights"
+msgstr "White Label авиабилетов"
+
+#: src/modules/account/AccountForm.php:82
+msgid "Ensure your White Label’s URL contains /flights after the  domain name. Example: \"mywhitelabel.com/flights\""
+msgstr "Убедитесь, что ссылка содержит /flights после домена. К примеру \"mywhitelabel.com/flights\""
+
+#: src/modules/account/AccountForm.php:84
+msgid "White Label with hotels"
+msgstr "White Label отелей"
+
+#: src/modules/account/AccountForm.php:86
+msgid "Ensure your White Label’s URL contains /hotels after the  domain name. Example: \"mywhitelabel.com/hotels\""
+msgstr "Убедитесь, что ссылка содержит /hotels после домена. К примеру \"mywhitelabel.com/hotels\""
+
+#: src/modules/help/HelpSection.php:23
+msgid "Help"
+msgstr "Помощь"
+
+#: src/modules/linkForms/LinksForm.php:17
+msgid "Link substitution"
+msgstr "Замена ссылки"
+
+#: src/modules/linkForms/LinksForm.php:31
+msgid "Here you can add referral links that need to be substituted for the given anchor \n"
+"                phrases. Anchor is case sensitive."
+msgstr "Сюда можно добавить реферальные ссылки, которые нужно заменить на заданные якорные  \n"
+"                фразы. Якорь чувствителен к регистру."
+
+#: src/modules/linkForms/LinksForm.php:33
+msgid "In this section, you can add shortcodes for search forms \n"
+"                configured in the admin panel of your Travelpayouts account (https://www.travelpayouts.com/tools/forms). \n"
+"                Detailed instructions are available here (https://travel-template.dist.ooo/search-form.html)"
+msgstr "В этом разделе, вы можете добавить шорткоды для поисковых форм \n"
+"                настроенных в панели управления вашего аккаунта Travelpayouts (https://www.travelpayouts.com/tools/forms). \n"
+"                Подробные инструкции доступны здесь (https://travel-template.dist.ooo/search-form.html)"
+
+#: src/modules/links/components/BaseLinkShortcode.php:143
+msgid "Open link in a new tab"
+msgstr "Открывать ссылку в новой вкладке"
+
+#: src/modules/links/components/GutenbergRestModule.php:37
+#: src/modules/links/components/GutenbergRestModule.php:47
+msgid "Links"
+msgstr "Ссылки"
+
+#: src/modules/links/components/GutenbergRestModule.php:50
+msgid "Select the link"
+msgstr "Выбрать ссылку"
+
+#: src/modules/links/components/GutenbergRestModule.php:53
+#: src/modules/searchForms/SearchFormRestModule.php:54
+msgid "Select the campaign"
+msgstr "Выбрать программу"
+
+#: src/modules/links/components/LegacyLinkShortcode.php:50
+msgid "Please select valid link type"
+msgstr "Выберите допустимый тип ссылок"
+
+#: src/modules/links/components/flights/Shortcode.php:140
+msgid "Search for flights"
+msgstr "Искать авиаперелеты"
+
+#: src/modules/links/components/flights/Shortcode.php:154
+msgid "Roundtrip"
+msgstr "Поездка туда и обратно"
+
+#: src/modules/links/components/flights/Shortcode.php:156
+#: src/modules/links/components/flights/Shortcode.php:169
+msgid "Departure: today +"
+msgstr "Отправление: сегодня + (дней)"
+
+#: src/modules/links/components/flights/Shortcode.php:161
+msgid "Return: today +"
+msgstr "Возвращение: сегодня + (дней)"
+
+#: src/modules/links/components/flights/Shortcode.php:167
+#: src/modules/tables/components/flights/FlightsShortcodeModel.php:64
+msgid "One way"
+msgstr "В одну сторону"
+
+#: src/modules/links/components/flights/Shortcode.php:216
+msgid "Link text"
+msgstr "Текст ссылки"
+
+#: src/modules/links/components/flights/Shortcode.php:219
+#: src/modules/links/components/hotels/Shortcode.php:134
+#: src/modules/links/components/hotels/Shortcode.php:172
+msgid "Type"
+msgstr "Тип"
+
+#: src/modules/links/components/hotels/Shortcode.php:126
+msgid "Search for hotels"
+msgstr "Искать отели"
+
+#: src/modules/links/components/hotels/Shortcode.php:135
+#: src/modules/links/components/hotels/Shortcode.php:168
+#: src/modules/tables/components/hotels/ColumnLabels.php:53
+msgid "Hotel"
+msgstr "Отель"
+
+#: src/modules/links/components/hotels/Shortcode.php:138
+#: src/modules/links/components/hotels/Shortcode.php:169
+#: src/modules/tables/components/hotels/HotelTableShortcodeModel.php:71
+msgid "City"
+msgstr "Город"
+
+#: src/modules/links/components/hotels/Shortcode.php:170
+msgid "Check-out: today +"
+msgstr "Выезд: сегодня +"
+
+#: src/modules/links/components/hotels/Shortcode.php:171
+msgid "Check-in: today +"
+msgstr "Регистрация заезда: сегодня +"
+
+#: src/modules/localization/LocalizationForm.php:20
+msgid "Localization"
+msgstr "Локализация"
+
+#: src/modules/moneyScript/MoneyScriptSection.php:40
+msgid "Money Script"
+msgstr "Money Script"
+
+#: src/modules/moneyScript/MoneyScriptSection.php:52
+msgid "Enable Money Script"
+msgstr "Активировать Money Script"
+
+#: src/modules/moneyScript/MoneyScriptSection.php:58
+msgid "Exclude programs"
+msgstr "Исключить программы"
+
+#: src/modules/searchForms/SearchFormRestModule.php:38
+#: src/modules/searchForms/SearchFormRestModule.php:48
+#: src/modules/widgets/components/Section.php:20
+msgid "Widgets"
+msgstr "Виджеты"
+
+#: src/modules/searchForms/SearchFormRestModule.php:51
+msgid "Select the widget"
+msgstr "Выбрать виджет"
+
+#: src/modules/searchForms/components/SearchFormHotelsShortcode.php:18
+msgid "Hotels search form"
+msgstr "Форма поиска отелей"
+
+#: src/modules/searchForms/components/SearchFormHotelsShortcode.php:38
+#: src/modules/searchForms/components/SearchFormShortcode.php:386
+#: src/modules/tables/components/settings/FlightsSettingsSection.php:77
+msgid "Select search form"
+msgstr "Выбрать поисковую форму"
+
+#: src/modules/searchForms/components/SearchFormShortcode.php:139
+msgid "One of parameters ({attributes}) is required"
+msgstr "Необходим один из параметров ({attributes})"
+
+#: src/modules/searchForms/components/SearchFormShortcode.php:363
+msgid "Flights search form"
+msgstr "Форма поиска авиабилетов"
+
+#: src/modules/searchForms/components/SearchFormShortcode.php:428
+msgid "City or hotel"
+msgstr "Город или отель"
+
+#: src/modules/searchForms/components/SearchFormShortcode.php:429
+#: src/modules/searchForms/controllers/SearchFormsController.php:121
+msgid "Apply settings (origin, destination, etc.) from generated widget code "
+msgstr "Применить настройки (города отправления и прибытия) из сгенерированного кода виджета "
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:114
+#: src/modules/searchForms/controllers/SearchFormsController.php:129
+msgid "Add a new search form"
+msgstr "Добавить новую поисковую форму"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:115
+msgid "Edit the search form \"{searchForm_name}\""
+msgstr "Редактировать поисковую форму \"{searchForm_name}\""
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:116
+#: src/modules/searchForms/controllers/SearchFormsController.php:132
+#: src/modules/searchForms/models/SearchFormModel.php:126
+msgid "Title"
+msgstr "Название"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:117
+#: src/modules/searchForms/models/SearchFormModel.php:127
+msgid "Default departure city"
+msgstr "Город вылета по умолчанию"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:118
+#: src/modules/searchForms/models/SearchFormModel.php:128
+msgid "Default arrival city"
+msgstr "Город прибытия по умолчанию"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:119
+#: src/modules/searchForms/models/SearchFormModel.php:129
+msgid "Default city or hotel"
+msgstr "Город или отель по умолчанию"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:120
+#: src/modules/searchForms/models/SearchFormModel.php:132
+msgid "Generated widget code"
+msgstr "Сгенерированный код виджета"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:123
+msgid "Add"
+msgstr "Добавить"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:124
+msgid "Edit"
+msgstr "Редактировать"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:127
+msgid "Ok"
+msgstr "ОК"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:131
+msgid "You don't have any form added yet"
+msgstr "Вы еще не добавили ни одной формы"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:133
+#: src/modules/searchForms/models/SearchFormModel.php:130
+msgid "Date"
+msgstr "Дата"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:134
+msgid "Shortcode"
+msgstr "Шорткод"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:135
+msgid "Actions"
+msgstr "Действия"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:139
+msgid "Search form has been created"
+msgstr "Поисковая форма создана"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:140
+msgid "item has been removed"
+msgstr "элемент был удален"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:141
+msgid "Do you want to delete this item?"
+msgstr "Вы действительно хотите удалить этот элемент?"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:142
+msgid "This item will be deleted permanently. This operation cannot be undone."
+msgstr "Этот элемент будет удален навсегда. Эту операцию нельзя отменить."
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:143
+msgid "Search form has been updated"
+msgstr "Поисковая форма обновлена"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:144
+msgid "An error has occurred while updating the search form"
+msgstr "Произошла ошибка при обновлении формы поиска"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:145
+msgid "selected items have been successfully removed"
+msgstr "выбранные элементы были успешно удалены"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:146
+msgid "An error has occurred while creating the search form"
+msgstr "Произошла ошибка при создании формы поиска"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:147
+msgid "An error has occurred while removing the search form"
+msgstr "Произошла ошибка при удалении поисковой формы"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:148
+msgid "An error has occurred while removing search forms"
+msgstr "Произошла ошибка при удалении поисковых форм"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:150
+msgid "Sending data. Please wait"
+msgstr "Сохраняем данные. Пожалуйста, подождите"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:153
+msgid "You need to create a new search form at Travelpayouts.com and get the widget code to add the form to the plugin"
+msgstr "Нужно создать новую поисковую форму на Travelpayouts.com и получить код виджета, чтобы добавить форму в плагин"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:154
+msgid "I have a generated widget code"
+msgstr "У меня есть сгенерированный код виджета"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:155
+msgid "I don't have a code"
+msgstr "У меня нет кода"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:156
+msgid "Create an {source} form"
+msgstr "Создать {source} форму"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:157
+msgid "Here is a {tutorial_link} in help"
+msgstr "Здесь можно найти {tutorial_link} по созданию формы"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:158
+msgid "tutorial"
+msgstr "руководство"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:159
+msgid "Ok, got it"
+msgstr "Понятно"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:162
+#: src/modules/searchForms/models/SearchFormModel.php:139
+#: src/modules/searchForms/models/SearchFormModel.php:350
+msgid "{attribute} has invalid value"
+msgstr "{attribute} имеет недопустимое значение"
+
+#: src/modules/searchForms/models/widgetCode/HotelCity.php:41
+msgid "Name"
+msgstr "Название"
+
+#: src/modules/searchForms/models/widgetCode/HotelCity.php:42
+#: src/modules/tables/components/hotels/HotelTableShortcodeModel.php:173
+msgid "Location"
+msgstr "Место"
+
+#: src/modules/searchForms/models/widgetCode/HotelCity.php:43
+msgid "Hotels Count"
+msgstr "Количество отелей"
+
+#: src/modules/searchForms/models/widgetCode/HotelCity.php:44
+msgid "Search Id"
+msgstr "Id"
+
+#: src/modules/searchForms/models/widgetCode/HotelCity.php:45
+msgid "Search Type"
+msgstr "Тип поиска"
+
+#: src/modules/searchForms/models/widgetCode/HotelCity.php:46
+msgid "Country Name"
+msgstr "Название страны"
+
+#: src/modules/settings/SettingsForm.php:161
+msgid "Date format"
+msgstr "Формат даты"
+
+#: src/modules/settings/SettingsForm.php:168
+msgid "Custom"
+msgstr "Пользовательский"
+
+#: src/modules/settings/SettingsForm.php:170
+msgid "Custom date format"
+msgstr "Пользовательский формат даты"
+
+#: src/modules/settings/SettingsForm.php:174
+msgid "Distance units"
+msgstr "Единицы измерения расстояния"
+
+#: src/modules/settings/SettingsForm.php:176
+msgid "Km"
+msgstr "Км."
+
+#: src/modules/settings/SettingsForm.php:177
+msgid "Miles"
+msgstr "Мили"
+
+#: src/modules/settings/SettingsForm.php:192
+msgid "Tables and widgets language"
+msgstr "Язык таблиц и виджетов"
+
+#: src/modules/settings/SettingsForm.php:196
+msgid "Origin case"
+msgstr "Падеж для Откуда (origin)"
+
+#: src/modules/settings/SettingsForm.php:201
+msgid "Destination case"
+msgstr "Падеж для Куда (destination)"
+
+#: src/modules/settings/SettingsForm.php:207
+msgid "Show the currency"
+msgstr "Показать валюту"
+
+#: src/modules/settings/SettingsForm.php:209
+msgid "After the price"
+msgstr "После цены"
+
+#: src/modules/settings/SettingsForm.php:210
+msgid "Before the price"
+msgstr "До цены"
+
+#: src/modules/settings/SettingsForm.php:211
+#: src/modules/settings/SettingsForm.php:236
+msgid "Hide"
+msgstr "Скрыть"
+
+#: src/modules/settings/SettingsForm.php:212
+msgid "Сurrency code (after the price)"
+msgstr "Код валюты (после цены)"
+
+#: src/modules/settings/SettingsForm.php:213
+msgid "Currency code (before the price)"
+msgstr "Код валюты (до цены)"
+
+#: src/modules/settings/SettingsForm.php:217
+msgid "Action after click (Flights)"
+msgstr "Действия после клика (Перелеты)"
+
+#: src/modules/settings/SettingsForm.php:219
+#: src/modules/tables/components/settings/FlightsSettingsSection.php:68
+msgid "Show the search form"
+msgstr "Показать поисковую форму"
+
+#: src/modules/settings/SettingsForm.php:220
+msgid "Show search results"
+msgstr "Показать результаты поиска"
+
+#: src/modules/settings/SettingsForm.php:224
+msgid "Action after click (Hotels)"
+msgstr "Действия после клика (Отели)"
+
+#: src/modules/settings/SettingsForm.php:226
+msgid "Show the city page"
+msgstr "Показать страницу города"
+
+#: src/modules/settings/SettingsForm.php:227
+msgid "Show the hotel page"
+msgstr "Показать страницу отеля"
+
+#: src/modules/settings/SettingsForm.php:232
+msgid "Buttons in the editor"
+msgstr "Кнопки в редакторе"
+
+#: src/modules/settings/SettingsForm.php:240
+msgid "Script include"
+msgstr "Где подключать скрипт плагина"
+
+#: src/modules/settings/SettingsForm.php:242
+msgid "Inside &lt;head&gt; tag"
+msgstr "Внутри тега &lt;head&gt;"
+
+#: src/modules/settings/SettingsForm.php:243
+msgid "Inside &lt;footer&gt; tag"
+msgstr "Внутри тега &lt;footer&gt;"
+
+#: src/modules/settings/SettingsForm.php:247
+msgid "Activate 301 redirect"
+msgstr "Активировать редирект 301"
+
+#: src/modules/settings/SettingsForm.php:248
+msgid "A 301 redirect sends visitors from an old URL to a new one. It also helps keep your site's search rankings by passing on the SEO value from the old page to the new one. We recommend not to change this option."
+msgstr "301 редирект навсегда перенаправляет посетителей с старого URL на новый. Он также помогает сохранить позиции вашего сайта в поисковой выдаче, передавая SEO-ценность со старой страницы на новую. Мы рекомендуем оставить этот параметр без изменений."
+
+#: src/modules/settings/SettingsForm.php:251
+msgid "Adjust airline's logo size"
+msgstr "Настроить размер логотипа авикомпании"
+
+#: src/modules/settings/SettingsForm.php:256
+msgid "Maximum 300 pixels for width and 200 pixels height"
+msgstr "Максимум 300 пикселей в ширину и 200 пикселей в высоту"
+
+#: src/modules/settings/SettingsForm.php:258
+msgid "Open results in a new window"
+msgstr "Открывать результаты в новом окне"
+
+#: src/modules/settings/SettingsForm.php:261
+msgid "Track additional stats"
+msgstr "Собирать дополнительную статистику"
+
+#: src/modules/settings/SettingsForm.php:265
+msgid "This attribute prevents unwanted search results from being indexed by search engines. We recommend not to change this setting."
+msgstr "Этот атрибут предотвращает индексирование нежелательных результатов поиска в поисковых системах. Мы рекомендуем не изменять этот параметр."
+
+#: src/modules/settings/SettingsForm.php:268
+msgid "Use FileCache"
+msgstr "Использовать FileCache"
+
+#: src/modules/settings/SettingsForm.php:269
+msgid "This feature helps conserve hosting resources and maintain speed by reducing transient cache records in your options table."
+msgstr "Эта функция помогает экономить ресурсы хостинга и поддерживать скорость работы сайта, уменьшая количество временных записей кэша в таблице опций."
+
+#: src/modules/settings/SettingsForm.php:272
+msgid "Cache timeout flights (hours)"
+msgstr "Таймаут кэша перелётов (часы)"
+
+#: src/modules/settings/SettingsForm.php:277
+msgid "Cache timeout hotels (hours)"
+msgstr "Таймаут кэша отелей (часы)"
+
+#: src/modules/settings/SettingsForm.php:283
+msgid "Event tracking. \"Find\" button"
+msgstr "Отслеживание событий. Кнопка \"Найти\""
+
+#: src/modules/settings/SettingsForm.php:286
+msgid "Event tracking. Table is loaded"
+msgstr "Отслеживание событий. Таблица загружается"
+
+#: src/modules/settings/SettingsForm.php:289
+msgid "Disable tables debug notices"
+msgstr "Отключить debug-уведомления"
+
+#: src/modules/settings/SettingsForm.php:290
+msgid "Select this option to disable tables error notices in admin area."
+msgstr "Выберите эту опцию, чтобы отключить уведомления в админ-панели об ошибках в таблицах."
+
+#: src/modules/settings/SettingsForm.php:293
+msgid "Import settings from v1"
+msgstr "Импортировать настройки из v1"
+
+#: src/modules/settings/SettingsForm.php:294
+msgid "Load import settings from Travelpayouts WP Plugin (version up to v. 1) and press import"
+msgstr "Загрузите настройки импорта из WP плагина от Travelpayouts (версии до v. 1) и нажмите на импорт"
+
+#: src/modules/settings/SettingsForm.php:296
+msgid "Clear cache"
+msgstr "Очистить кеш"
+
+#: src/modules/settings/SettingsForm.php:297
+msgid "Clear all travelpayouts tables cache from wp_options table"
+msgstr "Очистить кеш Travelpayouts из таблицы wp_option"
+
+#: src/modules/settings/SettingsForm.php:305
+msgid "Set a goal in Yandex Metrika or Google Analytics and paste the code in this field to track the event (reaching the goal)"
+msgstr "Настройте цель в Яндекс.Метрика или Google Analytics и вставьте код в это поле, чтобы отслеживать событие (достижение цели)"
+
+#: src/modules/settings/SettingsForm.php:308
+msgid "For example"
+msgstr "Например"
+
+#: src/modules/settings/SettingsForm.php:319
+msgid "You can also combine multiple events"
+msgstr "Вы также можете комбинировать несколько событий"
+
+#: src/modules/settings/SettingsForm.php:332
+msgid "If you want to set a custom date format properly you can check the characters and corresponding formats below"
+msgstr "Чтобы правильно установить пользовательский формат даты, вы можете посмотреть буквенные обозначения и соответствующие им форматы ниже"
+
+#: src/modules/settings/SettingsForm.php:334
+msgid "Day"
+msgstr "День"
+
+#: src/modules/settings/SettingsForm.php:335
+msgid "Day of the month without leading zeros"
+msgstr "День месяца числом без 0 впереди для дат от 1 до 9"
+
+#: src/modules/settings/SettingsForm.php:336
+msgid "Day of the month, 2 digits with leading zeros"
+msgstr "День месяца числом с 0 впереди для дат от 1 до 9"
+
+#: src/modules/settings/SettingsForm.php:340
+#: src/modules/settings/SettingsForm.php:348
+msgid "Month"
+msgstr "Месяц"
+
+#: src/modules/settings/SettingsForm.php:341
+msgid "A full textual representation of a month, such as January or March"
+msgstr "Полное название месяца, например, Январь или Март"
+
+#: src/modules/settings/SettingsForm.php:342
+msgid "Numeric representation of a month, with leading zeros"
+msgstr "Численное обозначение месяца с 0 впереди для месяцев с 1 до 9"
+
+#: src/modules/settings/SettingsForm.php:343
+msgid "A short textual representation of a month, three letters"
+msgstr "Краткое название месяца из первых трех букв"
+
+#: src/modules/settings/SettingsForm.php:344
+msgid "Numeric representation of a month, without leading zeros"
+msgstr "Численное обозначение месяца без 0 впереди для месяцев с 1 до 9"
+
+#: src/modules/settings/SettingsForm.php:349
+msgid "A full numeric representation of a year, 4 digits"
+msgstr "Полное цифровое обозначение года из 4 цифр"
+
+#: src/modules/settings/SettingsForm.php:350
+msgid "A two-digit representation of a year"
+msgstr "Краткое цифровое обозначение года из 2 последних цифр"
+
+#: src/modules/settings/SettingsForm.php:461
+msgid "Nominative"
+msgstr "Именительный"
+
+#: src/modules/settings/SettingsForm.php:462
+msgid "Genitive"
+msgstr "Родительный"
+
+#: src/modules/settings/SettingsForm.php:463
+msgid "Accusative"
+msgstr "Винительный"
+
+#: src/modules/settings/SettingsForm.php:464
+msgid "Dative"
+msgstr "Дательный"
+
+#: src/modules/settings/SettingsForm.php:465
+msgid "Instrumental"
+msgstr "Творительный"
+
+#: src/modules/settings/SettingsForm.php:466
+msgid "Prepositional"
+msgstr "Предложный"
+
+#: src/modules/settings/components/fields/FlightSourceField.php:47
+msgid "Host (flights)"
+msgstr "Хост (Перелеты)"
+
+#: src/modules/settings/components/fields/HotelSourceField.php:18
+msgid "Host (hotels)"
+msgstr "Хост (Отели)"
+
+#: src/modules/tables/components/BaseTableFields.php:133
+msgid "Table header text"
+msgstr "Текст заголовка таблицы"
+
+#: src/modules/tables/components/BaseTableFields.php:135
+msgid "Use {origin} and {destination} variables to automatically add the city."
+msgstr "Использовать переменные {origin} и {destination} для автоматического добавления города."
+
+#: src/modules/tables/components/BaseTableFields.php:143
+msgid "Table header text tag"
+msgstr "Текстовый тег заголовка таблицы"
+
+#: src/modules/tables/components/BaseTableFields.php:150
+msgid "div"
+msgstr "элемент div"
+
+#: src/modules/tables/components/BaseTableFields.php:151
+msgid "h1"
+msgstr "Н1"
+
+#: src/modules/tables/components/BaseTableFields.php:152
+msgid "h2"
+msgstr "Н2"
+
+#: src/modules/tables/components/BaseTableFields.php:153
+msgid "h3"
+msgstr "Н3"
+
+#: src/modules/tables/components/BaseTableFields.php:154
+msgid "h4"
+msgstr "Н4"
+
+#: src/modules/tables/components/BaseTableFields.php:155
+msgid "h5"
+msgstr "Н5"
+
+#: src/modules/tables/components/BaseTableFields.php:156
+msgid "h6"
+msgstr "Н6"
+
+#: src/modules/tables/components/BaseTableFields.php:168
+msgid "Make table row clickable"
+msgstr "Сделать строку таблицы ссылкой"
+
+#: src/modules/tables/components/BaseTableFields.php:178
+msgid "Button title"
+msgstr "Текст кнопки"
+
+#: src/modules/tables/components/BaseTableFields.php:179
+msgid "{price} variable can be used"
+msgstr "можно использовать переменную {price}"
+
+#: src/modules/tables/components/BaseTableFields.php:194
+msgid "Sort by column"
+msgstr "Сортировать по столбцам"
+
+#: src/modules/tables/components/BaseTableFields.php:220
+msgid "Rows per page"
+msgstr "Строк на странице"
+
+#: src/modules/tables/components/BaseTableFields.php:244
+#: src/modules/tables/components/flights/FlightsShortcodeModel.php:62
+msgid "Number of stops"
+msgstr "Число остановок"
+
+#: src/modules/tables/components/BaseTableFields.php:264
+#: src/modules/tables/components/flights/ColumnLabels.php:78
+msgid "Departure date"
+msgstr "Дата отправления"
+
+#: src/modules/tables/components/BaseTableFields.php:276
+#: src/modules/tables/components/flights/ColumnLabels.php:84
+msgid "Return date"
+msgstr "Дата возвращения"
+
+#: src/modules/tables/components/ColumnSorter.php:30
+msgid "Table columns"
+msgstr "Столбцы таблицы"
+
+#: src/modules/tables/components/ColumnSorter.php:31
+msgid "We offer a readymade combination for such a table, but you can edit the number \n"
+"                of columns and their arrangement."
+msgstr "Мы предлагаем готовую комбинацию для такой таблицы, но вы можете отредактировать число \n"
+"                столбцов и их расположение."
+
+#: src/modules/tables/components/ColumnSorter.php:35
+msgid "Visible"
+msgstr "Отображаемые"
+
+#: src/modules/tables/components/ColumnSorter.php:38
+msgid "Hidden"
+msgstr "Скрытые"
+
+#: src/modules/tables/components/GutenbergRestModule.php:38
+#: src/modules/tables/components/GutenbergRestModule.php:48
+#: src/modules/tables/components/Section.php:20
+msgid "Tables"
+msgstr "Таблицы"
+
+#: src/modules/tables/components/GutenbergRestModule.php:51
+msgid "Select a table"
+msgstr "Выбрать таблицу"
+
+#: src/modules/tables/components/api/BaseTokenApiModel.php:44
+msgid "Your Travelpayouts API token should contain {first_number} or {second_number} characters. Please check that it is entered correctly."
+msgstr "Ваш токен Travelpayouts API должен содержать {first_number} или {second_number} цифр. Пожалуйста, проверьте правильность ввода."
+
+#: src/modules/tables/components/api/travelpayouts/citySuggest/CitySuggestItem.php:81
+msgid "Parameter \"{:key}\" not found in \"{:attribute}\""
+msgstr "Параметр \"{:key}\" не найден в \"{:attribute}\""
+
+#: src/modules/tables/components/api/travelpayouts/citySuggest/CitySuggestItem.php:93
+msgid "Attribute \"{:attribute}\" must be indexed array"
+msgstr "Атрибут \"{:attribute}\" должен быть индексом массива"
+
+#: src/modules/tables/components/columnTitles/Controller.php:48
+#: src/modules/tables/components/flights/Section.php:26
+#: src/modules/widgets/components/forms/flights/Section.php:31
+msgid "Flights"
+msgstr "Рейсы"
+
+#: src/modules/tables/components/columnTitles/Controller.php:52
+msgid "Hotels column titles"
+msgstr "Таблицы отелей"
+
+#: src/modules/tables/components/columnTitles/Controller.php:58
+msgid "Railways column titles"
+msgstr "Таблицы ж/д"
+
+#: src/modules/tables/components/columnTitles/Section.php:90
+msgid "Fields' labels"
+msgstr "Заголовки полей"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:79
+msgid "Stops"
+msgstr "Пересадки"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:80
+#: src/modules/tables/components/hotels/ColumnLabels.php:57
+#: src/modules/tables/components/railway/ColumnLabels.php:72
+msgid "Button"
+msgstr "Кнопка"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:82
+msgid "Flight class"
+msgstr "Класс перелета"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:83
+msgid "Distance"
+msgstr "Расстояние"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:85
+#: src/modules/tables/components/flights/ColumnLabels.php:90
+#: src/modules/tables/components/flights/ColumnLabels.php:108
+#: src/modules/tables/components/flights/ColumnLabels.php:109
+msgid "Full airline logo"
+msgstr "Большой лого авиакомпании"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:86
+msgid "Flight number"
+msgstr "Номер рейса"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:87
+msgid "Flight"
+msgstr "Рейс"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:88
+#: src/modules/tables/components/flights/ColumnLabels.php:89
+msgid "Airline name"
+msgstr "Название авиакомпании"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:91
+#: src/modules/tables/components/flights/ColumnLabels.php:110
+msgid "Compact airline logo with name"
+msgstr "Маленький лого и название авиакомпании"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:93
+msgid "Origin - Destination"
+msgstr "Откуда - Куда"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:94
+msgid "Rank"
+msgstr "Рейтинг"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:95
+msgid "Direction"
+msgstr "Направление"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:97
+msgid "When found"
+msgstr "Когда обнаружено"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:98
+msgid "Price/distance"
+msgstr "Цена/расстояние"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:99
+msgid "Time and stops"
+msgstr "Время и пересадки"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:100
+#: src/modules/tables/components/railway/ColumnLabels.php:64
+msgid "Route"
+msgstr "Маршрут"
+
+#: src/modules/tables/components/flights/ColumnLabels.php:101
+msgid "Schedule"
+msgstr "Расписание"
+
+#: src/modules/tables/components/flights/FlightsShortcodeModel.php:60
+msgid "Filter by airline"
+msgstr "Фильтровать по авиакомпании"
+
+#: src/modules/tables/components/flights/FlightsShortcodeModel.php:61
+msgid "Filter by flight # (enter manually)"
+msgstr "Фильтровать по рейсу # (ввести вручную)"
+
+#: src/modules/tables/components/flights/FlightsShortcodeModel.php:63
+msgid "Limit"
+msgstr "Ограничение"
+
+#: src/modules/tables/components/flights/FlightsShortcodeModel.php:245
+msgid "Find tickets from {origin} {destination}"
+msgstr "Найти авиабилеты из {origin} {destination}"
+
+#: src/modules/tables/components/flights/cheapestFlights/Section.php:119
+msgid "Cheapest flights from origin to destination, round-trip"
+msgstr "Самые дешевые авиабилеты из пункта отправления до пункта назначения, туда-обратно"
+
+#: src/modules/tables/components/flights/cheapestTicketEachDayMonth/Section.php:132
+msgid "Cheapest flights from origin to destination (next month)"
+msgstr "Цены на билеты по месяцам (след. месяц)"
+
+#: src/modules/tables/components/flights/cheapestTicketsEachMonth/Section.php:127
+msgid "Cheapest flights from origin to destination (next year)"
+msgstr "Цены на билеты по месяцам (след. год)"
+
+#: src/modules/tables/components/flights/directFlights/Section.php:127
+msgid "Direct flights from origin"
+msgstr "Билеты без пересадок ИЗ"
+
+#: src/modules/tables/components/flights/directFlightsRoute/Section.php:126
+msgid "Direct flights from origin to destination"
+msgstr "Билеты без пересадок по направлению"
+
+#: src/modules/tables/components/flights/flightSchedule/Section.php:127
+msgid "Flights schedule"
+msgstr "Расписание авиарейсов"
+
+#: src/modules/tables/components/flights/flightSchedule/Table.php:65
+msgid "Hide subtitle"
+msgstr "Скрыть подзаголовок"
+
+#: src/modules/tables/components/flights/flightSchedule/Table.php:198
+msgid "Flights count"
+msgstr "Количество полетов"
+
+#: src/modules/tables/components/flights/flightSchedule/Table.php:199
+msgid "Min flight duration"
+msgstr "Минимальная длина полета"
+
+#: src/modules/tables/components/flights/flightSchedule/Table.php:200
+msgid "Prints \"every day\" if flights are every day"
+msgstr "Выводит \"каждый день\" если рейс ежедневный"
+
+#: src/modules/tables/components/flights/fromOurCityFly/Section.php:135
+msgid "Cheap Flights from origin"
+msgstr "Дешевые перелеты ИЗ"
+
+#: src/modules/tables/components/flights/inOurCityFly/Section.php:135
+msgid "Cheap flights to destination"
+msgstr "Дешевые перелеты в город"
+
+#: src/modules/tables/components/flights/ourSiteSearch/Section.php:135
+msgid "Searched on our website"
+msgstr "На нашем сайте искали"
+
+#: src/modules/tables/components/flights/popularDestinationsAirlines/Section.php:80
+msgid "Use \"airline\" variable to add the airlines automatically"
+msgstr "Использовать переменную \"авиакомпания\", чтобы автоматически добавлять авиакомпании"
+
+#: src/modules/tables/components/flights/popularDestinationsAirlines/Section.php:122
+msgid "Most popular flights via this airlines"
+msgstr "Популярные направления авиакомпании"
+
+#: src/modules/tables/components/flights/popularRoutesFromCity/Section.php:129
+msgid "Popular destinations from origin"
+msgstr "Популярные направления из пункта отправления"
+
+#: src/modules/tables/components/flights/priceCalendarMonth/Section.php:129
+msgid "Flights from origin to destination, one way (next month)"
+msgstr "Цены на месяц по направлению, в одну сторону (следующий месяц)"
+
+#: src/modules/tables/components/flights/priceCalendarWeek/Section.php:140
+msgid "Flights from origin to destination (next few days)"
+msgstr "Билеты по направлению на ближайшие дни"
+
+#: src/modules/tables/components/hotels/ColumnLabels.php:54
+msgid "Stars"
+msgstr "Звезды"
+
+#: src/modules/tables/components/hotels/ColumnLabels.php:55
+msgid "Discount"
+msgstr "Скидка"
+
+#: src/modules/tables/components/hotels/ColumnLabels.php:56
+msgid "Old and new price"
+msgstr "Старая и новая цена"
+
+#: src/modules/tables/components/hotels/ColumnLabels.php:58
+msgid "Price per night, from"
+msgstr "Цена за ночь, от"
+
+#: src/modules/tables/components/hotels/ColumnLabels.php:59
+msgid "Price before and discount"
+msgstr "Цена до и скидка"
+
+#: src/modules/tables/components/hotels/ColumnLabels.php:60
+msgid "To the center"
+msgstr "В центр"
+
+#: src/modules/tables/components/hotels/ColumnLabels.php:61
+msgid "Price before discount"
+msgstr "Цена до скидки"
+
+#: src/modules/tables/components/hotels/ColumnLabels.php:62
+msgid "Rating"
+msgstr "Рейтинг"
+
+#: src/modules/tables/components/hotels/HotelTableShortcodeModel.php:72
+msgid "Number of results"
+msgstr "Количество результатов"
+
+#: src/modules/tables/components/hotels/HotelTableShortcodeModel.php:73
+#: src/modules/tables/components/hotels/HotelTableShortcodeModel.php:174
+#: src/modules/tables/components/hotels/HotelTableShortcodeModel.php:252
+msgid "Selection type"
+msgstr "Тип выбора"
+
+#: src/modules/tables/components/hotels/HotelTableShortcodeModel.php:74
+msgid "Land without dates"
+msgstr "Приземление без дат"
+
+#: src/modules/tables/components/hotels/HotelTableShortcodeModel.php:75
+msgid "Hotel selection custom name"
+msgstr "Альтернативное название подборки"
+
+#: src/modules/tables/components/hotels/HotelTableShortcodeModel.php:76
+msgid "Check-in date"
+msgstr "Дата заезда"
+
+#: src/modules/tables/components/hotels/HotelTableShortcodeModel.php:77
+msgid "Check-out date"
+msgstr "Дата выезда"
+
+#: src/modules/tables/components/hotels/HotelTableShortcodeModel.php:226
+msgid "Optional. Enter a custom name to display in the table's title"
+msgstr "Опционально. Введите свое название подборки для заголовка таблицы"
+
+#: src/modules/tables/components/hotels/Section.php:28
+#: src/modules/widgets/components/forms/hotels/Section.php:33
+msgid "Hotels"
+msgstr "Отели"
+
+#: src/modules/tables/components/hotels/selectionsDate/Section.php:143
+msgid "Hotel collections for dates"
+msgstr "Подборки отелей для дат"
+
+#: src/modules/tables/components/hotels/selectionsDate/Table.php:102
+msgid "If we don’t have prices in our cache for these dates – no table will be shown"
+msgstr "Если у нас нет цен в кэше на эти даты - таблица не будет показана"
+
+#: src/modules/tables/components/hotels/selectionsDate/Table.php:148
+msgid "Travel dates"
+msgstr "Даты поездки"
+
+#: src/modules/tables/components/hotels/selectionsDiscount/Section.php:102
+msgid "Assign dates"
+msgstr "Выбрать даты"
+
+#: src/modules/tables/components/hotels/selectionsDiscount/Section.php:137
+msgid "Hotel collection - Discounts"
+msgstr "Подборка отелей - Скидки"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:63
+msgid "Train"
+msgstr "Поезд"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:65
+msgid "Route short"
+msgstr "Краткая информация о маршруте"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:66
+msgid "Route info"
+msgstr "Информация о маршруте"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:67
+msgid "Departure"
+msgstr "Отъезд"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:68
+msgid "Arrival"
+msgstr "Прибытие"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:69
+msgid "Duration"
+msgstr "Продолжительность"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:70
+msgid "Prices"
+msgstr "Цены"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:73
+msgid "From"
+msgstr "От"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:74
+msgid "To"
+msgstr "До"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:75
+msgid "Departure time"
+msgstr "Время отправления"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:76
+msgid "Arrival time"
+msgstr "Время прибытия"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:77
+msgid "Route`s first station"
+msgstr "Первая станция маршрута"
+
+#: src/modules/tables/components/railway/ColumnLabels.php:78
+msgid "Route`s last station"
+msgstr "Последняя станция маршрута"
+
+#: src/modules/tables/components/railway/Section.php:26
+msgid "Railway"
+msgstr "Железные дороги"
+
+#: src/modules/tables/components/railway/tutu/Section.php:107
+msgid "Train schedule {origin} — {destination}"
+msgstr "Расписание поездов {origin} — {destination}"
+
+#: src/modules/tables/components/railway/tutu/Section.php:115
+msgid "Select date"
+msgstr "Выбрать дату"
+
+#: src/modules/tables/components/railway/tutu/Section.php:123
+msgid "Train schedule"
+msgstr "Расписание поездов"
+
+#: src/modules/tables/components/railway/tutu/TutuShortcodeModel.php:81
+msgid "Train station of origin"
+msgstr "Станция отправления"
+
+#: src/modules/tables/components/railway/tutu/TutuShortcodeModel.php:82
+msgid "Train station of destination"
+msgstr "Станция прибытия"
+
+#: src/modules/tables/components/railway/tutu/TutuShortcodeModel.php:83
+msgid "Filter by train number or name (enter manually)"
+msgstr "Фильтровать по номеру поезда (ввести вручную)"
+
+#: src/modules/tables/components/railway/tutu/TutuShortcodeModel.php:125
+msgid "Enter train numbers or names separated by commas"
+msgstr "Введите номера поездов через запятую"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:92
+msgid "Customize table header"
+msgstr "Настроить стиль заголовков таблицы"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:94
+msgid "Table header background color"
+msgstr "Цвет фона заголовка таблицы"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:98
+msgid "Table header active background color"
+msgstr "Цвет фона активного заголовка таблицы"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:102
+msgid "Table header text color"
+msgstr "Цвет текста заголовка таблицы"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:106
+msgid "Table header active text color"
+msgstr "Цвет активного текста заголовка таблицы"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:110
+msgid "Customize table body"
+msgstr "Настроить стиль таблицы"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:112
+msgid "Table body text color"
+msgstr "Цвет текста в таблице"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:116
+msgid "Table body border color"
+msgstr "Цвет границ таблицы"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:120
+msgid "Table body odd row background color"
+msgstr "Цвет нечетной строки таблицы"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:124
+msgid "Table body even row background color"
+msgstr "Цвет четной строки таблицы"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:128
+msgid "Table row hovered background color"
+msgstr "Цвет строки таблицы при наведении курсора"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:132
+msgid "Customize table buttons"
+msgstr "Настроить кнопки таблицы"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:134
+msgid "Table button background color"
+msgstr "Цвет фона кнопки"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:138
+msgid "Table button hovered background color"
+msgstr "Цвет фона кнопки при наведении курсора"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:142
+msgid "Table button border color"
+msgstr "Цвет границы кнопки"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:146
+msgid "Table button text color"
+msgstr "Цвет текста кнопки"
+
+#: src/modules/tables/components/settings/CustomTableStylesSection.php:247
+msgid "Customize tables design"
+msgstr "Настроить дизайн таблицы"
+
+#: src/modules/tables/components/settings/FlightsSettingsSection.php:54
+msgid "Disable plugin title styles"
+msgstr "Отключить стили заголовков плагина"
+
+#: src/modules/tables/components/settings/FlightsSettingsSection.php:56
+msgid "Header styles"
+msgstr "Стили заголовков"
+
+#: src/modules/tables/components/settings/FlightsSettingsSection.php:59
+msgid "Title css class"
+msgstr "Css класс для заголовка"
+
+#: src/modules/tables/components/settings/FlightsSettingsSection.php:64
+msgid "No results found scenario"
+msgstr "Ничего не найдено"
+
+#: src/modules/tables/components/settings/FlightsSettingsSection.php:66
+msgid "Hide the table"
+msgstr "Скрыть таблицу"
+
+#: src/modules/tables/components/settings/FlightsSettingsSection.php:67
+msgid "Show error message"
+msgstr "Показать сообщение об ошибке"
+
+#: src/modules/tables/components/settings/FlightsSettingsSection.php:71
+msgid "Choose what happens when there are no results available for the user's search query"
+msgstr "Выберите, что произойдет, если нет доступных результатов для поискового запроса пользователя"
+
+#: src/modules/tables/components/settings/FlightsSettingsSection.php:73
+msgid "Error message"
+msgstr "Сообщение об ошибке"
+
+#: src/modules/tables/components/settings/FlightsSettingsSection.php:74
+msgid "Unfortunately, we don't have actual data for flights from {origin} to {destination}. [link title=\"Find tickets from {origin} to {destination}\"]"
+msgstr "К сожалению, у нас нет фактических данных для перелета из {origin} в {destination}. [заголовок ссылки=\"Найти билеты из {origin} в {destination}\"]"
+
+#: src/modules/tables/components/settings/FlightsSettingsSection.php:105
+msgid "Customize flights tables settings"
+msgstr "Настроить параметры таблицы с авиабилетами"
+
+#: src/modules/tables/components/settings/HotelSettingsSection.php:30
+msgid "Redirect to Booking.com"
+msgstr "Редирект на Booking.com"
+
+#: src/modules/tables/components/settings/HotelSettingsSection.php:70
+msgid "Customize hotels tables settings"
+msgstr "Настроить параметры таблицы с отелями"
+
+#: src/modules/tables/components/settings/ThemeSelectField.php:19
+msgid "Themes"
+msgstr "Темы"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:47
+msgid "Stretch width"
+msgstr "Растянуть в ширину"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:49
+msgid "Yes"
+msgstr "Да"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:50
+msgid "No"
+msgstr "Нет"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:60
+msgid "Width"
+msgstr "Ширина"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:83
+msgid "Not found"
+msgstr "Не обнаружено"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:84
+msgid "Loading results"
+msgstr "Загрузка результатов"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:85
+msgid "Select..."
+msgstr "Выбрать..."
+
+#: src/modules/widgets/components/LegacyReduxFields.php:93
+msgid "Directions"
+msgstr "Направления"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:95
+msgid "City of departure"
+msgstr "Город вылета"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:96
+msgid "Phuket"
+msgstr "Пхукет"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:103
+msgid "City of arrival"
+msgstr "Город прибытия"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:104
+msgid "Bangkok"
+msgstr "Бангкок"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:262
+msgid "Widget design"
+msgstr "Дизайн виджета"
+
+#: src/modules/widgets/components/LegacyReduxFields.php:419
+msgid "Add referral link (Powered by Travelpayouts)"
+msgstr "Добавить реферальную ссылку (Powered by Travelpayouts)"
+
+#: src/modules/widgets/components/forms/flights/calendar/TpCalendarWidget.php:81
+msgid "Prices for the period"
+msgstr "Цены за период"
+
+#: src/modules/widgets/components/forms/flights/calendar/TpCalendarWidget.php:87
+msgid "Trip duration"
+msgstr "Продолжительность поездки"
+
+#: src/modules/widgets/components/forms/flights/calendar/TpCalendarWidget.php:100
+msgid "Route control"
+msgstr "Контроль маршрута"
+
+#: src/modules/widgets/components/forms/flights/calendar/TpCalendarWidget.php:102
+msgid "One way ticket"
+msgstr "Билет в одну сторону"
+
+#: src/modules/widgets/components/forms/flights/calendar/TpCalendarWidget.php:103
+msgid "Round trip ticket"
+msgstr "Билет в оба конца"
+
+#: src/modules/widgets/components/forms/flights/calendar/TpCalendarWidget.php:108
+msgid "Only direct flight"
+msgstr "Только прямой рейс"
+
+#: src/modules/widgets/components/forms/flights/calendar/TpCalendarWidget.php:127
+msgid "Low price calendar"
+msgstr "Календарь низких цен"
+
+#: src/modules/widgets/components/forms/flights/calendar/TpCalendarWidget.php:135
+msgid "Minimum prices for flights in the selected direction on a variety of dates."
+msgstr "Минимальные цены на рейсы в выбранном направлении на различные даты."
+
+#: src/modules/widgets/components/forms/flights/ducklett/TpDucklettWidget.php:72
+msgid "Filtration"
+msgstr "Фильтрация"
+
+#: src/modules/widgets/components/forms/flights/ducklett/TpDucklettWidget.php:79
+msgid "Limit for a special offer"
+msgstr "Ограничение по спецпредложению"
+
+#: src/modules/widgets/components/forms/flights/ducklett/TpDucklettWidget.php:92
+msgid "For route"
+msgstr "Для маршрута"
+
+#: src/modules/widgets/components/forms/flights/ducklett/TpDucklettWidget.php:93
+msgid "For aircompanies"
+msgstr "Для авикомпаний"
+
+#: src/modules/widgets/components/forms/flights/ducklett/TpDucklettWidget.php:110
+msgid "Special offers"
+msgstr "Специальные предложения"
+
+#: src/modules/widgets/components/forms/flights/ducklett/TpDucklettWidget.php:118
+msgid "Beautiful and convenient visualization of data related to special offers from airlines."
+msgstr "Красивая и удобная визуализация данных спецпредложений авиакомпаний."
+
+#: src/modules/widgets/components/forms/flights/map/TpMapWidget.php:50
+#: src/modules/widgets/components/forms/hotels/hotelMap/TpHotelmapWidget.php:67
+msgid "Map dimensions"
+msgstr "Размеры карты"
+
+#: src/modules/widgets/components/forms/flights/map/TpMapWidget.php:56
+msgid "Show direct flights only"
+msgstr "Показать только прямые рейсы"
+
+#: src/modules/widgets/components/forms/flights/map/TpMapWidget.php:58
+msgid "Show logo"
+msgstr "Отображать логотип авиакомпании"
+
+#: src/modules/widgets/components/forms/flights/map/TpMapWidget.php:75
+msgid "Price map"
+msgstr "Карта цен"
+
+#: src/modules/widgets/components/forms/flights/map/TpMapWidget.php:83
+msgid "Interactive map with the flight scheme from a specified or automatically defined city of departure. A click anywhere on the card will redirect the user to map.jetradar.com"
+msgstr "Интерактивная карта со схемой перелетов из указанного или автоматически выбранного города отправления. При нажатии на карту в любом месте пользователь будет перенаправлен на map.jetradar.com"
+
+#: src/modules/widgets/components/forms/flights/popularRoutes/TpPopularRoutesWidget.php:56
+msgid "Number of widgets added to an entry"
+msgstr "Количество виджетов, добавленных в позицию"
+
+#: src/modules/widgets/components/forms/flights/popularRoutes/TpPopularRoutesWidget.php:83
+msgid "Top destinations"
+msgstr "Топ направлений"
+
+#: src/modules/widgets/components/forms/flights/popularRoutes/TpPopularRoutesWidget.php:91
+msgid "Prices for flights to the destination from the city of departure and other popular destinations."
+msgstr "Цены на авиабилеты до пункта назначения от города вылета и другие популярные направления."
+
+#: src/modules/widgets/components/forms/flights/schedule/TpScheduleWidget.php:33
+msgid "Default rows count"
+msgstr "Количество строк по умолчанию"
+
+#: src/modules/widgets/components/forms/flights/schedule/TpScheduleWidget.php:40
+msgid "Border radius, px"
+msgstr "Радиус границы, пикселей"
+
+#: src/modules/widgets/components/forms/flights/schedule/TpScheduleWidget.php:47
+msgid "Background color"
+msgstr "Цвет фона"
+
+#: src/modules/widgets/components/forms/flights/schedule/TpScheduleWidget.php:54
+#: src/modules/widgets/components/forms/hotels/hotelMap/TpHotelmapWidget.php:110
+msgid "Text color"
+msgstr "Цвет текста"
+
+#: src/modules/widgets/components/forms/flights/schedule/TpScheduleWidget.php:61
+msgid "Border color"
+msgstr "Цвет границы"
+
+#: src/modules/widgets/components/forms/flights/schedule/TpScheduleWidget.php:84
+msgid "Schedule widget"
+msgstr "Календарь низких цен"
+
+#: src/modules/widgets/components/forms/flights/subscriptions/TpSubscriptionsWidget.php:68
+#: src/modules/widgets/components/forms/hotels/hotelMap/TpHotelmapWidget.php:73
+msgid "Color scheme"
+msgstr "Цветовая схема"
+
+#: src/modules/widgets/components/forms/flights/subscriptions/TpSubscriptionsWidget.php:123
+msgid "Color scheme custom"
+msgstr "Пользовательская цветовая гамма"
+
+#: src/modules/widgets/components/forms/flights/subscriptions/TpSubscriptionsWidget.php:152
+msgid "Subscribe to price changes."
+msgstr "Подпишитесь на изменения цен."
+
+#: src/modules/widgets/components/forms/flights/subscriptions/TpSubscriptionsWidget.php:160
+msgid "Notifications about flights cost changes by direction based on a selected date/month"
+msgstr "Уведомления об изменения цен на авиабилеты по направлениям и указанной дате/месяце"
+
+#: src/modules/widgets/components/forms/hotels/hotel/TpHotelWidget.php:76
+msgid "Brief information about a particular hotel with a choice of accommodation dates, search for prices, and go directly to the booking page (bypassing Hotellook)."
+msgstr "Краткая информация о конкретном отеле с выбором даты размещения, поиском цен, а также можно перейти непосредственно на страницу бронирования (покинуть Hotellook)."
+
+#: src/modules/widgets/components/forms/hotels/hotelMap/TpHotelmapWidget.php:74
+msgid "Select last pallet to set custom values"
+msgstr "Выбрать последнюю палитру, чтобы установить пользовательские значения"
+
+#: src/modules/widgets/components/forms/hotels/hotelMap/TpHotelmapWidget.php:99
+msgid "Pin color"
+msgstr "Цвет булавки"
+
+#: src/modules/widgets/components/forms/hotels/hotelMap/TpHotelmapWidget.php:119
+msgid "Allow dragging"
+msgstr "Разрешить перетаскивание"
+
+#: src/modules/widgets/components/forms/hotels/hotelMap/TpHotelmapWidget.php:120
+msgid "Enable zooming"
+msgstr "Включить масштабирование"
+
+#: src/modules/widgets/components/forms/hotels/hotelMap/TpHotelmapWidget.php:123
+msgid "Zoom"
+msgstr "Приблизить"
+
+#: src/modules/widgets/components/forms/hotels/hotelMap/TpHotelmapWidget.php:138
+msgid "Zooming during scrolling"
+msgstr "Увеличение во время скроллинга"
+
+#: src/modules/widgets/components/forms/hotels/hotelMap/TpHotelmapWidget.php:156
+msgid "Hotels map"
+msgstr "Карта отелей"
+
+#: src/modules/widgets/components/forms/hotels/hotelMap/TpHotelmapWidget.php:164
+msgid "Map showing available hotels in the selected location and their approximate prices."
+msgstr "Карта, показывающая доступные отели в выбранном месте и их примерные цены."
+
+#: src/modules/widgets/components/forms/hotels/hotelSelections/TpHotelSelectionsWidget.php:65
+msgid "Number of hotels in the selection"
+msgstr "Количество отелей при подборе"
+
+#: src/modules/widgets/components/forms/hotels/hotelSelections/TpHotelSelectionsWidget.php:88
+msgid "Featured hotels"
+msgstr "Подборка отелей"
+
+#: src/modules/widgets/components/forms/hotels/hotelSelections/TpHotelSelectionsWidget.php:96
+msgid "Automatic or manually created collections of hotels within a given city."
+msgstr "Подборки отелей в выбранном городе, созданные автоматически или вручную."
+
+#: tests/unit/rest/RestFrontTest.php:43
+msgid "Flights. Price map"
+msgstr "Перелеты. Карта цен"
+
+#. Plugin Name of the plugin/theme
+msgid "Travelpayouts"
+msgstr "Travelpayouts"
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/travelpayouts/"
+msgstr "https://wordpress.org/plugins/travelpayouts/"
+
+#. Description of the plugin/theme
+msgid "Earn money and make your visitors happy! Offer them useful tools for their travel needs. Earn on commission for each booking."
+msgstr "Зарабатывайте и делайте ваш сайт удобным для пользователей! Используйте удобные инструменты для обогащения контента. Получайте комиссию за продажи."
+
+#. Author of the plugin/theme
+msgid "travelpayouts"
+msgstr "Travelpayouts"
+
+#. Author URI of the plugin/theme
+msgid "http://www.travelpayouts.com/?locale=en"
+msgstr "http://www.travelpayouts.com/?locale=en"
+
+#: src/admin/AdminHooks.php:412
+msgctxt "Travelpayouts"
+msgid "Travelpayouts"
+msgstr "Travelpayouts"
+
+#: src/admin/components/HeadWayWidget.php:22
+msgctxt "headway.buttonTitle"
+msgid "Changelog"
+msgstr "История изменений"
+
+#: src/admin/components/HeadWayWidget.php:24
+msgctxt "headway.translations.titleΩ"
+msgid "Latest changes"
+msgstr "Последние изменения"
+
+#: src/admin/components/HeadWayWidget.php:25
+msgctxt "headway.translations.readMoreΩ"
+msgid "Read more"
+msgstr "Подробнее"
+
+#: src/admin/components/HeadWayWidget.php:27
+msgctxt "headway.translations.labels.new"
+msgid "New"
+msgstr "Новый"
+
+#: src/admin/components/HeadWayWidget.php:28
+msgctxt "headway.translations.labels.improvement"
+msgid "Updates"
+msgstr "Обнолвления"
+
+#: src/admin/components/HeadWayWidget.php:29
+msgctxt "headway.translations.labels.fix"
+msgid "Fixes"
+msgstr "Исправления"
+
+#: src/admin/components/HeadWayWidget.php:31
+msgctxt "headway.translations.footer"
+msgid "Read more"
+msgstr "Подробнее"
+
+#: src/components/exceptions/HttpException.php:27
+msgctxt "exception"
+msgid "Error"
+msgstr "Ошибка"
+
+#: src/components/exceptions/InvalidArgumentException.php:14
+msgctxt "exception"
+msgid "Invalid Argument"
+msgstr "Недопустимый аргумент"
+
+#: src/components/exceptions/InvalidConfigException.php:14
+msgctxt "exception"
+msgid "Invalid Configuration"
+msgstr "Ошибка конфигурации"
+
+#: src/components/section/fields/Switcher.php:17
+#: src/modules/widgets/components/LegacyReduxFields.php:207
+msgctxt "admin.switcher"
+msgid "on"
+msgstr "Включить"
+
+#: src/components/section/fields/Switcher.php:18
+#: src/modules/widgets/components/LegacyReduxFields.php:208
+msgctxt "admin.switcher"
+msgid "off"
+msgstr "Выключить"
+
+#: src/components/validators/CarbonDateValidator.php:90
+msgctxt "validator"
+msgid "{attribute} must be no less than {min}."
+msgstr "{attribute} должно быть  не меньше, чем {min}."
+
+#: src/components/validators/CarbonDateValidator.php:93
+msgctxt "validator"
+msgid "{attribute} must be no greater than {max}."
+msgstr "{attribute} должно быть не больше, чем {max}."
+
+#: src/components/validators/CompareValidator.php:100
+msgctxt "validator.compareValidator"
+msgid "\"{attribute}\" must be equal to \"{compareValueOrAttribute}\"."
+msgstr "\"{attribute}\" должно быть равно {compareValueOrAttribute}\"."
+
+#: src/components/validators/CompareValidator.php:104
+msgctxt "validator.compareValidator"
+msgid "\"{attribute}\" must not be equal to \"{compareValueOrAttribute}\"."
+msgstr "\"{attribute} не должно быть равно {compareValueOrAttribute}\"."
+
+#: src/components/validators/CompareValidator.php:107
+msgctxt "validator.compareValidator"
+msgid "\"{attribute}\" must be greater than \"{compareValueOrAttribute}\"."
+msgstr "\"{attribute} должно быть больше, чем {compareValueOrAttribute}\"."
+
+#: src/components/validators/CompareValidator.php:110
+msgctxt "validator.compareValidator"
+msgid "\"{attribute}\" must be greater than or equal to \"{compareValueOrAttribute}\"."
+msgstr "\"{attribute} должно быть больше или равно {compareValueOrAttribute}\"."
+
+#: src/components/validators/CompareValidator.php:113
+msgctxt "validator.compareValidator"
+msgid "\"{attribute}\" must be less than \"{compareValueOrAttribute}\"."
+msgstr "\"{attribute} должно быть меньше, чем {compareValueOrAttribute}\"."
+
+#: src/components/validators/CompareValidator.php:116
+msgctxt "validator.compareValidator"
+msgid "\"{attribute}\" must be less than or equal to \"{compareValueOrAttribute}\"."
+msgstr "\"{attribute} должно быть меньше или равно {compareValueOrAttribute}\"."
+
+#: src/components/validators/CompareValidator.php:131
+msgctxt "validator.compareValidator"
+msgid "\"{attribute}\" is invalid."
+msgstr "\"{attribute}\" является недопустимым."
+
+#: src/components/validators/NumberValidator.php:61
+msgctxt "validator.NumberValidator"
+msgid "{attribute} must be an integer."
+msgstr "{attribute} должно быть целым числом."
+
+#: src/components/validators/NumberValidator.php:62
+msgctxt "validator.NumberValidator"
+msgid "{attribute} must be a number."
+msgstr "{attribute} должно быть целым числом."
+
+#: src/components/validators/NumberValidator.php:65
+msgctxt "validator.NumberValidator"
+msgid "{attribute} must be no less than {min}."
+msgstr "{attribute} должно быть не меньше, чем {min}."
+
+#: src/components/validators/NumberValidator.php:68
+msgctxt "validator.NumberValidator"
+msgid "{attribute} must be no greater than {max}."
+msgstr "{attribute} должно быть не больше, чем {max}."
+
+#: src/components/validators/NumberValidator.php:101
+msgctxt "validator.NumberValidator"
+msgid "{attribute} is invalid."
+msgstr "{attribute} является недопустимым."
+
+#: src/components/validators/RangeValidator.php:49
+msgctxt "validator.rangeValidator"
+msgid "{attribute} is invalid."
+msgstr "{attribute} является недопустимым."
+
+#: src/modules/moneyScript/MoneyScriptSection.php:137
+msgctxt "moneyscript.excludedCampaigns"
+msgid "Campaign id: {id}"
+msgstr "Id программы: {id}"
+
+#: src/modules/moneyScript/MoneyScriptSection.php:138
+msgctxt "moneyscript.excludedCampaigns"
+msgid "Excluded domains"
+msgstr "Исключенные домены"
+
+#: src/modules/moneyScript/MoneyScriptSection.php:160
+msgctxt "moneyscript knowledge url title"
+msgid "Knowledge Base"
+msgstr "Базе знаний"
+
+#: src/modules/moneyScript/MoneyScriptSection.php:164
+msgctxt "moneyscript description text"
+msgid "With Money Script you can quickly replace links to travel resources such as Booking.com, Kiwitaxi and others with Travelpayouts affiliate links."
+msgstr "C помощью Money Script вы можете быстро заменить ссылки на туристические ресурсы, такие как Booking.com, Kiwitaxi, GetYourGuide и другие, на партнёрские ссылки Travelpayouts."
+
+#: src/modules/moneyScript/MoneyScriptSection.php:166
+msgctxt "moneyscript description text"
+msgid "Find out more in our {link}."
+msgstr "Узнайте подробности в нашей {link}."
+
+#: src/modules/searchForms/components/SearchFormShortcode.php:146
+msgctxt "searchform.model.exception"
+msgid "Can't find search form model by id \"{formId}\""
+msgstr "Невозможно найти поисковую форму с идентификатором \"{formId}\""
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:136
+msgctxt "{num, plural, one {# VALUE_NAME} other {# VALUE_NAMES}}"
+msgid "Remove {num, plural, one {# item} other {# items}}"
+msgstr "Удалить {num, plural, one {# форму} other {# формы}}"
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:137
+msgctxt "{num, plural, one {# VALUE_NAME} other {# VALUE_NAMES}}"
+msgid "{num, plural, one {# item} other {# items}} will be removed. This operation cannot be undone."
+msgstr "{num, plural, one {# значение} other {# значения}} будут удалены. Эту операцию невозможно отменить."
+
+#: src/modules/searchForms/controllers/SearchFormsController.php:151
+msgctxt "{num, plural, one {# VALUE_NAME} other {# VALUE_NAMES}}"
+msgid "{num, plural, one {# search form} other {# search forms}} was successfully removed."
+msgstr "{num, plural, one {# поисковая форма} other {# поисковых форм}} было успешно удалено"
+
+#: src/modules/tables/components/api/travelpayouts/trainsSuggest/response/Category.php:32
+msgctxt "railway wagon type"
+msgid "Plazcard"
+msgstr "Плацкарт"
+
+#: src/modules/tables/components/api/travelpayouts/trainsSuggest/response/Category.php:33
+msgctxt "railway wagon type"
+msgid "Coupe"
+msgstr "Купе"
+
+#: src/modules/tables/components/api/travelpayouts/trainsSuggest/response/Category.php:34
+msgctxt "railway wagon type"
+msgid "Sedentary"
+msgstr "Сидячий"
+
+#: src/modules/tables/components/api/travelpayouts/trainsSuggest/response/Category.php:35
+msgctxt "railway wagon type"
+msgid "Lux"
+msgstr "СВ"
+
+#: src/modules/tables/components/api/travelpayouts/trainsSuggest/response/Category.php:36
+msgctxt "railway wagon type"
+msgid "Soft"
+msgstr "Люкс"
+
+#: src/modules/tables/components/api/travelpayouts/trainsSuggest/response/Category.php:37
+msgctxt "railway wagon type"
+msgid "Common"
+msgstr "Общий"
+
+#: src/modules/tables/components/columnTitles/Controller.php:151
+msgctxt "tables.columnTitles"
+msgid "Select language you want to customize"
+msgstr "Выберите язык, который вы хотите настроить"
+
+#: src/modules/tables/components/columnTitles/Controller.php:152
+msgctxt "tables.columnTitles"
+msgid "Select languages..."
+msgstr "Выбрать язык"
+
+#: src/modules/tables/components/columnTitles/Controller.php:153
+msgctxt "tables.columnTitles"
+msgid "This phrase also used for columns"
+msgstr "Этот перевод также будет использован для следующих колонок"
+

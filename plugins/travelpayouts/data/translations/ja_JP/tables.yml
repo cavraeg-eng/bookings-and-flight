@@ -1,0 +1,154 @@
+flights:
+  departure_at: '出発日：'
+  number_of_changes: 乗り継ぎ回数：
+  button_column_title: '航空券を見つける'
+  button:
+    'Tickets from {price}': '{price}からの航空券'
+    'OW tickets from {price}': '{price}からの片道航空券'
+    'Find tickets': 'チケットを見つける'
+    'Select dates': '日付を選択'
+  price: 価格
+  trip_class: '座席のクラス'
+  distance: 距離
+  return_at: '復路の日付：'
+  airline_logo: 航空会社
+  service_airline_logo: 航空会社
+  flight_number: 'フライト番号'
+  service_flight_number: 'フライト番号'
+  flight: フライト
+  airline: 航空会社
+  service_airline: 航空会社
+  destination: 目的地
+  origin_destination: '出発地 - 目的地'
+  place: 位
+  direction: 出発空港と到着空港
+  origin: 出発地
+  found_at: '見つかった日付：'
+  price_distance: 価格/距離
+  time_and_stops: '時刻と地点'
+  route: ルート
+  schedule: スケジュール
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': '{origin}から{destination}までの最も安い往復航空券'
+    'The cheapest flights from {origin} to {destination} for the year ahead': '{origin}から{destination}までの今後1年で最も安いフライト'
+    'The cheapest flights for this month from {origin} to {destination}': '{origin}から{destination}までの今月最も安いフライト'
+    'Flights that have been found on our website': '弊社ウェブサイトで見つかったフライト'
+    'Direct flights from {origin}': '{origin}からの直行フライト'
+    'Cheap flights from {origin}': '{origin}からの安いフライト'
+    'Direct flights from {origin} to {destination}': '{origin}から{destination}までの直行フライト'
+    'Cheap flights to {destination}': '{destination}までの安いフライト'
+    'Flight prices for a month from {origin} to {destination}, one way': '{origin}から{destination}までの今後1ヶ月の片道フライトの価格'
+    'Flights from {origin}': '{origin}からのフライト'
+    'Airline''s popular flights: {airline}': '航空会社の人気フライト：{airline}'
+    'Flights from {origin} to {destination} for the next few days': '{origin}から{destination}までの今後数日のフライト'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': '{フライト番号}以上 フライト{毎日のフライト}、{最小フライト時間}から'
+    duration_short_days: 'd'
+    duration_short_hours: 'h'
+    duration_short_min: 'm'
+    every_day: '毎日'
+  class_name:
+    Economy: 'エコノミー'
+    Business: 'ビジネス'
+    'First class': 'First class'
+  stops:
+    Direct: '直行便'
+    nominative: '停留所'
+    genitive: '停留所'
+    prepositional: '停留所'
+  schedule_days:
+    day_0: 'm'
+    day_1: 't'
+    day_2: 'w'
+    day_3: 't'
+    day_4: 'f'
+    day_5: 's'
+    day_6: 's'
+hotel:
+  name: ホテル
+  stars: 星の数
+  discount: 割引
+  old_price_and_new_price: '通常価格と割引幅'
+  button_column_title: '日付を選択'
+  button:
+    'View Hotel': 'ホテルを表示'
+  price_pn: '1泊当たりの料金'
+  old_price_and_discount: '割引前の価格'
+  distance: 距離
+  old_price_pn: '割引前の価格'
+  rating: 評価
+  title:
+    'Hotels in {location}: {selection_name}': '{location}のホテル：{selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': '{location}のホテル：{selection_name} ({dates})'
+  selections:
+    'Top hotels': '人気'
+    Popularity: '人気度'
+    Cheap: '格安'
+    Distance: '距離'
+    Rating: '評価'
+    '0 stars': '星なし'
+    '1 star': '1つ星'
+    '2 stars': '2つ星'
+    '3 stars': '3つ星'
+    '4 stars': '4つ星'
+    '5 stars': '5つ星'
+    Luxury: '高級'
+    Expensive: '高価'
+    'Hotels in the center': '中心部のホテル'
+    Pool: 'プール'
+    'Gay friendly': 'ゲイフレンドリー'
+    'Smoking friendly': '喫煙可'
+    Restaurant: 'レストラン'
+    'Pet friendly': 'ペット可'
+    'Russian guests': 'ロシア人宿泊者'
+    'Sea view': '海の景色'
+    'Lake view': '湖の景色'
+    'River view': '川の景色'
+    'Panoramic view': '展望'
+    'Cheap hotels': '安いホテル'
+    tophotels: '人気'
+    popularity: '人気度'
+    cheap: '格安'
+    distance: '距離'
+    rating: '評価'
+    0-stars: '星なし'
+    1-star: '1つ星'
+    2-stars: '2つ星'
+    3-stars: '3つ星'
+    4-stars: '4つ星'
+    5-stars: '5つ星'
+    0stars: '星なし'
+    1star: '1つ星'
+    2stars: '2つ星'
+    3stars: '3つ星'
+    4stars: '4つ星'
+    5stars: '5つ星'
+    luxury: '高級'
+    expensive: '高価'
+    center: '中心部のホテル'
+    pool: 'プール'
+    gay: 'ゲイフレンドリー'
+    smoke: '喫煙可'
+    restaurant: 'レストラン'
+    pets: 'ペット可'
+    russians: 'ロシア人宿泊者'
+    sea_view: '海の景色'
+    lake_view: '湖の景色'
+    river_view: '川の景色'
+    Panoramic_view: '展望'
+    price: '安いホテル'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

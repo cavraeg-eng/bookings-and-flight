@@ -1,0 +1,36 @@
+body .travelpayouts-admin .redux-main {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.redux-sidebar.tp-admin-sidebar-wrapper {
+    background: #1b1d29;
+}
+
+body .travelpayouts-admin .redux-sidebar .redux-group-tab-link-a span.group_title {
+    font-weight: 400;
+}
+
+body .travelpayouts-admin .redux-sidebar li.hasSubSections:not(.activeChild) .redux-group-tab-link-a span.group_title {
+    padding-right: 60px;
+}
+body .travelpayouts-admin .redux-sidebar li.hasSubSections .redux-group-tab-link-a .extraIconSubsections .el {
+    position: relative;
+    left: 10px;
+}
+
+body .travelpayouts-admin .redux-sidebar .redux-group-menu li a:first-child {
+    border: none;
+}
+
+#travelpayouts_headway_button div {
+    margin-right: 30px !important;
+}
+
+.redux-group-tab-link-a {
+    padding-right: 0 !important;
+}
+
+body .travelpayouts-admin .redux-sidebar .redux-group-menu li.active a:after {
+    display: none !important;
+}

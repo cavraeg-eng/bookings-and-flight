@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'המראה ב-'
+  number_of_changes: עצירות
+  button_column_title: 'מצא כרטיסים'
+  button:
+    'Tickets from {price}': 'כרטיסים החל מ-{price}'
+    'OW tickets from {price}': 'כרטיסים לכיוון אחד מ-{price}'
+    'Find tickets': 'מצא כרטיסים'
+    'Select dates': 'בחר תאריכים'
+  price: מחיר
+  trip_class: 'מחלקת טיסה'
+  distance: מרחק
+  return_at: 'חזרה ב-'
+  airline_logo: חברת תעופה
+  service_airline_logo: חברת תעופה
+  flight_number: 'מספר טיסה'
+  service_flight_number: 'מספר טיסה'
+  flight: טיסה
+  airline: חברת תעופה
+  service_airline: חברת תעופה
+  destination: יעד
+  origin_destination: 'מקור - יעד'
+  place: מקום
+  direction: כיוון
+  origin: מוצא
+  found_at: 'נמצא ב-'
+  price_distance: מחיר/מרחק
+  time_and_stops: 'זמן ועצירות'
+  route: מסלול
+  schedule: לוח זמנים
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'הכרטיסים הזולים ביותר הלוך ושוב מ-{origin} אל {destination} '
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'הטיסות הזולות ביותר מ-{origin} אל {destination} בשנה הקרובה'
+    'The cheapest flights for this month from {origin} to {destination}': 'הטיסות הזולות ביותר לחודש זה מ-{origin} אל {destination}'
+    'Flights that have been found on our website': 'טיסות שנמצאו באתר שלנו'
+    'Direct flights from {origin}': 'טיסות ישירות מ-{origin}'
+    'Cheap flights from {origin}': 'טיסות זולות מ-{origin}'
+    'Direct flights from {origin} to {destination}': 'טיסות ישירות מ-{origin} אל {destination}'
+    'Cheap flights to {destination}': 'טיסות זולות אל {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'מחירי טיסות לחודש מ-{origin} אל {destination}, לכיוון אחד'
+    'Flights from {origin}': 'טיסות מ-{origin}'
+    'Airline''s popular flights: {airline}': 'הטיסות הפופולריות של חברת התעופה: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'טיסות מ-{origin} אל {destination} בימים הקרובים'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'יותר מ-{flights_number} טיסות{flights_every_day}, מ-{min_flight_duration}'
+    duration_short_days: 'ימים'
+    duration_short_hours: 'שעות'
+    duration_short_min: 'דקות'
+    every_day: 'כל יום'
+  class_name:
+    Economy: 'תיירים'
+    Business: 'עסקים'
+    'First class': 'First class'
+  stops:
+    Direct: 'ישיר'
+    nominative: 'תחנה'
+    genitive: 'תחנות'
+    prepositional: 'תחנות'
+  schedule_days:
+    day_0: 'שני'
+    day_1: 'שלישי'
+    day_2: 'רביעי'
+    day_3: 'חמישי'
+    day_4: 'שישי'
+    day_5: 'שבת'
+    day_6: 'ראשון'
+hotel:
+  name: מלון
+  stars: כוכבים
+  discount: הנחה
+  old_price_and_new_price: 'מחיר לפני והנחה'
+  button_column_title: 'בחר תאריכים'
+  button:
+    'View Hotel': 'הצג מלון'
+  price_pn: 'מחיר ללילה'
+  old_price_and_discount: 'מחיר לפני הנחה'
+  distance: מרחק
+  old_price_pn: 'מחיר לפני הנחה'
+  rating: דירוג
+  title:
+    'Hotels in {location}: {selection_name}': 'מלונות ב-{location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'מלונות ב-{location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'מלונות מובילים'
+    Popularity: 'פופולריות'
+    Cheap: 'זול'
+    Distance: 'מרחק'
+    Rating: 'דירוג'
+    '0 stars': '0 כוכבים'
+    '1 star': 'כוכב אחד'
+    '2 stars': '2 כוכבים'
+    '3 stars': '3 כוכבים'
+    '4 stars': '4 כוכבים'
+    '5 stars': '5 כוכבים'
+    Luxury: 'פאר'
+    Expensive: 'יקר'
+    'Hotels in the center': 'מלונות במרכז העיר'
+    Pool: 'בריכה'
+    'Gay friendly': 'ידידותי לקהילת הגאים'
+    'Smoking friendly': 'ידידותי למעשנים'
+    Restaurant: 'מסעדה'
+    'Pet friendly': 'מתאים לחיות מחמד'
+    'Russian guests': 'אורחים רוסים'
+    'Sea view': 'נוף לים'
+    'Lake view': 'נוף לאגם'
+    'River view': 'נוף לנהר'
+    'Panoramic view': 'נוף פנורמי'
+    'Cheap hotels': 'מלונות זולים'
+    tophotels: 'מלונות מובילים'
+    popularity: 'פופולריות'
+    cheap: 'זול'
+    distance: 'מרחק'
+    rating: 'דירוג'
+    0-stars: '0 כוכבים'
+    1-star: 'כוכב אחד'
+    2-stars: '2 כוכבים'
+    3-stars: '3 כוכבים'
+    4-stars: '4 כוכבים'
+    5-stars: '5 כוכבים'
+    0stars: '0 כוכבים'
+    1star: 'כוכב אחד'
+    2stars: '2 כוכבים'
+    3stars: '3 כוכבים'
+    4stars: '4 כוכבים'
+    5stars: '5 כוכבים'
+    luxury: 'יוקרתי'
+    expensive: 'יקר'
+    center: 'בתי מלון במרכז'
+    pool: 'בריכה'
+    gay: 'גיי פרנדלי'
+    smoke: 'מתאים למעשנים'
+    restaurant: 'מסעדה'
+    pets: 'מתאים לחיות מחמד'
+    russians: 'אורחים רוסים'
+    sea_view: 'נוף לים'
+    lake_view: 'נוף לאגם'
+    river_view: 'נוף לנהר'
+    Panoramic_view: 'נוף פנורמי'
+    price: 'מלונות זולים'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route
