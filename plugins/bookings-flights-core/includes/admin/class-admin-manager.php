@@ -16,12 +16,13 @@ defined( 'ABSPATH' ) || exit;
 
 final class Admin_Manager {
 
-	public const DASHBOARD_SLUG    = 'baf-dashboard';
-	public const SETTINGS_SLUG     = 'baf-settings';
-	public const INTEGRATIONS_SLUG = 'baf-integrations';
-	public const JOBS_SLUG         = 'baf-jobs';
-	public const REPORTS_SLUG      = 'baf-reports';
-	public const ASSET_HANDLE      = 'baf-admin';
+	public const DASHBOARD_SLUG          = 'baf-dashboard';
+	public const SETTINGS_SLUG           = 'baf-settings';
+	public const INTEGRATIONS_SLUG       = 'baf-integrations';
+	public const WIDGET_PLACEMENTS_SLUG  = 'baf-widget-placements';
+	public const JOBS_SLUG               = 'baf-jobs';
+	public const REPORTS_SLUG            = 'baf-reports';
+	public const ASSET_HANDLE            = 'baf-admin';
 
 	private const JOB_HOOK_MAP = array(
 		Cron_Manager::HOOK_REFRESH_OFFERS => 'refresh_cached_offers',
@@ -33,17 +34,21 @@ final class Admin_Manager {
 	private static array $screen_hooks = array();
 
 	public static function bootstrap(): void {
+		Widget_Placements_Page::bootstrap();
 		add_action( 'admin_menu', array( self::class, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( self::class, 'enqueue_assets' ) );
 	}
 
 	public static function register_menu(): void {
+		$dashboard_capability = self::dashboard_menu_capability();
+		$dashboard_callback   = Capability_Manager::MANAGE_SETTINGS === $dashboard_capability ? array( self::class, 'render_dashboard' ) : array( Widget_Placements_Page::class, 'render' );
+
 		$dashboard_hook = add_menu_page(
 			__( 'Bookings and Flights', 'bookings-flights-core' ),
 			__( 'Bookings & Flights', 'bookings-flights-core' ),
-			Capability_Manager::MANAGE_SETTINGS,
+			$dashboard_capability,
 			self::DASHBOARD_SLUG,
-			array( self::class, 'render_dashboard' ),
+			$dashboard_callback,
 			'dashicons-airplane',
 			56
 		);
@@ -66,6 +71,20 @@ final class Admin_Manager {
 			array( self::class, 'render_integrations' )
 		);
 
+		$placements_capability = Widget_Placements_Page::menu_capability();
+		$placements_hook       = '';
+
+		if ( '' !== $placements_capability ) {
+			$placements_hook = add_submenu_page(
+				self::DASHBOARD_SLUG,
+				__( 'Widget Placements', 'bookings-flights-core' ),
+				__( 'Widget Placements', 'bookings-flights-core' ),
+				$placements_capability,
+				self::WIDGET_PLACEMENTS_SLUG,
+				array( Widget_Placements_Page::class, 'render' )
+			);
+		}
+
 		$jobs_hook = add_submenu_page(
 			self::DASHBOARD_SLUG,
 			__( 'Background Jobs', 'bookings-flights-core' ),
@@ -84,7 +103,17 @@ final class Admin_Manager {
 			array( Reports_Page::class, 'render' )
 		);
 
-		self::$screen_hooks = array_filter( array( $dashboard_hook, $settings_hook, $integrations_hook, $jobs_hook, $reports_hook ) );
+		self::$screen_hooks = array_filter( array( $dashboard_hook, $settings_hook, $integrations_hook, $placements_hook, $jobs_hook, $reports_hook ) );
+	}
+
+	private static function dashboard_menu_capability(): string {
+		if ( current_user_can( Capability_Manager::MANAGE_SETTINGS ) ) {
+			return Capability_Manager::MANAGE_SETTINGS;
+		}
+
+		$placements_capability = Widget_Placements_Page::menu_capability();
+
+		return '' === $placements_capability ? Capability_Manager::MANAGE_SETTINGS : $placements_capability;
 	}
 
 	public static function enqueue_assets( string $hook_suffix ): void {
@@ -117,6 +146,9 @@ final class Admin_Manager {
 			<nav class="baf-admin__actions" aria-label="<?php echo esc_attr__( 'Bookings and Flights admin shortcuts', 'bookings-flights-core' ); ?>">
 				<a class="button button-primary" href="<?php echo esc_url( admin_url( 'admin.php?page=' . self::SETTINGS_SLUG ) ); ?>"><?php echo esc_html__( 'Review settings', 'bookings-flights-core' ); ?></a>
 				<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=' . self::INTEGRATIONS_SLUG ) ); ?>"><?php echo esc_html__( 'Check integrations', 'bookings-flights-core' ); ?></a>
+				<?php if ( Widget_Placements_Page::can_manage() ) : ?>
+					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=' . self::WIDGET_PLACEMENTS_SLUG ) ); ?>"><?php echo esc_html__( 'Manage widget placements', 'bookings-flights-core' ); ?></a>
+				<?php endif; ?>
 				<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=' . self::JOBS_SLUG ) ); ?>"><?php echo esc_html__( 'View background jobs', 'bookings-flights-core' ); ?></a>
 				<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=' . self::REPORTS_SLUG ) ); ?>"><?php echo esc_html__( 'Open reports', 'bookings-flights-core' ); ?></a>
 			</nav>

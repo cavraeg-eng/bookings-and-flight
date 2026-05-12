@@ -261,6 +261,8 @@ Secrets must remain server-side and masked in admin UI.
 
 Private `embed.reference`, `embed.url`, and admin notes are available through capability-gated service reads and writes. Trusted server-side WordPress renderers may use the service's rendering read path for active, configured placements; REST, JavaScript, block-editor previews, and other untrusted/public responses must use the service's public placement shape, which strips private embed values and notes while retaining safe metadata such as status, placement family, SubID pattern, disclosure requirements, frame reservations, fallback metadata, and whether the placement is configured.
 
+The `baf-widget-placements` admin screen is implemented by `BAF\Core\Admin\Widget_Placements_Page` and `BAF\Core\Admin\Widget_Placement_Form`. It is visible only to users who can `manage_baf_affiliates` or `manage_baf_settings`, writes through the `baf_save_widget_placement` and `baf_delete_widget_placement` `admin-post.php` actions, uses WordPress nonces for writes, and renders raw embed references/URLs only inside the capability-gated edit form. Affiliate-only managers receive the Bookings & Flights parent menu with Widget Placements as the available destination, while settings-only sections remain hidden unless `manage_baf_settings` is present. Placement listing rows, notices, dashboard shortcuts, and public placement reads must not print private embed data.
+
 The aggregate `baf_db_version` records the current core schema version for quick status checks. Each custom table also keeps its own table-specific schema version option so a successful upgrade for one table cannot cause another table's `dbDelta()` pass to be skipped during the same release.
 
 ## Custom Tables
@@ -326,6 +328,8 @@ Dedicated primitive capabilities are mapped directly by `BAF\Core\Capabilities\C
 | `BAF\Core\Services\Click_Tracking_Service` | Gates optional click tracking before repository writes |
 | `BAF\Core\Services\AI_Itinerary_Service` | Orchestrates provider selection, schema validation, run logging, and optional draft trip-plan save |
 | `BAF\Core\Services\Travelpayouts_Widget_Registry_Service` | Stores approved Travelpayouts placement metadata, sanitizes private embed references, gates admin reads/writes by affiliate/settings capability, preserves malformed stored placements during normalization, exposes safe public placement metadata, and gives trusted server-side renderers active configured embed data |
+| `BAF\Core\Admin\Widget_Placements_Page` | Renders the capability-gated Travelpayouts placement management screen and handles nonce-protected admin-post save/delete actions |
+| `BAF\Core\Admin\Widget_Placement_Form` | Renders escaped placement form controls and sanitizes posted placement payloads before registry writes |
 | `BAF\Core\Reports\Reporting_Service` | Builds capability-gated admin report summaries and CSV rows |
 | `BAF\Core\Cron\Cron_Manager` | Registers, schedules, and unschedules core WP-Cron automation hooks |
 | `BAF\Core\Jobs\Job_Repository` | Stores bounded non-secret background job status records in `baf_job_status` |
@@ -372,6 +376,7 @@ Implemented by `BAF\Core\Admin\Admin_Manager`:
 - `baf-dashboard`
 - `baf-settings`
 - `baf-integrations`
+- `baf-widget-placements`
 - `baf-jobs`
 - `baf-reports`
 
