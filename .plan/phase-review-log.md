@@ -1128,7 +1128,7 @@ Decision: `ONE-77` passed local documentation review and Codex PR review with no
 
 ## Phase 12.5 Review - 2026-05-12
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
@@ -1164,4 +1164,4 @@ Research consulted:
 - Travelpayouts Help Center: Getting started with widgets.
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 
-Decision: `ONE-78` can proceed to PR review as a documentation-only Phase 12.5 gate. Keep Phase 12 `In Progress` for the final review ticket.
+Decision: `ONE-78` passed local documentation review and Codex PR review with no major issues on PR #13. Keep Phase 12 `In Progress` for the final review ticket.

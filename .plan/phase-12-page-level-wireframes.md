@@ -1,6 +1,6 @@
 # Phase 12.5 Page-Level Wireframes For Core Surfaces
 
-Status: `In Review`
+Status: `Completed`
 
 Linear issue: `ONE-78`
 
@@ -522,3 +522,5 @@ Seed content needed before full screenshot validation:
 ## P12.5 Result
 
 Implementation-ready structured wireframes now exist for home, flights, hotels, explore, destination detail, route detail, deals, AI planner, saved trips, about/legal, and admin widget placement surfaces. Template ownership, Travelpayouts placement rules, disclosure/CTA placement, responsive behavior, follow-up phase mapping, and later screenshot validation are documented before Phase 13 and public visual implementation begin.
+
+Codex PR review on PR #13 found no major issues.

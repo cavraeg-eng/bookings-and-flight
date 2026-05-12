@@ -448,7 +448,7 @@ rg -n "phase-12-page-level-wireframes|P12.5|ONE-78" .plan/phased-implementation.
 git diff --check
 ```
 
-P12.5 local result on 2026-05-12: structured desktop and mobile wireframes are documented for the requested public and admin surfaces. The document maps each surface to WordPress owner, future template target, follow-up phase, Travelpayouts/partner placement, disclosure/CTA placement, and later browser screenshot validation.
+P12.5 local result on 2026-05-12: structured desktop and mobile wireframes are documented for the requested public and admin surfaces. The document maps each surface to WordPress owner, future template target, follow-up phase, Travelpayouts/partner placement, disclosure/CTA placement, and later browser screenshot validation. Codex review on PR #13 found no major issues.
 
 ## Documentation-Only Changes
 
