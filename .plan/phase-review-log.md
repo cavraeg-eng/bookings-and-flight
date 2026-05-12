@@ -618,7 +618,7 @@ Decision: P11.3 can move to `Completed`. For the remaining Phase 11 work, plugin
 
 ## Phase 11.4 Header Continuity and White Label Configuration Notes - 2026-05-12
 
-Status: `Completed` for P11.4. Phase 11 remains `In Review` until the final review gate is recorded.
+Status: `Completed` for P11.4. Phase 11 remains `In Review` until the deferred production setup checks pass.
 
 Reviewer: Codex
 
@@ -645,7 +645,7 @@ Decision: P11.4 can move to `Completed`. Future frontend phases should use Widge
 
 ## Phase 11.5 Backend Mode Decision and Documentation Update - 2026-05-12
 
-Status: `Completed` for P11.5. Phase 11 remains `In Review` until the final review gate is recorded.
+Status: `Completed` for P11.5. Phase 11 remains `In Review` until the deferred production setup checks pass.
 
 Reviewer: Codex
 
