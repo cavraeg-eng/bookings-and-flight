@@ -263,7 +263,7 @@ Private `embed.reference`, `embed.url`, and admin notes are available through ca
 
 The `baf-widget-placements` admin screen is implemented by `BAF\Core\Admin\Widget_Placements_Page` and `BAF\Core\Admin\Widget_Placement_Form`. It is visible only to users who can `manage_baf_affiliates` or `manage_baf_settings`, writes through the `baf_save_widget_placement` and `baf_delete_widget_placement` `admin-post.php` actions, uses WordPress nonces for writes, and renders raw embed references/URLs only inside the capability-gated edit form. Affiliate-only managers receive the Bookings & Flights parent menu with Widget Placements as the available destination, while settings-only sections remain hidden unless `manage_baf_settings` is present. Placement listing rows, notices, dashboard shortcuts, and public placement reads must not print private embed data.
 
-Frontend placement rendering is implemented by `BAF\Core\Frontend\Travelpayouts_Widget_Renderer`, `[baf_travelpayouts_widget]`, and the dynamic `baf/travelpayouts-widget` block. Shortcode and block attributes store only placement key, surface, channel, slug, and optional class data; raw embed references and URLs stay in the registry option and are read only by trusted server-side rendering. Public output may contain approved provider script or iframe URLs as rendered widget markup, but public REST-style placement projections and editor attributes must not expose private `embed.reference`, private `embed.url`, or admin notes. Existing `[baf_travelpayouts_white_label]` and `[baf_travelpayouts_hotel_widget]` shortcodes remain available for validated setup checks and backward compatibility; new page/template work should prefer `[baf_travelpayouts_widget placement="flights_white_label_search"]` and `[baf_travelpayouts_widget placement="hotels_partner_search"]`.
+Frontend placement rendering is implemented by `BAF\Core\Frontend\Travelpayouts_Widget_Renderer`, `[baf_travelpayouts_widget]`, and the dynamic `baf/travelpayouts-widget` block. Shortcode and block attributes store only placement key, surface, channel, slug, and optional class data; raw embed references and URLs stay in the registry option and are read only by trusted server-side rendering. `BAF\Core\Services\Travelpayouts_Widget_Subid_Service` owns the runtime SubID convention `{channel}_{surface}_{vertical}_{slug}_{placement}`, normalizes generated SubIDs to lowercase Latin letters, numbers, and underscores, and mutates provider URLs without dropping existing Travelpayouts partner markers. Public output may contain approved provider script or iframe URLs as rendered widget markup, but public REST-style placement projections and editor attributes must not expose private `embed.reference`, private `embed.url`, or admin notes. Public widget frames expose safe state metadata through `data-baf-state` and `data-baf-render-mode`; consent-disabled, disabled, missing-configuration, loading, no-script, unavailable, and configured states must render escaped copy and must not print provider output when consent or configuration is missing. Existing `[baf_travelpayouts_white_label]` and `[baf_travelpayouts_hotel_widget]` shortcodes remain available for validated setup checks and backward compatibility; new page/template work should prefer `[baf_travelpayouts_widget placement="flights_white_label_search"]` and `[baf_travelpayouts_widget placement="hotels_partner_search"]`.
 
 The aggregate `baf_db_version` records the current core schema version for quick status checks. Each custom table also keeps its own table-specific schema version option so a successful upgrade for one table cannot cause another table's `dbDelta()` pass to be skipped during the same release.
 
@@ -469,12 +469,12 @@ Implemented shortcodes:
 - `[baf_affiliate_disclosure]`
 - `[baf_travelpayouts_white_label]`
 - `[baf_travelpayouts_hotel_widget]`
+- `[baf_travelpayouts_widget]`
 
 Planned shortcodes:
 
 - `[baf_search]`
 - `[baf_ai_planner]`
-- `[baf_travelpayouts_widget]`
 
 ## Blocks
 

@@ -179,6 +179,7 @@
 }
 
 .baf-travelpayouts-widget__state,
+.baf-travelpayouts-widget__loading,
 .baf-travelpayouts-widget__fallback,
 .baf-travelpayouts-widget__noscript {
 	background: #fff8e5;
@@ -191,7 +192,18 @@
 	padding: 1rem;
 }
 
+.baf-travelpayouts-widget__loading {
+	background: #eef6ff;
+	border-color: #8bb8e8;
+	color: #123f68;
+}
+
 .baf-travelpayouts-widget__fallback {
+	display: none;
+}
+
+.baf-travelpayouts-widget__provider.is-loaded .baf-travelpayouts-widget__loading,
+.baf-travelpayouts-widget__provider.is-unavailable .baf-travelpayouts-widget__loading {
 	display: none;
 }
 
