@@ -466,7 +466,19 @@ final class Travelpayouts_Widget_Registry_Service {
 			return str_starts_with( $path, '/partners/ad/' );
 		}
 
-		return self::is_allowed_embed_host( $host );
+		if ( ! self::is_allowed_embed_host( $host ) || '' === $path || self::is_allowed_widget_script_path( $path ) ) {
+			return false;
+		}
+
+		return str_starts_with( $path, '/ad/' )
+			|| str_starts_with( $path, '/hotel/' )
+			|| str_starts_with( $path, '/hotels/' )
+			|| str_starts_with( $path, '/iframe/' )
+			|| str_starts_with( $path, '/iframes/' )
+			|| str_starts_with( $path, '/partners/' )
+			|| str_starts_with( $path, '/search/' )
+			|| str_starts_with( $path, '/widget/' )
+			|| str_starts_with( $path, '/widgets/' );
 	}
 
 	private static function is_iframe_url( string $value ): bool {
