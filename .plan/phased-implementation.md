@@ -1372,7 +1372,7 @@ Decision: Phase 10 is a planning and documentation phase only. Product implement
 
 ## Phase 11: Travelpayouts Compatibility and Backend Alignment
 
-Status: `In Review`
+Status: `Completed`
 
 Objective: Confirm the official Travelpayouts WordPress plugin or fallback Travelpayouts embed path works safely in this WordPress environment.
 
@@ -1401,12 +1401,12 @@ Validation checklist:
 
 - Plugin activation/deactivation check. P11.1 passed locally on 2026-05-09 with official `travelpayouts` plugin version `1.2.2` on WordPress `6.9.4`; P11.6 re-ran deactivate/reactivate on 2026-05-12 and returned the plugin to `Status: Active`.
 - Admin setup smoke check. P11.2 passed locally on 2026-05-12 with temporary-token missing/configured option checks, saved-token masking, blank-submission preservation, option sanitization, and non-secret Gutenberg token-route state.
-- Frontend widget render smoke check. P11.3 and P11.6 passed for the official flight widget on desktop and mobile; official hotel widget/table shortcodes rendered empty because the plugin's legacy HotelLook availability gate is disabled. Travelpayouts documentation now treats Hotellook tools as shut down, so hotel surfaces use the dashboard-generated Trip.com or other Hotels & Accommodation brand widget/link path. The published Flights page now renders the Widget-type White Label search/results containers, and the published Hotels page renders a Trip.com partner iframe plus a visible sponsored handoff link.
+- Frontend widget render smoke check. P11.3 and P11.6 passed for the official flight widget on desktop and mobile; official hotel widget/table shortcodes rendered empty because the plugin's legacy HotelLook availability gate is disabled. Travelpayouts documentation now treats Hotellook tools as shut down, so hotel surfaces use the dashboard-generated Trip.com or other Hotels & Accommodation brand widget/link path. The published Flights page now renders the Widget-type White Label search/results containers, and the published Hotels page renders a Trip.com partner iframe plus a visible sponsored handoff link. The final consent-enabled validation also removed visible footer placeholder defaults and confirmed no page-level mobile overflow on the hotel widget surface.
 - Widget handoff/White Label smoke check. P11.3 and P11.6 confirmed the flight widget source hands off to Travelpayouts/Aviasales-controlled results by default. The final P11.6 browser pass confirmed the Flights page loads without PHP deprecation output and the Hotels page opens the Trip.com partner search form from the visible handoff button.
 - White Label header continuity check against the WordPress homepage header. P11.4 documents Widget type as the preferred continuity path because it keeps the WordPress home shell; Page type is allowed only with Travelpayouts dashboard header customization that mirrors the WordPress logo, favicon, brand name, nav/footer links, colors, and route back to the main site.
 - Backend mode decision. P11.5 documented Travelpayouts-controlled backend mode: official-plugin-first only for validated surfaces, dashboard-generated Travelpayouts fallback embeds for inactive or unvalidated hotel and White Label surfaces, and `/search/flights` plus `/search/hotels` limited to safe shell/configuration/placement/handoff metadata instead of live inventory APIs.
 - Secret exposure review. P11.3 and P11.6 browser/source scans passed for temporary and final pages: no API token, postback secret, authorization string, checkout, payment, refund, or direct WordPress booking flow appeared in WordPress output.
-- Completion gate. Phase 11 can move to `Completed` only after the P11.6 follow-up branch is reviewed and merged. The local browser/source validation gate passed on 2026-05-12 for the published Flights and Hotels pages, with the known note that Trip.com iframe content can be blank under browser content blockers, so the hotel page keeps a visible handoff button.
+- Completion gate. Phase 11 moved to `Completed` after PR #6, PR #7, and the final footer/mobile rendering follow-up were reviewed, merged, and synced back to Linear. The consent-enabled browser/source validation gate passed on 2026-05-12 for the published Flights and Hotels pages, with the known note that Trip.com iframe content can be blank under browser content blockers or visually compressed inside the provider iframe on narrow screens, so the hotel page keeps a visible handoff button.
 
 ## Phase 12: Information Architecture and Competitive Design System
 

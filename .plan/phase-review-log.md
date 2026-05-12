@@ -939,3 +939,30 @@ Research consulted:
 - WordPress Shortcodes Handbook: shortcode render behavior and safe generated output.
 
 Decision: P11.6 should remain in review until this follow-up branch is published, checked by Codex, merged, and Linear is updated with the final merge evidence.
+
+## Phase 11.6 Hotel Widget Display Completion Follow-Up - 2026-05-12
+
+Status: `In Review`. Local validation passed; PR review and merge remain the final completion gate.
+
+Reviewer: Codex
+
+Scope reviewed: User-reported Hotel page widget display, Trip.com partner iframe wrapper behavior, static-theme footer fallback output, mobile overflow, and consent-enabled Travelpayouts rendering.
+
+Current state summary: Provider request consent is enabled, and the live settings contain the White Label Widget ID, White Label results URL, and Trip.com hotel partner URL. The Hotels page rendered the provider-owned Trip.com iframe, but the embedded UI showed prominent Trip.com branding above the search controls and compressed the provider fields on mobile. The static footer also exposed unresolved placeholder defaults when global contact/footer options were empty.
+
+Bugs found: The static theme footer rendered `{{footer_*}}` and `{{contact_*}}` placeholder text on public pages. The direct Trip.com iframe wrapper forced a wide mobile iframe and exposed provider branding before the search controls, creating a poor branded page experience.
+
+Bugs fixed: Footer placeholder defaults are now normalized to escaped production-safe fallback copy, and empty phone/email links are hidden rather than rendering fake placeholder links. The Trip.com partner iframe is wrapped in a cropped frame so the Hotels page presents the search controls without the large provider logo/header, while preserving the sponsored handoff button to the provider site. A Codex P1 review finding on PR #8 was patched by scoping the iframe translation to `.baf-travelpayouts-hotel-widget__frame iframe`, leaving script-generated non-Trip.com widget iframes unshifted.
+
+Validation performed: PHP syntax passed for `themes/bookings-and-flights-static/footer.php` and `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-hotel-widget-shortcode.php`; `git diff --check` passed. Source checks confirmed `/hotels/` renders the Trip.com partner iframe and handoff link without unresolved `{{placeholder}}` tokens or API key, authorization, bearer, secret, checkout, payment, PHP warning, or deprecation text. Playwright validation at desktop dark, desktop light, and mobile dark widths confirmed the Bookings and Flights header remains present, the Trip.com search fields are visible without the large provider logo/header, the handoff button remains visible, and the mobile page has no horizontal overflow. After the Codex selector-scope fix, Playwright revalidated desktop dark and mobile dark viewports and confirmed the crop transform only applies inside the framed Trip.com embed. Console warnings were limited to provider-owned WebGL performance messages.
+
+Bugs deferred: Trip.com iframe field layout inside the iframe remains provider-owned and can still compress labels on narrow screens. The visible `Open hotel search` handoff button remains the reliable mobile fallback if the iframe is blocked or visually constrained.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/validation-baseline.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Developer Resources: `esc_url()` and `esc_attr()` output escaping expectations for URLs and attributes.
+- WordPress Plugin Security Handbook: escaping output and protecting external provider boundaries.
+- Travelpayouts Help Center: widget and White Label setup guidance for provider-controlled search widgets and partner handoff behavior.
+
+Decision: Publish this focused display follow-up for Codex review. Phase 11 can remain `Completed` only after the branch is reviewed, merged, and Linear is updated with the final merge evidence.
