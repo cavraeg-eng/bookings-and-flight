@@ -437,7 +437,7 @@ rg -n "phase-12-widget-frame-layout-rules|P12.4|ONE-77" .plan/phased-implementat
 git diff --check
 ```
 
-P12.4 local result on 2026-05-12: widget frame dimensions, responsive constraints, loading/missing/consent-disabled/no-script/unavailable/empty/error states, disclosure placement, performance rules, and Phase 13 registry prerequisites are documented in `.plan/phase-12-widget-frame-layout-rules.md`. The rules explicitly preserve provider-owned live search/results behavior and require disclosure plus fallback handoff outside provider iframes/scripts.
+P12.4 local result on 2026-05-12: widget frame dimensions, responsive constraints, loading/missing/consent-disabled/no-script/unavailable/empty/error states, disclosure placement, performance rules, and Phase 13 registry prerequisites are documented in `.plan/phase-12-widget-frame-layout-rules.md`. The rules explicitly preserve provider-owned live search/results behavior and require disclosure plus fallback handoff outside provider iframes/scripts. Codex review on PR #12 found no major issues.
 
 ## Documentation-Only Changes
 

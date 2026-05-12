@@ -1,6 +1,6 @@
 # Phase 12.4 Widget Frame, Loading, and Responsive Layout Rules
 
-Status: `In Review`
+Status: `Completed`
 
 Linear issue: `ONE-77`
 
@@ -151,3 +151,5 @@ Phase 13 should also expose one wrapper API so templates do not need to know raw
 ## P12.4 Result
 
 Widget frame dimensions, responsive constraints, loading/missing/disabled/no-script/error states, disclosure placement, performance rules, and Phase 13 registry prerequisites are documented. Implementation can proceed to Phase 12.5 page-level wireframes and Phase 13 registry work without inventing layout behavior per widget.
+
+Codex PR review on PR #12 found no major issues.
