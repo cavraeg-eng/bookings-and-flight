@@ -1,6 +1,6 @@
 # Phase 12.1 Sitemap, Navigation, and Page Ownership
 
-Status: `In Review`
+Status: `Completed`
 
 Linear issue: `ONE-74`
 
@@ -108,4 +108,4 @@ WP-CLI emitted the known PHP 8.5 deprecation warning from the WP-CLI dependency 
 
 ## P12.1 Result
 
-The sitemap, primary navigation target, owner/data-source model, SEO page families, and current-template conflicts are now documented. Visual/template implementation can proceed only after the follow-on Phase 12 tickets complete their design-token, component, CSS split, widget-frame, and wireframe gates.
+The sitemap, primary navigation target, owner/data-source model, SEO page families, and current-template conflicts are now documented. PR #9 passed Codex review with no major issues. Visual/template implementation can proceed only after the follow-on Phase 12 tickets complete their design-token, component, CSS split, widget-frame, and wireframe gates.

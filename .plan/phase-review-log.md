@@ -969,13 +969,13 @@ Decision: Phase 11 remains `Completed`. PR #8 merged the focused display follow-
 
 ## Phase 12.1 Review - 2026-05-12
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
 Scope reviewed: `ONE-74` sitemap, navigation, and page ownership map. Reviewed Phase 11 backend mode, Phase 12 plan requirements, local blueprint source, static theme templates/assets, live WordPress pages/menu, core CPT registrations, and frontend shortcodes.
 
-Acceptance criteria result: In review. The target navigation now includes Flights, Hotels, Explore, Deals, Trip Planner, and Saved Trips. Each core surface has a documented owner and data source. SEO page families for flights, hotels, destinations, routes, and deals are mapped. Conflicts with current templates and live menu state are documented.
+Acceptance criteria result: Passed. The target navigation now includes Flights, Hotels, Explore, Deals, Trip Planner, and Saved Trips. Each core surface has a documented owner and data source. SEO page families for flights, hotels, destinations, routes, and deals are mapped. Conflicts with current templates and live menu state are documented.
 
 Security review: Passed for documentation scope. No executable code, public routes, settings, provider calls, or database writes were added. The documented model preserves the Travelpayouts-controlled backend boundary and keeps WordPress from owning live supplier inventory, booking, or payment.
 
@@ -1006,4 +1006,4 @@ Research consulted:
 - Travelpayouts Help Center: Getting started with widgets.
 - Travelpayouts Help Center: White Label Web and Widget-type setup.
 
-Decision: `ONE-74` can move to PR review once documentation diff and publication checks pass. Phase 12 remains `In Progress`.
+Decision: `ONE-74` passed local documentation review and Codex PR review with no major issues. Phase 12 remains `In Progress` for the remaining child tickets.
