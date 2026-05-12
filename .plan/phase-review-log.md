@@ -1364,7 +1364,7 @@ Decision: `ONE-82` can move to Done after PR review and merge. Keep Phase 13 `In
 
 ## Phase 13.4 Review - 2026-05-12
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
@@ -1398,11 +1398,11 @@ Research consulted:
 - WordPress Common APIs Handbook: Escaping Data.
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
-Decision: `ONE-83` can move to Done after PR review and merge. Keep Phase 13 `In Progress` until P13.5 and P13.6 pass review and merge.
+Decision: `ONE-83` moved to Done after PR #19 review and merge. Phase 13 remained `In Progress` until P13.5 and P13.6 completed.
 
 ## Phase 13.5 Review - 2026-05-12
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
@@ -1439,4 +1439,48 @@ Research consulted:
 - WordPress Common APIs Handbook: Escaping Data.
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
-Decision: `ONE-84` can move to Done after PR review and merge. Keep Phase 13 `In Progress` until P13.6 passes review and merge.
+Decision: `ONE-84` moved to Done after PR #20 review and merge. Phase 13 remained `In Progress` until P13.6 completed.
+
+## Phase 13.6 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-85` final Phase 13 review and documentation gate. Reviewed the Phase 13 objective, P13.1 through P13.5 implementation notes, registry storage contracts, admin placement management, frontend shortcode/block wrapper, SubID/disclosure/consent states, security/exposure review, REST route boundaries, Phase 14 consumption requirements, and current runtime behavior.
+
+Acceptance criteria result: Passed. Registry and wrapper behavior is documented in `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, and `.plan/regression-watchlist.md`. Phase 14 has stable approved placement keys, the shortcode/block wrapper, the trusted renderer, public-safe projection boundaries, consent-disabled behavior, disclosure output, SubID metadata, and visible handoff behavior to consume. Bugs found, fixed, deferred, and watchlist items are recorded.
+
+Security review: Passed locally. Anonymous users cannot read private registry data or save/delete placements. Missing admin nonces fail before writes and did not leave the probe placement behind. The runtime frontend wrapper did not expose private notes, saved secret values, `api_token`, `api_key`, authorization, bearer, raw registry notes, or raw private embed fields. Consent-disabled rendering returned disclosure plus a safe public status message with no provider iframe, provider script, or handoff link.
+
+REST permission review: Passed locally for the current gate. Core `baf/v1` routes retain endpoint-specific permission callbacks; anonymous valid AI itinerary POST returned the expected forbidden response; public destination collection remained readable. The affiliate bridge public `/config` route returned no secret-key names or values, and `/postback` rejected a request without the shared secret.
+
+Database/migration review: Passed. No custom table, migration, or schema contract changed in P13.6. Temporary runtime page and temporary consent override were cleaned up, and the registry probe placement was not created by the failed nonce check.
+
+Admin UI review: Passed for the review-gate scope. The existing `baf-widget-placements` capability/nonce model remains documented and was rechecked through anonymous registry denial plus missing-nonce write failure. No new admin UI code changed in P13.6.
+
+Frontend UI review: Passed with real runtime browser evidence. The Codex in-app Browser connected but lost its active pane during navigation, so the final required runtime pass used Playwright Chromium against the local WordPress page. Desktop and mobile screenshots showed nonblank configured output with disclosure, iframe, and visible `Open hotel search` handoff, no horizontal overflow, and no page errors. Keyboard review confirmed focus reaches the Trip.com iframe and then the visible handoff link. Consent-disabled screenshot confirmed no provider output.
+
+Regression review: Existing Phase 13 watchlist items remain valid. Phase 14 should use `flights_white_label_search` and `hotels_partner_search` through the wrapper/renderer seam instead of raw embed snippets. Provider-owned Chromium WebGL performance warnings and known WP-CLI/PHP 8.5 deprecation noise remain environment/provider watch items, not production code blockers.
+
+Validation performed: Full PHP syntax check for `plugins/bookings-flights-core`; `node --check` for `assets/js/travelpayouts-widget-block.js`; `git diff --check`; plugin active check; anonymous registry private read/save/delete denial; missing admin nonce failure with no placement write; REST public/protected route probes; affiliate bridge public config/postback exposure probes; real browser desktop/mobile screenshots; keyboard focus capture through iframe and handoff; consent-disabled screenshot and no-provider-output assertion; temporary page and option cleanup.
+
+Bugs found: No production code bug was found in P13.6. The Codex in-app Browser surface lost its active pane during navigation after initially connecting, so the required runtime pass used standalone Chromium. Runtime console capture showed only Chromium WebGL performance warnings from the embedded provider context.
+
+Bugs fixed: None in production code. Documentation was updated to mark Phase 13 complete, record final gate evidence, and clarify the Phase 14 consumption seam.
+
+Bugs deferred: Provider-owned iframe/runtime warnings, the known WP-CLI/PHP 8.5 deprecation noise, and the affiliate bridge public route contracts remain on the regression watchlist. Homepage/template implementation remains Phase 14 scope.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Shortcode API.
+- WordPress Plugin Security Handbook.
+- WordPress Plugin Handbook: Checking User Capabilities.
+- WordPress Common APIs Handbook: Nonces.
+- WordPress REST API Handbook: Adding Custom Endpoints.
+- WordPress Common APIs Handbook: Sanitizing Data.
+- WordPress Common APIs Handbook: Escaping Data.
+- Travelpayouts Help Center: ID and SubID affiliate marker guidance.
+
+Decision: Phase 13 passed the completion gate and is documented as `Completed`. `ONE-85` can move to Done after the PR is reviewed, merged, and Linear is synced.
