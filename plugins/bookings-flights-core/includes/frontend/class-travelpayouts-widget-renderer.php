@@ -229,19 +229,20 @@ final class Travelpayouts_Widget_Renderer {
 
 		$wrapper_id      = wp_unique_id( 'baf-widget-placement-' );
 		$wrapper_id_json = wp_json_encode( $wrapper_id );
+		$script_url_json = wp_json_encode( esc_url_raw( $script_url ) );
 
-		if ( false === $wrapper_id_json ) {
+		if ( false === $wrapper_id_json || false === $script_url_json ) {
 			return '';
 		}
 
 		return sprintf(
-			'<div class="baf-travelpayouts-widget__provider baf-travelpayouts-widget__provider--script" id="%1$s"><script async src="%2$s" data-noptimize="1" data-cfasync="false" data-wpfc-render="false"></script><div class="baf-travelpayouts-widget__fallback" role="status">%3$s</div>%4$s</div><script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">(function(){var wrapperId=%5$s;window.setTimeout(function(){var wrapper=document.getElementById(wrapperId);if(!wrapper){return;}var hasFrame=!!wrapper.querySelector("iframe");wrapper.classList.toggle("is-loaded",hasFrame);wrapper.classList.toggle("is-unavailable",!hasFrame);},2500);}());</script>',
-			esc_attr( $wrapper_id ),
-			esc_url( $script_url ),
-			esc_html__( 'Travel search could not load in this browser. Try refreshing the page or opening the partner search link.', 'bookings-flights-core' ),
-			self::render_noscript( $placement ),
-			$wrapper_id_json
-		);
+			'<div class="baf-travelpayouts-widget__provider baf-travelpayouts-widget__provider--script" id="%1$s"><div class="baf-travelpayouts-widget__fallback" role="status">%2$s</div>%3$s</div><script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">(function(){var wrapperId=%4$s;var scriptSrc=%5$s;var wrapper=document.getElementById(wrapperId);if(!wrapper){return;}var observer=null;function update(markUnavailable){var current=document.getElementById(wrapperId);if(!current){if(observer){observer.disconnect();}return true;}var hasFrame=!!current.querySelector("iframe");current.classList.toggle("is-loaded",hasFrame);if(hasFrame){current.classList.remove("is-unavailable");if(observer){observer.disconnect();}return true;}if(markUnavailable){current.classList.add("is-unavailable");}return false;}if("MutationObserver" in window){observer=new MutationObserver(function(){update(false);});observer.observe(wrapper,{childList:true,subtree:true});}var checks=0;var maxChecks=24;var timer=window.setInterval(function(){checks+=1;var loaded=update(checks>=maxChecks);if(loaded||checks>=maxChecks){window.clearInterval(timer);}},500);var script=document.createElement("script");script.async=true;script.src=scriptSrc;script.setAttribute("data-noptimize","1");script.setAttribute("data-cfasync","false");script.setAttribute("data-wpfc-render","false");script.addEventListener("load",function(){window.setTimeout(function(){update(false);},0);});script.addEventListener("error",function(){update(true);});wrapper.insertBefore(script,wrapper.firstChild);update(false);}());</script>',
+				esc_attr( $wrapper_id ),
+				esc_html__( 'Travel search could not load in this browser. Try refreshing the page or opening the partner search link.', 'bookings-flights-core' ),
+				self::render_noscript( $placement ),
+				$wrapper_id_json,
+				$script_url_json
+			);
 	}
 
 	private static function render_iframe( array $placement, array $attributes ): string {
