@@ -1422,6 +1422,8 @@ P12.3 note: CSS split and theme architecture preparation is documented in `.plan
 
 P12.4 note: Travelpayouts widget frame dimensions, responsive constraints, state model, disclosure placement, performance rules, and Phase 13 registry prerequisites are documented in `.plan/phase-12-widget-frame-layout-rules.md`. Codex PR review found no major issues on PR #12. Future template and registry work should use those reservations instead of inventing per-widget layout behavior.
 
+P12.5 note: Page-level structured wireframes for home, flights, hotels, explore, destination detail, route detail, deals, AI planner, saved trips, about/legal, and admin widget placement surfaces are documented in `.plan/phase-12-page-level-wireframes.md`. Codex PR review found no major issues on PR #13. Future visual/template work should use the owner/template/phase mapping and browser screenshot plan in that document.
+
 Objective: Rework the public WordPress frontend architecture so it feels like a modern travel search product rather than a static affiliate brochure.
 
 Scope:

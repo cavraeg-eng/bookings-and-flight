@@ -1125,3 +1125,43 @@ Research consulted:
 - WordPress Plugin Security Handbook: Securing Input and Securing Output.
 
 Decision: `ONE-77` passed local documentation review and Codex PR review with no major issues on PR #12. Keep Phase 12 `In Progress` for remaining wireframe and final review tickets.
+
+## Phase 12.5 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-78` page-level wireframes for home, flights, hotels, explore, destination detail, route detail, deals, AI planner, saved trips, about/legal, and admin widget placement surfaces. Reviewed official WordPress template hierarchy/templates/theme structure/asset loading documentation, Travelpayouts widget and White Label Widget documentation, Phase 12.1 through Phase 12.4 outputs, current static theme templates, current core CPTs, shortcodes, and the Travelpayouts-first blueprint.
+
+Acceptance criteria result: Passed for local documentation scope. Each requested core surface has a structured wireframe or layout spec; mobile and desktop behavior is covered; widget, disclosure, and CTA placement is explicit; template ownership and follow-up phase mapping are documented; a browser screenshot plan is documented for later UI implementation.
+
+Security review: Passed for documentation scope. No executable code, REST routes, settings, migrations, or database writes changed. The wireframes preserve the Travelpayouts-controlled backend boundary, avoid direct checkout, require visible disclosures, and keep raw provider scripts behind the future governed registry.
+
+REST permission review: Not applicable. No REST routes changed.
+
+Database/migration review: Not applicable. No database schema, options, custom tables, or migrations changed.
+
+UI review: Documentation review only. The wireframes cover mobile, tablet, and desktop structure; no-overflow widget frames; disclosure placement; accessible search/control expectations; empty states for missing CPT content; and screenshot validation requirements for later visual implementation.
+
+Regression review: Updated the Phase 12 design-system/watchlist documentation so future template and visual work points to `.plan/phase-12-page-level-wireframes.md`.
+
+Validation performed: Responsive wireframe review, acceptance criteria cross-check against the blueprint, current theme/template inventory, CPT/shortcode ownership review, and browser screenshot plan documentation.
+
+Bugs found: Current `page-home.php` remains generic and gradient-heavy; Flights and Hotels still render through the fallback `index.php`; Explore, Deals, Trip Planner, and Saved Trips pages are not yet implemented; local destination, route, and deal seed content is absent.
+
+Bugs fixed: None in runtime code. The missing template and content risks are documented with owner/template/phase mapping before implementation.
+
+Bugs deferred: Runtime templates, visual CSS, menu updates, seed content, Phase 13 widget registry, and browser screenshot execution are deferred to their mapped follow-up phases.
+
+Documentation updated: `.plan/phase-12-page-level-wireframes.md`, `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Hierarchy.
+- WordPress Theme Handbook: Templates.
+- WordPress Theme Handbook: Theme Structure.
+- WordPress Theme Handbook: Including Assets.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+
+Decision: `ONE-78` passed local documentation review and Codex PR review with no major issues on PR #13. Keep Phase 12 `In Progress` for the final review ticket.
