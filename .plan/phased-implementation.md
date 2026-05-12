@@ -1416,6 +1416,8 @@ P11.6 note: minimal White Label Widget ID and Trip.com/Hotels widget script sett
 
 P12.1 note: sitemap, navigation, page ownership, SEO page families, and current-template conflicts are documented in `.plan/phase-12-sitemap-navigation-page-ownership.md`. The current live primary menu still reflects the older boilerplate page set and must be updated in a later implementation ticket before the public visual rebuild is treated as complete.
 
+P12.2 note: design-token direction, media strategy, component inventory, disclosure treatment, accessibility requirements, and initial widget-frame guardrails are documented in `.plan/phase-12-design-system-component-inventory.md`. The current implementation still needs Phase 12.3 CSS split preparation before large public UI work, and Phase 12.4 still owns detailed widget-frame loading and responsive rules.
+
 Objective: Rework the public WordPress frontend architecture so it feels like a modern travel search product rather than a static affiliate brochure.
 
 Scope:

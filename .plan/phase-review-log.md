@@ -1007,3 +1007,44 @@ Research consulted:
 - Travelpayouts Help Center: White Label Web and Widget-type setup.
 
 Decision: `ONE-74` passed local documentation review after the Codex P2 validation-command finding was patched. Phase 12 remains `In Progress` for the remaining child tickets.
+
+## Phase 12.2 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-75` design tokens, media strategy, component inventory, accessibility requirements, disclosure treatment, and initial Travelpayouts widget-frame guardrails. Reviewed Phase 12.1 IA output, Phase 12 plan requirements, product blueprint design-system requirements, current theme tokens/base/home CSS, theme architecture, core frontend widget styles, and Travelpayouts wrapper contracts.
+
+Acceptance criteria result: Passed for documentation scope. Tokens and component inventory are documented; real media strategy is defined; accessibility requirements cover focus, touch targets, labels, reduced motion, text resizing, and mobile behavior; Travelpayouts widget frame guardrails are documented for later implementation.
+
+Security review: Passed for documentation scope. No executable code, settings, routes, secrets, provider calls, migrations, or public data paths changed. The design system explicitly keeps affiliate disclosures visible and avoids exposing provider-owned booking or inventory behavior as WordPress-owned.
+
+REST permission review: Not applicable. No REST routes changed.
+
+Database/migration review: Not applicable. No database schema, migrations, options, or persisted data changed.
+
+UI review: Documentation review only. Existing public UI still has boilerplate homepage sections, gradient fallback hero treatment, older navigation, and provider-owned hotel iframe compression risk. These remain deferred to later Phase 12 and implementation tickets.
+
+Regression review: Added a Phase 12 design-system and widget-frame watchlist for media usage, palette drift, touch targets, disclosure visibility, widget loading states, reduced motion, focus states, and mobile overlap.
+
+Validation performed: Reviewed official WordPress theme/style/asset/image/accessibility docs, reviewed official Travelpayouts widget and White Label docs, inventoried current static theme and core frontend CSS, confirmed CSS file sizes, and added documentation-only validation checks for the P12.2 design inventory.
+
+Bugs found: Existing implementation still has a generic marketing homepage, gradient-heavy hero fallback, large radius tokens/plugin card radius, `header.css` close to the 600-line limit, and Trip.com provider-owned mobile compression risk.
+
+Bugs fixed: None in runtime code. The bugs and risks are documented so Phase 12.3, Phase 12.4, and later visual work can address them in order.
+
+Bugs deferred: CSS split and architecture preparation is deferred to Phase 12.3. Detailed widget loading/frame rules are deferred to Phase 12.4. Page-level wireframes are deferred to Phase 12.5. Homepage/search-template rebuild is deferred to later implementation phases.
+
+Documentation updated: `.plan/phase-12-design-system-component-inventory.md`, `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Global Settings and Styles.
+- WordPress Theme Handbook: Including Assets.
+- WordPress Theme Handbook: Accessibility.
+- WordPress Theme Handbook: Images.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+- Travelpayouts Help Center: What is White Label Web by Travelpayouts?
+
+Decision: `ONE-75` passed local documentation review and Codex PR review with no major issues on PR #10. Keep Phase 12 `In Progress` for the remaining child tickets until the full Phase 12 review gate passes.

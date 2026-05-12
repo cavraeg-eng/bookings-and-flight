@@ -403,6 +403,18 @@ wp --skip-plugins=travelpayouts post list --post_type=destination,route,travel_d
 
 P12.1 local result on 2026-05-12: Phase 11 was confirmed complete and the backend mode remains Travelpayouts-controlled. The published front page is page ID `246` using `page-home.php`; `/flights/` is page ID `261` with `[baf_travelpayouts_white_label]`; `/hotels/` is page ID `262` with `[baf_travelpayouts_hotel_widget]`. The assigned primary menu has eight items: Home, Flights, Hotels, About, Contact, Services, Privacy Policy, and Terms & Conditions. It is missing the Phase 12 target items Explore, Deals, Trip Planner, and Saved Trips. No local destination, route, travel deal, trip plan, partner, or alert posts exist yet. Current tracked static theme source files are under the 600-line limit, but `header.css` is near the limit at 544 lines. Documentation review is captured in `.plan/phase-12-sitemap-navigation-page-ownership.md`. WP-CLI emitted known PHP 8.5 deprecation warnings from tooling and the Travelpayouts plugin, but inventory commands completed.
 
+P12.2 design-system documentation checks:
+
+```bash
+test -f .plan/phase-12-design-system-component-inventory.md
+rg -n "Unified search panel|Travelpayouts widget frame|Affiliate disclosure|Admin widget placement table|Research Consulted" .plan/phase-12-design-system-component-inventory.md
+rg -n "phase-12-design-system-component-inventory" .plan/phased-implementation.md .plan/architecture-baseline.md .plan/phase-review-log.md
+wc -l themes/bookings-and-flights-static/assets/css/*.css plugins/bookings-flights-core/assets/css/*.css
+git diff --check
+```
+
+P12.2 local result on 2026-05-12: design-token direction, real-media strategy, component inventory, disclosure treatment, accessibility checklist, and widget-frame guardrails are documented in `.plan/phase-12-design-system-component-inventory.md`. Current CSS inventory still shows `header.css` at 544 lines, so Phase 12.3 should split or protect header/style architecture before adding large navigation/search-shell styles. `home.css` remains gradient-heavy and generic, which is now explicitly deferred to later visual implementation. The Trip.com hotel wrapper still relies on a visible handoff fallback because provider-owned iframe content can compress on mobile. Codex review on PR #10 found no major issues.
+
 ## Documentation-Only Changes
 
 For documentation-only changes:
