@@ -1424,6 +1424,8 @@ P12.4 note: Travelpayouts widget frame dimensions, responsive constraints, state
 
 P12.5 note: Page-level structured wireframes for home, flights, hotels, explore, destination detail, route detail, deals, AI planner, saved trips, about/legal, and admin widget placement surfaces are documented in `.plan/phase-12-page-level-wireframes.md`. Codex PR review found no major issues on PR #13. Future visual/template work should use the owner/template/phase mapping and browser screenshot plan in that document.
 
+P12.6 note: Final Phase 12 review, deferred runtime implementation risks, CSS file-size review, documentation completeness, and Phase 13 start checklist are documented in `.plan/phase-12-completion-gate.md`. Codex PR review on PR #14 found a P2 consistency issue: Phase 12 cannot be marked `Completed` until browser screenshots and keyboard navigation review are executed or the validation scope is reconciled.
+
 Objective: Rework the public WordPress frontend architecture so it feels like a modern travel search product rather than a static affiliate brochure.
 
 Scope:

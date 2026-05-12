@@ -86,6 +86,7 @@ What to check after future changes:
 - Travelpayouts widget frames reserve dimensions, avoid layout shift, expose no-script/missing-config/consent-disabled states, and keep a sponsored handoff fallback visible.
 - Widget dimensions, disclosure placement, state behavior, and Phase 13 registry prerequisites follow `.plan/phase-12-widget-frame-layout-rules.md`.
 - Page templates and public visual work follow the Phase 12.5 owner/template/phase mapping and browser screenshot plan in `.plan/phase-12-page-level-wireframes.md`.
+- Phase 13 work starts from the Phase 12 completion gate checklist in `.plan/phase-12-completion-gate.md`.
 - Text resizing, mobile breakpoints, focus states, and reduced-motion behavior remain usable without overlap or hidden controls.
 
 Related files/routes/tables/settings:
@@ -94,6 +95,7 @@ Related files/routes/tables/settings:
 - `.plan/phase-12-css-split-theme-architecture.md`
 - `.plan/phase-12-widget-frame-layout-rules.md`
 - `.plan/phase-12-page-level-wireframes.md`
+- `.plan/phase-12-completion-gate.md`
 - `themes/bookings-and-flights-static/assets/css/components.css`
 - `themes/bookings-and-flights-static/assets/css/tokens.css`
 - `themes/bookings-and-flights-static/assets/css/base.css`
