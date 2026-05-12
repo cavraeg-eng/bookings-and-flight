@@ -159,9 +159,18 @@ P11.1 local result: all official plugin PHP files reported no syntax errors. PHP
 
 If the plugin is not installed yet in a fresh workspace, document the installation path used and then rerun the compatibility checks.
 
+Account setup and secret checks:
+
+- Confirm the account setup page exposes Token, Partner ID, traffic source/project, optional flights White Label domain, and optional hotels White Label domain.
+- Confirm saved API tokens are not rendered into admin input values or page source.
+- Confirm blank token submissions preserve the existing saved token, while non-blank token, Partner ID, project, and White Label domain values are sanitized before storage.
+- Confirm the Gutenberg token route returns only non-secret configured state and never the raw token.
+- Confirm local smoke checks restore or delete temporary credential options after validation.
+
+P11.2 local result on 2026-05-12: the site started with no `travelpayouts_admin_settings` option. Temporary-token WP-CLI checks confirmed blank token submission preserves the stored token, Partner ID is reduced to digits, project/domain fields are sanitized, the Redux text renderer outputs a password field with no `value` attribute, and the Gutenberg token action returns `has_access_token: true` with a blank `access_token` and no raw token. The temporary option was deleted after validation. WP-CLI emitted the known PHP `8.5.4` bundled dependency deprecation warning.
+
 Manual/browser checks:
 
-- Confirm the Travelpayouts plugin account setup page accepts Token, Partner ID, traffic source, and optional White Label URL.
 - Confirm at least one flight search form renders on a test WordPress page.
 - Confirm at least one hotel widget/table renders on a test WordPress page.
 - Confirm generated links or widget settings support the documented SubID strategy.

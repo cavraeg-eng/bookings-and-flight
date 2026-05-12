@@ -28,8 +28,9 @@ Travelpayouts implementation contracts:
 
 - Official WordPress plugin slug: `travelpayouts` when installed from WordPress.org.
 - P11.1 local compatibility result: official `travelpayouts` plugin version `1.2.2` is installed and active in this Local WordPress `6.9.4` workspace after a successful activate, deactivate, and reactivate gate on 2026-05-09.
+- P11.2 local account setup result: the staged plugin account setup uses the `travelpayouts_admin_settings` option with `account_api_token`, `account_api_marker`, `account_platform`, `account_flights_domain`, and `account_hotels_domain`. Temporary-token smoke checks confirmed saved API tokens are masked in admin field HTML, preserved on blank submission, sanitized before storage, and represented in the Gutenberg token route only as non-secret configured state.
 - Local publish hardening redacted an embedded Airtable personal access token from the staged plugin package. The Airtable distribution script now fails closed unless a token is supplied outside Git through `TRAVELPAYOUTS_AIRTABLE_TOKEN`.
-- WordPress.org still warns that `travelpayouts` has not been tested with the latest three major WordPress releases, so plugin-first placement is only partially cleared until admin setup, widget rendering, handoff, White Label continuity, and secret-exposure checks pass.
+- WordPress.org still warns that `travelpayouts` has not been tested with the latest three major WordPress releases, so plugin-first placement is only partially cleared until widget rendering, handoff, White Label continuity, and browser/source secret-exposure checks pass.
 - Preferred placement path: official Travelpayouts plugin block/widget/table/link tools.
 - Fallback placement path: capability-gated `baf` widget registry that renders Travelpayouts-provided embed code.
 - SubID convention: lowercase Latin letters, numbers, and underscores in the pattern `{channel}_{surface}_{vertical}_{slug}_{placement}`.

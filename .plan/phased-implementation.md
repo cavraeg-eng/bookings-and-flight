@@ -1399,8 +1399,8 @@ Acceptance criteria:
 
 Validation checklist:
 
-- Plugin activation/deactivation check. P11.1 passed locally on 2026-05-09 with official `travelpayouts` plugin version `1.2.2` on WordPress `6.9.4`; admin setup, widget rendering, handoff, White Label, and secret-exposure checks remain open.
-- Admin setup smoke check.
+- Plugin activation/deactivation check. P11.1 passed locally on 2026-05-09 with official `travelpayouts` plugin version `1.2.2` on WordPress `6.9.4`; widget rendering, handoff, White Label, and browser/source secret-exposure checks remain open.
+- Admin setup smoke check. P11.2 passed locally on 2026-05-12 with temporary-token missing/configured option checks, saved-token masking, blank-submission preservation, option sanitization, and non-secret Gutenberg token-route state.
 - Frontend widget render smoke check.
 - Widget handoff/White Label smoke check.
 - White Label header continuity check against the WordPress homepage header.

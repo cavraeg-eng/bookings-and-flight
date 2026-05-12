@@ -527,3 +527,39 @@ Research consulted:
 - Travelpayouts Help Center, Shortcodes of tables and widgets: shortcode families and responsive widget parameters.
 - WordPress Plugin Developer Handbook, Activation/Deactivation Hooks: expected activation/deactivation responsibilities and lifecycle boundary.
 - WordPress Plugin Security Handbook/Common APIs security guidance: capability, sanitization, escaping, nonce, and secret-handling context for the deferred admin/widget gates.
+
+## Phase 11.2 Account Setup Smoke Checks and Safe Credential Handling - 2026-05-12
+
+Status: `Completed` for P11.2 only. Phase 11 remains `In Progress`.
+
+Reviewer: Codex
+
+Scope reviewed: Travelpayouts account/setup smoke checks with safe credential handling. This included identifying required setup fields, validating missing and temporary configured states, hardening saved-token rendering/persistence, and checking the Gutenberg token route for non-secret behavior. This did not include real Travelpayouts credentials, frontend widget rendering, handoff/SubID checks, White Label continuity, or production placement approval.
+
+Current state summary: The official `travelpayouts` plugin version `1.2.2` remains active on WordPress `6.9.4`. The local site started P11.2 with no `travelpayouts_admin_settings` option, which is the expected missing-configuration state for this workspace.
+
+Plan alignment assessment: Passed. Phase 11 requires configuring Token, Partner ID, traffic source, and optional White Label URL through a safe documented process. The implementation stayed within the official plugin setup path and did not introduce a custom flight/hotel inventory backend.
+
+Acceptance criteria result: Partial for Phase 11, passed for P11.2. Account setup requirements are identified and the local missing/configured credential gate passed with temporary values. Plugin-first production use is not fully confirmed until frontend widget rendering, generated link/SubID behavior, handoff, White Label continuity, mobile/desktop rendering, and browser/source secret exposure checks pass.
+
+Admin setup review: Passed locally with temporary values. Required account fields are API token, Partner ID, traffic source/project, optional flights White Label domain, and optional hotels White Label domain.
+
+Security review: Passed for P11.2 scope. Saved API tokens are rendered as blank password fields instead of raw values, blank token submissions preserve the existing token, account option writes sanitize token, Partner ID, project, and White Label domain fields, and the Gutenberg token action returns only `has_access_token` plus a blank `access_token`. Temporary test credentials were deleted after validation.
+
+REST permission review: Passed for the reviewed Travelpayouts token path. The route remains gated by the plugin's `manage_options` check, and the action response no longer exposes the raw token.
+
+Validation performed: PHP syntax checks for changed Travelpayouts PHP files; `git diff --check`; WP-CLI option smoke check for missing configuration; temporary-token option preservation/sanitization smoke check; Redux secret field render smoke check; Gutenberg token action smoke check in a separate WP-CLI process to verify configured state without exposing the token; source scan for the prior raw-token response and landing-page token-value patterns; plugin status check. WP-CLI emitted the known PHP `8.5.4` bundled dependency deprecation warning, but commands succeeded when run with the Local MySQL socket.
+
+Bugs found: The imported Travelpayouts account settings field could render a saved API token into admin HTML, and the account option write path did not centrally sanitize account values or preserve the token when a masked field was intentionally left blank.
+
+Bugs fixed: Masked the account settings API token field, added secret-field support to the imported Redux text renderer, preserved saved account tokens on blank submissions, sanitized Travelpayouts account option writes, escaped landing setup form URLs/attributes, and handled missing landing setup fields without PHP notices.
+
+Bugs deferred: Frontend widget/table/search-form render checks, generated link/SubID behavior, handoff behavior, White Label header continuity review, mobile/desktop browser checks, and browser-based secret-exposure review.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/known-issues.md`, `.plan/validation-baseline.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- Travelpayouts Help Center, How to install Travelpayouts WordPress plugin: account setup requires Token, Partner ID, traffic source, and optional White Label domains.
+- Travelpayouts Help Center, WordPress plugin section: current plugin setup topics, widgets, tables, links, and White Label follow-up checks.
+- WordPress Plugin Security Handbook/Common APIs security guidance: capabilities, sanitizing input, escaping output, nonces, and secret-handling context.
+- WordPress Settings API Handbook: settings storage and sanitization context for option updates.

@@ -55,9 +55,13 @@ class AccountForm extends ModuleSection
 
         return [
             'api_token' => $this->fieldInput()
+                ->setType('password')
+                ->setSecret()
+                ->setAutocomplete('new-password')
+                ->setPlaceholder(Travelpayouts::__('Enter API token. Leave blank to keep a saved token.'))
                 ->setTitle(Travelpayouts::__('Your Travelpayouts API token'))
                 ->setSubtitle('<a href="https://app.travelpayouts.com/profile/api-token" target="_blank" class="tp-link">' . Travelpayouts::__('Get API token and affiliate ID') . '</a>')
-                ->setDesc(Travelpayouts::__('Enter your API token')),
+                ->setDesc(Travelpayouts::__('Enter your API token. Saved tokens are not shown in the page source; leave blank to keep the existing token.')),
             'api_marker' => $this->fieldInput()
                 ->setTitle(Travelpayouts::__('Your Travelpayouts Partner ID'))
                 ->setDesc(Travelpayouts::__('Enter your Partner ID')),

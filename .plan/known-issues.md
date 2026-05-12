@@ -28,17 +28,17 @@ Planned fix phase: Validation environment setup, if it blocks work.
 
 ## Travelpayouts WordPress Plugin Compatibility Gate
 
-Severity: Medium until admin, widget, handoff, White Label, and secret-exposure gates pass.
+Severity: Medium until widget, handoff, White Label, and browser/source secret-exposure gates pass.
 
 Affected area: Travelpayouts-controlled booking/search backend, widget placement, and production frontend pages.
 
-Current issue: The official Travelpayouts WordPress plugin is the preferred backend placement path for widgets, tables, links, and search forms, but WordPress.org currently warns that the plugin has not been tested with the latest three major WordPress releases. P11.1 installed the official `travelpayouts` plugin version `1.2.2` from WordPress.org and validated local activate, deactivate, and reactivate behavior on WordPress `6.9.4` with no new `debug.log` entries. The workspace has not yet validated admin setup, widget rendering, handoff behavior, White Label header continuity, or frontend/admin secret exposure.
+Current issue: The official Travelpayouts WordPress plugin is the preferred backend placement path for widgets, tables, links, and search forms, but WordPress.org currently warns that the plugin has not been tested with the latest three major WordPress releases. P11.1 installed the official `travelpayouts` plugin version `1.2.2` from WordPress.org and validated local activate, deactivate, and reactivate behavior on WordPress `6.9.4` with no new `debug.log` entries. P11.2 identified the account setup fields and locally cleared the missing/configured setup smoke check with a temporary API token: saved tokens render blank in admin HTML, blank submissions preserve existing tokens, account options are sanitized before storage, and the Gutenberg token route returns only non-secret configured state. The workspace has not yet validated widget rendering, handoff behavior, White Label header continuity, or browser-based frontend/admin secret exposure.
 
 Security watch item: GitHub push protection identified an embedded Airtable personal access token in the official plugin package during PR publication. The staged local package now redacts the hard-coded token and disables the Airtable distribution script unless a token is supplied outside Git through `TRAVELPAYOUTS_AIRTABLE_TOKEN`. Do not commit provider, analytics, or distribution tokens into the repository.
 
 Compatibility watch item: Direct PHP syntax scanning of the official plugin passed with no syntax errors, but PHP `8.5.4` emitted deprecation warnings from bundled Redux/PHP-DI/Parsedown/Opis/Travelpayouts classes. Local web PHP is configured with `E_ALL & ~E_DEPRECATED`, so this did not block activation, but future admin/browser validation should watch for displayed warnings if error reporting changes.
 
-Workaround: Treat official-plugin usage as staged for local Phase 11 testing, not production-cleared. If later admin, widget, handoff, White Label, or secret-exposure checks fail, use Travelpayouts dashboard-generated widget and White Label embed code inside a secured, capability-gated WordPress wrapper. Do not build a custom replacement flight/hotel inventory backend.
+Workaround: Treat official-plugin usage as staged for local Phase 11 testing, not production-cleared. If later widget, handoff, White Label, or browser/source secret-exposure checks fail, use Travelpayouts dashboard-generated widget and White Label embed code inside a secured, capability-gated WordPress wrapper. Do not build a custom replacement flight/hotel inventory backend.
 
 Planned fix phase: Remaining Phase 11 Travelpayouts Compatibility and Backend Alignment gates.
 

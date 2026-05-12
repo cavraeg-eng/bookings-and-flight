@@ -34,7 +34,7 @@ $tokenPlaceholder = $hasSavedToken ? Travelpayouts::__('API token is saved. Leav
                                 <?php echo Travelpayouts::__('Earn by selling tourist services') ?>
                             </h2>
                             <p class="wlcm__head__text"><?php echo Travelpayouts::__('Install our convenient and useful tools on your website and help your visitors find the cheapest flights and hotels. Earn commission for each booking.'); ?></p>
-                            <a href="<?php echo $createAccountUrl; ?>" target="_blank"
+                            <a href="<?php echo esc_url($createAccountUrl); ?>" target="_blank"
                                class="wlcm__head__btn">
                                 <?php echo Travelpayouts::__('Create an account'); ?>
                                 <small><?php echo Travelpayouts::__('go to travelpayouts.com'); ?></small>
@@ -91,16 +91,16 @@ $tokenPlaceholder = $hasSavedToken ? Travelpayouts::__('API token is saved. Leav
                                          src="<?php echo LandingPage::getLandingImage('notes.svg'); ?>"
                                          alt="">
                                     <span class="wlcm__token__details__text"><?php echo Travelpayouts::__('To identify you, we need your API token and affiliate ID'); ?></span>
-                                    <a href="<?php echo $apiTokenUrl; ?>"
+                                    <a href="<?php echo esc_url($apiTokenUrl); ?>"
                                        target="_blank"
                                        class="wlcm__token__details__btn">
                                         <?php echo Travelpayouts::__('Get your API token or Partner ID'); ?>
                                     </a>
                                 </div>
                                 <form class="wlcm__token__form" method="POST"
-                                      action="<?php echo admin_url('admin.php'); ?>">
+                                      action="<?php echo esc_url(admin_url('admin.php')); ?>">
                                     <?php wp_nonce_field($action); ?>
-                                    <input type="hidden" name="action" value="<?php echo $action; ?>"/>
+                                    <input type="hidden" name="action" value="<?php echo esc_attr($action); ?>"/>
                                     <div class="wlcm__line">
                                         <div class="wlcm__col-6">
                                             <div class="wlcm__token__field">
@@ -122,7 +122,7 @@ $tokenPlaceholder = $hasSavedToken ? Travelpayouts::__('API token is saved. Leav
                                                     <span class="wlcm__token__field__label__req">*</span>
                                                 </label>
                                                 <input name="marker" type="text"
-                                                       value="<?php echo $landingModel->getMarker(); ?>"
+                                                       value="<?php echo esc_attr($landingModel->getMarker()); ?>"
                                                        class="wlcm__token__field__input" required>
                                             </div>
                                         </div>

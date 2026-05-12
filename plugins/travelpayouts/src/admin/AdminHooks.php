@@ -1,13 +1,5 @@
 <?php
 
-/**
- * The admin-specific functionality of the plugin.
- * @link       http://www.travelpayouts.com/?locale=en
- * @since      1.0.0
- * @package    Travelpayouts
- * @subpackage Travelpayouts/admin
- */
-
 namespace Travelpayouts\admin;
 
 use Exception;
@@ -34,14 +26,6 @@ use Travelpayouts\includes\ReduxConfigurator;
 use Travelpayouts\modules\account\Account;
 use Travelpayouts\modules\settings\Settings;
 
-/**
- * The admin-specific functionality of the plugin.
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
- * @package    Travelpayouts
- * @subpackage Travelpayouts/admin
- * @author     travelpayouts < wpplugin@travelpayouts.com>
- */
 class AdminHooks extends Travelpayouts\components\HookableObject
 {
     /**
@@ -116,9 +100,6 @@ class AdminHooks extends Travelpayouts\components\HookableObject
         new NotificationController();
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function hookList(HooksLoader $hooksLoader)
     {
         $hooksLoader
@@ -135,6 +116,7 @@ class AdminHooks extends Travelpayouts\components\HookableObject
             ->addAction('plugins_loaded', [$this, 'loadReduxOptions'])
             ->addAction('admin_menu', [$this->get_landing_page(), 'add_page'])
             ->addAction('admin_notices', [$this, 'renderNotices'])
+            ->addFilter('pre_update_option_' . TRAVELPAYOUTS_REDUX_OPTION, [new AccountOptionsSanitizer(), 'sanitize'], 10, 3)
             ->addAction('redux_travelpayouts/page/' . TRAVELPAYOUTS_REDUX_OPTION . '/enqueue', [
                 $this,
                 'overrideReduxCss',
