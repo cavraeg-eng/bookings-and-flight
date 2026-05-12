@@ -448,7 +448,8 @@ class AdminHooks extends Travelpayouts\components\HookableObject
             $model->save();
 
             $redirect = isset($postData['_wp_http_referer']) ? esc_url_raw($postData['_wp_http_referer']) : admin_url();
-            exit(wp_safe_redirect($redirect));
+            wp_safe_redirect($redirect);
+            exit;
         }
 
         die(Travelpayouts::__('WP nonce verification failed!'));
