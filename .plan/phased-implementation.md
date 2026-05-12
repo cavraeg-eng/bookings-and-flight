@@ -1485,7 +1485,7 @@ Validation checklist:
 - Frontend render checks.
 - Secret exposure review.
 
-P13.1 note: `BAF\Core\Services\Travelpayouts_Widget_Registry_Service` now owns the option-backed placement registry seam for `baf_travelpayouts_widget_registry`. The service seeds current Flights White Label and Hotels partner-search placements from existing Travelpayouts settings when the registry is first installed, stores sanitized metadata plus private embed references server-side, blocks private reads/writes without `manage_baf_affiliates` or `manage_baf_settings`, and exposes a public projection that strips embed references, URLs, and admin notes. Admin UI, frontend wrapper rendering, disclosure state output, block support, and full security review remain in the later Phase 13 child tickets.
+P13.1 note: `BAF\Core\Services\Travelpayouts_Widget_Registry_Service` now owns the option-backed placement registry seam for `baf_travelpayouts_widget_registry`. The service seeds current Flights White Label and Hotels partner-search placements from existing Travelpayouts settings when the registry is first installed, stores sanitized metadata plus private embed references server-side, blocks admin private reads/writes without `manage_baf_affiliates` or `manage_baf_settings`, exposes an active-placement rendering read path for trusted server-side wrappers, preserves malformed stored placements during bootstrap normalization, and exposes a public projection that strips embed references, URLs, and admin notes. Admin UI, frontend wrapper rendering, disclosure state output, block support, and full security review remain in the later Phase 13 child tickets.
 
 ## Phase 14: Homepage Competitive Rebuild
 

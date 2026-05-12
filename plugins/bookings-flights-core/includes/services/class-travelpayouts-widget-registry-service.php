@@ -38,7 +38,7 @@ final class Travelpayouts_Widget_Registry_Service {
 			return;
 		}
 
-		$normalized = self::sanitize_registry( $stored );
+		$normalized = self::sanitize_registry( $stored, true );
 
 		if ( $normalized !== $stored ) {
 			update_option( self::OPTION_NAME, $normalized, false );
@@ -76,6 +76,21 @@ final class Travelpayouts_Widget_Registry_Service {
 		}
 
 		return self::public_placement( $placements[ $key ] );
+	}
+
+	public function get_for_rendering( string $key ): array|\WP_Error {
+		$key        = sanitize_key( $key );
+		$placements = self::get_registry()['placements'];
+
+		if ( '' === $key || ! isset( $placements[ $key ] ) ) {
+			return new \WP_Error( 'baf_widget_placement_not_found', __( 'Travelpayouts widget placement was not found.', 'bookings-flights-core' ), array( 'status' => 404 ) );
+		}
+
+		if ( 'active' !== $placements[ $key ]['status'] || ! self::embed_is_configured( (array) $placements[ $key ]['embed'] ) ) {
+			return new \WP_Error( 'baf_widget_placement_not_renderable', __( 'Travelpayouts widget placement is not configured for rendering.', 'bookings-flights-core' ), array( 'status' => 409 ) );
+		}
+
+		return $placements[ $key ];
 	}
 
 	public function save_placement( array $placement ): array|\WP_Error {
@@ -124,18 +139,26 @@ final class Travelpayouts_Widget_Registry_Service {
 		return true;
 	}
 
-	public static function sanitize_registry( mixed $value ): array {
+	public static function sanitize_registry( mixed $value, bool $preserve_invalid = false ): array {
 		$value      = is_array( $value ) ? $value : array();
 		$placements = array();
 
-		foreach ( (array) ( $value['placements'] ?? array() ) as $placement ) {
+		foreach ( (array) ( $value['placements'] ?? array() ) as $placement_key => $placement ) {
 			if ( ! is_array( $placement ) ) {
+				if ( true === $preserve_invalid ) {
+					$placements[ $placement_key ] = $placement;
+				}
+
 				continue;
 			}
 
 			$sanitized = self::sanitize_placement( $placement, array(), false );
 
 			if ( is_wp_error( $sanitized ) ) {
+				if ( true === $preserve_invalid ) {
+					$placements[ $placement_key ] = $placement;
+				}
+
 				continue;
 			}
 

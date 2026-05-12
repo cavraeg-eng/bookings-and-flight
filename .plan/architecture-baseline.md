@@ -259,7 +259,7 @@ Secrets must remain server-side and masked in admin UI.
 - `placements`, keyed by sanitized placement key
 - each placement's `key`, `name`, `vertical`, `context`, `widget_family`, `render_mode`, `status`, `subid_pattern`, `public_surfaces`, `consent_required`, `disclosure`, `frame`, `fallback`, private `embed`, admin `notes`, `created_at`, and `updated_at`
 
-Private `embed.reference`, `embed.url`, and admin notes are available only through capability-gated service reads and writes. Public projections must use the service's public placement shape, which strips private embed values and notes while retaining safe metadata such as status, placement family, SubID pattern, disclosure requirements, frame reservations, fallback metadata, and whether the placement is configured.
+Private `embed.reference`, `embed.url`, and admin notes are available through capability-gated service reads and writes. Trusted server-side WordPress renderers may use the service's rendering read path for active, configured placements; REST, JavaScript, block-editor previews, and other untrusted/public responses must use the service's public placement shape, which strips private embed values and notes while retaining safe metadata such as status, placement family, SubID pattern, disclosure requirements, frame reservations, fallback metadata, and whether the placement is configured.
 
 The aggregate `baf_db_version` records the current core schema version for quick status checks. Each custom table also keeps its own table-specific schema version option so a successful upgrade for one table cannot cause another table's `dbDelta()` pass to be skipped during the same release.
 
@@ -325,7 +325,7 @@ Dedicated primitive capabilities are mapped directly by `BAF\Core\Capabilities\C
 | `BAF\Core\Services\Affiliate_Link_Service` | Builds Travelpayouts affiliate cards, SubIDs, disclosures, and signed handoff URLs |
 | `BAF\Core\Services\Click_Tracking_Service` | Gates optional click tracking before repository writes |
 | `BAF\Core\Services\AI_Itinerary_Service` | Orchestrates provider selection, schema validation, run logging, and optional draft trip-plan save |
-| `BAF\Core\Services\Travelpayouts_Widget_Registry_Service` | Stores approved Travelpayouts placement metadata, sanitizes private embed references, gates private reads/writes by affiliate/settings capability, and exposes safe public placement metadata |
+| `BAF\Core\Services\Travelpayouts_Widget_Registry_Service` | Stores approved Travelpayouts placement metadata, sanitizes private embed references, gates admin reads/writes by affiliate/settings capability, preserves malformed stored placements during normalization, exposes safe public placement metadata, and gives trusted server-side renderers active configured embed data |
 | `BAF\Core\Reports\Reporting_Service` | Builds capability-gated admin report summaries and CSV rows |
 | `BAF\Core\Cron\Cron_Manager` | Registers, schedules, and unschedules core WP-Cron automation hooks |
 | `BAF\Core\Jobs\Job_Repository` | Stores bounded non-secret background job status records in `baf_job_status` |
