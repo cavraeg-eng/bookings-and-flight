@@ -216,6 +216,9 @@ Implemented:
 
 - `baf_core_version`
 - `baf_db_version`
+- `baf_db_version_clicks`
+- `baf_db_version_ai_sessions`
+- `baf_db_version_provider_stats`
 - `baf_settings`
 - `baf_travelpayouts_settings`
   - `marker`
@@ -229,6 +232,8 @@ Implemented:
 - `baf_job_status`
 
 Secrets must remain server-side and masked in admin UI.
+
+The aggregate `baf_db_version` records the current core schema version for quick status checks. Each custom table also keeps its own table-specific schema version option so a successful upgrade for one table cannot cause another table's `dbDelta()` pass to be skipped during the same release.
 
 ## Custom Tables
 

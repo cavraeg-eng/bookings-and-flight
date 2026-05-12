@@ -11,8 +11,10 @@ defined( 'ABSPATH' ) || exit;
 
 final class AI_Sessions_Table {
 
+	private const OPTION_TABLE_VERSION = 'baf_db_version_ai_sessions';
+
 	public static function maybe_upgrade(): void {
-		if ( BAF_CORE_DB_VERSION === (string) get_option( Clicks_Table::OPTION_DB_VERSION, '' ) && true === self::exists() ) {
+		if ( BAF_CORE_DB_VERSION === (string) get_option( self::OPTION_TABLE_VERSION, '' ) && true === self::exists() ) {
 			return;
 		}
 
@@ -52,6 +54,7 @@ KEY created_at (created_at)
 ) {$charset_collate};";
 
 		dbDelta( $sql );
+		update_option( self::OPTION_TABLE_VERSION, BAF_CORE_DB_VERSION, false );
 		update_option( Clicks_Table::OPTION_DB_VERSION, BAF_CORE_DB_VERSION, false );
 	}
 

@@ -26,6 +26,16 @@ final class Travelpayouts_White_Label_Shortcode {
 			return '';
 		}
 
+		$consent = Settings_Manager::get_consent();
+
+		if ( true !== (bool) $consent['allow_provider_requests'] ) {
+			if ( current_user_can( Capability_Manager::MANAGE_SETTINGS ) ) {
+				return '<p class="baf-notice baf-notice--warning">' . esc_html__( 'Travelpayouts White Label Widget is configured, but provider request consent is disabled.', 'bookings-flights-core' ) . '</p>';
+			}
+
+			return '';
+		}
+
 		wp_enqueue_style( Frontend_Manager::ASSET_HANDLE );
 
 		$attributes = shortcode_atts(
