@@ -1399,3 +1399,44 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
 Decision: `ONE-83` can move to Done after PR review and merge. Keep Phase 13 `In Progress` until P13.5 and P13.6 pass review and merge.
+
+## Phase 13.5 Review - 2026-05-12
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-84` security, capability, nonce, and exposure review for the Phase 13 Travelpayouts widget registry and safe embed layer. Reviewed the registry service, placement admin screen, placement form, admin-post save/delete actions, Settings API provider fields, shortcode/block render path, frontend renderer, frontend block script, core `baf/v1` REST controllers, affiliate bridge public route boundaries, option storage, and documentation contracts.
+
+Acceptance criteria result: Passed locally for the PR candidate. Protected private registry reads and writes require `manage_baf_affiliates` or `manage_baf_settings`; placement admin writes use admin-post handlers with nonces and capability checks; core REST endpoints have endpoint-specific permission callbacks; public placement projections and frontend output expose only safe placement metadata/output; and no new raw embed, token, secret, private note, or credential exposure was found.
+
+Security review: Passed locally. Anonymous registry private reads, saves, and deletes return forbidden errors. Administrator probe saves are sanitized before storage. Public projections strip private `embed.reference`, `embed.url`, and `notes`. Missing admin-post nonce checks fail with the expected expired-link response and do not create a placement. Settings secret fields render saved API/AI credentials only as masked empty password inputs. Frontend widget output did not contain private admin notes, saved secret values, `api_token`, `api_key`, authorization, or bearer terms.
+
+REST permission review: Passed locally for the current core plugin routes. `destinations`, `routes`, `affiliate/click`, and `ai/itinerary` use endpoint-specific permission callbacks. Anonymous AI itinerary POST is rejected, while the intended public destination collection remains readable. The existing affiliate bridge `/config` and `/postback` routes are outside the widget registry implementation but were inventoried because they share `baf/v1`: `/config` returned no secret-key names or values, and `/postback` rejected requests without the shared secret.
+
+Database/migration review: Passed. No custom table, migration, schema, or option contract changed. Temporary validation placements and temporary option overrides were cleaned up.
+
+UI review: Passed for security-review scope. No UI surface changed in this issue, so no new screenshot gate was required. Prior P13.2 admin and P13.3/P13.4 frontend runtime screenshots remain the current visual evidence for the affected surfaces.
+
+Regression review: Existing registry storage, public projection, renderer consent gates, surface allowlist, SubID generation, secret masking, REST route contracts, and affiliate bridge public route boundaries remain consistent with `.plan/architecture-baseline.md` and `.plan/regression-watchlist.md`.
+
+Validation performed: Source scans for REST routes, admin-post handlers, nonce checks, capability checks, registry option use, raw embed fields, and secret-related terms; WP-CLI registry permission/exposure probes; REST route inventory and permission probes; affiliate bridge config/postback exposure checks; Settings API secret masking check; frontend shortcode exposure check; missing-nonce admin-post failure check; temporary probe cleanup checks.
+
+Bugs found: The first REST inventory script treated the WordPress namespace index route `/baf/v1` as a product endpoint and flagged its discovery handler. The first frontend exposure probe expected `Src <x>` to normalize to `src`, but the sanitizer correctly preserved the scalar `x` as `src_x`.
+
+Bugs fixed: No production code bug was found. The validation scripts were narrowed to actual product endpoint routes and rerun with the correct SubID expectation. Documentation was updated with the Phase 13.5 security gate result and future regression checks.
+
+Bugs deferred: The existing affiliate bridge public `/config` and `/postback` route contracts remain on the watchlist because they are intentionally public; future edits must preserve non-secret config output and shared-secret postback rejection. The known WP-CLI/PHP 8.5 deprecation noise remains an environment watch item.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Plugin Security Handbook.
+- WordPress Plugin Handbook: Checking User Capabilities.
+- WordPress Common APIs Handbook: Nonces.
+- WordPress REST API Handbook: Adding Custom Endpoints.
+- WordPress Common APIs Handbook: Sanitizing Data.
+- WordPress Common APIs Handbook: Escaping Data.
+- Travelpayouts Help Center: ID and SubID affiliate marker guidance.
+
+Decision: `ONE-84` can move to Done after PR review and merge. Keep Phase 13 `In Progress` until P13.6 passes review and merge.

@@ -118,6 +118,7 @@ What to check after future changes:
 - Save and delete actions continue using nonces, capability checks, `wp_unslash()`, sanitization, and registry service writes.
 - Placement listing tables, notices, dashboard cards, public projections, REST responses, logs, and screenshots do not print private `embed.reference`, `embed.url`, API keys, tokens, credentials, private prompts, or customer data.
 - Raw embed values appear only in the capability-gated edit form and are normalized by `Travelpayouts_Widget_Registry_Service` before storage.
+- Missing or invalid admin-post nonces fail closed before placement writes, and failed nonce probes do not leave temporary placement records behind.
 - Empty, missing-configuration, active, disabled, saved, and error states stay visible on desktop and mobile.
 - Keyboard tab order reaches placement fields and write actions without focus traps or hidden focused controls.
 
@@ -142,6 +143,7 @@ What to check after future changes:
 - Public output includes disclosure and safe handoff language outside provider-owned iframe/script content.
 - Provider request consent blocks third-party output without leaking raw embed details.
 - Missing, disabled, no-script, unavailable, and error states render escaped, useful copy.
+- Frontend source and rendered widget output continue to avoid `api_token`, `api_key`, authorization, bearer, saved secret values, private admin notes, and raw registry embed fields.
 - Runtime SubIDs remain centralized in `Travelpayouts_Widget_Subid_Service`, use the `{channel}_{surface}_{vertical}_{slug}_{placement}` convention, and contain only lowercase Latin letters, numbers, and underscores.
 - Provider URL mutation preserves existing Travelpayouts `marker` partner IDs as `marker=partner.subid` instead of replacing tracking with a bare SubID.
 - Loading states remain visible until provider content mounts or a safe unavailable fallback appears, and loading/unavailable/disabled/missing/consent states expose `role="status"` messaging where appropriate.
@@ -166,9 +168,9 @@ Related files/routes/tables/settings:
 - `baf_travelpayouts_widget_registry`
 - `baf_consent_settings`
 
-## Affiliate Bridge REST Config
+## Affiliate Bridge Public REST Config And Postback
 
-Fragile area: `GET /wp-json/baf/v1/config`
+Fragile area: `GET /wp-json/baf/v1/config` and `GET|POST /wp-json/baf/v1/postback`
 
 Why risky: It is intentionally public but must never expose supplier credentials, API tokens, postback secrets, or private settings.
 
@@ -177,6 +179,8 @@ What to check after future changes:
 - Response contains only safe configuration.
 - Enabled suppliers are derived without revealing field values.
 - No secrets are rendered in REST responses, HTML, JavaScript, logs, or admin notices.
+- `GET /wp-json/baf/v1/config` may remain public only while it returns supplier IDs, availability flags, and the configured search API URL without API tokens, postback secrets, authorization headers, or private settings.
+- `GET|POST /wp-json/baf/v1/postback` may remain public only while it rejects requests without the shared secret and never returns the saved secret.
 
 Related files/routes/tables/settings:
 
