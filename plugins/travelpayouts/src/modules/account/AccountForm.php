@@ -4,7 +4,6 @@ namespace Travelpayouts\modules\account;
 
 use Travelpayouts;
 use Travelpayouts\admin\redux\base\ModuleSection;
-use Travelpayouts\components\brands\BrandSubscriptionService;
 use Travelpayouts\components\HtmlHelper;
 use Travelpayouts\components\brands\PlatformsEndpoint;
 
@@ -51,8 +50,6 @@ class AccountForm extends ModuleSection
      */
     public function fields(): array
     {
-        $isSubscribedToHotels = BrandSubscriptionService::isHotelLookAvailable();
-
         return [
             'api_token' => $this->fieldInput()
                 ->setType('password')
@@ -86,7 +83,6 @@ class AccountForm extends ModuleSection
                 ->setDesc(Travelpayouts::__('Ensure your White Label’s URL contains /flights after the  domain name. Example: "mywhitelabel.com/flights"')),
             'hotels_domain' => $this->fieldInput()
                 ->setTitle(Travelpayouts::__('White Label with hotels'))
-                ->setHidden(!$isSubscribedToHotels)
                 ->setDesc(Travelpayouts::__('Ensure your White Label’s URL contains /hotels after the  domain name. Example: "mywhitelabel.com/hotels"')),
             'wl_domain_end' => $this->fieldSection(),
         ];

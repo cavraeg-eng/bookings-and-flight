@@ -13,12 +13,14 @@ What to check after future changes:
 - Official Travelpayouts plugin compatibility status remains documented.
 - Backend mode remains explicit: official-plugin-first only for locally validated surfaces, with Travelpayouts dashboard-generated fallback embeds for inactive or unvalidated plugin surfaces.
 - Flight and hotel search flows use Travelpayouts plugin/widgets/White Label or approved Travelpayouts embeds; Phase 11 clears only the official flight widget path for plugin-first use.
-- Hotel surfaces continue using Travelpayouts dashboard-generated fallback embeds until a documented official-plugin capability change activates HotelLook tools locally.
+- Hotel surfaces continue using Travelpayouts dashboard-generated Trip.com or other Hotels & Accommodation brand widgets/links; do not treat legacy HotelLook activation as the completion target.
 - `/search/flights` and `/search/hotels` do not become custom live inventory APIs without a new decision.
 - `platform/` search adapters are not treated as the canonical WordPress backend unless a new decision approves that boundary change.
 - WordPress does not store canonical live flight or hotel inventory. Any future cached-offer feature remains explicitly non-canonical, consent-aware, TTL/provenance documented, and separate from Travelpayouts revenue/reporting source of truth.
 - Travelpayouts Partner ID, Token, marker, and API credentials are never exposed in frontend HTML, JavaScript, public REST responses, logs, or admin notices.
 - SubIDs use lowercase Latin letters, numbers, and underscores and do not contain private user/trip data.
+- PHP deprecation or warning output from bundled Travelpayouts dependencies does not print into public pages.
+- Trip.com hotel surfaces keep a visible sponsored handoff link even when the embedded iframe is blocked or blank in a browser.
 - Affiliate disclosure appears on every monetized widget, link, card, route, destination, and AI planner surface.
 - White Label Widget type remains preferred when the search/result page should keep the WordPress theme header completely intact.
 - Page-type White Label header customization continues to mirror the Bookings and Flights home-site header: logo, brand name, favicon, header color/image, search-heading copy, and approved menu/footer links.

@@ -36,6 +36,7 @@ class PlatformsEndpoint extends ApiEndpoint
     public function getSelectOptions(): array
     {
         $data = $this->getData();
+        $selectedPlatform = preg_replace('/[^0-9]/', '', (string)$this->getSelectedPlatform());
         $options = [
             Travelpayouts::__("Your account doesn't have traffic sources yet"),
         ];
@@ -48,6 +49,11 @@ class PlatformsEndpoint extends ApiEndpoint
             }
 
         }
+
+        if ($selectedPlatform && !array_key_exists($selectedPlatform, $options)) {
+            $options[$selectedPlatform] = Travelpayouts::__('Saved Project') . ' #' . $selectedPlatform;
+        }
+
         return $options;
     }
 

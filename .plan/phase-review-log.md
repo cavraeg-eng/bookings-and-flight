@@ -580,7 +580,7 @@ Acceptance criteria result: Partial for Phase 11, passed for P11.3. Flight widge
 
 Flight surface review: Passed locally. `[tp_popular_routes_widget destination="BKK" subid="baf_home_flights_test_surface"]` rendered a Travelpayouts script source of `//www.travelpayouts.com/weedle/widget.js?marker=123456.wpplugin_baf_home_flights_test_surface&currency=usd&locale=en&powered_by=true&destination=BKK&host=hydra.aviasales.ru`.
 
-Hotel surface review: Blocked for the official plugin path. `[tp_hotel_widget]` and `[tp_hotel_selections_widget]` rendered empty output. Source inspection showed hotel widget models depend on `HotelLookWidgetShortcodeModel::isActive()`, which calls `BrandSubscriptionService::isHotelLookAvailable()`, and this staged plugin returns `false`; inactive shortcodes are registered as callbacks that return an empty string. The production hotel path should use Travelpayouts dashboard-generated hotel widget/table/embed code inside the governed WordPress wrapper unless a future official plugin version or upstream configuration activates HotelLook tools.
+Hotel surface review: Blocked for the official plugin path. `[tp_hotel_widget]` and `[tp_hotel_selections_widget]` rendered empty output. Source inspection showed hotel widget models depend on `HotelLookWidgetShortcodeModel::isActive()`, which calls `BrandSubscriptionService::isHotelLookAvailable()`, and this staged plugin returns `false`; inactive shortcodes are registered as callbacks that return an empty string. Later P11.6 review confirmed Travelpayouts now treats Hotellook tools as shut down, so the production hotel path should use a dashboard-generated Trip.com or other Hotels & Accommodation brand widget/link inside the governed WordPress wrapper.
 
 White Label review: Documented, not fully validated against a real domain. Official Travelpayouts documentation confirms that plugin White Label fields can route widget/table/search results to configured White Label domains, Widget type can keep search and results on the embedded WordPress page, and Page type requires domain setup plus Travelpayouts appearance customization. For Bookings and Flights, Widget type remains preferred for full WordPress header continuity; Page type remains available only when its fuller result UX is needed and the logo, favicon, brand name, colors, heading copy, and menu/footer links are configured to match the home-site header.
 
@@ -598,7 +598,7 @@ Validation performed: `wp plugin status travelpayouts`; temporary `travelpayouts
 
 Bugs found: Official hotel widget/table shortcodes render empty in the staged plugin because HotelLook availability is hardcoded off through `BrandSubscriptionService::isHotelLookAvailable()`.
 
-Bugs fixed: None. This is treated as an official-plugin compatibility/fallback finding rather than a local patch because forcing the HotelLook gate on would activate an upstream-controlled provider surface without proof that the account/subscription path supports it.
+Bugs fixed: None. This is treated as an official-plugin compatibility/fallback finding rather than a local patch because forcing the legacy HotelLook gate on would activate a discontinued provider surface without proof that the account/subscription path supports it.
 
 Bugs deferred: Validate the dashboard-generated hotel widget/table fallback; validate real White Label Widget code on a WordPress page; validate Page-type White Label header continuity after domain/CNAME and Travelpayouts appearance settings are configured.
 
@@ -651,7 +651,7 @@ Reviewer: Codex
 
 Scope reviewed: Synthesized P11.1-P11.4 evidence and updated the backend boundary, fallback path, SubID strategy, known follow-ups, `platform/` non-canonical status, and regression watchlist.
 
-Backend mode decision: Use the official Travelpayouts WordPress plugin first only where local compatibility is proven. For Phase 11 that means the tested flight widget/search path. Use Travelpayouts dashboard-generated hotel widget/table/embed and White Label Widget/Page code inside the future capability-gated `baf` placement registry when the official plugin path is unavailable, disabled by upstream capability, or not configured with real domains.
+Backend mode decision: Use the official Travelpayouts WordPress plugin first only where local compatibility is proven. For Phase 11 that means the tested flight widget/search path. Use Travelpayouts dashboard-generated Trip.com or other Hotels & Accommodation brand widget/link code and White Label Widget/Page code inside the future capability-gated `baf` placement registry when the official plugin path is unavailable, disabled, or not configured with real domains.
 
 Search surface mode decision: Planned `/search/flights` and `/search/hotels` may expose WordPress-owned shell configuration, approved placement metadata, disclosure copy, consent state, SubID/handoff metadata, or safe redirect information. They must not store or serve canonical live supplier inventory or make `platform/` the canonical WordPress search backend without a new documented architecture decision.
 
@@ -683,7 +683,7 @@ Acceptance criteria result: Partial for Phase 11, passed for the local evidence 
 
 Functional review: Passed for the locally available happy path. The official flight widget renders through the plugin with the expected Travelpayouts script and marker/SubID behavior. Hotel widgets are intentionally deferred to dashboard-generated fallback embeds because the staged plugin disables HotelLook tools. White Label is documented and gated on configured domains/dashboard code, so those production paths still require validation before Phase 11 completion.
 
-Error, empty-state, and missing-configuration review: Passed. Missing `travelpayouts_admin_settings` remains a safe local state. Temporary credential/options checks restore or delete test options. Hotel shortcode empty output is documented as an upstream capability/fallback finding, not hidden as a successful hotel render.
+Error, empty-state, and missing-configuration review: Passed. Missing `travelpayouts_admin_settings` remains a safe local state. Temporary credential/options checks restore or delete test options. Hotel shortcode empty output is documented as a legacy plugin compatibility finding, not hidden as a successful hotel render.
 
 Security and data review: Passed. The phase did not add public REST endpoints, admin write actions, database migrations, direct provider calls, or secret-rendering paths. Previous P11.2 hardening keeps account tokens masked, preserves tokens on blank submission, sanitizes account fields, and returns non-secret token state from the Gutenberg token action.
 
@@ -712,3 +712,203 @@ Research consulted:
 - Travelpayouts Help Center, ID and SubID: Partner ID/marker and SubID tracking behavior.
 
 Decision: Phase 11 remains `In Review`. Phase 12 may use the documented Travelpayouts-controlled backend boundary for design work, but Phase 11 cannot be marked `Completed` until production hotel fallback embeds and real White Label Widget/Page configuration are validated with Travelpayouts dashboard setup.
+
+## Phase 11.6 Account Persistence Follow-Up - 2026-05-12
+
+Status: `In Review`. Phase 11 remains blocked by real hotel fallback and White Label validation.
+
+Reviewer: Codex
+
+Scope reviewed: Travelpayouts account settings persistence after navigating away from the admin page, Project selection preservation, hotels White Label field visibility, and current backend shortcode behavior.
+
+Current state summary: The live local option has a saved API token, Partner ID, Project, flights White Label domain, and hotels White Label domain. The hotels White Label field is now visible on the account settings form, and the Project select can show the saved Project as a fallback when Travelpayouts traffic-source lookup is unavailable. Official hotel shortcode output remains empty because HotelLook availability is still disabled inside the staged plugin.
+
+Bugs found: Partial Redux account saves could omit the API token, Partner ID, Project, or White Label domain keys and overwrite the stored option without those values. A blank/placeholder Project submission could also replace a previously selected Project. The hotels White Label field was hidden because it depended on the staged plugin's hardcoded HotelLook availability gate.
+
+Bugs fixed: `AccountOptionsSanitizer` now preserves saved account token, Partner ID, Project, flights White Label domain, and hotels White Label domain values when a settings save omits those fields; it also preserves the saved Project when the UI submits a blank/placeholder value and sanitizes Project IDs as numeric values. `PlatformsEndpoint` now includes a safe saved-Project fallback option so the Project select does not appear empty when the traffic-source API cannot return choices. `AccountForm` now exposes the hotels White Label field so the domain can be entered and persisted.
+
+Validation performed: PHP syntax checks for changed Travelpayouts PHP files; direct sanitizer regression checks for missing and blank account submissions; WP-CLI account field visibility check confirming `hotels_domain` exists and is not hidden; Project option fallback check confirming the saved Project remains in select options; plugin deactivate/reactivate check; current account-state check without printing credentials; flight shortcode source check for `weedle/widget.js`, marker/SubID behavior, and no saved-token exposure; hotel shortcode check confirming it still returns empty output; homepage source scan for secret/payment terms; `git diff --check`.
+
+Bugs deferred: Validate the saved hotels White Label domain with a real Travelpayouts White Label surface or dashboard-generated Trip.com/Hotels & Accommodation widget; validate real White Label Widget/Page behavior with the Bookings and Flights header continuity requirements; keep official hotel plugin shortcodes on the legacy fallback watchlist.
+
+Documentation updated: `.plan/known-issues.md`, `.plan/validation-baseline.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Settings API Handbook: option storage and Settings API sanitization context.
+- WordPress Common APIs Security Handbook: sanitize untrusted values and rely on WordPress APIs for data safety.
+- Travelpayouts Help Center, What is White Label Web by Travelpayouts: Widget/Page type behavior, domain requirements, external booking boundary, and hotel-widget availability context.
+
+Decision: The missing API token, Partner ID, and Project persistence issue is patched locally, and the hotels White Label field/value is now present. The next manual setup item is to validate the hotel fallback or real White Label surface before Phase 11 can move from `In Review` to `Completed`.
+
+## Phase 11.6 White Label Widget Placement Follow-Up - 2026-05-12
+
+Status: `In Review`. Phase 11 still needs real White Label Widget/Page validation.
+
+Reviewer: Codex
+
+Scope reviewed: Current saved Travelpayouts account settings, WordPress-side storage for White Label Widget code, Page-type White Label domain placement, and a safe frontend wrapper for the Travelpayouts Widget-type White Label path.
+
+Current state summary: The official Travelpayouts account option now has Token, Partner ID, Project, flights White Label domain, and hotels White Label domain present. The missing backend surface was a Bookings and Flights field for Travelpayouts White Label Widget code. `bookings-flights-core` now exposes this on `Bookings & Flights > Integrations` as `White Label Widget code or ID`, stores only the extracted `wl_id`, and renders the placement with `[baf_travelpayouts_white_label]`. Page-type White Label flight/hotel domains remain in the official Travelpayouts plugin account settings.
+
+Bugs found: The plan called for a Travelpayouts dashboard-generated White Label Widget fallback, but there was no admin field or shortcode wrapper where the Widget-type `wl_id` could be entered and rendered inside the WordPress shell.
+
+Bugs fixed: Added `baf_travelpayouts_settings.white_label_widget_id`, `baf_travelpayouts_settings.white_label_results_url`, sanitizer support that extracts a `wl_id` from pasted Travelpayouts code instead of storing raw script, and the `[baf_travelpayouts_white_label]` shortcode that renders `tpwl-search`, `tpwl-tickets`, and the approved Travelpayouts `tpwgts.com/wl_web/main.js` loader.
+
+Validation performed: PHP syntax checks for changed core and Travelpayouts files; Settings API field registration check for the new Widget ID and results URL fields; sanitizer regression check for pasted Travelpayouts code, root-relative results URL normalization, and blank token preservation; shortcode render smoke check using an injected test option without mutating live settings; current safe account-state check; `bookings-flights-core` deactivate/reactivate; `git diff --check`.
+
+Bugs deferred: Paste the real Travelpayouts White Label Widget code or `wl_id` into the new Bookings & Flights Integrations field; add `[baf_travelpayouts_white_label]` to the intended WordPress page; validate desktop/mobile rendering and header continuity; continue validating Page-type White Label domains through the official Travelpayouts plugin account page.
+
+Documentation updated: `.plan/architecture-baseline.md`, `.plan/known-issues.md`, `.plan/validation-baseline.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Settings API Handbook: `register_setting()`, Settings API sanitizers, and option storage context.
+- WordPress Common APIs Security Handbook: sanitizing untrusted input and escaping frontend/admin output.
+- WordPress Shortcodes Handbook: shortcode output context.
+- Travelpayouts Help Center, Setting up a White Label with Widget type: Widget setup, `wl_id` loader code, search/results containers, and optional results URL behavior.
+- Travelpayouts Help Center, Travelpayouts White Label Web Setup Guide: Widget type versus Page type setup and hosting/domain requirements.
+- Travelpayouts Help Center, Setting up White Label through Travelpayouts WordPress plugin: Page/domain setup belongs in the official plugin White Label fields.
+
+Decision: The backend now has a clear place for Widget-type White Label setup. Phase 11 remains `In Review` until the real Travelpayouts Widget ID or Page-type White Label flow is saved and browser-validated on the intended page.
+
+## Phase 11.6 Trip.com Hotel Widget Follow-Up - 2026-05-12
+
+Status: `In Review`. Real Trip.com/Hotels & Accommodation widget script is saved; shortcode placement and browser validation are still needed.
+
+Reviewer: Codex
+
+Scope reviewed: Official plugin hotel compatibility, current Travelpayouts hotel provider direction, Trip.com hotel widget placement, and safe WordPress-side storage/rendering for Travelpayouts dashboard hotel widget code.
+
+Current state summary: The official Travelpayouts plugin in this workspace still contains legacy Hotellook-backed hotel shortcode classes, and those shortcodes render empty locally. Travelpayouts documentation says Hotellook tools are shut down and recommends replacing disabled hotel tools with widgets or links from current Hotels & Accommodation brands. The user confirmed the current hotel search path is Trip.com, so the production hotel path should be a Travelpayouts dashboard-generated Trip.com hotel widget/link instead of the imported plugin's HotelLook shortcode path.
+
+Bugs found: The phase notes and setup checklist still treated hotel completion as waiting on a generic dashboard fallback or upstream HotelLook activation. That framing was stale because Hotellook is shut down and the actionable path is a current Travelpayouts Hotels & Accommodation brand widget, specifically the user's Trip.com hotel search setup.
+
+Bugs fixed: Added `baf_travelpayouts_settings.hotel_widget_script_url`, a Hotels & Accommodation/Trip.com widget code field on `Bookings & Flights > Integrations`, sanitizer support that extracts and stores only an allowlisted Travelpayouts widget script URL from pasted code, and the `[baf_travelpayouts_hotel_widget]` shortcode that renders the approved script inside the WordPress page shell.
+
+Validation performed: PHP syntax checks for changed core files; WP-CLI Settings API field registration check for the Trip.com hotel widget field and existing White Label fields; sanitizer regression check for pasted Travelpayouts widget script extraction, raw-script stripping, and non-Travelpayouts host rejection; shortcode smoke check using an injected test option without mutating live settings; current safe account-state check without printing credentials; `bookings-flights-core` deactivate/reactivate and final active-status check. WP-CLI required the Local MySQL socket to be passed through PHP `mysqli.default_socket`, and the known WP-CLI PHP deprecation warning still appears.
+
+Bugs deferred: Paste the real Travelpayouts Trip.com hotel widget code or script URL into the new Integrations field; add `[baf_travelpayouts_hotel_widget]` to the intended WordPress hotel page; browser-validate desktop/mobile rendering, header continuity, outbound handoff, and no secret/payment leakage.
+
+Documentation updated: `.plan/architecture-baseline.md`, `.plan/known-issues.md`, `.plan/phased-implementation.md`, `.plan/validation-baseline.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Settings API Handbook: `register_setting()`, Settings API sanitizers, and option storage context.
+- WordPress Common APIs Security Handbook: sanitizing untrusted input and escaping frontend/admin output.
+- WordPress Shortcodes Handbook: shortcode output context.
+- Travelpayouts Help Center, FAQ on the closure of Hotellook: Hotellook widgets, landing pages, API, and old White Label hotel tab shutdown; replacement with Hotels & Accommodation widgets or links.
+- Travelpayouts Help Center, Getting started with widgets: dashboard widget discovery, customization, copy-code flow, Project requirement, and tracking through Partner ID.
+- Travelpayouts Help Center, Types of widgets: Search Form and White Label widget behavior, including Trip.com as a Travelpayouts widget example.
+
+Decision: HotelLook/Hotellook is no longer the completion target for Phase 11. Phase 11 remains `In Review` until the saved Trip.com or other Travelpayouts Hotels & Accommodation widget code is placed with `[baf_travelpayouts_hotel_widget]` and browser-validated on the intended WordPress page.
+
+## Phase 11.6 Widget Save Regression Follow-Up - 2026-05-12
+
+Status: `In Review`. Save behavior is patched; the real Trip.com widget is saved, while the White Label Widget ID still needs to be pasted and browser-validated.
+
+Reviewer: Codex
+
+Scope reviewed: Bookings & Flights Integrations form submission, Settings API registration, White Label Widget ID parsing, Trip.com/Hotels widget script parsing, failed-save behavior, and live saved option state.
+
+Current state summary: The Integrations form posts to the correct Settings API group and fields. The live option has the saved results URL and now has the real Trip.com hotel widget script saved from the user's `tpwgt.com/content` snippet. The White Label Widget ID is still missing. The cause of the blank-after-save behavior was sanitizer rejection of copied Travelpayouts snippets that used formats outside the first narrow parser, followed by returning an empty value without a useful admin error.
+
+Bugs found: White Label widget parsing only handled a small `wl_id=` shape, and the hotel widget parser only handled `src="..."` without spacing. Invalid or unrecognized pasted widget code could silently save as blank, and an already saved widget value could be cleared by an invalid pasted replacement.
+
+Bugs fixed: Expanded White Label parsing to accept common `wl_id`, `wl-id`, and `data-wl-id` shapes. Expanded hotel widget parsing to accept `src = "..."`, unquoted `src=...`, and protocol-relative Travelpayouts widget script URLs. Added Travelpayouts widget host/path validation and Settings API errors for rejected pasted values. Rejected non-empty pasted values now preserve the existing saved widget value instead of blanking it.
+
+Validation performed: PHP syntax check for `class-settings-manager.php`; direct sanitizer check for full White Label script extraction; direct sanitizer check for spaced `tp.media/content` hotel script extraction; invalid White Label and invalid hotel widget checks confirmed existing saved values are preserved; temporary database round-trip with dummy non-secret values confirmed both widget fields save and the original live option is restored afterward. WP-CLI required the Local MySQL socket to be passed through PHP `mysqli.default_socket`, and the known WP-CLI PHP deprecation warning still appears.
+
+Bugs deferred: Paste the real Travelpayouts White Label Widget code, confirm it persists after save, add `[baf_travelpayouts_white_label]` and `[baf_travelpayouts_hotel_widget]` to the intended pages, and browser-validate desktop/mobile rendering plus header continuity.
+
+Documentation updated: `.plan/validation-baseline.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Settings API Handbook: registered option sanitization and admin settings save flow.
+- WordPress Common APIs Security Handbook: sanitize untrusted input and escape output.
+- Travelpayouts Help Center, Getting started with widgets: dashboard copy-code flow and widget code placement.
+- Travelpayouts Help Center, Popular routes widget example: `tp.media/content` script code shape.
+- Travelpayouts Help Center, What is White Label Web by Travelpayouts: Widget type placement and external booking boundary.
+
+Decision: The blank-after-save path is patched, and the real Trip.com `tpwgt.com/content` widget script is saved. The next check is saving the real White Label Widget ID/code, followed by shortcode placement and browser validation.
+
+## Phase 11.6 `tpwgt.com` Trip.com Widget Follow-Up - 2026-05-12
+
+Status: `In Review`. The Trip.com script is saved; browser validation remains.
+
+Reviewer: Codex
+
+Scope reviewed: User-provided Travelpayouts Trip.com widget code, sanitizer allowlist, live `baf_travelpayouts_settings.hotel_widget_script_url` save state, and Phase 11 completion blockers.
+
+Current state summary: The user-provided Trip.com hotel widget code uses `https://tpwgt.com/content?...`. The previous sanitizer treated `tpwgt.com` as unknown even though the `/content` path matches the Travelpayouts widget script pattern. After patching the allowlist, the exact snippet is recognized and saved as the current hotel widget script URL.
+
+Bugs found: The Travelpayouts widget host allowlist missed `tpwgt.com`, causing a real Trip.com dashboard widget script to be rejected with the generic unrecognized-widget error.
+
+Bugs fixed: Added `tpwgt.com` and `*.tpwgt.com` to the Travelpayouts widget host allowlist while preserving the existing widget script path requirement.
+
+Validation performed: PHP syntax check for `class-settings-manager.php`; exact user-provided Trip.com snippet sanitizer check confirmed it is accepted as host `tpwgt.com` and path `/content`; saved the sanitized script URL to `baf_travelpayouts_settings.hotel_widget_script_url`; verified the live option reports the Trip.com hotel widget script present without printing the full tracking URL. WP-CLI required the Local MySQL socket to be passed through PHP `mysqli.default_socket`, and the known WP-CLI PHP deprecation warning still appears.
+
+Bugs deferred: Add `[baf_travelpayouts_hotel_widget]` to the intended hotel page and browser-validate desktop/mobile rendering, header continuity, outbound handoff, and no secret/payment leakage. Save and validate the real White Label Widget ID/code separately.
+
+Documentation updated: `.plan/known-issues.md`, `.plan/phased-implementation.md`, `.plan/validation-baseline.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Settings API Handbook: registered option sanitization and admin settings save flow.
+- WordPress Common APIs Security Handbook: sanitize untrusted input and restrict saved embed URLs.
+- Travelpayouts Help Center, Getting started with widgets: dashboard copy-code flow and widget code placement.
+
+Decision: The provided Trip.com widget code is valid for this integration and is now saved. Phase 11 still cannot complete until the widget shortcode is placed and browser-validated, and the White Label Widget ID/code is saved and validated.
+
+## Phase 11.6 White Label Page Template Follow-Up - 2026-05-12
+
+Status: `In Review`. The pasted White Label template is identified; Widget-type ID/code is still needed for the WordPress wrapper.
+
+Reviewer: Codex
+
+Scope reviewed: User-provided White Label HTML, Widget-type versus Page-type setup boundary, sanitizer behavior, live widget setting state, and shortcode placement.
+
+Current state summary: The submitted White Label code is a full Page-type HTML template with Travelpayouts placeholders such as `[:embed_script:]`, `[:route_info:]`, and `[:current_year:]`. It also includes `tpwl-search` and `tpwl-tickets` containers, but it does not contain a `wl_id` or `main.js?wl_id=...` loader. The Bookings & Flights `White Label Widget code or ID` field is intentionally for Widget-type setup, so this Page-type template cannot be saved as a widget ID.
+
+Bugs found: The generic no-`wl_id` admin error did not clearly tell the user that the pasted HTML was Page-type template code and belongs in the Travelpayouts dashboard, not the WordPress Widget ID field.
+
+Bugs fixed: Added detection for Travelpayouts Page-type template markers including `[:embed_script:]`, `[:route_info:]`, `[:current_year:]`, and combined `tpwl-search`/`tpwl-tickets`. The sanitizer now shows a specific admin error explaining that Page-type template code should be pasted in the Travelpayouts White Label Page settings, while this WordPress field requires Widget-type code containing `wl_id`.
+
+Validation performed: PHP syntax check for `class-settings-manager.php`; representative Page-type template sanitizer check confirmed the existing widget ID is preserved and the specific `baf_white_label_page_template_pasted` admin error is emitted; live option check confirmed the Trip.com hotel widget remains saved, the White Label Widget ID is still missing, and no intended pages currently contain `[baf_travelpayouts_white_label]` or `[baf_travelpayouts_hotel_widget]`. WP-CLI required the Local MySQL socket to be passed through PHP `mysqli.default_socket`, and the known WP-CLI PHP deprecation warning still appears.
+
+Bugs deferred: Create or copy the Widget-type White Label code from Travelpayouts, save the `wl_id` or `main.js?wl_id=...` snippet in Bookings & Flights Integrations, add the shortcodes to the intended pages, and browser-validate the final experience.
+
+Documentation updated: `.plan/validation-baseline.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- Travelpayouts Help Center, Setting up a White Label with Widget type: Widget-type loader uses `main.js?wl_id=...` with `tpwl-search` and `tpwl-tickets` containers.
+- Travelpayouts Help Center, What is White Label Web by Travelpayouts: Widget type embeds search/results on the existing site, while Page type is a standalone White Label page.
+- WordPress Settings API Handbook: registered option sanitization and admin settings save flow.
+
+Decision: Nothing is wrong with the submitted HTML as a Page-type template, but it is the wrong artifact for the WordPress Widget ID field. The next required value is the Widget-type `wl_id` or the Widget-type loader snippet from Travelpayouts.
+
+## Phase 11.6 Final Browser Validation Gate - 2026-05-12
+
+Status: `In Review`. Local code and browser validation passed; GitHub PR review and merge remain the final completion gate.
+
+Reviewer: Codex
+
+Scope reviewed: Published Flights and Hotels WordPress pages, saved Bookings & Flights Travelpayouts integration settings, official Travelpayouts plugin account persistence, Trip.com hotel handoff, White Label Widget wrapper, frontend source output, mobile-width rendering, and Phase 11 backend-boundary documentation.
+
+Current state summary: The live local setup has the White Label Widget ID, White Label results URL, and Trip.com hotel partner embed saved in `baf_travelpayouts_settings`. The published Flights page contains `[baf_travelpayouts_white_label]`, and the published Hotels page contains `[baf_travelpayouts_hotel_widget]`. The Hotels page renders a Trip.com partner iframe and a visible sponsored `Open hotel search` handoff link; the direct Trip.com partner search form opens successfully in Chrome. The Flights page renders the Travelpayouts White Label search form inside the WordPress shell.
+
+Bugs found: The Hotels page content was partially hidden by the fixed site header on generic pages. The script-generated Trip.com widget path could render a blank third-party iframe in Chrome, while the direct partner URL rendered the real Trip.com search form. The Flights page displayed a PHP-DI deprecation from the bundled Travelpayouts dependency when local PHP displayed deprecations.
+
+Bugs fixed: Added top spacing for generic `.site-content > .container` page content in the static theme. Split the oversized generated header/footer stylesheet into focused header, mobile navigation, and footer stylesheets before publishing the theme. Allowed and rendered direct Trip.com partner embed URLs, while keeping a visible sponsored handoff link for browsers or extensions that block the iframe. Patched the bundled PHP-DI `ObjectCreator` compatibility path so `ReflectionProperty::setAccessible()` is skipped on PHP 8.1+ and the nullable class-name signature is explicit.
+
+Validation performed: Chrome desktop review confirmed the Flights page loads a clean Travelpayouts White Label search form with no PHP warning output, and the Hotels page shows the Trip.com hotel surface plus visible handoff. Chrome mobile-width review confirmed the Flights and Hotels pages fit without obvious overlap or clipped controls. The direct Trip.com partner URL rendered the expected destination, date, room/guest, and search controls. `curl` source scans for `/flights/` and `/hotels/` found no `Deprecated`, `Warning`, `Fatal`, API token, authorization, bearer, checkout, payment, refund, or secret text, and confirmed the split theme CSS handles load instead of the old combined header/footer stylesheet. REST smoke checks confirmed unauthenticated AI itinerary creation returns `401`, public destinations return a bounded empty collection, and unsigned affiliate click handoff returns a missing-parameter `400` rather than redirecting. PHP syntax and `git diff --check` passed for the changed code.
+
+Bugs deferred: Full production proof still depends on the deployed Travelpayouts account/domain configuration and real browser mix. Keep the Trip.com iframe/handoff behavior on the Phase 13 registry watchlist and preserve the rule that Travelpayouts controls monetized search/results/booking handoff.
+
+Documentation updated: `.plan/architecture-baseline.md`, `.plan/known-issues.md`, `.plan/phased-implementation.md`, `.plan/regression-watchlist.md`, `.plan/validation-baseline.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Settings API Handbook: registered option sanitization and admin settings save flow.
+- WordPress Common APIs Security Handbook: sanitize untrusted input and escape frontend/admin output.
+- WordPress Shortcodes Handbook: shortcode output context.
+- Travelpayouts Help Center, Setting up a White Label with Widget type: Widget loader, search/results containers, and Widget-type setup boundary.
+- Travelpayouts Help Center, FAQ on the closure of Hotellook: legacy Hotellook shutdown and replacement with current Hotels & Accommodation widgets or links.
+- Travelpayouts Help Center, Getting started with widgets: dashboard copy-code and partner widget setup flow.
+
+Decision: Phase 11.6 is locally validated and ready for PR review. Do not mark ONE-73 or Phase 11 complete until the branch is published, reviewed, merged, and Linear is updated with the final PR and validation evidence.

@@ -1,0 +1,256 @@
+/**
+ * Reset & Base Styles
+ * Bookings and Flights Static Theme
+ *
+ * Load AFTER tokens.css
+ */
+
+/* ==========================================================================
+   Box Sizing Reset
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ==========================================================================
+   HTML & Scroll Behavior
+   IMPORTANT: Respects prefers-reduced-motion
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ==========================================================================
+   Body Base Styles
+   ========================================================================== */
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-m);
+  font-weight: 400;
+  line-height: var(--line-height-normal);
+  color: var(--text-body);
+  background-color: var(--bg-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   Media Resets
+   ========================================================================== */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+/* ==========================================================================
+   Hidden Attribute Override
+   Ensures [hidden] always hides elements, even when CSS sets display explicitly.
+   Learned from: DJFuse contact form success state was visible alongside form
+   because display:flex overrode [hidden].
+   ========================================================================== */
+[hidden] {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Screen Reader Only
+   Visually hidden but accessible to assistive technology.
+   Standard pattern matching Bootstrap/Tailwind .sr-only.
+   ========================================================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ==========================================================================
+   Interactive Element Resets
+   ========================================================================== */
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* ==========================================================================
+   Typography Base
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: var(--line-height-tight);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* ==========================================================================
+   Focus Styles - IMPORTANT: Do not modify
+   ========================================================================== */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Grain Texture Overlay
+   NOTE: z-index: 9999 is intentional - must stay on top
+   ========================================================================== */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: var(--z-toast);
+}
+
+/* ==========================================================================
+   Reduced Motion - Disable all animations when requested
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Reveal Animation Base Styles
+   ========================================================================== */
+.reveal,
+.fade-in,
+.slide-up,
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity var(--duration-slow) var(--ease-out-expo),
+    transform var(--duration-slow) var(--ease-out-expo);
+}
+
+.reveal.revealed,
+.fade-in.revealed,
+.slide-up.revealed,
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   Container Utility
+   ========================================================================== */
+.container {
+  inline-size: 100%;
+  max-inline-size: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.site-content > .container {
+  padding-block-start: calc(90px + var(--space-xl));
+  padding-block-end: var(--space-xl);
+}
+
+body.admin-bar .site-content > .container {
+  padding-block-start: calc(122px + var(--space-xl));
+}
+
+@media (max-width: 782px) {
+  body.admin-bar .site-content > .container {
+    padding-block-start: calc(136px + var(--space-xl));
+  }
+}
+
+/* ==========================================================================
+   Section Defaults
+   Immersive full-viewport sections with proper spacing.
+   Learned from: DJFuse Process section collapsed to ~640px; user flagged
+   hero content as "smothered" due to missing gap.
+   ========================================================================== */
+.section {
+  position: relative;
+  padding-block: var(--space-2xl);
+  min-block-size: 60vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.section__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  inline-size: 100%;
+  max-inline-size: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+/* ==========================================================================
+   Hero Content Centering
+   Any constrained-width content block is auto-centered.
+   Learned from: DJFuse hero centering bug occurred on 3 separate pages —
+   max-inline-size was set but margin-inline:auto was missed each time.
+   ========================================================================== */
+.hero__content,
+.section__inner,
+[class*="hero__content"],
+[class*="__content"][style*="max-inline-size"] {
+  margin-inline: auto;
+}
+
+/* ==========================================================================
+   Grain Texture Overlay (data attribute variant)
+   Use data-grain on any element instead of page-specific grain classes.
+   Learned from: DJFuse required editing main.css grain selector for every
+   new page (.legal-hero__grain, .error-hero__grain, etc.).
+   ========================================================================== */
+[data-grain]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+}
