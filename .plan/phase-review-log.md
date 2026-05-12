@@ -1245,7 +1245,7 @@ Decision: `ONE-79` can move to Done after PR review and merge. Phase 12 can be m
 
 ## Phase 13.1 Review - 2026-05-12
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
@@ -1263,7 +1263,7 @@ UI review: Not applicable for runtime UI. P13.1 creates the storage/service laye
 
 Regression review: Existing `[baf_travelpayouts_white_label]` and `[baf_travelpayouts_hotel_widget]` shortcodes remain unchanged. Existing `baf_travelpayouts_settings` fields remain intact and are used only to seed the first registry records when the registry option is missing.
 
-Validation performed: PHP syntax checks for the new service, plugin bootstrap, and activator; option/service smoke check for install, public/private projection, trusted rendering read path, capability gate, sanitizer, malformed placement preservation, non-approved iframe path rejection, dashboard script URL rejection in iframe mode, temporary administrator save, temporary delete, SubID normalization, and idempotent registry normalization; plugin deactivate/reactivate smoke check; `git diff --check`.
+Validation performed: PHP syntax checks for the new service, plugin bootstrap, and activator; option/service smoke check for install, public/private projection, trusted rendering read path, capability gate, sanitizer, malformed placement preservation, non-approved iframe path rejection, dashboard script URL rejection in iframe mode, temporary administrator save, temporary delete, SubID normalization, and idempotent registry normalization; plugin deactivate/reactivate smoke check; `git diff --check`; Codex review on PR #16, including follow-up fixes for all posted findings and final no-major-issues result on the latest implementation head.
 
 Bugs found: Initial bootstrap called the registry installer during `plugins_loaded`, which triggered WordPress's just-in-time translation warning because default placement strings passed through translation functions too early. Codex review on PR #16 found that registry normalization was touching placement `updated_at` values, that future unauthenticated frontend renderers would not have a service-owned path to private active embed data, that malformed stored placements could be dropped during bootstrap normalization, and that iframe mode could accept allowlisted dashboard script URLs that are not valid iframe sources.
 
@@ -1281,4 +1281,4 @@ Research consulted:
 - Travelpayouts Help Center: Getting started with widgets.
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 
-Decision: `ONE-80` can move to PR review after Codex checks the implementation branch. Phase 13 remains `In Progress` for the remaining registry UI, wrapper, state, security, and review child issues.
+Decision: `ONE-80` can move to Done after PR #16 merge. Phase 13 remains `In Progress` for the remaining registry UI, wrapper, state, security, and review child issues.
