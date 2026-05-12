@@ -1263,11 +1263,11 @@ UI review: Not applicable for runtime UI. P13.1 creates the storage/service laye
 
 Regression review: Existing `[baf_travelpayouts_white_label]` and `[baf_travelpayouts_hotel_widget]` shortcodes remain unchanged. Existing `baf_travelpayouts_settings` fields remain intact and are used only to seed the first registry records when the registry option is missing.
 
-Validation performed: PHP syntax checks for the new service, plugin bootstrap, and activator; option/service smoke check for install, public/private projection, capability gate, sanitizer, non-approved iframe path rejection, temporary administrator save, temporary delete, and SubID normalization; plugin deactivate/reactivate smoke check; `git diff --check`.
+Validation performed: PHP syntax checks for the new service, plugin bootstrap, and activator; option/service smoke check for install, public/private projection, capability gate, sanitizer, non-approved iframe path rejection, temporary administrator save, temporary delete, SubID normalization, and idempotent registry normalization; plugin deactivate/reactivate smoke check; `git diff --check`.
 
-Bugs found: Initial bootstrap called the registry installer during `plugins_loaded`, which triggered WordPress's just-in-time translation warning because default placement strings passed through translation functions too early.
+Bugs found: Initial bootstrap called the registry installer during `plugins_loaded`, which triggered WordPress's just-in-time translation warning because default placement strings passed through translation functions too early. Codex review on PR #16 found that registry normalization was touching placement `updated_at` values, which would make `maybe_install()` write the option on every page load after the registry existed.
 
-Bugs fixed: Moved runtime registry installation to `init` and made stored default placement copy plain data instead of translated UI strings.
+Bugs fixed: Moved runtime registry installation to `init` and made stored default placement copy plain data instead of translated UI strings. Updated registry sanitization so bootstrap/normalization preserves existing placement timestamps and only actual saves refresh `updated_at`.
 
 Bugs deferred: Admin UI, nonces, frontend shortcode/block wrapper, public configured/missing/disabled/loading/no-script states, and full Phase 13 security review remain in the later mapped Phase 13 issues.
 

@@ -133,7 +133,7 @@ final class Travelpayouts_Widget_Registry_Service {
 				continue;
 			}
 
-			$sanitized = self::sanitize_placement( $placement );
+			$sanitized = self::sanitize_placement( $placement, array(), false );
 
 			if ( is_wp_error( $sanitized ) ) {
 				continue;
@@ -149,7 +149,7 @@ final class Travelpayouts_Widget_Registry_Service {
 		);
 	}
 
-	public static function sanitize_placement( array $placement, array $existing = array() ): array|\WP_Error {
+	public static function sanitize_placement( array $placement, array $existing = array(), bool $touch_updated_at = true ): array|\WP_Error {
 		$key = sanitize_key( (string) ( $placement['key'] ?? $existing['key'] ?? '' ) );
 
 		if ( '' === $key ) {
@@ -177,6 +177,9 @@ final class Travelpayouts_Widget_Registry_Service {
 		}
 
 		$now = self::timestamp();
+		$updated_at = true === $touch_updated_at
+			? $now
+			: sanitize_text_field( (string) ( $existing['updated_at'] ?? $placement['updated_at'] ?? $now ) );
 
 		return array(
 			'key'             => $key,
@@ -198,7 +201,7 @@ final class Travelpayouts_Widget_Registry_Service {
 			'fallback'        => self::sanitize_fallback( (array) ( $placement['fallback'] ?? $existing['fallback'] ?? array() ) ),
 			'notes'           => sanitize_textarea_field( (string) ( $placement['notes'] ?? $existing['notes'] ?? '' ) ),
 			'created_at'      => sanitize_text_field( (string) ( $existing['created_at'] ?? $placement['created_at'] ?? $now ) ),
-			'updated_at'      => $now,
+			'updated_at'      => $updated_at,
 		);
 	}
 
