@@ -20,6 +20,7 @@
   const CONFIG = {
     scrollThreshold: 50,
     menuBreakpoint: 1024,
+    menuFocusDelay: 200,
   };
 
   // State
@@ -168,7 +169,7 @@
     if (isMenuOpen) {
       const firstLink = mobileNav.querySelector('a');
       if (firstLink) {
-        setTimeout(() => firstLink.focus(), 100);
+        setTimeout(() => firstLink.focus({ preventScroll: true }), CONFIG.menuFocusDelay);
       }
     } else {
       const activeToggle = document.activeElement;

@@ -102,7 +102,7 @@ Phase 12.4 defines Travelpayouts widget-frame reservations, responsive constrain
 
 Phase 12.5 defines structured desktop, tablet, and mobile wireframes for home, flights, hotels, explore, destination detail, route detail, deals, AI planner, saved trips, about/legal, and admin widget placement surfaces. Future template work should follow the documented owner/template/phase mapping, keep monetized widgets inside governed frames, and use the screenshot plan before marking visual implementation complete.
 
-Phase 12.6 records the final Phase 12 review and documentation gate. Phase 13 can start from the documented IA, design system, CSS ownership, widget-frame, page-wireframe, known-issue, and validation baselines without rediscovering those decisions.
+Phase 12.6 records the final Phase 12 review, runtime screenshot, keyboard navigation, and documentation gate. The runtime keyboard follow-up keeps Travelpayouts White Label mount focus visible and routes keyboard hotel handoff through the visible Trip.com link instead of the provider iframe. Phase 13 can start from the documented IA, design system, CSS ownership, widget-frame, page-wireframe, known-issue, and validation baselines without rediscovering those decisions.
 
 ## REST Namespace
 

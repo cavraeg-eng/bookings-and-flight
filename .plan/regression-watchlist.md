@@ -84,6 +84,7 @@ What to check after future changes:
 - Pages do not drift into a one-note navy/slate/tan palette.
 - Affiliate disclosures remain visible near monetized widgets, links, cards, route modules, destination modules, and AI handoffs on mobile and desktop.
 - Travelpayouts widget frames reserve dimensions, avoid layout shift, expose no-script/missing-config/consent-disabled states, and keep a sponsored handoff fallback visible.
+- Travelpayouts White Label mount points keep a visible focus outline, and Trip.com provider iframe output does not become an unstyleable sequential keyboard stop before the visible hotel handoff link.
 - Widget dimensions, disclosure placement, state behavior, and Phase 13 registry prerequisites follow `.plan/phase-12-widget-frame-layout-rules.md`.
 - Page templates and public visual work follow the Phase 12.5 owner/template/phase mapping and browser screenshot plan in `.plan/phase-12-page-level-wireframes.md`.
 - Phase 13 work starts from the Phase 12 completion gate checklist in `.plan/phase-12-completion-gate.md`.

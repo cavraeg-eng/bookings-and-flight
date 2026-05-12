@@ -1168,7 +1168,7 @@ Decision: `ONE-78` passed local documentation review and Codex PR review with no
 
 ## Phase 12.6 Review - 2026-05-12
 
-Status: `Blocked`
+Status: `Completed after runtime validation follow-up`
 
 Reviewer: Codex
 
@@ -1182,17 +1182,17 @@ REST permission review: Not applicable. No REST routes changed.
 
 Database/migration review: Not applicable. No database schema, options, custom tables, or migrations changed.
 
-UI review: Documentation review only. Static template review confirmed current runtime gaps are documented; responsive wireframe review passed at the documentation level; browser screenshot execution is deferred until runtime templates and seed content exist.
+UI review: Initial PR #14 documentation review confirmed current runtime gaps were documented and responsive wireframes passed at the documentation level. The runtime validation follow-up below records the required browser screenshot and keyboard navigation execution.
 
 Regression review: Updated the Phase 12 watchlist and known issues so future Phase 13+ work starts from the completion gate rather than rediscovering IA/design decisions.
 
-Validation performed: Static template review, responsive wireframe review, CSS file-size review, documentation review, and `git diff --check`.
+Validation performed: Static template review, responsive wireframe review, CSS file-size review, documentation review, and `git diff --check`. Runtime screenshots and keyboard navigation review are recorded in the follow-up section below.
 
 Bugs found: Current runtime still has older menu/fallback menu and `Get Started` CTA behavior, generic homepage sections, fallback `index.php` rendering for Flights/Hotels, missing Explore/Deals/Trip Planner/Saved Trips pages, missing seed content for destination/route/deal screenshot validation, and no Phase 13 widget registry yet.
 
 Bugs fixed: None in runtime code. Deferred runtime gaps are documented in `.plan/phase-12-completion-gate.md` and `.plan/known-issues.md`.
 
-Bugs deferred: Runtime templates, visual CSS, menu updates, seed content, browser screenshot execution, widget registry implementation, and screenshot-backed visual QA are deferred to Phase 13 and later mapped product phases.
+Bugs deferred: Runtime templates, visual CSS, menu updates, seed content, widget registry implementation, and screenshot-backed visual QA for later implementation phases are deferred to Phase 13 and later mapped product phases.
 
 Documentation updated: `.plan/phase-12-completion-gate.md`, `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
 
@@ -1204,4 +1204,41 @@ Research consulted:
 - Travelpayouts Help Center: Getting started with widgets.
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 
-Decision: `ONE-79` cannot close the Phase 12 gate yet. Codex PR review on PR #14 found a P2 consistency issue because `.plan/phased-implementation.md` still requires browser screenshots and keyboard navigation review, while the completion gate had deferred those checks. Phase 12 remains `In Progress` until those validations are executed or the validation scope is reconciled in a documented follow-up.
+Decision: PR #14 initially could not close the Phase 12 gate because Codex review found a P2 consistency issue: `.plan/phased-implementation.md` still required browser screenshots and keyboard navigation review, while the completion gate had deferred those checks. The runtime validation follow-up below resolved that blocker.
+
+## Phase 12.6 Runtime Validation Follow-Up - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-79` runtime screenshot and keyboard-navigation blocker from PR #14. Reviewed the local WordPress runtime at `http://bookings-and-flights.local`, Home, Flights, Hotels, planned-but-unpublished routes, static theme header/mobile menu behavior, and the core Travelpayouts White Label and Trip.com shortcode wrappers.
+
+Acceptance criteria result: Passed for the Phase 12 gate after executing the previously missing browser screenshots and keyboard review. Home, Flights, and Hotels were captured at desktop `1440x1000`, tablet `1024x900`, and mobile `390x844`. Explore, Deals, Trip Planner, and Saved Trips still return WordPress `404` pages and remain deferred implementation work.
+
+Security review: Passed for this follow-up. No secrets, API tokens, authorization strings, checkout, payment, refund, or direct WordPress booking flow appeared in the Flights or Hotels output scans. Provider request consent remained enabled for the validated runtime surfaces.
+
+REST permission review: Not applicable. No REST routes changed.
+
+Database/migration review: Not applicable. No database schema, options, custom tables, or migrations changed. The admin toolbar user preference was temporarily hidden for Browser screenshot diagnosis and restored to its original `true` value.
+
+UI review: Passed with one runtime keyboard bug fixed. The desktop header, mobile header, and mobile menu have visible focus states; mobile menu opens by keyboard, updates `aria-expanded` and `aria-hidden`, moves focus into menu links, traps focus, and closes with `Escape`. The Travelpayouts flight widget focus mount now has a visible WordPress-owned outline. The Trip.com iframe remains keyboard reachable and the WordPress wrapper adds a visible focus outline while iframe focus is active; the sponsored `Open hotel search` link remains the next keyboard-accessible handoff path.
+
+Regression review: Public widget output still renders the Flights White Label mount and Hotels Trip.com iframe plus handoff link. The core frontend CSS remains under the 600-line guideline at 240 lines.
+
+Validation performed: Codex in-app Browser screenshot pass before Browser fallback; Playwright runtime screenshots for Home, Flights, and Hotels at `1440x1000`, `1024x900`, and `390x844`; Playwright keyboard traces for desktop header, mobile header, mobile menu, Flights widget focus, and Hotels handoff focus; route checks for `/explore/`, `/deals/`, `/trip-planner/`, and `/saved-trips/`; PHP syntax checks for changed shortcode files; `bookings-flights-core` deactivate/reactivate smoke check; source scan for hotel iframe focus bridge, Flights `tpwl-search`, and sensitive term scan that found only the public theme `tokens.css` design-token asset; `git diff --check`.
+
+Bugs found: The Travelpayouts White Label mount could receive keyboard focus without a visible WordPress-owned focus outline. The Trip.com provider iframe could become a keyboard stop without a reliable WordPress-owned visible focus indicator. The live mobile menu opened with correct ARIA state, but the first focus handoff was too early and left focus on the toggle instead of moving into the menu.
+
+Bugs fixed: Added focus outlines for Travelpayouts White Label mount points and added a small focus bridge so the Trip.com wrapper shows a visible outline while the keyboard-reachable provider iframe has focus. Codex review on PR #15 specifically requested keeping the iframe keyboard-reachable, and the follow-up patch preserves that behavior. Delayed the mobile menu focus handoff enough for the opened panel to accept focus and used `preventScroll` when focusing the first mobile-nav link.
+
+Bugs deferred: Runtime homepage content remains placeholder/generic. The live primary menu is still missing Explore, Deals, Trip Planner, and Saved Trips. Flights and Hotels still render through `index.php` until dedicated templates land. Provider-owned Travelpayouts White Label scripts emit console warnings about React JSX source maps and duplicate GraphQL fragment names. These remain deferred to Phase 13 and later mapped implementation phases.
+
+Documentation updated: `.plan/phase-12-completion-gate.md`, `.plan/phased-implementation.md`, `.plan/validation-baseline.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Including Assets.
+- WordPress Plugin Security Handbook: Security overview.
+- Existing Phase 12 research records for WordPress template hierarchy, theme structure, and Travelpayouts widget/White Label behavior.
+
+Decision: `ONE-79` can move to Done after PR review and merge. Phase 12 can be marked `Completed`; runtime visual/template implementation remains in Phase 13 and later mapped phases.

@@ -103,6 +103,16 @@
 	min-height: 220px;
 }
 
+.baf-travelpayouts-white-label #tpwl-search:focus,
+.baf-travelpayouts-white-label #tpwl-search:focus-visible,
+.baf-travelpayouts-white-label #tpwl-tickets:focus,
+.baf-travelpayouts-white-label #tpwl-tickets:focus-visible,
+.baf-travelpayouts-hotel-widget iframe:focus,
+.baf-travelpayouts-hotel-widget iframe:focus-visible {
+	outline: 3px solid #99f6e4 !important;
+	outline-offset: 4px !important;
+}
+
 .baf-travelpayouts-hotel-widget {
 	background: #ffffff;
 	border-radius: 8px;
@@ -114,6 +124,12 @@
 	position: relative;
 	-webkit-overflow-scrolling: touch;
 	width: 100%;
+}
+
+.baf-travelpayouts-hotel-widget:focus-within,
+.baf-travelpayouts-hotel-widget.is-keyboard-focused {
+	outline: 3px solid #99f6e4;
+	outline-offset: 4px;
 }
 
 .baf-travelpayouts-hotel-widget__frame {
