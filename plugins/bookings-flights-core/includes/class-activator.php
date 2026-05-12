@@ -13,6 +13,7 @@ use BAF\Core\Migrations\AI_Sessions_Table;
 use BAF\Core\Migrations\Clicks_Table;
 use BAF\Core\Migrations\Provider_Stats_Table;
 use BAF\Core\Post_Types\Post_Type_Registrar;
+use BAF\Core\Services\Travelpayouts_Widget_Registry_Service;
 use BAF\Core\Taxonomies\Taxonomy_Registrar;
 
 defined( 'ABSPATH' ) || exit;
@@ -26,6 +27,7 @@ final class Activator {
 		Clicks_Table::create();
 		AI_Sessions_Table::create();
 		Provider_Stats_Table::create();
+		Travelpayouts_Widget_Registry_Service::maybe_install();
 		Cron_Manager::bootstrap();
 		Cron_Manager::activate();
 		Post_Type_Registrar::register();

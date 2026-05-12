@@ -1242,3 +1242,43 @@ Research consulted:
 - Existing Phase 12 research records for WordPress template hierarchy, theme structure, and Travelpayouts widget/White Label behavior.
 
 Decision: `ONE-79` can move to Done after PR review and merge. Phase 12 can be marked `Completed`; runtime visual/template implementation remains in Phase 13 and later mapped phases.
+
+## Phase 13.1 Review - 2026-05-12
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-80` placement data model and registry service. Reviewed Phase 11 backend mode, Phase 12 widget-frame prerequisites, Phase 13 objective and child order, current `bookings-flights-core` settings/options/capability/service patterns, existing White Label and Trip.com shortcode wrappers, and Travelpayouts SubID/widget guidance.
+
+Acceptance criteria result: Passed for P13.1 implementation scope. The registry data model includes placement key, name, vertical, context, widget family, render mode, embed source/mode/reference/url, status, SubID pattern, public surfaces, consent flag, disclosure copy/rule, frame reservations, fallback metadata, and notes. The service sanitizes writes, installs an idempotent non-autoloaded option, and seeds current Flights/Hotels placements from existing safe settings. Admin UI and frontend rendering remain in later Phase 13 child issues.
+
+Security review: Passed for the service seam. Private embed references, embed URLs, and admin notes are available only through capability-gated service calls requiring `manage_baf_affiliates` or `manage_baf_settings`. Public placement projections strip private embed values and notes. Pasted Travelpayouts script/iframe/link snippets are reduced to approved URLs or references rather than storing arbitrary raw embed code.
+
+REST permission review: Not applicable. No REST route was added in P13.1. Future REST or block-editor consumers must use the public projection unless the request is already capability-gated.
+
+Database/migration review: Passed. No custom table was introduced. `baf_travelpayouts_widget_registry` is installed as a WordPress option using the Options API, is non-autoloaded, and is normalized non-destructively on bootstrap/activation.
+
+UI review: Not applicable for runtime UI. P13.1 creates the storage/service layer only; admin management UI remains in `ONE-81`.
+
+Regression review: Existing `[baf_travelpayouts_white_label]` and `[baf_travelpayouts_hotel_widget]` shortcodes remain unchanged. Existing `baf_travelpayouts_settings` fields remain intact and are used only to seed the first registry records when the registry option is missing.
+
+Validation performed: PHP syntax checks for the new service, plugin bootstrap, and activator; option/service smoke check for install, public/private projection, capability gate, sanitizer, non-approved iframe path rejection, temporary administrator save, temporary delete, and SubID normalization; plugin deactivate/reactivate smoke check; `git diff --check`.
+
+Bugs found: Initial bootstrap called the registry installer during `plugins_loaded`, which triggered WordPress's just-in-time translation warning because default placement strings passed through translation functions too early.
+
+Bugs fixed: Moved runtime registry installation to `init` and made stored default placement copy plain data instead of translated UI strings.
+
+Bugs deferred: Admin UI, nonces, frontend shortcode/block wrapper, public configured/missing/disabled/loading/no-script states, and full Phase 13 security review remain in the later mapped Phase 13 issues.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Settings API: settings forms, nonces, sanitization, and capability behavior.
+- WordPress Options API: storing, retrieving, and updating named options.
+- WordPress Plugin Security Handbook: capability checks, input sanitization, and output/privacy boundaries.
+- Travelpayouts Help Center: ID/SubID affiliate marker guidance.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+
+Decision: `ONE-80` can move to PR review after Codex checks the implementation branch. Phase 13 remains `In Progress` for the remaining registry UI, wrapper, state, security, and review child issues.
