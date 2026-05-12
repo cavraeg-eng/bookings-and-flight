@@ -1410,7 +1410,7 @@ Validation checklist:
 
 ## Phase 12: Information Architecture and Competitive Design System
 
-Status: `In Progress`
+Status: `Completed`
 
 P11.6 note: minimal White Label Widget ID and Trip.com/Hotels widget script settings plus `[baf_travelpayouts_white_label]` and `[baf_travelpayouts_hotel_widget]` shortcodes were added early to unblock setup. Phase 13 still owns the full governed placement registry, SubID/disclosure behavior, block wrapper, and broader safe embed layer.
 
@@ -1424,7 +1424,7 @@ P12.4 note: Travelpayouts widget frame dimensions, responsive constraints, state
 
 P12.5 note: Page-level structured wireframes for home, flights, hotels, explore, destination detail, route detail, deals, AI planner, saved trips, about/legal, and admin widget placement surfaces are documented in `.plan/phase-12-page-level-wireframes.md`. Codex PR review found no major issues on PR #13. Future visual/template work should use the owner/template/phase mapping and browser screenshot plan in that document.
 
-P12.6 note: Final Phase 12 review, deferred runtime implementation risks, CSS file-size review, documentation completeness, and Phase 13 start checklist are documented in `.plan/phase-12-completion-gate.md`.
+P12.6 note: Final Phase 12 review, deferred runtime implementation risks, CSS file-size review, documentation completeness, and Phase 13 start checklist are documented in `.plan/phase-12-completion-gate.md`. Codex PR review found no major issues on PR #14.
 
 Objective: Rework the public WordPress frontend architecture so it feels like a modern travel search product rather than a static affiliate brochure.
 

@@ -1168,7 +1168,7 @@ Decision: `ONE-78` passed local documentation review and Codex PR review with no
 
 ## Phase 12.6 Review - 2026-05-12
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
@@ -1204,4 +1204,4 @@ Research consulted:
 - Travelpayouts Help Center: Getting started with widgets.
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 
-Decision: `ONE-79` can proceed to PR review as the final Phase 12 documentation gate. Phase 12 can move to `Completed` after Codex PR review, merge, and Linear sync.
+Decision: `ONE-79` passed local documentation review and Codex PR review with no major issues on PR #14. Phase 12 can move to `Completed`; Phase 13 can start from the documented IA, design-system, widget-frame, wireframe, known-issue, and validation baselines.
