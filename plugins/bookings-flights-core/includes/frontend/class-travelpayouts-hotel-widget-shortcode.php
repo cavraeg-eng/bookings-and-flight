@@ -40,7 +40,7 @@ final class Travelpayouts_Hotel_Widget_Shortcode {
 
 		if ( self::is_tripcom_partner_embed_url( $script_url ) ) {
 			return sprintf(
-				'<div class="baf-travelpayouts-hotel-widget is-loaded" data-provider="tripcom"><iframe src="%1$s" title="%2$s" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><p class="baf-travelpayouts-hotel-widget__handoff"><a href="%1$s" target="_blank" rel="nofollow sponsored noopener noreferrer">%3$s</a></p></div>',
+				'<div class="baf-travelpayouts-hotel-widget is-loaded" data-provider="tripcom"><div class="baf-travelpayouts-hotel-widget__frame"><iframe src="%1$s" title="%2$s" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div><p class="baf-travelpayouts-hotel-widget__handoff"><a href="%1$s" target="_blank" rel="nofollow sponsored noopener noreferrer">%3$s</a></p></div>',
 				esc_url( $script_url ),
 				esc_attr__( 'Trip.com hotel search', 'bookings-flights-core' ),
 				esc_html__( 'Open hotel search', 'bookings-flights-core' )

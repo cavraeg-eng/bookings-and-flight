@@ -108,11 +108,20 @@
 	border-radius: 8px;
 	box-sizing: border-box;
 	margin: 2rem 0;
-	min-height: 220px;
+	min-height: 0;
 	overflow-x: auto;
 	padding: 1rem;
 	position: relative;
 	-webkit-overflow-scrolling: touch;
+	width: 100%;
+}
+
+.baf-travelpayouts-hotel-widget__frame {
+	border-radius: 6px;
+	box-sizing: border-box;
+	height: 96px;
+	overflow: hidden;
+	position: relative;
 	width: 100%;
 }
 
@@ -122,6 +131,7 @@
 	margin-inline: auto;
 	max-width: 100%;
 	min-height: 220px;
+	transform: translateY(-112px);
 	width: 100%;
 }
 
@@ -130,8 +140,13 @@
 		padding: 0.75rem;
 	}
 
+	.baf-travelpayouts-hotel-widget__frame {
+		height: 84px;
+	}
+
 	.baf-travelpayouts-hotel-widget iframe {
-		min-width: 42rem;
+		min-width: 0;
+		transform: translateY(-122px);
 	}
 }
 
