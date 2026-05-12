@@ -69,13 +69,23 @@ final class Travelpayouts_Widget_Renderer {
 	}
 
 	private static function normalize_attributes( array $attributes ): array {
-		$key = (string) ( $attributes['placement'] ?? $attributes['key'] ?? $attributes['id'] ?? '' );
+		$key     = (string) ( $attributes['placement'] ?? $attributes['key'] ?? $attributes['id'] ?? '' );
+		$surface = self::sanitize_segment( (string) ( $attributes['surface'] ?? '' ) );
+		$slug    = self::sanitize_segment( (string) ( $attributes['slug'] ?? '' ) );
+
+		if ( '' === $surface ) {
+			$surface = self::sanitize_segment( self::current_surface() );
+		}
+
+		if ( '' === $slug ) {
+			$slug = self::sanitize_segment( self::current_slug() );
+		}
 
 		return array(
 			'placement' => sanitize_key( $key ),
-			'surface'   => self::sanitize_segment( (string) ( $attributes['surface'] ?? self::current_surface() ) ),
+			'surface'   => $surface,
 			'channel'   => self::sanitize_segment( (string) ( $attributes['channel'] ?? '' ) ),
-			'slug'      => self::sanitize_segment( (string) ( $attributes['slug'] ?? self::current_slug() ) ),
+			'slug'      => $slug,
 			'class'     => sanitize_html_class( (string) ( $attributes['class'] ?? '' ) ),
 		);
 	}
