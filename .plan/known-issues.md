@@ -53,3 +53,15 @@ Current issue: Phase 9 release review previously found oversized generated stati
 Workaround: Keep future theme additions in focused stylesheets and re-check file sizes before publishing frontend changes.
 
 Planned fix phase: Ongoing frontend maintenance.
+
+## Phase 12 Runtime Template And Navigation Follow-Ups
+
+Severity: Medium until the public visual implementation phases land.
+
+Affected area: `themes/bookings-and-flights-static/`, primary menu, fallback menu, page templates, seed content, and Travelpayouts widget placement surfaces.
+
+Current issue: Phase 12 completed the information architecture, design-system, CSS ownership, widget-frame, and page-wireframe gates, but the runtime public theme still has several deferred implementation gaps. The primary menu and fallback menu still reflect older boilerplate navigation; header/mobile CTA text still says `Get Started` and points to `/contact/`; `page-home.php` remains a generic hero/features/about/testimonials/CTA layout; Flights and Hotels still render through `index.php`; Explore, Deals, Trip Planner, and Saved Trips pages are not implemented; and local destination, route, and deal seed content is absent for screenshot validation.
+
+Workaround: Treat `.plan/phase-12-completion-gate.md`, `.plan/phase-12-page-level-wireframes.md`, `.plan/phase-12-widget-frame-layout-rules.md`, and `.plan/phase-12-design-system-component-inventory.md` as the source of truth for later public UI implementation. Do not judge Phase 14+ visual work against the current generic runtime layout.
+
+Planned fix phase: Phase 13 widget registry, Phase 14 homepage rebuild, Phase 15 flights experience, Phase 16 hotels experience, Phase 17 SEO content surfaces, Phase 18 AI planner, and Phase 19 saved trips/alerts/release readiness.

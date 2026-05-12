@@ -1165,3 +1165,43 @@ Research consulted:
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 
 Decision: `ONE-78` passed local documentation review and Codex PR review with no major issues on PR #13. Keep Phase 12 `In Progress` for the final review ticket.
+
+## Phase 12.6 Review - 2026-05-12
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-79` final Phase 12 review and documentation gate. Reviewed Phase 12 objective, acceptance criteria, Phase 12.1 sitemap/navigation/page ownership, Phase 12.2 design-system inventory, Phase 12.3 CSS architecture, Phase 12.4 widget-frame rules, Phase 12.5 page-level wireframes, architecture baseline, regression watchlist, known issues, current static theme templates, and CSS file sizes.
+
+Acceptance criteria result: Passed for Phase 12 design/documentation scope. Phase 12 now documents IA, design system, CSS ownership, widget-frame behavior, page wireframes, deferred runtime implementation risks, and Phase 13 prerequisites. Runtime homepage/search/template implementation remains intentionally deferred to mapped follow-up phases.
+
+Security review: Passed for documentation scope. No executable code, REST routes, settings, migrations, or database writes changed. The Phase 13 checklist preserves provider consent, capability gates, nonces, sanitization, escaping, secret masking, disclosure output, and the Travelpayouts-controlled backend boundary.
+
+REST permission review: Not applicable. No REST routes changed.
+
+Database/migration review: Not applicable. No database schema, options, custom tables, or migrations changed.
+
+UI review: Documentation review only. Static template review confirmed current runtime gaps are documented; responsive wireframe review passed at the documentation level; browser screenshot execution is deferred until runtime templates and seed content exist.
+
+Regression review: Updated the Phase 12 watchlist and known issues so future Phase 13+ work starts from the completion gate rather than rediscovering IA/design decisions.
+
+Validation performed: Static template review, responsive wireframe review, CSS file-size review, documentation review, and `git diff --check`.
+
+Bugs found: Current runtime still has older menu/fallback menu and `Get Started` CTA behavior, generic homepage sections, fallback `index.php` rendering for Flights/Hotels, missing Explore/Deals/Trip Planner/Saved Trips pages, missing seed content for destination/route/deal screenshot validation, and no Phase 13 widget registry yet.
+
+Bugs fixed: None in runtime code. Deferred runtime gaps are documented in `.plan/phase-12-completion-gate.md` and `.plan/known-issues.md`.
+
+Bugs deferred: Runtime templates, visual CSS, menu updates, seed content, browser screenshot execution, widget registry implementation, and screenshot-backed visual QA are deferred to Phase 13 and later mapped product phases.
+
+Documentation updated: `.plan/phase-12-completion-gate.md`, `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Hierarchy.
+- WordPress Theme Handbook: Templates.
+- WordPress Theme Handbook: Theme Structure.
+- WordPress Theme Handbook: Including Assets.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+
+Decision: `ONE-79` can proceed to PR review as the final Phase 12 documentation gate. Phase 12 can move to `Completed` after Codex PR review, merge, and Linear sync.

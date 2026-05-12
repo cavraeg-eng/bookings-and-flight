@@ -450,6 +450,18 @@ git diff --check
 
 P12.5 local result on 2026-05-12: structured desktop and mobile wireframes are documented for the requested public and admin surfaces. The document maps each surface to WordPress owner, future template target, follow-up phase, Travelpayouts/partner placement, disclosure/CTA placement, and later browser screenshot validation. Codex review on PR #13 found no major issues.
 
+P12.6 final Phase 12 review checks:
+
+```bash
+test -f .plan/phase-12-completion-gate.md
+rg -n "Scope Review|Acceptance Criteria Review|Static Template Review|CSS File-Size Review|Responsive Wireframe Review|Phase 13 Start Checklist|Phase 12 Result" .plan/phase-12-completion-gate.md
+wc -l themes/bookings-and-flights-static/assets/css/*.css plugins/bookings-flights-core/assets/css/*.css
+rg -n "phase-12-completion-gate|P12.6|ONE-79" .plan/phased-implementation.md .plan/architecture-baseline.md .plan/validation-baseline.md .plan/phase-review-log.md .plan/regression-watchlist.md .plan/known-issues.md
+git diff --check
+```
+
+P12.6 local result on 2026-05-12: the final Phase 12 gate documents scope review, acceptance-criteria status, static template review, responsive wireframe review, CSS file-size review, documentation completeness, deferred runtime implementation risks, and the Phase 13 start checklist. Runtime visual/template work remains deferred to Phase 13+ follow-up phases.
+
 ## Documentation-Only Changes
 
 For documentation-only changes:

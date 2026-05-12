@@ -89,6 +89,7 @@ Detailed execution blueprint: `.plan/travelpayouts-wordpress-booking-site-bluepr
 | Phase 12 CSS architecture prep | `.plan/phase-12-css-split-theme-architecture.md` |
 | Phase 12 widget frame rules | `.plan/phase-12-widget-frame-layout-rules.md` |
 | Phase 12 page-level wireframes | `.plan/phase-12-page-level-wireframes.md` |
+| Phase 12 completion gate | `.plan/phase-12-completion-gate.md` |
 | Primary public nav target | Flights, Hotels, Explore, Deals, Trip Planner, Saved Trips |
 
 Phase 12.1 assigns WordPress ownership for the branded shell, sitemap, navigation, editable pages, CPT archives/singles, SEO page families, saved-trip intent, and alert intent. Travelpayouts remains the owner of live flight/hotel search, result surfaces, widgets, partner handoff, booking/payment, supplier reservations, and affiliate reporting. The current published primary menu still needs to be reconciled with the Phase 12 nav target before visual/template implementation is complete.
@@ -100,6 +101,8 @@ Phase 12.3 prepares static theme CSS ownership for later design work. Current th
 Phase 12.4 defines Travelpayouts widget-frame reservations, responsive constraints, public/admin state behavior, disclosure placement, performance rules, and Phase 13 registry metadata prerequisites. Affiliate disclosures and safe fallback handoff links must remain outside provider iframes/scripts, and third-party provider scripts must remain scoped to approved placements.
 
 Phase 12.5 defines structured desktop, tablet, and mobile wireframes for home, flights, hotels, explore, destination detail, route detail, deals, AI planner, saved trips, about/legal, and admin widget placement surfaces. Future template work should follow the documented owner/template/phase mapping, keep monetized widgets inside governed frames, and use the screenshot plan before marking visual implementation complete.
+
+Phase 12.6 records the final Phase 12 review and documentation gate. Phase 13 can start from the documented IA, design system, CSS ownership, widget-frame, page-wireframe, known-issue, and validation baselines without rediscovering those decisions.
 
 ## REST Namespace
 
