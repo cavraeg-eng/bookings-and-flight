@@ -439,6 +439,17 @@ git diff --check
 
 P12.4 local result on 2026-05-12: widget frame dimensions, responsive constraints, loading/missing/consent-disabled/no-script/unavailable/empty/error states, disclosure placement, performance rules, and Phase 13 registry prerequisites are documented in `.plan/phase-12-widget-frame-layout-rules.md`. The rules explicitly preserve provider-owned live search/results behavior and require disclosure plus fallback handoff outside provider iframes/scripts. Codex review on PR #12 found no major issues.
 
+P12.5 page-level wireframe documentation checks:
+
+```bash
+test -f .plan/phase-12-page-level-wireframes.md
+rg -n "Home Wireframe|Flights Wireframe|Hotels Wireframe|Explore Wireframe|Destination Detail Wireframe|Route Detail Wireframe|Deals Wireframe|AI Trip Planner Wireframe|Saved Trips Wireframe|Admin Widget Placement Wireframe|Browser Screenshot Plan" .plan/phase-12-page-level-wireframes.md
+rg -n "phase-12-page-level-wireframes|P12.5|ONE-78" .plan/phased-implementation.md .plan/architecture-baseline.md .plan/validation-baseline.md .plan/phase-review-log.md .plan/regression-watchlist.md
+git diff --check
+```
+
+P12.5 local result on 2026-05-12: structured desktop and mobile wireframes are documented for the requested public and admin surfaces. The document maps each surface to WordPress owner, future template target, follow-up phase, Travelpayouts/partner placement, disclosure/CTA placement, and later browser screenshot validation.
+
 ## Documentation-Only Changes
 
 For documentation-only changes:
