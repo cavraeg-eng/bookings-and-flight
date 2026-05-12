@@ -1410,9 +1410,11 @@ Validation checklist:
 
 ## Phase 12: Information Architecture and Competitive Design System
 
-Status: `Not Started`
+Status: `In Progress`
 
 P11.6 note: minimal White Label Widget ID and Trip.com/Hotels widget script settings plus `[baf_travelpayouts_white_label]` and `[baf_travelpayouts_hotel_widget]` shortcodes were added early to unblock setup. Phase 13 still owns the full governed placement registry, SubID/disclosure behavior, block wrapper, and broader safe embed layer.
+
+P12.1 note: sitemap, navigation, page ownership, SEO page families, and current-template conflicts are documented in `.plan/phase-12-sitemap-navigation-page-ownership.md`. The current live primary menu still reflects the older boilerplate page set and must be updated in a later implementation ticket before the public visual rebuild is treated as complete.
 
 Objective: Rework the public WordPress frontend architecture so it feels like a modern travel search product rather than a static affiliate brochure.
 

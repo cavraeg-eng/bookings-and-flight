@@ -84,6 +84,10 @@ Detailed execution blueprint: `.plan/travelpayouts-wordpress-booking-site-bluepr
 | Platform web app | `platform/apps/web` |
 | Platform search API | `platform/services/search-api` |
 | Platform shared package | `platform/packages/shared` |
+| Phase 12 IA map | `.plan/phase-12-sitemap-navigation-page-ownership.md` |
+| Primary public nav target | Flights, Hotels, Explore, Deals, Trip Planner, Saved Trips |
+
+Phase 12.1 assigns WordPress ownership for the branded shell, sitemap, navigation, editable pages, CPT archives/singles, SEO page families, saved-trip intent, and alert intent. Travelpayouts remains the owner of live flight/hotel search, result surfaces, widgets, partner handoff, booking/payment, supplier reservations, and affiliate reporting. The current published primary menu still needs to be reconciled with the Phase 12 nav target before visual/template implementation is complete.
 
 ## REST Namespace
 
