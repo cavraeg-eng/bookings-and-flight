@@ -12,9 +12,10 @@ defined( 'ABSPATH' ) || exit;
 final class Clicks_Table {
 
 	public const OPTION_DB_VERSION = 'baf_db_version';
+	private const OPTION_TABLE_VERSION = 'baf_db_version_clicks';
 
 	public static function maybe_upgrade(): void {
-		if ( BAF_CORE_DB_VERSION === (string) get_option( self::OPTION_DB_VERSION, '' ) ) {
+		if ( BAF_CORE_DB_VERSION === (string) get_option( self::OPTION_TABLE_VERSION, '' ) && true === self::exists() ) {
 			return;
 		}
 
@@ -49,6 +50,7 @@ KEY occurred_at (occurred_at)
 ) {$charset_collate};";
 
 		dbDelta( $sql );
+		update_option( self::OPTION_TABLE_VERSION, BAF_CORE_DB_VERSION, false );
 		update_option( self::OPTION_DB_VERSION, BAF_CORE_DB_VERSION, false );
 	}
 
@@ -56,5 +58,13 @@ KEY occurred_at (occurred_at)
 		global $wpdb;
 
 		return $wpdb->prefix . 'bf_clicks';
+	}
+
+	private static function exists(): bool {
+		global $wpdb;
+
+		$table_name = self::table_name();
+
+		return $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) === $table_name;
 	}
 }

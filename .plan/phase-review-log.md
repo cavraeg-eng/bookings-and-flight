@@ -912,3 +912,30 @@ Research consulted:
 - Travelpayouts Help Center, Getting started with widgets: dashboard copy-code and partner widget setup flow.
 
 Decision: Phase 11.6 is locally validated and ready for PR review. Do not mark ONE-73 or Phase 11 complete until the branch is published, reviewed, merged, and Linear is updated with the final PR and validation evidence.
+
+## Phase 11.6 Codex Review Follow-Up - 2026-05-12
+
+Status: `In Review`. Follow-up fixes are implemented locally and ready for PR review.
+
+Reviewer: Codex
+
+Scope reviewed: Delayed Codex review comments on PR #6, external provider consent behavior for Travelpayouts widget shortcodes, and custom table migration version gates.
+
+Current state summary: PR #6 was merged before Codex posted review comments. The thread-aware review check found three unresolved P1 comments: White Label widgets rendered third-party scripts without provider consent, hotel widgets rendered third-party scripts/iframes without provider consent, and the shared `baf_db_version` option could let one table migration mark the schema current before other table migrations ran.
+
+Bugs found: External Travelpayouts widgets could bypass the `allow_provider_requests` consent gate when a widget ID or hotel widget URL was configured. Future multi-table schema updates could skip `bf_ai_sessions` or `bf_provider_stats` if `bf_clicks` updated the aggregate schema version first.
+
+Bugs fixed: `[baf_travelpayouts_white_label]` and `[baf_travelpayouts_hotel_widget]` now check `baf_consent_settings.allow_provider_requests` before rendering any external Travelpayouts or Trip.com script/iframe. Public visitors receive no third-party widget output when consent is disabled; administrators see an escaped missing-consent notice. The click, AI session, and provider stats migrations now maintain table-specific schema version options in addition to the aggregate `baf_db_version`.
+
+Validation performed: PHP syntax checks passed for the two shortcode files and three migration files. Shortcode smoke checks confirmed disabled consent blocks external White Label and hotel output, and enabled consent renders the configured external surface. Migration smoke checks forced the aggregate schema version current while table-specific versions were old; all three migrations still ran and refreshed their table-specific version options. `git diff --check` passed. WP-CLI emitted the known Travelpayouts PHP 8.5 deprecation noise but commands completed.
+
+Bugs deferred: Broader official Travelpayouts PHP 8.5 deprecation cleanup remains a compatibility watch item; public page source remains clean for the validated pages.
+
+Documentation updated: `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Creating Tables with Plugins Handbook: `dbDelta()`, table prefix/collation, and schema version options for upgrades.
+- WordPress Plugin Security Handbook: capability checks, sanitization, escaping, and protecting external/private data boundaries.
+- WordPress Shortcodes Handbook: shortcode render behavior and safe generated output.
+
+Decision: P11.6 should remain in review until this follow-up branch is published, checked by Codex, merged, and Linear is updated with the final merge evidence.

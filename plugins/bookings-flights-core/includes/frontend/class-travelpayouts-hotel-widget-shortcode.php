@@ -26,6 +26,16 @@ final class Travelpayouts_Hotel_Widget_Shortcode {
 			return '';
 		}
 
+		$consent = Settings_Manager::get_consent();
+
+		if ( true !== (bool) $consent['allow_provider_requests'] ) {
+			if ( current_user_can( Capability_Manager::MANAGE_SETTINGS ) ) {
+				return '<p class="baf-notice baf-notice--warning">' . esc_html__( 'Travelpayouts Trip.com hotel widget is configured, but provider request consent is disabled.', 'bookings-flights-core' ) . '</p>';
+			}
+
+			return '';
+		}
+
 		wp_enqueue_style( Frontend_Manager::ASSET_HANDLE );
 
 		if ( self::is_tripcom_partner_embed_url( $script_url ) ) {
