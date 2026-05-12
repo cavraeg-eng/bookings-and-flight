@@ -77,6 +77,7 @@ Why risky: The current public theme still has generic marketing sections, gradie
 What to check after future changes:
 
 - New public UI follows `.plan/phase-12-design-system-component-inventory.md`.
+- New shared primitives go in `components.css`; header/nav-only styling stays in `header.css`.
 - Home, search, destination, route, hotel, AI, and saved-trip surfaces use real travel media where the user needs to inspect a place, route, or product state.
 - Search controls remain dense, labeled, keyboard-operable, and at least 44px tall.
 - New cards, panels, and widget frames use restrained radius and avoid nested-card layouts.
@@ -88,6 +89,8 @@ What to check after future changes:
 Related files/routes/tables/settings:
 
 - `.plan/phase-12-design-system-component-inventory.md`
+- `.plan/phase-12-css-split-theme-architecture.md`
+- `themes/bookings-and-flights-static/assets/css/components.css`
 - `themes/bookings-and-flights-static/assets/css/tokens.css`
 - `themes/bookings-and-flights-static/assets/css/base.css`
 - `themes/bookings-and-flights-static/assets/css/home.css`

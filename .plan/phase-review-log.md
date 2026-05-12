@@ -1048,3 +1048,41 @@ Research consulted:
 - Travelpayouts Help Center: What is White Label Web by Travelpayouts?
 
 Decision: `ONE-75` passed local documentation review and Codex PR review with no major issues on PR #10. Keep Phase 12 `In Progress` for the remaining child tickets until the full Phase 12 review gate passes.
+
+## Phase 12.3 Review - 2026-05-12
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-76` CSS split and static theme architecture preparation. Reviewed official WordPress asset/theme-structure docs, Travelpayouts widget placement caution, Phase 12.1 IA map, Phase 12.2 design-system inventory, current static theme enqueue logic, CSS file sizes, and core frontend widget wrapper scope.
+
+Acceptance criteria result: Passed for local implementation scope. CSS file-size state is documented; a small mechanical split moved shared primitives out of `header.css`; future CSS module ownership and enqueueing rules are documented; no unrelated redesign was included.
+
+Security review: Passed. No provider credentials, settings, REST routes, forms, database writes, or Travelpayouts script behavior changed. The split preserves theme-only CSS and leaves `baf-` scoped plugin widget wrapper CSS in the core plugin.
+
+REST permission review: Not applicable. No REST routes changed.
+
+Database/migration review: Not applicable. No database schema, options, migrations, or custom tables changed.
+
+UI review: Passed for the split scope. The moved `.skip-link` and `.btn` rules are unchanged and now load through `components.css` before `header.css`, `mobile-nav.css`, `footer.css`, and page-specific CSS. Browser smoke at default desktop size and a 390px mobile viewport confirmed the new stylesheet loads, shared controls are present, mobile toggles are present, and no console errors were reported.
+
+Regression review: Updated the Phase 12 design-system and widget-frame watchlist to keep shared primitives in `components.css` and header-only styling in `header.css`.
+
+Validation performed: CSS file-size inventory; PHP syntax check for `themes/bookings-and-flights-static/functions.php`; enqueue/reference scan for `components.css`; `curl` asset/source checks; browser smoke at default desktop and 390px mobile viewport; documentation consistency review.
+
+Bugs found: `header.css` was carrying shared `.skip-link` and `.btn` primitives even though those classes are used by page templates and mobile navigation, not only the header module.
+
+Bugs fixed: Added `themes/bookings-and-flights-static/assets/css/components.css`, moved shared primitives there unchanged, and enqueued it between `base.css` and `header.css`. Updated `themes/bookings-and-flights-static/ARCHITECTURE.md` and `.plan/` docs.
+
+Bugs deferred: `home.css` remains generic and gradient-heavy until the homepage rebuild. Mobile navigation text sizing and hardcoded transition delays need review when the Phase 12 target navigation is implemented. Detailed Travelpayouts widget-frame loading and responsive rules remain in Phase 12.4.
+
+Documentation updated: `.plan/phase-12-css-split-theme-architecture.md`, `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`, `themes/bookings-and-flights-static/ARCHITECTURE.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Including Assets.
+- WordPress Theme Handbook: Theme Structure.
+- WordPress Theme Handbook: Global Settings and Styles.
+- Travelpayouts Help Center: Getting started with widgets.
+
+Decision: `ONE-76` can proceed to PR review. Local CSS split, syntax, source, desktop browser, and mobile browser validation passed.

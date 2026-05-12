@@ -168,11 +168,17 @@ function bookings_and_flights_enqueue_assets() {
         filemtime( get_template_directory() . '/assets/css/base.css' )
     );
 
-    // 4. Header, mobile navigation, and footer - depend on base styles
+    // 4. Shared components, header, mobile navigation, and footer - depend on base styles
+    wp_enqueue_style(
+        'bookings_and_flights-components',
+        get_template_directory_uri() . '/assets/css/components.css',
+        array('bookings_and_flights-base'),
+        filemtime( get_template_directory() . '/assets/css/components.css' )
+    );
     wp_enqueue_style(
         'bookings_and_flights-header',
         get_template_directory_uri() . '/assets/css/header.css',
-        array('bookings_and_flights-base'),
+        array('bookings_and_flights-components'),
         filemtime( get_template_directory() . '/assets/css/header.css' )
     );
     wp_enqueue_style(
