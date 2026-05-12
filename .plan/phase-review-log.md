@@ -511,7 +511,7 @@ Validation performed: Official plugin metadata check via WordPress.org/plugin AP
 
 Bugs found: No activation fatal error, database connection blocker, or new debug-log entry was found during P11.1. Direct syntax scanning exposed PHP `8.5.4` deprecation warnings in official plugin/vendor code.
 
-Bugs fixed: Redacted the embedded Airtable personal access token from the staged plugin package and disabled that distribution script when no out-of-repository token is configured.
+Bugs fixed: Redacted the embedded Airtable personal access token from the staged plugin package and disabled that distribution script when no out-of-repository token is configured. After Codex review, moved the Travelpayouts bootstrap direct-access guard before `ABSPATH` usage so direct requests exit safely instead of triggering an undefined constant fatal. Follow-up review fixed Travelpayouts API token exposure by changing the Gutenberg REST token action to return only non-secret configured state and by masking the landing-page token field while preserving existing saved tokens on blank submission.
 
 Bugs deferred: Admin setup smoke check, widget/table/search-form render checks, handoff and SubID checks, White Label header continuity review, mobile/desktop browser checks, and secret-exposure source/browser review.
 

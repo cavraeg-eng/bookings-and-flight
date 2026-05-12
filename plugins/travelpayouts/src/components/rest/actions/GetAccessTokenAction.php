@@ -12,8 +12,11 @@ class GetAccessTokenAction extends CheckAccessAction
 {
     public function run(): array
     {
+        $token = Travelpayouts::getInstance()->account->getToken();
+
         return [
-            'access_token' => Travelpayouts::getInstance()->account->getToken(),
+            'access_token' => '',
+            'has_access_token' => !empty($token),
         ];
     }
 

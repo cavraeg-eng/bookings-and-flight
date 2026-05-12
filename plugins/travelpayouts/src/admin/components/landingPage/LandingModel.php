@@ -62,7 +62,11 @@ class LandingModel extends InjectedModel
 	 */
 	public function setSanitizedAttributes($data)
 	{
-		$this->token = preg_replace('/[^a-zA-Z0-9]/', '', strip_tags($data['token']));
+		$token = isset($data['token'])
+			? preg_replace('/[^a-zA-Z0-9]/', '', strip_tags($data['token']))
+			: '';
+
+		$this->token = $token ?: $this->getToken();
 		$this->marker = preg_replace('/[^0-9]/', '', strip_tags($data['marker']));
 		$this->language = substr(
 			preg_replace(

@@ -25,6 +25,11 @@
 use Travelpayouts\includes\Activator;
 use Travelpayouts\includes\Deactivator;
 
+// If this file is called directly, abort before using WordPress constants.
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 require_once ABSPATH . '/wp-admin/includes/plugin.php';
 
 // Import vendor
@@ -38,10 +43,6 @@ if (!file_exists($autoloadPath)) {
 require 'redux-core/travelpayouts-settings-framework.php';
 
 require_once $autoloadPath;
-// If this file is called directly, abort.
-if (!defined('WPINC')) {
-    die;
-}
 
 register_activation_hook(__FILE__, [Activator::class, 'onActivate']);
 register_deactivation_hook(__FILE__, [Deactivator::class, 'onDeactivation']);

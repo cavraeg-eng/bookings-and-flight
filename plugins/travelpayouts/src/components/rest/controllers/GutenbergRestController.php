@@ -98,7 +98,7 @@ class GutenbergRestController extends WpRestController
             'token' => [
                 'class' => GetAccessTokenAction::class,
                 'method' => 'GET',
-                'checkAccess' => [$this, 'isUserCanCreatePosts'],
+                'checkAccess' => [$this, 'isUserCanManageOptions'],
             ],
         ], $this->shortcodeActions());
     }
@@ -126,5 +126,10 @@ class GutenbergRestController extends WpRestController
     public function isUserCanCreatePosts()
     {
         return TRAVELPAYOUTS_DEBUG || user_can(wp_get_current_user(), 'publish_posts');
+    }
+
+    public function isUserCanManageOptions()
+    {
+        return TRAVELPAYOUTS_DEBUG || user_can(wp_get_current_user(), 'manage_options');
     }
 }

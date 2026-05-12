@@ -13,6 +13,9 @@ use Travelpayouts\helpers\FileHelper;
  * @var LandingModel $landingModel
  */
 
+$hasSavedToken = !empty($landingModel->getToken());
+$tokenPlaceholder = $hasSavedToken ? Travelpayouts::__('API token is saved. Leave blank to keep it.') : '';
+
 ?>
 
 <?= Travelpayouts::getInstance()->assets->loader->registerAsset('admin-landing-page')->renderPreloader() ?>
@@ -105,9 +108,11 @@ use Travelpayouts\helpers\FileHelper;
                                                     <?php echo Travelpayouts::__('your API token'); ?>
                                                     <span class="wlcm__token__field__label__req">*</span>
                                                 </label>
-                                                <input name="token" type="text"
-                                                       value="<?php echo $landingModel->getToken(); ?>"
-                                                       class="wlcm__token__field__input" required>
+                                                <input name="token" type="password"
+                                                       value=""
+                                                       placeholder="<?php echo esc_attr($tokenPlaceholder); ?>"
+                                                       autocomplete="off"
+                                                       class="wlcm__token__field__input"<?php echo $hasSavedToken ? '' : ' required'; ?>>
                                             </div>
                                         </div>
                                         <div class="wlcm__col-6">

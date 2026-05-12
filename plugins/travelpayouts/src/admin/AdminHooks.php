@@ -439,12 +439,16 @@ class AdminHooks extends Travelpayouts\components\HookableObject
             die(Travelpayouts::__('Insufficient access rights!'));
         }
 
-        if (wp_verify_nonce($_POST['_wpnonce'], LandingPage::ACTION)) {
+        $postData = wp_unslash($_POST);
+        $nonce = isset($postData['_wpnonce']) ? sanitize_text_field($postData['_wpnonce']) : '';
+
+        if (wp_verify_nonce($nonce, LandingPage::ACTION)) {
             $model = new LandingModel();
-            $model->setSanitizedAttributes($_POST);
+            $model->setSanitizedAttributes($postData);
             $model->save();
 
-            exit(wp_redirect($_POST['_wp_http_referer']));
+            $redirect = isset($postData['_wp_http_referer']) ? esc_url_raw($postData['_wp_http_referer']) : admin_url();
+            exit(wp_safe_redirect($redirect));
         }
 
         die(Travelpayouts::__('WP nonce verification failed!'));
