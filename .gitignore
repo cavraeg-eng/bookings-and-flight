@@ -1,0 +1,38 @@
+# macOS and editor noise
+.DS_Store
+/.qoder/
+/.windsurf/
+/wp-content.code-workspace
+
+# Local logs and generated validation output
+/debug.log
+/output/
+/.playwright-cli/
+
+# WordPress runtime content and local backup output
+/uploads/
+/upgrade/
+/cache/
+/wpvivid_uploads/
+/wpvividbackups/
+
+# Local development toolkits and backup plugins
+/wp-forge/
+/plugins/devkit/
+/plugins/wp-forge-setup/
+/plugins/wpvivid-backup-pro/
+/plugins/wpvivid-backuprestore/
+
+# JavaScript dependencies and build output
+node_modules/
+dist/
+.next/
+.turbo/
+coverage/
+*.tsbuildinfo
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+!.env.example
