@@ -16,7 +16,7 @@ class TransientCache extends Cache
      * @inheritdoc
      */
     public $keyPrefix = TRAVELPAYOUTS_PLUGIN_NAME.'_';
-    
+
     /**
      * @inheritDoc
      */

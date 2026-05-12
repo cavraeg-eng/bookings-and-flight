@@ -36,11 +36,11 @@ if ( ! class_exists( 'Redux_Travelpayouts_Palette', false ) ) {
 			foreach ( $this->field['palettes'] as $value => $color_set ) {
 				$checked = checked( $this->value, $value, false );
 
-				echo '<input 
-						type="radio" 
-						value="' . esc_attr( $value ) . '" 
-						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '" 
-						class="redux-palette-set ' . esc_attr( $this->field['class'] ) . '" 
+				echo '<input
+						type="radio"
+						value="' . esc_attr( $value ) . '"
+						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '"
+						class="redux-palette-set ' . esc_attr( $this->field['class'] ) . '"
 						id="' . esc_attr( $this->field['id'] . '-' . $value ) . '"' . esc_html( $checked ) . '>';
 
 				echo '<label class="tp-color-palette__colorset tp-color-palette__colorset__'.esc_attr( $value ).' " for="' . esc_attr( $this->field['id'] . '-' . $value ) . '">';

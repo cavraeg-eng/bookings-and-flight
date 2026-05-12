@@ -138,18 +138,18 @@ if ( ! class_exists( 'Redux_Travelpayouts_Dimensions', false ) ) {
 				}
 				echo '<div class="field-dimensions-input tp-input-group">';
 				echo '<div class="tp-input-group-prepend"><span class="add-on tp-input-group-add-on"><i class="tp-i-tabler:arrows-horizontal"></i></span></div>';
-				echo '<input 
-						type="text" 
-						class="tp-input redux-dimensions-input redux-dimensions-width mini ' . esc_attr( $this->field['class'] ) . '" 
-						placeholder="' . esc_html__( 'Width', 'redux-framework' ) . '" 
-						rel="' . esc_attr( $this->field['id'] ) . '-width" 
+				echo '<input
+						type="text"
+						class="tp-input redux-dimensions-input redux-dimensions-width mini ' . esc_attr( $this->field['class'] ) . '"
+						placeholder="' . esc_html__( 'Width', 'redux-framework' ) . '"
+						rel="' . esc_attr( $this->field['id'] ) . '-width"
 						value="' . esc_attr( filter_var( $this->value['width'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION ) ) . '">';
                 echo '</div>';
-                echo '<input 
-						data-id="' . esc_attr( $this->field['id'] ) . '" 
-						type="hidden" 
-						id="' . esc_attr( $this->field['id'] ) . '-width" 
-						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[width]" 
+                echo '<input
+						data-id="' . esc_attr( $this->field['id'] ) . '"
+						type="hidden"
+						id="' . esc_attr( $this->field['id'] ) . '-width"
+						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[width]"
 						value="' . esc_attr( $this->value['width'] ) . '">';
             }
 
@@ -165,19 +165,19 @@ if ( ! class_exists( 'Redux_Travelpayouts_Dimensions', false ) ) {
 				}
 				echo '<div class="field-dimensions-input tp-input-group">';
 				echo '<div class="tp-input-group-prepend"><span class="add-on tp-input-group-add-on"><i class="tp-i-tabler:arrows-vertical"></i></span></div>';
-				echo '<input 
-						type="text" 
-						class="tp-input redux-dimensions-input redux-dimensions-height mini ' . esc_attr( $this->field['class'] ) . '" 
-						placeholder="' . esc_html__( 'Height', 'redux-framework' ) . '" 
-						rel="' . esc_attr( $this->field['id'] ) . '-height" 
+				echo '<input
+						type="text"
+						class="tp-input redux-dimensions-input redux-dimensions-height mini ' . esc_attr( $this->field['class'] ) . '"
+						placeholder="' . esc_html__( 'Height', 'redux-framework' ) . '"
+						rel="' . esc_attr( $this->field['id'] ) . '-height"
 						value="' . esc_attr( filter_var( $this->value['height'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION ) ) . '">';
 
                 echo '</div>';
-                echo '<input 
-						data-id="' . esc_attr( $this->field['id'] ) . '" 
-						type="hidden" 
-						id="' . esc_attr( $this->field['id'] ) . '-height" 
-						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[height]" 
+                echo '<input
+						data-id="' . esc_attr( $this->field['id'] ) . '"
+						type="hidden"
+						id="' . esc_attr( $this->field['id'] ) . '-height"
+						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[height]"
 						value="' . esc_attr( $this->value['height'] ) . '">';
             }
 
@@ -187,15 +187,15 @@ if ( ! class_exists( 'Redux_Travelpayouts_Dimensions', false ) ) {
 			// If units field is set and units field NOT false then fill out the options object and show it, otherwise it's hidden
 			// and the default units value will apply.
 			if ( isset( $this->field['units'] ) && false !== $this->field['units'] ) {
-				echo '<div 
-						class="select_wrapper dimensions-units" 
+				echo '<div
+						class="select_wrapper dimensions-units"
 						original-title="' . esc_html__( 'Units', 'redux-framework' ) . '">';
 
-				echo '<select 
-						data-id="' . esc_attr( $this->field['id'] ) . '" 
-						data-placeholder="' . esc_html__( 'Units', 'redux-framework' ) . '" 
-						class="redux-dimensions redux-dimensions-units select ' . esc_attr( $this->field['class'] ) . '" 
-						original-title="' . esc_html__( 'Units', 'redux-framework' ) . '" 
+				echo '<select
+						data-id="' . esc_attr( $this->field['id'] ) . '"
+						data-placeholder="' . esc_html__( 'Units', 'redux-framework' ) . '"
+						class="redux-dimensions redux-dimensions-units select ' . esc_attr( $this->field['class'] ) . '"
+						original-title="' . esc_html__( 'Units', 'redux-framework' ) . '"
 						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[units]"' . esc_attr( $select2_data ) . '>';
 
 				// Extended units, show 'em all.

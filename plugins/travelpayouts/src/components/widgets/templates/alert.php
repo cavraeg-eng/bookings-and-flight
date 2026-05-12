@@ -22,4 +22,3 @@ $alertType = $_widget->getAlertType();
         <?= $content ?>
     </div>
 </div>
-

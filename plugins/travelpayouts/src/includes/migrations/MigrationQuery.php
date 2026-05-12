@@ -67,5 +67,3 @@ class MigrationQuery extends Query
         return null;
     }
 }
-
-

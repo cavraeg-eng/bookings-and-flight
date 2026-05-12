@@ -106,7 +106,7 @@ abstract class BaseLinkShortcode extends ShortcodeModel
                 unset($buttonAttributes['target']);
             }
         }
-        
+
         $buttonAttributes['class'] = TRAVELPAYOUTS_TEXT_DOMAIN . '-link';
 
         return Html::tag(

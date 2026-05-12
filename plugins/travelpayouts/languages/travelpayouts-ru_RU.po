@@ -2790,4 +2790,3 @@ msgstr "Выбрать язык"
 msgctxt "tables.columnTitles"
 msgid "This phrase also used for columns"
 msgstr "Этот перевод также будет использован для следующих колонок"
-

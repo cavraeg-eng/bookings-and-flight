@@ -1,6 +1,6 @@
 #### Зачем нужны фильтры Wordpress?
 
-Фильтры `apply_filters()` используется там, где нужно предоставить возможность изменять данные без вмешательства 
+Фильтры `apply_filters()` используется там, где нужно предоставить возможность изменять данные без вмешательства
 в исходный код плагина.
 
 #### Пример фильтра в коде плагина
@@ -40,12 +40,12 @@ add_filter( 'travelpayouts_tables_attributes_wp_filter', 'example_function_name'
 * @param array $attributes
 * @return array
 */
-function example_function_name( $attributes ) 
+function example_function_name( $attributes )
 {
     if (isset($attributes['origin'])) {
         $attributes['origin'] = 'MOW';
     }
-    
+
     return $attributes;
 }
 ```

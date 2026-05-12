@@ -145,7 +145,7 @@ class JsonMapper
 
         $opCacheDiscardedComments
             = $this->commentsDiscardedFor($opCacheSaveCommentKey);
-        
+
         if ($zendOptimizerDiscardedComments || $opCacheDiscardedComments) {
             throw JsonMapperException::commentsDisabledInConfigurationException(
                 array($zendOptimizerPlusSaveCommentKey, $opCacheSaveCommentKey)

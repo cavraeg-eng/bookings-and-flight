@@ -27,10 +27,10 @@ class AnyOfValidationException extends JsonMapperException
 {
     /**
      * JSON does not match any of the types provided.
-     * 
+     *
      * @param string $type The type JSON could not be mapped to.
      * @param string $json JSON string.
-     * 
+     *
      * @return AnyOfValidationException
      */
     static function cannotMapAnyOfException($type, $json)

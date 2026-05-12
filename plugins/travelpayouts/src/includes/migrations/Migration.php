@@ -944,5 +944,3 @@ class Migration extends BaseObject
         return empty($searchFormsData) ? (new MigrationQuery())->getSearchForms() : $searchFormsData;
     }
 }
-
-

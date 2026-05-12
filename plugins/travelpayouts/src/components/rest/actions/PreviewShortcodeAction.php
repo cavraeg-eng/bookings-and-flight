@@ -128,7 +128,7 @@ class PreviewShortcodeAction extends CheckAccessAction
         // Добавляем стили для ссылок
         if ($model instanceof BaseLinkShortcode) {
             $inlineLinkStyles = <<<CSS
-  a { 
+  a {
     color: #0085ff !important;
     font-family: "Roboto", sans-serif !important;
   }

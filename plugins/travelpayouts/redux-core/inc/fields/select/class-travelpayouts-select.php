@@ -136,10 +136,10 @@ if ( ! class_exists( 'Redux_Travelpayouts_Select', false ) ) {
 				$sortable = ( isset( $this->field['sortable'] ) && $this->field['sortable'] ) ? ' select2-sortable' : '';
 
 				echo '<select ' .
-					esc_html( $multi ) . ' 
-			        id="' . esc_attr( $this->field['id'] ) . '-select" 
-			        data-placeholder="' . esc_attr( $placeholder ) . '" 
-			        name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . esc_attr( $name_brackets ) . '" 
+					esc_html( $multi ) . '
+			        id="' . esc_attr( $this->field['id'] ) . '-select"
+			        data-placeholder="' . esc_attr( $placeholder ) . '"
+			        name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . esc_attr( $name_brackets ) . '"
 			        class="tp-select redux-select-item ' . esc_attr( $this->field['class'] ) . esc_attr( $sortable ) . '"' .
 					$width . ' rows="6"' . esc_attr( $select2_data ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput
 

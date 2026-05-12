@@ -16,4 +16,3 @@ Travelpayouts::getInstance()->assets->loader->registerAsset('admin-feedback-butt
            target="_blank">🐞 <?= $this->e($buttonTitle) ?></a>
     </div>
 </div>
-

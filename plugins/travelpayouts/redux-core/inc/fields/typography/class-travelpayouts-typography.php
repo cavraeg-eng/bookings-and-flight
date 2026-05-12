@@ -269,23 +269,23 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 					$user_fonts = '1';
 				}
 
-				echo '<input 
-						type="hidden" 
-						class="redux-typography-font-family ' . esc_attr( $this->field['class'] ) . '" 
-						data-user-fonts="' . esc_attr( $user_fonts ) . '" name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[font-family]" 
-						value="' . esc_attr( $this->value['font-family'] ) . '" 
+				echo '<input
+						type="hidden"
+						class="redux-typography-font-family ' . esc_attr( $this->field['class'] ) . '"
+						data-user-fonts="' . esc_attr( $user_fonts ) . '" name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[font-family]"
+						value="' . esc_attr( $this->value['font-family'] ) . '"
 						data-id="' . esc_attr( $this->field['id'] ) . '"  />';
 
-				echo '<input 
-						type="hidden" 
-						class="redux-typography-font-options ' . esc_attr( $this->field['class'] ) . '" 
-						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[font-options]" 
-						value="' . esc_attr( $this->value['font-options'] ) . '" 
+				echo '<input
+						type="hidden"
+						class="redux-typography-font-options ' . esc_attr( $this->field['class'] ) . '"
+						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[font-options]"
+						value="' . esc_attr( $this->value['font-options'] ) . '"
 						data-id="' . esc_attr( $this->field['id'] ) . '"  />';
 
-				echo '<input 
-						type="hidden" 
-						class="redux-typography-google-font" value="' . esc_attr( $is_google_font ) . '" 
+				echo '<input
+						type="hidden"
+						class="redux-typography-google-font" value="' . esc_attr( $is_google_font ) . '"
 						id="' . esc_attr( $this->field['id'] ) . '-google-font">';
 
 				echo '<div class="typography-family">';
@@ -306,11 +306,11 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 				if ( true === $this->field['google'] ) {
 
 					// Set a flag so we know to set a header style or not.
-					echo '<input 
-							type="hidden" 
-							class="redux-typography-google ' . esc_attr( $this->field['class'] ) . '" 
-							id="' . esc_attr( $this->field['id'] ) . '-google" name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[google]" 
-							type="text" value="' . esc_attr( $this->field['google'] ) . '" 
+					echo '<input
+							type="hidden"
+							class="redux-typography-google ' . esc_attr( $this->field['class'] ) . '"
+							id="' . esc_attr( $this->field['id'] ) . '-google" name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[google]"
+							type="text" value="' . esc_attr( $this->field['google'] ) . '"
 							data-id="' . esc_attr( $this->field['id'] ) . '" />';
 
 					$google_set = true;
@@ -321,23 +321,23 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 			if ( true === $this->field['font-family'] && true === $this->field['google'] ) {
 				if ( false === $google_set ) {
 					// Set a flag so we know to set a header style or not.
-					echo '<input 
-							type="hidden" 
-							class="redux-typography-google ' . esc_attr( $this->field['class'] ) . '" 
-							id="' . esc_attr( $this->field['id'] ) . '-google" name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[google]" 
-							type="text" value="' . esc_attr( $this->field['google'] ) . '" 
+					echo '<input
+							type="hidden"
+							class="redux-typography-google ' . esc_attr( $this->field['class'] ) . '"
+							id="' . esc_attr( $this->field['id'] ) . '-google" name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[google]"
+							type="text" value="' . esc_attr( $this->field['google'] ) . '"
 							data-id="' . esc_attr( $this->field['id'] ) . '"  />';
 				}
 
 				if ( true === $this->field['font-backup'] ) {
 					echo '<div class="typography-family-backup">';
 					echo '<label>' . esc_html__( 'Backup Font Family', 'redux-framework' ) . '</label>';
-					echo '<select 
-							data-placeholder="' . esc_html__( 'Backup Font Family', 'redux-framework' ) . '" 
-							name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[font-backup]" 
-							class="redux-typography redux-typography-family-backup ' . esc_attr( $this->field['class'] ) . '" 
-							id="' . esc_attr( $this->field['id'] ) . '-family-backup" 
-							data-id="' . esc_attr( $this->field['id'] ) . '" 
+					echo '<select
+							data-placeholder="' . esc_html__( 'Backup Font Family', 'redux-framework' ) . '"
+							name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[font-backup]"
+							class="redux-typography redux-typography-family-backup ' . esc_attr( $this->field['class'] ) . '"
+							id="' . esc_attr( $this->field['id'] ) . '-family-backup"
+							data-id="' . esc_attr( $this->field['id'] ) . '"
 							data-value="' . esc_attr( $this->value['font-backup'] ) . '"' . esc_attr( $select2_data ) . '>';
 
 					echo '<option data-google="false" data-details="" value=""></option>';
@@ -357,23 +357,23 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 
 				$style = $this->value['font-weight'] . $this->value['font-style'];
 
-				echo '<input 
-						type="hidden" 
-						class="typography-font-weight" name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[font-weight]" 
-						value="' . esc_attr( $this->value['font-weight'] ) . '" 
+				echo '<input
+						type="hidden"
+						class="typography-font-weight" name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[font-weight]"
+						value="' . esc_attr( $this->value['font-weight'] ) . '"
 						data-id="' . esc_attr( $this->field['id'] ) . '"  /> ';
 
-				echo '<input 
-						type="hidden" 
-						class="typography-font-style" name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[font-style]" 
-						value="' . esc_attr( $this->value['font-style'] ) . '" 
+				echo '<input
+						type="hidden"
+						class="typography-font-style" name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[font-style]"
+						value="' . esc_attr( $this->value['font-style'] ) . '"
 						data-id="' . esc_attr( $this->field['id'] ) . '"  /> ';
 				$multi = ( isset( $this->field['multi']['weight'] ) && $this->field['multi']['weight'] ) ? ' multiple="multiple"' : '';
-				echo '<select' . esc_html( $multi ) . ' 
-				        data-placeholder="' . esc_html__( 'Style', 'redux-framework' ) . '" 
-				        class="redux-typography redux-typography-style select ' . esc_attr( $this->field['class'] ) . '" 
-				        original-title="' . esc_html__( 'Font style', 'redux-framework' ) . '" 
-				        id="' . esc_attr( $this->field['id'] ) . '_style" data-id="' . esc_attr( $this->field['id'] ) . '" 
+				echo '<select' . esc_html( $multi ) . '
+				        data-placeholder="' . esc_html__( 'Style', 'redux-framework' ) . '"
+				        class="redux-typography redux-typography-style select ' . esc_attr( $this->field['class'] ) . '"
+				        original-title="' . esc_html__( 'Font style', 'redux-framework' ) . '"
+				        id="' . esc_attr( $this->field['id'] ) . '_style" data-id="' . esc_attr( $this->field['id'] ) . '"
 				        data-value="' . esc_attr( $style ) . '"' . esc_attr( $select2_data ) . '>';
 
 				if ( empty( $this->value['subsets'] ) || empty( $this->value['font-weight'] ) ) {
@@ -386,21 +386,21 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 			/* Font Script */
 			if ( true === $this->field['font-family'] && true === $this->field['subsets'] && true === $this->field['google'] ) {
 				echo '<div class="typography-script tooltip" original-title="' . esc_html__( 'Font subsets', 'redux-framework' ) . '">';
-				echo '<input 
-						type="hidden" 
-						class="typography-subsets" 
-						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[subsets]" 
-						value="' . esc_attr( $this->value['subsets'] ) . '" 
+				echo '<input
+						type="hidden"
+						class="typography-subsets"
+						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[subsets]"
+						value="' . esc_attr( $this->value['subsets'] ) . '"
 						data-id="' . esc_attr( $this->field['id'] ) . '"  /> ';
 
 				echo '<label>' . esc_html__( 'Font Subsets', 'redux-framework' ) . '</label>';
 				$multi = ( isset( $this->field['multi']['subsets'] ) && $this->field['multi']['subsets'] ) ? ' multiple="multiple"' : '';
-				echo '<select' . esc_html( $multi ) . ' 
-						data-placeholder="' . esc_html__( 'Subsets', 'redux-framework' ) . '" 
-						class="redux-typography redux-typography-subsets ' . esc_attr( $this->field['class'] ) . '" 
-						original-title="' . esc_html__( 'Font script', 'redux-framework' ) . '"  
-						id="' . esc_attr( $this->field['id'] ) . '-subsets" 
-						data-value="' . esc_attr( $this->value['subsets'] ) . '" 
+				echo '<select' . esc_html( $multi ) . '
+						data-placeholder="' . esc_html__( 'Subsets', 'redux-framework' ) . '"
+						class="redux-typography redux-typography-subsets ' . esc_attr( $this->field['class'] ) . '"
+						original-title="' . esc_html__( 'Font script', 'redux-framework' ) . '"
+						id="' . esc_attr( $this->field['id'] ) . '-subsets"
+						data-value="' . esc_attr( $this->value['subsets'] ) . '"
 						data-id="' . esc_attr( $this->field['id'] ) . '"' . esc_attr( $select2_data ) . '>';
 
 				if ( empty( $this->value['subsets'] ) ) {
@@ -414,13 +414,13 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 			if ( true === $this->field['text-align'] ) {
 				echo '<div class="typography-align tooltip" original-title="' . esc_html__( 'Text Align', 'redux-framework' ) . '">';
 				echo '<label>' . esc_html__( 'Text Align', 'redux-framework' ) . '</label>';
-				echo '<select 
-						data-placeholder="' . esc_html__( 'Text Align', 'redux-framework' ) . '" 
-						class="redux-typography redux-typography-align ' . esc_attr( $this->field['class'] ) . '" 
-						original-title="' . esc_html__( 'Text Align', 'redux-framework' ) . '"  
-						id="' . esc_attr( $this->field['id'] ) . '-align" 
-						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[text-align]" 
-						data-value="' . esc_attr( $this->value['text-align'] ) . '" 
+				echo '<select
+						data-placeholder="' . esc_html__( 'Text Align', 'redux-framework' ) . '"
+						class="redux-typography redux-typography-align ' . esc_attr( $this->field['class'] ) . '"
+						original-title="' . esc_html__( 'Text Align', 'redux-framework' ) . '"
+						id="' . esc_attr( $this->field['id'] ) . '-align"
+						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[text-align]"
+						data-value="' . esc_attr( $this->value['text-align'] ) . '"
 						data-id="' . esc_attr( $this->field['id'] ) . '"' . esc_attr( $select2_data ) . '>';
 
 				echo '<option value=""></option>';
@@ -445,13 +445,13 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 			if ( true === $this->field['text-transform'] ) {
 				echo '<div class="typography-transform tooltip" original-title="' . esc_html__( 'Text Transform', 'redux-framework' ) . '">';
 				echo '<label>' . esc_html__( 'Text Transform', 'redux-framework' ) . '</label>';
-				echo '<select 
-						data-placeholder="' . esc_html__( 'Text Transform', 'redux-framework' ) . '" 
-						class="redux-typography redux-typography-transform ' . esc_attr( $this->field['class'] ) . '" 
-						original-title="' . esc_html__( 'Text Transform', 'redux-framework' ) . '"  
-						id="' . esc_attr( $this->field['id'] ) . '-transform" 
-						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[text-transform]" 
-						data-value="' . esc_attr( $this->value['text-transform'] ) . '" 
+				echo '<select
+						data-placeholder="' . esc_html__( 'Text Transform', 'redux-framework' ) . '"
+						class="redux-typography redux-typography-transform ' . esc_attr( $this->field['class'] ) . '"
+						original-title="' . esc_html__( 'Text Transform', 'redux-framework' ) . '"
+						id="' . esc_attr( $this->field['id'] ) . '-transform"
+						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[text-transform]"
+						data-value="' . esc_attr( $this->value['text-transform'] ) . '"
 						data-id="' . esc_attr( $this->field['id'] ) . '"' . esc_attr( $select2_data ) . '>';
 
 				echo '<option value=""></option>';
@@ -476,13 +476,13 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 			if ( true === $this->field['font-variant'] ) {
 				echo '<div class="typography-font-variant tooltip" original-title="' . esc_html__( 'Font Variant', 'redux-framework' ) . '">';
 				echo '<label>' . esc_html__( 'Font Variant', 'redux-framework' ) . '</label>';
-				echo '<select 
-						data-placeholder="' . esc_html__( 'Font Variant', 'redux-framework' ) . '" 
-						class="redux-typography redux-typography-font-variant ' . esc_attr( $this->field['class'] ) . '" 
-						original-title="' . esc_html__( 'Font Variant', 'redux-framework' ) . '"  
-						id="' . esc_attr( $this->field['id'] ) . '-font-variant" 
-						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[font-variant]" 
-						data-value="' . esc_attr( $this->value['font-variant'] ) . '" 
+				echo '<select
+						data-placeholder="' . esc_html__( 'Font Variant', 'redux-framework' ) . '"
+						class="redux-typography redux-typography-font-variant ' . esc_attr( $this->field['class'] ) . '"
+						original-title="' . esc_html__( 'Font Variant', 'redux-framework' ) . '"
+						id="' . esc_attr( $this->field['id'] ) . '-font-variant"
+						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[font-variant]"
+						data-value="' . esc_attr( $this->value['font-variant'] ) . '"
 						data-id="' . esc_attr( $this->field['id'] ) . '"' . esc_attr( $select2_data ) . '>';
 
 				echo '<option value=""></option>';
@@ -504,13 +504,13 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 			if ( true === $this->field['text-decoration'] ) {
 				echo '<div class="typography-decoration tooltip" original-title="' . esc_html__( 'Text Decoration', 'redux-framework' ) . '">';
 				echo '<label>' . esc_html__( 'Text Decoration', 'redux-framework' ) . '</label>';
-				echo '<select 
-						data-placeholder="' . esc_html__( 'Text Decoration', 'redux-framework' ) . '" 
-						class="redux-typography redux-typography-decoration ' . esc_attr( $this->field['class'] ) . '" 
-						original-title="' . esc_html__( 'Text Decoration', 'redux-framework' ) . '"  
-						id="' . esc_attr( $this->field['id'] ) . '-decoration" 
-						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[text-decoration]" 
-						data-value="' . esc_attr( $this->value['text-decoration'] ) . '" 
+				echo '<select
+						data-placeholder="' . esc_html__( 'Text Decoration', 'redux-framework' ) . '"
+						class="redux-typography redux-typography-decoration ' . esc_attr( $this->field['class'] ) . '"
+						original-title="' . esc_html__( 'Text Decoration', 'redux-framework' ) . '"
+						id="' . esc_attr( $this->field['id'] ) . '-decoration"
+						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[text-decoration]"
+						data-value="' . esc_attr( $this->value['text-decoration'] ) . '"
 						data-id="' . esc_attr( $this->field['id'] ) . '"' . esc_attr( $select2_data ) . '>';
 
 				echo '<option value=""></option>';
@@ -536,13 +536,13 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 				echo '<div class=" font-size redux-container-typography">';
 				echo '<label>' . esc_html__( 'Font Size', 'redux-framework' ) . '</label>';
 				echo '<div class="tp-input-group">';
-				echo '<input 
-						type="text" 
-						class="span2 redux-typography redux-typography-size typography-input tp-input ' . esc_attr( $this->field['class'] ) . '" 
-						title="' . esc_html__( 'Font Size', 'redux-framework' ) . '" 
-						placeholder="' . esc_html__( 'Size', 'redux-framework' ) . '" 
-						id="' . esc_attr( $this->field['id'] ) . '-size"  
-						value="' . esc_attr( str_replace( $unit, '', $this->value['font-size'] ) ) . '" 
+				echo '<input
+						type="text"
+						class="span2 redux-typography redux-typography-size typography-input tp-input ' . esc_attr( $this->field['class'] ) . '"
+						title="' . esc_html__( 'Font Size', 'redux-framework' ) . '"
+						placeholder="' . esc_html__( 'Size', 'redux-framework' ) . '"
+						id="' . esc_attr( $this->field['id'] ) . '-size"
+						value="' . esc_attr( str_replace( $unit, '', $this->value['font-size'] ) ) . '"
 						data-value="' . esc_attr( str_replace( $unit, '', $this->value['font-size'] ) ) . '">';
 				echo '<div class="tp-input-group-append"><span class="add-on tp-input-group-add-on">' . esc_html( $unit ) . '</span></div>';
 				echo '</div>';
@@ -555,14 +555,14 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 				echo '<div class=" line-height redux-container-typography">';
 				echo '<label>' . esc_html__( 'Line Height', 'redux-framework' ) . '</label>';
 				echo '<div class="tp-input-group">';
-				echo '<input 
-						type="text" 
-						class="span2 redux-typography redux-typography-height typography-input tp-input ' . esc_attr( $this->field['class'] ) . '" 
-						title="' . esc_html__( 'Line Height', 'redux-framework' ) . '" 
-						placeholder="' . esc_html__( 'Height', 'redux-framework' ) . '" 
-						id="' . esc_attr( $this->field['id'] ) . '-height" 
+				echo '<input
+						type="text"
+						class="span2 redux-typography redux-typography-height typography-input tp-input ' . esc_attr( $this->field['class'] ) . '"
+						title="' . esc_html__( 'Line Height', 'redux-framework' ) . '"
+						placeholder="' . esc_html__( 'Height', 'redux-framework' ) . '"
+						id="' . esc_attr( $this->field['id'] ) . '-height"
 						value="' . esc_attr( str_replace( $unit, '', $this->value['line-height'] ) ) . '"
-						data-allow-empty="' . esc_attr( $this->field['allow_empty_line_height'] ) . '" 
+						data-allow-empty="' . esc_attr( $this->field['allow_empty_line_height'] ) . '"
 						data-value="' . esc_attr( str_replace( $unit, '', $this->value['line-height'] ) ) . '">';
 				echo '<div class="tp-input-group-append"><span class="add-on tp-input-group-add-on">' . esc_html( $unit ) . '</span></div>';
 				echo '</div>';
@@ -575,13 +575,13 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 				echo '<div class=" word-spacing redux-container-typography">';
 				echo '<label>' . esc_html__( 'Word Spacing', 'redux-framework' ) . '</label>';
 				echo '<div class="tp-input-group">';
-				echo '<input 
-						type="text" 
-						class="span2 redux-typography redux-typography-word typography-input tp-input ' . esc_attr( $this->field['class'] ) . '" 
-						title="' . esc_html__( 'Word Spacing', 'redux-framework' ) . '" 
-						placeholder="' . esc_html__( 'Word Spacing', 'redux-framework' ) . '" 
-						id="' . esc_attr( $this->field['id'] ) . '-word" 
-						value="' . esc_attr( str_replace( $unit, '', $this->value['word-spacing'] ) ) . '" 
+				echo '<input
+						type="text"
+						class="span2 redux-typography redux-typography-word typography-input tp-input ' . esc_attr( $this->field['class'] ) . '"
+						title="' . esc_html__( 'Word Spacing', 'redux-framework' ) . '"
+						placeholder="' . esc_html__( 'Word Spacing', 'redux-framework' ) . '"
+						id="' . esc_attr( $this->field['id'] ) . '-word"
+						value="' . esc_attr( str_replace( $unit, '', $this->value['word-spacing'] ) ) . '"
 						data-value="' . esc_attr( str_replace( $unit, '', $this->value['word-spacing'] ) ) . '">';
 
 				echo '<div class="tp-input-group-append"><span class="add-on tp-input-group-add-on">' . esc_html( $unit ) . '</span></div>';
@@ -595,22 +595,22 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 				echo '<div class=" letter-spacing redux-container-typography">';
 				echo '<label>' . esc_html__( 'Letter Spacing', 'redux-framework' ) . '</label>';
 				echo '<div class="input-append">';
-				echo '<input 
-						type="text" 
-						class="span2 redux-typography redux-typography-letter typography-input tp-input ' . esc_attr( $this->field['class'] ) . '" 
-						title="' . esc_html__( 'Letter Spacing', 'redux-framework' ) . '" 
-						placeholder="' . esc_html__( 'Letter Spacing', 'redux-framework' ) . '" 
-						id="' . esc_attr( $this->field['id'] ) . '-letter" 
-						value="' . esc_attr( str_replace( $unit, '', $this->value['letter-spacing'] ) ) . '" 
+				echo '<input
+						type="text"
+						class="span2 redux-typography redux-typography-letter typography-input tp-input ' . esc_attr( $this->field['class'] ) . '"
+						title="' . esc_html__( 'Letter Spacing', 'redux-framework' ) . '"
+						placeholder="' . esc_html__( 'Letter Spacing', 'redux-framework' ) . '"
+						id="' . esc_attr( $this->field['id'] ) . '-letter"
+						value="' . esc_attr( str_replace( $unit, '', $this->value['letter-spacing'] ) ) . '"
 						data-value="' . esc_attr( str_replace( $unit, '', $this->value['letter-spacing'] ) ) . '">';
 
 				echo '<div class="tp-input-group-append"><span class="add-on tp-input-group-add-on">' . esc_html( $unit ) . '</span></div>';
 				echo '</div>';
-				echo '<input 
-						type="hidden" 
-						class="typography-letter-spacing" 
-						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[letter-spacing]" 
-						value="' . esc_attr( $this->value['letter-spacing'] ) . '" 
+				echo '<input
+						type="hidden"
+						class="typography-letter-spacing"
+						name="' . esc_attr( $this->field['name'] . $this->field['name_suffix'] ) . '[letter-spacing]"
+						value="' . esc_attr( $this->value['letter-spacing'] ) . '"
 						data-id="' . esc_attr( $this->field['id'] ) . '"  />';
 
 				echo '</div>';
@@ -1435,4 +1435,3 @@ if ( ! class_exists( 'Redux_Travelpayouts_Typography', false ) ) {
 if ( ! class_exists( 'TravelpayoutsSettingsFramework_Typography' ) ) {
 	class_alias( 'Redux_Travelpayouts_Typography', 'TravelpayoutsSettingsFramework_Typography' );
 }
-

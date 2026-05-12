@@ -28,7 +28,7 @@ class ColumnSorter extends Sorter
         parent::init();
         $this->id = 'columns';
         $this->title = Travelpayouts::__('Table columns');
-        $this->subtitle = Travelpayouts::__('We offer a readymade combination for such a table, but you can edit the number 
+        $this->subtitle = Travelpayouts::__('We offer a readymade combination for such a table, but you can edit the number
                 of columns and their arrangement.');
         $this->columnsOptions = [
             'enabled' => [

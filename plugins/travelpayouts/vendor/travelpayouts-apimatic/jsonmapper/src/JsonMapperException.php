@@ -29,9 +29,9 @@ class JsonMapperException extends RuntimeException
 {
     /**
      * Exception for discarded comments setting in configuration.
-     * 
+     *
      * @param array $concernedKeys Keys (PHP directives) with issues.
-     * 
+     *
      * @return JsonMapperException
      */
     static function commentsDisabledInConfigurationException($concernedKeys)
@@ -46,13 +46,13 @@ class JsonMapperException extends RuntimeException
 
     /**
      * Exception for non-existent key in an object.
-     * 
+     *
      * @param string $key             The missing key/property.
      * @param string $class           The class in which the key is missing.
-     * @param bool   $setterException Raise an exception specific to 
-     *                                missing a setter within the class for 
+     * @param bool   $setterException Raise an exception specific to
+     *                                missing a setter within the class for
      *                                the specified string.
-     * 
+     *
      * @return JsonMapperException
      */
     static function undefinedPropertyException(
@@ -66,10 +66,10 @@ class JsonMapperException extends RuntimeException
 
     /**
      * Exception for non-existent key in an object.
-     * 
+     *
      * @param string $key          The property missing type.
      * @param string $strClassName The class in which the property is missing type.
-     * 
+     *
      * @return JsonMapperException
      */
     static function missingTypePropertyException($key, $strClassName)
@@ -111,12 +111,12 @@ class JsonMapperException extends RuntimeException
 
     /**
      * Exception when it is not possible to map an object to a specific type.
-     * 
+     *
      * @param string $typeName  Name of type to map json object on.
      * @param string $typeGroup Group name of the type provided.
      * @param string $value     Value that should be mapped by typeGroup
      *                          i.e. JSON string.
-     * 
+     *
      * @return JsonMapperException
      */
     static function unableToMapException($typeName, $typeGroup, $value)
@@ -126,10 +126,10 @@ class JsonMapperException extends RuntimeException
 
     /**
      * A property marked as required was missing in the object provided.
-     * 
+     *
      * @param string $propertyName Concerned property's name.
      * @param string $className    The class name in which the property wasn't found.
-     * 
+     *
      * @return JsonMapperException
      */
     static function requiredPropertyMissingException($propertyName, $className)

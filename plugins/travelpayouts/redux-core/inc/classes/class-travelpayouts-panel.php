@@ -497,5 +497,3 @@ if (!class_exists('Redux_Travelpayouts_Panel', false)) {
 if (! class_exists( 'reduxTpCorePanel' ) ) {
 	class_alias( 'Redux_Travelpayouts_Panel', 'reduxTpCorePanel' );
 }
-
-

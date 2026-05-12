@@ -320,4 +320,3 @@ function Redux_Travelpayouts_get_font_icons() {
 
 	return $elusive_icons;
 }
-

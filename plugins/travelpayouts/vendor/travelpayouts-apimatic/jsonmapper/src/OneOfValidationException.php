@@ -26,13 +26,13 @@ namespace Travelpayouts\Vendor\apimatic\jsonmapper;
 class OneOfValidationException extends JsonMapperException
 {
     /**
-     * Exception raised when a json object maps to more 
+     * Exception raised when a json object maps to more
      * than one type within the types specified in OneOf.
-     * 
+     *
      * @param string $matchedType First type.
      * @param string $mappedWith  Second type.
      * @param string $json        JSON string.
-     * 
+     *
      * @return OneOfValidationException
      */
     static function moreThanOneOfException($matchedType, $mappedWith, $json)

@@ -99,4 +99,3 @@ $backButtonText = function_exists('__') ? __('&laquo; Back') : '&laquo; Back';
         <a href="javascript:history.back()" class="button button-large"> <?= $backButtonText ?></a>
     </div>
 </div>
-

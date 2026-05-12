@@ -312,7 +312,7 @@ if ( ! class_exists( 'Redux_Travelpayouts_Slider', false ) ) {
 			// TEXT output.
 			if ( $this->display_text === $this->field['display_value'] ) {
 				$show_input = true;
-				echo '<input 
+				echo '<input
 						type="text"
                         name="' . esc_attr( $name_one ) . '"
                         id="' . esc_attr( $id_one ) . '"
@@ -344,7 +344,7 @@ if ( ! class_exists( 'Redux_Travelpayouts_Slider', false ) ) {
 
 				$select2_data = Redux_Travelpayouts_Functions::create_data_string( $this->field['select2'] );
 
-				echo '<select 
+				echo '<select
 						class="redux-slider-select-one tp-select redux-slider-select-one-' . esc_attr( $field_id ) . ' ' . esc_attr( $this->field['class'] ) . '"
                         name="' . esc_attr( $name_one ) . '"
                         id="' . esc_attr( $id_one ) . '" ' . esc_attr( $select2_data ) . '></select>';
@@ -370,7 +370,7 @@ if ( ! class_exists( 'Redux_Travelpayouts_Slider', false ) ) {
 
 				// TEXT.
 				if ( true === $show_input ) {
-					echo '<input 
+					echo '<input
 							type="text"
                             name="' . esc_attr( $name_two ) . '"
                             id="' . esc_attr( $id_two ) . '"
@@ -380,7 +380,7 @@ if ( ! class_exists( 'Redux_Travelpayouts_Slider', false ) ) {
 
 				// LABEL.
 				if ( true === $show_label ) {
-					echo '<div 
+					echo '<div
 							class="redux-slider-label-two"
                             id="redux-slider-label-two-' . esc_attr( $field_id ) . '"
                             name="' . esc_attr( $name_two ) . '"></div>';
@@ -388,7 +388,7 @@ if ( ! class_exists( 'Redux_Travelpayouts_Slider', false ) ) {
 
 				// SELECT.
 				if ( true === $show_select ) {
-					echo '<select 
+					echo '<select
 								class="redux-slider-select-two redux-slider-select-two-' . esc_attr( $field_id ) . ' ' . esc_attr( $this->field['class'] ) . '"
                                 name="' . esc_attr( $name_two ) . '"
                                 id="' . esc_attr( $id_two ) . '" ' . esc_attr( $select2_data ) . '></select>';
@@ -397,7 +397,7 @@ if ( ! class_exists( 'Redux_Travelpayouts_Slider', false ) ) {
 
 			// NO output (input hidden).
 			if ( $this->display_none === $this->field['display_value'] || $this->display_label === $this->field['display_value'] ) {
-				echo '<input 
+				echo '<input
 							type="hidden"
 	                        class="redux-slider-value-one-' . esc_attr( $field_id ) . ' ' . esc_attr( $this->field['class'] ) . '"
 	                        name="' . esc_attr( $name_one ) . '"
@@ -406,7 +406,7 @@ if ( ! class_exists( 'Redux_Travelpayouts_Slider', false ) ) {
 
 				// double slider hidden output.
 				if ( true === $two_handles ) {
-					echo '<input 
+					echo '<input
 								type="hidden"
 	                            class="redux-slider-value-two-' . esc_attr( $field_id ) . ' ' . esc_attr( $this->field['class'] ) . '"
 	                            name="' . esc_attr( $name_two ) . '"

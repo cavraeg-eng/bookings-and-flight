@@ -215,4 +215,3 @@ trait ReduxFieldsTrait
         ];
     }
 }
-
