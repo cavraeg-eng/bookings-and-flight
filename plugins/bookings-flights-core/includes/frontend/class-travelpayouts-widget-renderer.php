@@ -170,16 +170,33 @@ final class Travelpayouts_Widget_Renderer {
 			return '';
 		}
 
-		$search_id  = 'tpwl-search';
-		$results_id = 'tpwl-tickets';
+		$instance_id        = wp_unique_id( 'baf-tpwl-' );
+		$search_id          = $instance_id . 'search';
+		$results_id         = $instance_id . 'tickets';
+		$instance_id_json   = wp_json_encode( $instance_id );
+		$search_id_json     = wp_json_encode( $search_id );
+		$results_id_json    = wp_json_encode( $results_id );
+		$fixed_search_json  = wp_json_encode( 'tpwl-search' );
+		$fixed_results_json = wp_json_encode( 'tpwl-tickets' );
+
+		if ( false === $instance_id_json || false === $search_id_json || false === $results_id_json || false === $fixed_search_json || false === $fixed_results_json ) {
+			return '';
+		}
 
 		return sprintf(
-			'<div class="baf-travelpayouts-widget__provider baf-travelpayouts-widget__provider--white-label"><div id="%1$s" tabindex="0"></div><div id="%2$s" tabindex="0"></div></div><script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">(function(){window.TPWL_CONFIGURATION=Object.assign({},window.TPWL_CONFIGURATION||{},%3$s);var script=document.createElement("script");script.async=true;script.type="module";script.src=%4$s;document.head.appendChild(script);}());</script>%5$s',
+			'<div class="baf-travelpayouts-widget__provider baf-travelpayouts-widget__provider--white-label" id="%1$s"><div id="%2$s" class="baf-travelpayouts-widget__white-label-node" tabindex="0"></div><div id="%3$s" class="baf-travelpayouts-widget__white-label-node" tabindex="0"></div><div class="baf-travelpayouts-widget__fallback" role="status">%4$s</div>%5$s</div><script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">(function(){var wrapper=document.getElementById(%6$s);var search=document.getElementById(%7$s);var results=document.getElementById(%8$s);if(!wrapper||!search||!results){return;}if(document.getElementById(%9$s)||document.getElementById(%10$s)){wrapper.classList.add("is-unavailable");search.setAttribute("tabindex","-1");results.setAttribute("tabindex","-1");search.setAttribute("aria-hidden","true");results.setAttribute("aria-hidden","true");return;}search.id=%9$s;results.id=%10$s;window.TPWL_CONFIGURATION=Object.assign({},window.TPWL_CONFIGURATION||{},%11$s);var script=document.createElement("script");script.async=true;script.type="module";script.src=%12$s;document.head.appendChild(script);}());</script>',
+			esc_attr( $instance_id ),
 			esc_attr( $search_id ),
 			esc_attr( $results_id ),
+			esc_html__( 'Travel search could not load because another White Label search is already active on this page.', 'bookings-flights-core' ),
+			self::render_noscript( $placement ),
+			$instance_id_json,
+			$search_id_json,
+			$results_id_json,
+			$fixed_search_json,
+			$fixed_results_json,
 			$configuration_json,
-			$script_src_json,
-			self::render_noscript( $placement )
+			$script_src_json
 		);
 	}
 

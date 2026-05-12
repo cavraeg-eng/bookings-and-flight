@@ -199,6 +199,10 @@
 	display: block;
 }
 
+.baf-travelpayouts-white-label.is-unavailable .baf-travelpayouts-widget__fallback {
+	display: block;
+}
+
 .baf-travelpayouts-widget__handoff {
 	margin: 0.75rem 0 0;
 	text-align: center;
@@ -232,10 +236,14 @@
 .baf-travelpayouts-white-label #tpwl-search:focus-visible,
 .baf-travelpayouts-white-label #tpwl-tickets:focus,
 .baf-travelpayouts-white-label #tpwl-tickets:focus-visible,
+.baf-travelpayouts-white-label__slot:focus,
+.baf-travelpayouts-white-label__slot:focus-visible,
 .baf-travelpayouts-widget #tpwl-search:focus,
 .baf-travelpayouts-widget #tpwl-search:focus-visible,
 .baf-travelpayouts-widget #tpwl-tickets:focus,
 .baf-travelpayouts-widget #tpwl-tickets:focus-visible,
+.baf-travelpayouts-widget__white-label-node:focus,
+.baf-travelpayouts-widget__white-label-node:focus-visible,
 .baf-travelpayouts-widget iframe:focus,
 .baf-travelpayouts-widget iframe:focus-visible,
 .baf-travelpayouts-hotel-widget iframe:focus,

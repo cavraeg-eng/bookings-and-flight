@@ -142,6 +142,8 @@ What to check after future changes:
 - Public output includes disclosure and safe handoff language outside provider-owned iframe/script content.
 - Provider request consent blocks third-party output without leaking raw embed details.
 - Missing, disabled, no-script, unavailable, and error states render escaped, useful copy.
+- White Label wrapper instances and the legacy White Label shortcode do not produce duplicate `tpwl-search` or `tpwl-tickets` IDs when rendered more than once or in mixed old/new shortcode order.
+- Unavailable White Label conflict fallbacks are visible, and their empty placeholder containers are not left in sequential keyboard navigation.
 - Keyboard navigation reaches the provider iframe when present and the visible handoff link immediately after it.
 - Desktop and mobile screenshots show no horizontal overflow, clipped controls, or oversized provider header area returning above the intended widget frame.
 
