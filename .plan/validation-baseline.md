@@ -415,6 +415,19 @@ git diff --check
 
 P12.2 local result on 2026-05-12: design-token direction, real-media strategy, component inventory, disclosure treatment, accessibility checklist, and widget-frame guardrails are documented in `.plan/phase-12-design-system-component-inventory.md`. Current CSS inventory still shows `header.css` at 544 lines, so Phase 12.3 should split or protect header/style architecture before adding large navigation/search-shell styles. `home.css` remains gradient-heavy and generic, which is now explicitly deferred to later visual implementation. The Trip.com hotel wrapper still relies on a visible handoff fallback because provider-owned iframe content can compress on mobile. Codex review on PR #10 found no major issues.
 
+P12.3 CSS architecture validation:
+
+```bash
+wc -l themes/bookings-and-flights-static/assets/css/*.css themes/bookings-and-flights-static/functions.php themes/bookings-and-flights-static/ARCHITECTURE.md
+php -l themes/bookings-and-flights-static/functions.php
+rg -n "components.css|bookings_and_flights-components|fonts -> tokens -> base -> components" themes/bookings-and-flights-static/functions.php themes/bookings-and-flights-static/ARCHITECTURE.md .plan/phase-12-css-split-theme-architecture.md
+curl -I "http://localhost:10019/wp-content/themes/bookings-and-flights-static/assets/css/components.css"
+curl -s "http://localhost:10019/" | rg "components.css|header.css|mobile-nav.css|footer.css"
+git diff --check
+```
+
+P12.3 local result on 2026-05-12: shared `.skip-link` and `.btn` primitives moved from `header.css` into `themes/bookings-and-flights-static/assets/css/components.css`. `functions.php` now enqueues `components.css` after `base.css` and before `header.css`. CSS line counts after the split are: `components.css` 85, `header.css` 464, `mobile-nav.css` 70, `footer.css` 279, `home.css` 373, `tokens.css` 388, `base.css` 256, and `fonts.css` 17. No tracked CSS source file exceeds 600 lines. Local source and browser smoke confirmed `components.css`, `header.css`, `mobile-nav.css`, and `footer.css` each load once on the home page; default desktop and 390px mobile browser checks reported no console errors. Codex review on PR #11 found no major issues.
+
 ## Documentation-Only Changes
 
 For documentation-only changes:

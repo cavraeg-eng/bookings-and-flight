@@ -25,7 +25,8 @@ graph TB
             fonts_css["fonts.css<br/><small>@font-face declarations</small>"]
             tokens_css["tokens.css<br/><small>CSS custom properties<br/>(colors, spacing, type, etc.)</small>"]
             base_css["base.css<br/><small>Reset, base styles, utilities</small>"]
-            header_css["header.css<br/><small>Header, nav, buttons</small>"]
+            components_css["components.css<br/><small>Shared buttons, skip link,<br/>and reusable UI primitives</small>"]
+            header_css["header.css<br/><small>Header, nav, layout,<br/>theme toggle</small>"]
             mobile_nav_css["mobile-nav.css<br/><small>Mobile navigation</small>"]
             footer_css["footer.css<br/><small>Footer layouts</small>"]
             home_css["home.css<br/><small>Home page sections</small>"]
@@ -100,7 +101,8 @@ flowchart TD
 flowchart LR
     FONTS["fonts.css<br/><small>@font-face</small>"] --> TOKENS["tokens.css<br/><small>CSS variables</small>"]
     TOKENS --> BASE["base.css<br/><small>Reset + utilities</small>"]
-    BASE --> HEADER["header.css<br/><small>Header, nav, buttons</small>"]
+    BASE --> COMPONENTS["components.css<br/><small>Shared UI primitives</small>"]
+    COMPONENTS --> HEADER["header.css<br/><small>Header, nav, layout</small>"]
     HEADER --> MOBILE["mobile-nav.css<br/><small>Mobile navigation</small>"]
     MOBILE --> FOOTER["footer.css<br/><small>Footer layouts</small>"]
     TOKENS --> PAGE["[page].css<br/><small>Page-specific styles</small>"]
@@ -170,7 +172,7 @@ flowchart TB
     end
 
     subgraph ENQUEUE["Asset Enqueuing (wp_enqueue_scripts)"]
-        E1["CSS: fonts → tokens → base → header → mobile-nav → footer → page-specific"]
+        E1["CSS: fonts → tokens → base → components → header → mobile-nav → footer → page-specific"]
         E2["JS: header.js + reveal.js → page-specific"]
         E3["$css_map + $js_map template-to-file routing"]
     end
