@@ -1086,3 +1086,42 @@ Research consulted:
 - Travelpayouts Help Center: Getting started with widgets.
 
 Decision: `ONE-76` passed local CSS split, syntax, source, desktop browser, mobile browser, and Codex PR review. Codex found no major issues on PR #11.
+
+## Phase 12.4 Review - 2026-05-12
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-77` widget frame, loading, and responsive layout rules. Reviewed official Travelpayouts widget and White Label documentation, WordPress asset/security guidance, Phase 11 wrapper validation, Phase 12.1 page ownership, Phase 12.2 design-system rules, Phase 12.3 CSS architecture, existing White Label/Trip.com shortcode wrappers, current `baf-` frontend CSS, and Phase 13 registry expectations.
+
+Acceptance criteria result: Passed for documentation scope. Widget frame dimensions and responsive constraints are documented; loading, empty, error, disabled, no-script, unavailable, and missing-configuration states are specified; affiliate disclosure location is defined for widget surfaces; performance constraints are captured; Phase 13 prerequisites are documented.
+
+Security review: Passed for documentation scope. No executable code, settings, routes, migrations, or database writes changed. The rules require public output to fail closed, keep provider scripts scoped to approved placements, avoid leaking raw embed code, and keep disclosure/fallback outside provider-owned iframes.
+
+REST permission review: Not applicable. No REST routes changed.
+
+Database/migration review: Not applicable. No database schema, options, custom tables, or migrations changed.
+
+UI review: Documentation review only. The frame rules specify stable min-heights, mobile overflow containment, visible fallback handoff links, iframe titles, no-script states, and no hidden affiliate disclosure on mobile.
+
+Regression review: Updated the Phase 12 design-system and widget-frame watchlist to point future work at the widget-frame rules document.
+
+Validation performed: Responsive wireframe review, layout-shift risk review, existing shortcode wrapper/CSS inventory, Phase 13 registry prerequisite review, and documentation anchor checks.
+
+Bugs found: Existing Trip.com direct partner iframe requires a carefully documented crop/fallback exception because provider-owned content can compress on mobile or be blocked. Existing White Label wrapper has a minimal frame reservation but not a full reusable registry state model yet.
+
+Bugs fixed: None in runtime code. The layout risks and registry prerequisites are documented before Phase 13 implementation.
+
+Bugs deferred: Runtime registry implementation, exact real-widget tuning, route/map/calendar widget smoke tests, and broader public template integration are deferred to Phase 13 and later experience phases.
+
+Documentation updated: `.plan/phase-12-widget-frame-layout-rules.md`, `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+- Travelpayouts Help Center: What is White Label Web by Travelpayouts?
+- WordPress Theme Handbook: Including Assets.
+- WordPress Plugin Security Handbook: Securing Input and Securing Output.
+
+Decision: `ONE-77` can proceed to PR review as a documentation-only Phase 12.4 gate. Keep Phase 12 `In Progress` for remaining wireframe and final review tickets.
