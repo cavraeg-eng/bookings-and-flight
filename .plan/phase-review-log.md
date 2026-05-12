@@ -1321,3 +1321,43 @@ Research consulted:
 - WordPress Common APIs Handbook: Escaping Data.
 
 Decision: `ONE-81` can move to Done after PR #17 merge. Keep Phase 13 `In Progress` until the remaining wrapper/state/security child issues pass review and merge.
+
+## Phase 13.3 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-82` safe shortcode/block frontend wrapper. Reviewed Phase 13 objective and child order, P13.1 registry service trusted rendering path, P13.2 admin placement management, Phase 12 widget-frame rules, existing White Label and Trip.com direct shortcodes, WordPress shortcode/block registration guidance, WordPress sanitization/escaping guidance, and Travelpayouts widget/White Label placement guidance.
+
+Acceptance criteria result: Passed locally for the PR candidate. `[baf_travelpayouts_widget placement="..."]` and the `baf/travelpayouts-widget` dynamic block can render approved active placements by registry key. Disabled and missing placements render safe escaped states. Public output includes disclosure copy and visible partner handoff language where monetized. Editor/block content stores only placement/context attributes, while raw embed management stays in the capability-gated registry/admin layer.
+
+Security review: Passed locally. The renderer uses `Travelpayouts_Widget_Registry_Service::get_for_rendering()` for trusted server-side reads and does not expose private registry values through public projections, REST routes, or editor attributes. All shortcode/block attributes are sanitized. Public markup escapes text, attributes, and URLs late. Provider output remains gated by `baf_consent_settings.allow_provider_requests`; when consent is disabled, public visitors receive no third-party provider output.
+
+REST permission review: Passed. No REST route was added. The dynamic block renders server-side and stores only safe block attributes in post content.
+
+Database/migration review: Passed. No schema or option contract changed. The existing non-autoloaded `baf_travelpayouts_widget_registry` option remains the storage contract.
+
+UI review: Passed locally with runtime browser evidence. A temporary public smoke page rendered an active Hotels partner placement via the block, a disabled test placement via shortcode, and a missing placement via shortcode. Playwright desktop and mobile screenshots confirmed disclosure, the cropped Trip.com widget surface, visible `Open hotel search` handoff, disabled/missing states, and no horizontal overflow. Keyboard review confirmed focus reaches the Trip.com iframe and then the visible handoff link.
+
+Regression review: Existing `[baf_travelpayouts_white_label]` and `[baf_travelpayouts_hotel_widget]` shortcodes remain registered and unchanged for setup compatibility. The new Settings copy points editors to the registry wrapper while preserving the older direct setup wrappers. Temporary smoke page and temporary disabled placement were deleted after validation.
+
+Validation performed: PHP syntax checks for changed PHP files; `node --check` for the block editor script; WP-CLI shortcode/block registration and render smoke using the Local MySQL socket; sensitive-term scan for rendered shortcode/block output; active, disabled, missing, disclosure, handoff, no-script, and SubID data checks; real Playwright Chromium screenshots at `1440x900` and `390x844`; keyboard focus review through iframe and handoff link; console/page-error capture; temporary smoke content cleanup; `git diff --check`.
+
+Bugs found: The Codex in-app Browser connected but rejected the selected tab as stale and then could not create a new active browser pane. Browser validation therefore used Playwright Chromium with the fallback reason recorded. Local review also found that no-script fallback should not turn widget script URLs into visible handoff links, so script-like fallback URLs are now ignored for handoff output.
+
+Bugs fixed: Added the renderer guard that suppresses `.js`, `/content`, and `/wl_web/` URLs as visible handoff targets. Retried browser validation with Playwright, captured desktop/mobile/keyboarding screenshots, and verified cleanup state.
+
+Bugs deferred: P13.4 still owns richer centralized SubID mutation into provider URLs, fuller consent messaging, and the broader configured/loading/no-script state model. P13.5 still owns the full Phase 13 security, capability, nonce, and exposure review.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Shortcode API.
+- WordPress Block Editor Handbook: block registration.
+- WordPress Common APIs Handbook: Sanitizing Data.
+- WordPress Common APIs Handbook: Escaping Data.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+
+Decision: `ONE-82` can move to Done after PR review and merge. Keep Phase 13 `In Progress` until P13.4, P13.5, and P13.6 pass review and merge.

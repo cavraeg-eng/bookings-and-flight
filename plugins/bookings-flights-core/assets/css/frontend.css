@@ -103,10 +103,141 @@
 	min-height: 220px;
 }
 
+.baf-travelpayouts-widget {
+	box-sizing: border-box;
+	margin: 2rem 0;
+	min-height: var(--baf-widget-desktop-min-height, 0);
+	width: 100%;
+}
+
+.baf-travelpayouts-widget *,
+.baf-travelpayouts-widget *::before,
+.baf-travelpayouts-widget *::after {
+	box-sizing: border-box;
+}
+
+.baf-travelpayouts-widget__disclosure {
+	color: #5b6472;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	margin: 0 0 0.75rem;
+}
+
+.baf-travelpayouts-widget__body {
+	background: #ffffff;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	color: #111827;
+	overflow-x: auto;
+	padding: 1rem;
+	position: relative;
+	-webkit-overflow-scrolling: touch;
+}
+
+.baf-travelpayouts-widget__provider {
+	min-height: inherit;
+	position: relative;
+}
+
+.baf-travelpayouts-widget__provider--white-label {
+	min-height: 220px;
+}
+
+.baf-travelpayouts-widget__provider--iframe {
+	min-height: 0;
+}
+
+.baf-travelpayouts-widget__iframe-frame {
+	border-radius: 6px;
+	min-height: min(420px, var(--baf-widget-desktop-min-height, 520px));
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+.baf-travelpayouts-widget--hotels .baf-travelpayouts-widget__iframe-frame {
+	height: 96px;
+	min-height: 96px;
+}
+
+.baf-travelpayouts-widget iframe {
+	border: 0;
+	display: block;
+	margin-inline: auto;
+	min-height: min(420px, var(--baf-widget-desktop-min-height, 520px));
+	width: 100%;
+}
+
+.baf-travelpayouts-widget--hotels iframe {
+	min-height: 220px;
+	transform: translateY(-112px);
+}
+
+.baf-travelpayouts-widget:focus-within {
+	outline: 3px solid #99f6e4;
+	outline-offset: 4px;
+}
+
+.baf-travelpayouts-widget__state,
+.baf-travelpayouts-widget__fallback,
+.baf-travelpayouts-widget__noscript {
+	background: #fff8e5;
+	border: 1px solid #dba617;
+	border-radius: 8px;
+	color: #4b3b08;
+	font-size: 0.95rem;
+	line-height: 1.5;
+	margin: 0;
+	padding: 1rem;
+}
+
+.baf-travelpayouts-widget__fallback {
+	display: none;
+}
+
+.baf-travelpayouts-widget__provider.is-unavailable .baf-travelpayouts-widget__fallback {
+	display: block;
+}
+
+.baf-travelpayouts-widget__handoff {
+	margin: 0.75rem 0 0;
+	text-align: center;
+}
+
+.baf-travelpayouts-widget__handoff a {
+	background: #0f766e;
+	border-radius: 999px;
+	color: #ffffff;
+	display: inline-flex;
+	font-weight: 700;
+	justify-content: center;
+	line-height: 1.2;
+	min-height: 44px;
+	padding: 0.8rem 1.2rem;
+	text-decoration: none;
+}
+
+.baf-travelpayouts-widget__handoff a:hover,
+.baf-travelpayouts-widget__handoff a:focus-visible {
+	background: #115e59;
+	color: #ffffff;
+}
+
+.baf-travelpayouts-widget__handoff a:focus-visible {
+	outline: 3px solid #99f6e4;
+	outline-offset: 3px;
+}
+
 .baf-travelpayouts-white-label #tpwl-search:focus,
 .baf-travelpayouts-white-label #tpwl-search:focus-visible,
 .baf-travelpayouts-white-label #tpwl-tickets:focus,
 .baf-travelpayouts-white-label #tpwl-tickets:focus-visible,
+.baf-travelpayouts-widget #tpwl-search:focus,
+.baf-travelpayouts-widget #tpwl-search:focus-visible,
+.baf-travelpayouts-widget #tpwl-tickets:focus,
+.baf-travelpayouts-widget #tpwl-tickets:focus-visible,
+.baf-travelpayouts-widget iframe:focus,
+.baf-travelpayouts-widget iframe:focus-visible,
 .baf-travelpayouts-hotel-widget iframe:focus,
 .baf-travelpayouts-hotel-widget iframe:focus-visible {
 	outline: 3px solid #99f6e4 !important;
@@ -155,6 +286,32 @@
 }
 
 @media (max-width: 42rem) {
+	.baf-travelpayouts-widget {
+		min-height: var(--baf-widget-mobile-min-height, 0);
+	}
+
+	.baf-travelpayouts-widget__body {
+		padding: 0.75rem;
+	}
+
+	.baf-travelpayouts-widget__iframe-frame {
+		min-height: min(420px, var(--baf-widget-mobile-min-height, 640px));
+	}
+
+	.baf-travelpayouts-widget--hotels .baf-travelpayouts-widget__iframe-frame {
+		height: 84px;
+		min-height: 84px;
+	}
+
+	.baf-travelpayouts-widget iframe {
+		min-height: min(420px, var(--baf-widget-mobile-min-height, 640px));
+	}
+
+	.baf-travelpayouts-widget--hotels iframe {
+		min-height: 220px;
+		transform: translateY(-122px);
+	}
+
 	.baf-travelpayouts-hotel-widget {
 		padding: 0.75rem;
 	}

@@ -130,6 +130,34 @@ Related files/routes/tables/settings:
 - `plugins/bookings-flights-core/assets/css/admin.css`
 - `baf_travelpayouts_widget_registry`
 
+## Phase 13 Frontend Widget Wrapper
+
+Fragile area: `[baf_travelpayouts_widget]`, `baf/travelpayouts-widget`, `Travelpayouts_Widget_Renderer`, frontend widget CSS, and registry rendering reads.
+
+Why risky: This is the first public renderer that can turn approved registry records into provider scripts, iframes, and handoff links. Future changes could expose raw registry values, break provider consent, make disabled/missing states silent, or make the Trip.com iframe and handoff link unreachable by keyboard.
+
+What to check after future changes:
+
+- Shortcode and dynamic block attributes store only safe placement/context values, never raw embed snippets, private registry URLs, API tokens, admin notes, or credentials.
+- Public output includes disclosure and safe handoff language outside provider-owned iframe/script content.
+- Provider request consent blocks third-party output without leaking raw embed details.
+- Missing, disabled, no-script, unavailable, and error states render escaped, useful copy.
+- Keyboard navigation reaches the provider iframe when present and the visible handoff link immediately after it.
+- Desktop and mobile screenshots show no horizontal overflow, clipped controls, or oversized provider header area returning above the intended widget frame.
+
+Related files/routes/tables/settings:
+
+- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-renderer.php`
+- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-shortcode.php`
+- `plugins/bookings-flights-core/includes/frontend/class-frontend-manager.php`
+- `plugins/bookings-flights-core/assets/js/travelpayouts-widget-block.js`
+- `plugins/bookings-flights-core/assets/css/frontend.css`
+- `plugins/bookings-flights-core/includes/services/class-travelpayouts-widget-registry-service.php`
+- `[baf_travelpayouts_widget]`
+- `baf/travelpayouts-widget`
+- `baf_travelpayouts_widget_registry`
+- `baf_consent_settings`
+
 ## Affiliate Bridge REST Config
 
 Fragile area: `GET /wp-json/baf/v1/config`

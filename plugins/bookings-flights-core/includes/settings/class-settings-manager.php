@@ -330,7 +330,7 @@ final class Settings_Manager {
 
 	public static function render_travelpayouts_section(): void {
 		echo '<p>' . esc_html__( 'Stores core Travelpayouts credentials and approved Travelpayouts placement data server-side. Page-type White Label flight and hotel domains are still configured in the official Travelpayouts plugin account settings.', 'bookings-flights-core' ) . '</p>';
-		echo '<p>' . esc_html__( 'After saving a White Label Widget ID, place [baf_travelpayouts_white_label] on the WordPress page where the embedded search and results should appear. After saving a Trip.com hotel widget script, place [baf_travelpayouts_hotel_widget] where hotel search should appear.', 'bookings-flights-core' ) . '</p>';
+		echo '<p>' . esc_html__( 'Use the Travelpayouts Widget block or [baf_travelpayouts_widget placement="flights_white_label_search"] and [baf_travelpayouts_widget placement="hotels_partner_search"] to render approved registry placements. The older direct wrapper shortcodes remain available for validated setup checks.', 'bookings-flights-core' ) . '</p>';
 	}
 
 	public static function render_ai_section(): void {
