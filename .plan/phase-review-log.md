@@ -991,7 +991,7 @@ Validation performed: Static template/page inventory review; WordPress page/menu
 
 Bugs found: Existing primary menu and theme fallback menu do not match Phase 12 navigation. Home remains a generic boilerplate page. About, Contact, and Services templates are effectively empty. Flights and Hotels currently use `index.php` rather than dedicated search templates. No local destination/route/deal content exists yet.
 
-Bugs fixed: Corrected the stale Phase 11.6 follow-up review entry from `In Review` to `Completed` now that PR #8 was reviewed, merged, and synced to Linear.
+Bugs fixed: Corrected the stale Phase 11.6 follow-up review entry from `In Review` to `Completed` now that PR #8 was reviewed, merged, and synced to Linear. Patched the Codex P2 review finding by replacing machine-specific WP-CLI paths in the shared Phase 12 validation commands with environment-agnostic `wp` examples.
 
 Bugs deferred: Menu reconciliation, fallback menu update, homepage/search-template rebuild, seed content/empty-state decisions, and `/deals/` versus `travel-deals` archive reconciliation are deferred to follow-on Phase 12/implementation tickets.
 
@@ -1006,4 +1006,4 @@ Research consulted:
 - Travelpayouts Help Center: Getting started with widgets.
 - Travelpayouts Help Center: White Label Web and Widget-type setup.
 
-Decision: `ONE-74` passed local documentation review and Codex PR review with no major issues. Phase 12 remains `In Progress` for the remaining child tickets.
+Decision: `ONE-74` passed local documentation review after the Codex P2 validation-command finding was patched. Phase 12 remains `In Progress` for the remaining child tickets.
