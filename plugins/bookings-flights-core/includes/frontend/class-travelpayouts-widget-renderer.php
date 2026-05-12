@@ -52,6 +52,15 @@ final class Travelpayouts_Widget_Renderer {
 			return '';
 		}
 
+		if ( ! self::placement_allows_surface( $placement, (string) $attributes['surface'] ) ) {
+			return self::render_state(
+				'surface-unavailable',
+				__( 'This travel search placement is not available for this page.', 'bookings-flights-core' ),
+				$attributes,
+				$placement
+			);
+		}
+
 		wp_enqueue_style( Frontend_Manager::ASSET_HANDLE );
 
 		$body = self::render_body( $placement, $attributes );
@@ -460,6 +469,21 @@ final class Travelpayouts_Widget_Renderer {
 		$value = trim( preg_replace( '/_+/', '_', (string) $value ), '_' );
 
 		return substr( $value, 0, 64 );
+	}
+
+	private static function placement_allows_surface( array $placement, string $surface ): bool {
+		$surfaces = array_filter(
+			array_map(
+				array( self::class, 'sanitize_segment' ),
+				(array) ( $placement['public_surfaces'] ?? array() )
+			)
+		);
+
+		if ( array() === $surfaces ) {
+			return true;
+		}
+
+		return in_array( self::sanitize_segment( $surface ), $surfaces, true );
 	}
 
 	private static function current_user_can_manage(): bool {
