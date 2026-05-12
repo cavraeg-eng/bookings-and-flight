@@ -1361,3 +1361,41 @@ Research consulted:
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 
 Decision: `ONE-82` can move to Done after PR review and merge. Keep Phase 13 `In Progress` until P13.4, P13.5, and P13.6 pass review and merge.
+
+## Phase 13.4 Review - 2026-05-12
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-83` SubID, disclosure, consent, disabled, loading, and no-script frontend states. Reviewed Phase 13 objective and child order, P13.1 registry service, P13.2 placement admin, P13.3 frontend renderer/block wrapper, WordPress shortcode output/security guidance, WordPress sanitization/escaping guidance, and Travelpayouts marker/SubID guidance.
+
+Acceptance criteria result: Passed locally for the PR candidate. Runtime SubIDs are generated through `Travelpayouts_Widget_Subid_Service` using `{channel}_{surface}_{vertical}_{slug}_{placement}`, normalized to lowercase Latin letters, numbers, and underscores, and applied to iframe, dashboard-script, White Label results/script, handoff, official-shortcode, and no-script URLs. Disclosure appears for monetized placements. Configured, loading, consent-disabled, disabled, missing-configuration, unavailable, and no-script states render escaped, styled, accessible copy.
+
+Security review: Passed locally. Consent-disabled rendering returns public state copy and disclosure without third-party iframe/script/handoff output. URL mutation preserves an existing `marker` partner ID and appends the normalized SubID as `marker=partner.subid`; otherwise it uses a `subid` query value without inventing provider credentials. Rendered smoke output did not contain API-token, authorization, bearer, secret, checkout, payment, or refund terms.
+
+REST permission review: Not applicable. No REST route was added or changed.
+
+Database/migration review: Passed. No custom table, migration, or option schema changed. Temporary validation placements were written through the existing capability-gated registry service and deleted afterward.
+
+UI review: Passed locally with runtime browser evidence. Playwright desktop and mobile screenshots confirmed the wrapper rendered nonblank with no horizontal overflow; loading state showed a visible blue `role="status"` message; loaded state cleared the loading message; consent-disabled state showed the configured public notice without provider scripts/iframes; disabled and missing-configuration states remained visible. Keyboard review confirmed focus reaches the Trip.com iframe and then the visible `Open hotel search` handoff link.
+
+Regression review: Existing P13.3 wrapper contracts remain intact: public-surface allowlist checks still run before provider output, no-script handoffs skip script-like URLs, dashboard-script widgets still recover from late provider iframe initialization, and White Label placeholder nodes remain out of keyboard order until provider content mounts. Existing legacy direct setup shortcodes remain available.
+
+Validation performed: PHP syntax checks for changed PHP files; file-size review for changed PHP files; `git diff --check`; WP-CLI shortcode smoke checks for active iframe marker mutation, dashboard-script loading markup, consent-disabled rendering, disabled and missing-configuration states, no-script output, and sensitive-term scans; Playwright Chromium screenshots at desktop and mobile widths; keyboard focus path capture through iframe and handoff; consent-disabled browser screenshot confirming no provider iframe/script; temporary page/placement cleanup; `debug.log` tail review.
+
+Bugs found: Initial renderer cleanup had indentation drift in `sprintf()` blocks from patching. Local review also found that the White Label loading state could clear when the vendor script loaded even if provider content had not mounted yet. The first browser timing attempt captured the dashboard-script widget after it had already loaded instead of during loading, so the loading screenshot was rerun with a deterministic delayed mock script.
+
+Bugs fixed: Corrected renderer indentation. Updated White Label rendering so placeholder containers start out of tab order, loading remains until provider content appears, and a timeout/error moves to unavailable instead of falsely marking loaded. Reran runtime browser validation with a deterministic delayed script to prove the visible loading state.
+
+Bugs deferred: P13.5 still owns the broader full Phase 13 security/capability/nonce/exposure review. Provider-owned Travelpayouts scripts may still emit their own console warnings when real external scripts are used, and the known WP-CLI/Travelpayouts PHP 8.5 deprecation noise remains an environment compatibility watch item.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Shortcode API.
+- WordPress Common APIs Handbook: Sanitizing Data.
+- WordPress Common APIs Handbook: Escaping Data.
+- Travelpayouts Help Center: ID and SubID affiliate marker guidance.
+
+Decision: `ONE-83` can move to Done after PR review and merge. Keep Phase 13 `In Progress` until P13.5 and P13.6 pass review and merge.

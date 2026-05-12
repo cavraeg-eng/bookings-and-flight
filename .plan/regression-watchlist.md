@@ -142,6 +142,9 @@ What to check after future changes:
 - Public output includes disclosure and safe handoff language outside provider-owned iframe/script content.
 - Provider request consent blocks third-party output without leaking raw embed details.
 - Missing, disabled, no-script, unavailable, and error states render escaped, useful copy.
+- Runtime SubIDs remain centralized in `Travelpayouts_Widget_Subid_Service`, use the `{channel}_{surface}_{vertical}_{slug}_{placement}` convention, and contain only lowercase Latin letters, numbers, and underscores.
+- Provider URL mutation preserves existing Travelpayouts `marker` partner IDs as `marker=partner.subid` instead of replacing tracking with a bare SubID.
+- Loading states remain visible until provider content mounts or a safe unavailable fallback appears, and loading/unavailable/disabled/missing/consent states expose `role="status"` messaging where appropriate.
 - Active placements cannot render provider output when requested from a surface outside their configured `public_surfaces` allowlist.
 - Dashboard-script widgets do not show a false unavailable fallback when the provider iframe initializes after the first few seconds.
 - White Label wrapper instances and the legacy White Label shortcode do not produce duplicate `tpwl-search` or `tpwl-tickets` IDs when rendered more than once or in mixed old/new shortcode order.
@@ -157,6 +160,7 @@ Related files/routes/tables/settings:
 - `plugins/bookings-flights-core/assets/js/travelpayouts-widget-block.js`
 - `plugins/bookings-flights-core/assets/css/frontend.css`
 - `plugins/bookings-flights-core/includes/services/class-travelpayouts-widget-registry-service.php`
+- `plugins/bookings-flights-core/includes/services/class-travelpayouts-widget-subid-service.php`
 - `[baf_travelpayouts_widget]`
 - `baf/travelpayouts-widget`
 - `baf_travelpayouts_widget_registry`
