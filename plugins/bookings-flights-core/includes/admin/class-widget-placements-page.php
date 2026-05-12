@@ -359,7 +359,7 @@ final class Widget_Placements_Page {
 		);
 	}
 
-	private static function redirect( string $placement_key = '' ): never {
+	private static function redirect( string $placement_key = '' ): void {
 		$args = array( 'page' => Admin_Manager::WIDGET_PLACEMENTS_SLUG );
 
 		if ( '' !== $placement_key ) {
