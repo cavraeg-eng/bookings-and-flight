@@ -131,8 +131,11 @@
 	margin-inline: auto;
 	max-width: 100%;
 	min-height: 220px;
-	transform: translateY(-112px);
 	width: 100%;
+}
+
+.baf-travelpayouts-hotel-widget__frame iframe {
+	transform: translateY(-112px);
 }
 
 @media (max-width: 42rem) {
@@ -146,6 +149,9 @@
 
 	.baf-travelpayouts-hotel-widget iframe {
 		min-width: 0;
+	}
+
+	.baf-travelpayouts-hotel-widget__frame iframe {
 		transform: translateY(-122px);
 	}
 }
