@@ -68,6 +68,34 @@ Related files/routes/tables/settings:
 - `themes/bookings-and-flights-static/page-home.php`
 - `plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php`
 
+## Phase 12 Design System And Widget Frames
+
+Fragile area: Design-token aliases, real-media strategy, public component patterns, disclosure treatment, accessibility states, and Travelpayouts widget frames.
+
+Why risky: The current public theme still has generic marketing sections, gradient fallback hero treatment, broad radius tokens, and provider-owned widget wrappers. Future visual work could become a one-note palette, hide affiliate disclosures, overload generic cards, introduce mobile overlap, or clip/fail Travelpayouts widgets without a visible fallback.
+
+What to check after future changes:
+
+- New public UI follows `.plan/phase-12-design-system-component-inventory.md`.
+- Home, search, destination, route, hotel, AI, and saved-trip surfaces use real travel media where the user needs to inspect a place, route, or product state.
+- Search controls remain dense, labeled, keyboard-operable, and at least 44px tall.
+- New cards, panels, and widget frames use restrained radius and avoid nested-card layouts.
+- Pages do not drift into a one-note navy/slate/tan palette.
+- Affiliate disclosures remain visible near monetized widgets, links, cards, route modules, destination modules, and AI handoffs on mobile and desktop.
+- Travelpayouts widget frames reserve dimensions, avoid layout shift, expose no-script/missing-config/consent-disabled states, and keep a sponsored handoff fallback visible.
+- Text resizing, mobile breakpoints, focus states, and reduced-motion behavior remain usable without overlap or hidden controls.
+
+Related files/routes/tables/settings:
+
+- `.plan/phase-12-design-system-component-inventory.md`
+- `themes/bookings-and-flights-static/assets/css/tokens.css`
+- `themes/bookings-and-flights-static/assets/css/base.css`
+- `themes/bookings-and-flights-static/assets/css/home.css`
+- `themes/bookings-and-flights-static/assets/css/header.css`
+- `plugins/bookings-flights-core/assets/css/frontend.css`
+- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-white-label-shortcode.php`
+- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-hotel-widget-shortcode.php`
+
 ## Affiliate Bridge REST Config
 
 Fragile area: `GET /wp-json/baf/v1/config`
