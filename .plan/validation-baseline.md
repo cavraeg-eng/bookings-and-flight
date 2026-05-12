@@ -428,6 +428,17 @@ git diff --check
 
 P12.3 local result on 2026-05-12: shared `.skip-link` and `.btn` primitives moved from `header.css` into `themes/bookings-and-flights-static/assets/css/components.css`. `functions.php` now enqueues `components.css` after `base.css` and before `header.css`. CSS line counts after the split are: `components.css` 85, `header.css` 464, `mobile-nav.css` 70, `footer.css` 279, `home.css` 373, `tokens.css` 388, `base.css` 256, and `fonts.css` 17. No tracked CSS source file exceeds 600 lines. Local source and browser smoke confirmed `components.css`, `header.css`, `mobile-nav.css`, and `footer.css` each load once on the home page; default desktop and 390px mobile browser checks reported no console errors. Codex review on PR #11 found no major issues.
 
+P12.4 widget-frame documentation checks:
+
+```bash
+test -f .plan/phase-12-widget-frame-layout-rules.md
+rg -n "White Label search plus results|Hotel search widget|Required States|Disclosure Placement|Phase 13 Registry Prerequisites|Performance Rules" .plan/phase-12-widget-frame-layout-rules.md
+rg -n "phase-12-widget-frame-layout-rules|P12.4|ONE-77" .plan/phased-implementation.md .plan/architecture-baseline.md .plan/validation-baseline.md .plan/phase-review-log.md .plan/regression-watchlist.md
+git diff --check
+```
+
+P12.4 local result on 2026-05-12: widget frame dimensions, responsive constraints, loading/missing/consent-disabled/no-script/unavailable/empty/error states, disclosure placement, performance rules, and Phase 13 registry prerequisites are documented in `.plan/phase-12-widget-frame-layout-rules.md`. The rules explicitly preserve provider-owned live search/results behavior and require disclosure plus fallback handoff outside provider iframes/scripts. Codex review on PR #12 found no major issues.
+
 ## Documentation-Only Changes
 
 For documentation-only changes:

@@ -87,6 +87,7 @@ Detailed execution blueprint: `.plan/travelpayouts-wordpress-booking-site-bluepr
 | Phase 12 IA map | `.plan/phase-12-sitemap-navigation-page-ownership.md` |
 | Phase 12 design system inventory | `.plan/phase-12-design-system-component-inventory.md` |
 | Phase 12 CSS architecture prep | `.plan/phase-12-css-split-theme-architecture.md` |
+| Phase 12 widget frame rules | `.plan/phase-12-widget-frame-layout-rules.md` |
 | Primary public nav target | Flights, Hotels, Explore, Deals, Trip Planner, Saved Trips |
 
 Phase 12.1 assigns WordPress ownership for the branded shell, sitemap, navigation, editable pages, CPT archives/singles, SEO page families, saved-trip intent, and alert intent. Travelpayouts remains the owner of live flight/hotel search, result surfaces, widgets, partner handoff, booking/payment, supplier reservations, and affiliate reporting. The current published primary menu still needs to be reconciled with the Phase 12 nav target before visual/template implementation is complete.
@@ -94,6 +95,8 @@ Phase 12.1 assigns WordPress ownership for the branded shell, sitemap, navigatio
 Phase 12.2 assigns the design-token direction, real-media strategy, component inventory, disclosure treatment, accessibility requirements, and initial widget-frame guardrails. Future theme work should preserve WordPress-owned page shells, use real travel media instead of gradient-only hero treatment, keep search components dense and keyboard-accessible, and support Travelpayouts widget frames without hidden disclosures, clipping, or unreserved layout shifts.
 
 Phase 12.3 prepares static theme CSS ownership for later design work. Current theme CSS loads in this order: `fonts.css`, `tokens.css`, `base.css`, `components.css`, `header.css`, `mobile-nav.css`, `footer.css`, then page-specific CSS discovered from `page-{slug}.php`. `components.css` owns shared primitives such as `.skip-link` and `.btn`; `header.css` owns header/nav layout only.
+
+Phase 12.4 defines Travelpayouts widget-frame reservations, responsive constraints, public/admin state behavior, disclosure placement, performance rules, and Phase 13 registry metadata prerequisites. Affiliate disclosures and safe fallback handoff links must remain outside provider iframes/scripts, and third-party provider scripts must remain scoped to approved placements.
 
 ## REST Namespace
 

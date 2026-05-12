@@ -84,12 +84,14 @@ What to check after future changes:
 - Pages do not drift into a one-note navy/slate/tan palette.
 - Affiliate disclosures remain visible near monetized widgets, links, cards, route modules, destination modules, and AI handoffs on mobile and desktop.
 - Travelpayouts widget frames reserve dimensions, avoid layout shift, expose no-script/missing-config/consent-disabled states, and keep a sponsored handoff fallback visible.
+- Widget dimensions, disclosure placement, state behavior, and Phase 13 registry prerequisites follow `.plan/phase-12-widget-frame-layout-rules.md`.
 - Text resizing, mobile breakpoints, focus states, and reduced-motion behavior remain usable without overlap or hidden controls.
 
 Related files/routes/tables/settings:
 
 - `.plan/phase-12-design-system-component-inventory.md`
 - `.plan/phase-12-css-split-theme-architecture.md`
+- `.plan/phase-12-widget-frame-layout-rules.md`
 - `themes/bookings-and-flights-static/assets/css/components.css`
 - `themes/bookings-and-flights-static/assets/css/tokens.css`
 - `themes/bookings-and-flights-static/assets/css/base.css`

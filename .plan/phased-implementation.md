@@ -1420,6 +1420,8 @@ P12.2 note: design-token direction, media strategy, component inventory, disclos
 
 P12.3 note: CSS split and theme architecture preparation is documented in `.plan/phase-12-css-split-theme-architecture.md`. Shared `.skip-link` and `.btn` primitives moved from `header.css` into the new `components.css` layer, reducing `header.css` from 544 to 464 lines and preserving the enqueue order `fonts -> tokens -> base -> components -> header -> mobile-nav -> footer -> page-specific`.
 
+P12.4 note: Travelpayouts widget frame dimensions, responsive constraints, state model, disclosure placement, performance rules, and Phase 13 registry prerequisites are documented in `.plan/phase-12-widget-frame-layout-rules.md`. Codex PR review found no major issues on PR #12. Future template and registry work should use those reservations instead of inventing per-widget layout behavior.
+
 Objective: Rework the public WordPress frontend architecture so it feels like a modern travel search product rather than a static affiliate brochure.
 
 Scope:
