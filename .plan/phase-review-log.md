@@ -1051,7 +1051,7 @@ Decision: `ONE-75` passed local documentation review and Codex PR review with no
 
 ## Phase 12.3 Review - 2026-05-12
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
@@ -1085,4 +1085,4 @@ Research consulted:
 - WordPress Theme Handbook: Global Settings and Styles.
 - Travelpayouts Help Center: Getting started with widgets.
 
-Decision: `ONE-76` can proceed to PR review. Local CSS split, syntax, source, desktop browser, and mobile browser validation passed.
+Decision: `ONE-76` passed local CSS split, syntax, source, desktop browser, mobile browser, and Codex PR review. Codex found no major issues on PR #11.

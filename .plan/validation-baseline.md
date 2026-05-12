@@ -426,7 +426,7 @@ curl -s "http://localhost:10019/" | rg "components.css|header.css|mobile-nav.css
 git diff --check
 ```
 
-P12.3 local result on 2026-05-12: shared `.skip-link` and `.btn` primitives moved from `header.css` into `themes/bookings-and-flights-static/assets/css/components.css`. `functions.php` now enqueues `components.css` after `base.css` and before `header.css`. CSS line counts after the split are: `components.css` 85, `header.css` 464, `mobile-nav.css` 70, `footer.css` 279, `home.css` 373, `tokens.css` 388, `base.css` 256, and `fonts.css` 17. No tracked CSS source file exceeds 600 lines. Local source and browser smoke confirmed `components.css`, `header.css`, `mobile-nav.css`, and `footer.css` each load once on the home page; default desktop and 390px mobile browser checks reported no console errors.
+P12.3 local result on 2026-05-12: shared `.skip-link` and `.btn` primitives moved from `header.css` into `themes/bookings-and-flights-static/assets/css/components.css`. `functions.php` now enqueues `components.css` after `base.css` and before `header.css`. CSS line counts after the split are: `components.css` 85, `header.css` 464, `mobile-nav.css` 70, `footer.css` 279, `home.css` 373, `tokens.css` 388, `base.css` 256, and `fonts.css` 17. No tracked CSS source file exceeds 600 lines. Local source and browser smoke confirmed `components.css`, `header.css`, `mobile-nav.css`, and `footer.css` each load once on the home page; default desktop and 390px mobile browser checks reported no console errors. Codex review on PR #11 found no major issues.
 
 ## Documentation-Only Changes
 
