@@ -1282,3 +1282,42 @@ Research consulted:
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 
 Decision: `ONE-80` can move to Done after PR #16 merge. Phase 13 remains `In Progress` for the remaining registry UI, wrapper, state, security, and review child issues.
+
+## Phase 13.2 Review - 2026-05-12
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-81` admin UI for Travelpayouts widget placement management. Reviewed Phase 13 objective, P13.1 registry service, current admin menu/settings/report patterns, capability contracts, nonce/write handling requirements, existing Travelpayouts White Label and Trip.com seeded placements, and Phase 12 runtime screenshot/keyboard expectations.
+
+Acceptance criteria result: Passed locally for the PR candidate. The `baf-widget-placements` submenu lists approved placements, summary state cards, missing-configuration hints, edit/delete actions, and a create/edit form. Users with `manage_baf_affiliates` or `manage_baf_settings` can manage placements; unauthorized users cannot read private placement data through the registry service. Empty, saved, active, disabled, error, and missing-configuration states are present.
+
+Security review: Passed locally. Save/delete handlers run through `admin-post.php`, check capabilities, verify nonces, and route writes through `Travelpayouts_Widget_Registry_Service`. Posted form data uses `wp_unslash()` and sanitization before the registry service performs final normalization. Rendered table rows, notices, dashboard cards, and public placement reads do not print private embed references or URLs. Raw embed values are visible only in the capability-gated edit form.
+
+REST permission review: Not applicable. No REST routes changed.
+
+Database/migration review: Passed. No custom table or schema migration changed. The existing non-autoloaded `baf_travelpayouts_widget_registry` option remains the storage contract.
+
+UI review: Passed locally with runtime browser evidence. Playwright captured desktop and mobile admin screenshots against `http://bookings-and-flights.local/wp-admin/admin.php?page=baf-widget-placements`, performed a create/update-to-disabled smoke flow, verified clean post-cleanup screenshots, and traced keyboard focus through the form fields without traps or hidden focused controls.
+
+Regression review: Existing seeded Flights White Label and Hotels partner search placements remained present after the smoke placement was deleted. Existing admin Settings, Integrations, Background Jobs, and Reports slugs remain registered, and the admin CSS remains under the file-size limit.
+
+Validation performed: PHP syntax checks for changed admin PHP files; `git diff --check`; WP-CLI menu registration smoke for administrators and affiliate-only managers; WP-CLI page-render smoke confirming no raw Trip.com or Travelpayouts script URL printed on the listing page; WP-CLI subscriber/private-read denial plus administrator create/delete smoke; Playwright desktop/mobile screenshots and keyboard navigation review; browser console/page-error check; temporary smoke placement/user cleanup verification; `debug.log` related-error tail review; `bookings-flights-core` deactivate/reactivate smoke check.
+
+Bugs found: Initial WP-CLI attempts failed against the default `localhost` MySQL socket; the Local site requires passing `/Users/djcavy/Library/Application Support/Local/run/qRHZasMmV/mysql/mysqld.sock` through `mysqli.default_socket`. The first Playwright cleanup trap had a shell-quoting issue after successful browser validation. Local code review also found that an affiliate-only manager could pass the placement capability but miss the Bookings & Flights parent menu because the parent menu was still settings-only.
+
+Bugs fixed: Reran WP-CLI with the Local MySQL socket, cleaned the temporary smoke placement and temporary admin user directly, verified cleanup state, and captured clean final screenshots after cleanup. Updated the parent admin menu capability/callback so affiliate-only managers receive the Bookings & Flights parent menu and Widget Placements submenu without exposing Settings.
+
+Bugs deferred: Frontend shortcode/block rendering from the registry, public configured/missing/disabled/loading/no-script/error states, richer placement search-surface mode handling, and the full Phase 13 completion review remain in later child issues.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Plugin Handbook: Administration Menus.
+- WordPress Plugin Security Handbook: Checking User Capabilities.
+- WordPress Plugin Security Handbook: Nonces.
+- WordPress Common APIs Handbook: Sanitizing Data.
+- WordPress Common APIs Handbook: Escaping Data.
+
+Decision: `ONE-81` can move to PR review. Keep Phase 13 `In Progress` until the remaining wrapper/state/security child issues pass review and merge.

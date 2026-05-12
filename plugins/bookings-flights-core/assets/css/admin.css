@@ -169,14 +169,61 @@
 	min-width: 760px;
 }
 
+.baf-placements-table {
+	min-width: 980px;
+}
+
 .baf-jobs-table th,
-.baf-jobs-table td {
+.baf-jobs-table td,
+.baf-placements-table th,
+.baf-placements-table td {
 	vertical-align: top;
 }
 
-.baf-jobs-table code {
+.baf-jobs-table code,
+.baf-placements-table code {
 	display: inline-block;
 	margin-top: 6px;
+}
+
+.baf-placement-status {
+	border-radius: 999px;
+	display: inline-flex;
+	font-size: 0.75rem;
+	font-weight: 600;
+	line-height: 1.4;
+	padding: 2px 8px;
+	white-space: nowrap;
+}
+
+.baf-placement-status--active {
+	background: #edfaef;
+	color: #005c12;
+}
+
+.baf-placement-status--disabled,
+.baf-placement-status--archived {
+	background: #f0f0f1;
+	color: #3c434a;
+}
+
+.baf-placement-status--draft {
+	background: #fcf5dd;
+	color: #674600;
+}
+
+.baf-placement-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.baf-placement-actions form {
+	margin: 0;
+}
+
+.baf-placement-form {
+	max-width: 1040px;
 }
 
 @media (max-width: 782px) {
@@ -210,24 +257,31 @@
 		width: 100%;
 	}
 
-	.baf-jobs-table {
+	.baf-jobs-table,
+	.baf-placements-table {
 		border: 0;
 		min-width: 0;
 	}
 
-	.baf-jobs-table thead {
+	.baf-jobs-table thead,
+	.baf-placements-table thead {
 		display: none;
 	}
 
 	.baf-jobs-table tbody,
 	.baf-jobs-table tr,
 	.baf-jobs-table th,
-	.baf-jobs-table td {
+	.baf-jobs-table td,
+	.baf-placements-table tbody,
+	.baf-placements-table tr,
+	.baf-placements-table th,
+	.baf-placements-table td {
 		display: block;
 		width: 100%;
 	}
 
-	.baf-jobs-table tr {
+	.baf-jobs-table tr,
+	.baf-placements-table tr {
 		background: var(--baf-admin-surface);
 		border: 1px solid var(--baf-admin-border);
 		border-radius: 8px;
@@ -236,12 +290,14 @@
 		padding: 12px;
 	}
 
-	.baf-jobs-table td {
+	.baf-jobs-table td,
+	.baf-placements-table td {
 		border: 0;
 		padding: 8px 0;
 	}
 
-	.baf-jobs-table td::before {
+	.baf-jobs-table td::before,
+	.baf-placements-table td::before {
 		color: var(--baf-admin-muted);
 		content: attr(data-label);
 		display: block;

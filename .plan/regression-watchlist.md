@@ -101,10 +101,34 @@ Related files/routes/tables/settings:
 - `themes/bookings-and-flights-static/assets/css/tokens.css`
 - `themes/bookings-and-flights-static/assets/css/base.css`
 - `themes/bookings-and-flights-static/assets/css/home.css`
-- `themes/bookings-and-flights-static/assets/css/header.css`
-- `plugins/bookings-flights-core/assets/css/frontend.css`
-- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-white-label-shortcode.php`
-- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-hotel-widget-shortcode.php`
+	- `themes/bookings-and-flights-static/assets/css/header.css`
+	- `plugins/bookings-flights-core/assets/css/frontend.css`
+	- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-white-label-shortcode.php`
+	- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-hotel-widget-shortcode.php`
+
+## Phase 13 Widget Placement Admin
+
+Fragile area: `baf-widget-placements` admin screen, registry service writes, raw embed storage, and future shortcode/block renderers.
+
+Why risky: This screen is the first place administrators can manage approved Travelpayouts, White Label, Trip.com iframe, and handoff placement data. Future changes could accidentally expose raw embed URLs outside the capability-gated form, bypass nonce/capability checks, or split placement sanitization between controllers and renderers.
+
+What to check after future changes:
+
+- The Widget Placements submenu remains available to `manage_baf_affiliates` or `manage_baf_settings` users only.
+- Save and delete actions continue using nonces, capability checks, `wp_unslash()`, sanitization, and registry service writes.
+- Placement listing tables, notices, dashboard cards, public projections, REST responses, logs, and screenshots do not print private `embed.reference`, `embed.url`, API keys, tokens, credentials, private prompts, or customer data.
+- Raw embed values appear only in the capability-gated edit form and are normalized by `Travelpayouts_Widget_Registry_Service` before storage.
+- Empty, missing-configuration, active, disabled, saved, and error states stay visible on desktop and mobile.
+- Keyboard tab order reaches placement fields and write actions without focus traps or hidden focused controls.
+
+Related files/routes/tables/settings:
+
+- `plugins/bookings-flights-core/includes/admin/class-admin-manager.php`
+- `plugins/bookings-flights-core/includes/admin/class-widget-placements-page.php`
+- `plugins/bookings-flights-core/includes/admin/class-widget-placement-form.php`
+- `plugins/bookings-flights-core/includes/services/class-travelpayouts-widget-registry-service.php`
+- `plugins/bookings-flights-core/assets/css/admin.css`
+- `baf_travelpayouts_widget_registry`
 
 ## Affiliate Bridge REST Config
 
