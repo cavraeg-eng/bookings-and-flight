@@ -671,7 +671,7 @@ Decision: P11.5 can move to `Completed`. Phase 13 should implement the governed 
 
 ## Phase 11.6 Phase Review and Validation Gate - 2026-05-12
 
-Status: `Completed`. Phase 11 can move to `Completed`.
+Status: `In Review`. Local evidence gate passed, but Phase 11 cannot move to `Completed` until the deferred production setup checks pass.
 
 Reviewer: Codex
 
@@ -679,15 +679,15 @@ Scope reviewed: Full Phase 11 objective, child-ticket sequence, acceptance crite
 
 Current state summary: P11.1, P11.2, P11.3, P11.4, P11.5, and P11.6 are complete locally. The official `travelpayouts` plugin version `1.2.2` remains active on WordPress `6.9.4`. The final backend mode is plugin-first for validated flight widgets and Travelpayouts dashboard-generated fallback embeds for hotel and White Label surfaces until real account/domain validation expands the official-plugin path.
 
-Acceptance criteria result: Passed for Phase 11. A plugin-first or fallback path is confirmed; no direct booking, checkout, payment, custom inventory backend, new REST route, or canonical live inventory store was introduced; temporary frontend source scans did not expose tokens, Partner ID secrets, API keys, authorization strings, checkout/payment/refund language, or private data; White Label requirements and limitations are documented; and the SubID strategy remains `{channel}_{surface}_{vertical}_{slug}_{placement}`.
+Acceptance criteria result: Partial for Phase 11, passed for the local evidence gate. A plugin-first or fallback path is confirmed; no direct booking, checkout, payment, custom inventory backend, new REST route, or canonical live inventory store was introduced; temporary frontend source scans did not expose tokens, Partner ID secrets, API keys, authorization strings, checkout/payment/refund language, or private data; White Label requirements and limitations are documented; and the SubID strategy remains `{channel}_{surface}_{vertical}_{slug}_{placement}`. Phase completion remains blocked by validation of dashboard-generated hotel widget/table/embed fallback code and real White Label Widget/Page configuration.
 
-Functional review: Passed for the locally available happy path. The official flight widget renders through the plugin with the expected Travelpayouts script and marker/SubID behavior. Hotel widgets are intentionally deferred to dashboard-generated fallback embeds because the staged plugin disables HotelLook tools. White Label is documented and gated on configured domains/dashboard code.
+Functional review: Passed for the locally available happy path. The official flight widget renders through the plugin with the expected Travelpayouts script and marker/SubID behavior. Hotel widgets are intentionally deferred to dashboard-generated fallback embeds because the staged plugin disables HotelLook tools. White Label is documented and gated on configured domains/dashboard code, so those production paths still require validation before Phase 11 completion.
 
 Error, empty-state, and missing-configuration review: Passed. Missing `travelpayouts_admin_settings` remains a safe local state. Temporary credential/options checks restore or delete test options. Hotel shortcode empty output is documented as an upstream capability/fallback finding, not hidden as a successful hotel render.
 
 Security and data review: Passed. The phase did not add public REST endpoints, admin write actions, database migrations, direct provider calls, or secret-rendering paths. Previous P11.2 hardening keeps account tokens masked, preserves tokens on blank submission, sanitizes account fields, and returns non-secret token state from the Gutenberg token action.
 
-Regression review: Passed. The Travelpayouts-controlled backend boundary, no-custom-inventory rule, no direct checkout/payment rule, SubID convention, White Label continuity path, and fallback wrapper requirement are all documented in the architecture baseline, validation baseline, known issues, and regression watchlist.
+Regression review: Passed for local documentation and source-scan scope. The Travelpayouts-controlled backend boundary, no-custom-inventory rule, no direct checkout/payment rule, SubID convention, White Label continuity path, and fallback wrapper requirement are all documented in the architecture baseline, validation baseline, known issues, and regression watchlist.
 
 Validation performed: `wp plugin status travelpayouts`; `wp plugin deactivate travelpayouts`; `wp plugin activate travelpayouts`; compact WP-CLI `do_shortcode()` smoke check for `[tp_popular_routes_widget]`, `[tp_hotel_widget]`, and `[tp_hotel_selections_widget]`; forbidden-term scan of shortcode output; temporary browser validation page creation; Browser checks at `1280x900` and `375x812`; `curl` source scan for `weedle/widget.js` and forbidden token/secret/payment terms; temporary page deletion; temporary option deletion; documentation diff review; `git diff --check`. WP-CLI emitted the known PHP `8.5.4` bundled dependency deprecation warning, but commands succeeded with the Local MySQL socket.
 
@@ -711,4 +711,4 @@ Research consulted:
 - Travelpayouts Help Center, What is White Label Web by Travelpayouts: Widget versus Page type, domain/CNAME requirements, external booking/payment boundary, and Booking.com limitation.
 - Travelpayouts Help Center, ID and SubID: Partner ID/marker and SubID tracking behavior.
 
-Decision: Phase 11 can move to `Completed`. Phase 12 may start from a Travelpayouts-controlled backend boundary, but production hotel and White Label surfaces must use the documented fallback/registry path until real Travelpayouts dashboard configuration validates them.
+Decision: Phase 11 remains `In Review`. Phase 12 may use the documented Travelpayouts-controlled backend boundary for design work, but Phase 11 cannot be marked `Completed` until production hotel fallback embeds and real White Label Widget/Page configuration are validated with Travelpayouts dashboard setup.

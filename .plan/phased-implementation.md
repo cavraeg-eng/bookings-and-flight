@@ -1372,7 +1372,7 @@ Decision: Phase 10 is a planning and documentation phase only. Product implement
 
 ## Phase 11: Travelpayouts Compatibility and Backend Alignment
 
-Status: `Completed`
+Status: `In Review`
 
 Objective: Confirm the official Travelpayouts WordPress plugin or fallback Travelpayouts embed path works safely in this WordPress environment.
 
@@ -1406,6 +1406,7 @@ Validation checklist:
 - White Label header continuity check against the WordPress homepage header. P11.4 documents Widget type as the preferred continuity path because it keeps the WordPress home shell; Page type is allowed only with Travelpayouts dashboard header customization that mirrors the WordPress logo, favicon, brand name, nav/footer links, colors, and route back to the main site.
 - Backend mode decision. P11.5 documented Travelpayouts-controlled backend mode: official-plugin-first only for validated surfaces, dashboard-generated Travelpayouts fallback embeds for inactive or unvalidated hotel and White Label surfaces, and `/search/flights` plus `/search/hotels` limited to safe shell/configuration/placement/handoff metadata instead of live inventory APIs.
 - Secret exposure review. P11.3 and P11.6 browser/source scans passed for temporary test pages: no API token, postback secret, authorization string, checkout, payment, refund, or direct booking flow appeared in WordPress output.
+- Completion blocker. Phase 11 remains `In Review` until dashboard-generated hotel widget/table/embed fallback code and real White Label Widget/Page configuration are validated with Travelpayouts-provided setup.
 
 ## Phase 12: Information Architecture and Competitive Design System
 
