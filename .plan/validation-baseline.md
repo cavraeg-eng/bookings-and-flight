@@ -181,6 +181,8 @@ Manual/browser checks:
 - Confirm widgets do not overlap, clip, or break mobile layouts.
 - If the plugin fails compatibility checks, validate the fallback path using Travelpayouts dashboard-generated widget or White Label embed code inside a capability-gated WordPress wrapper.
 
+P11.3 local result on 2026-05-12: a temporary WordPress page was created with `[tp_popular_routes_widget destination="BKK" subid="baf_home_flights_test_surface"]`, `[tp_hotel_widget ...]`, and `[tp_hotel_selections_widget ...]` while `travelpayouts_admin_settings` contained only a temporary non-secret marker, language, and currency. WP-CLI `do_shortcode()` confirmed the flight shortcode rendered a `//www.travelpayouts.com/weedle/widget.js` script with `marker=123456.wpplugin_baf_home_flights_test_surface`, `currency=usd`, `locale=en`, `destination=BKK`, and default `host=hydra.aviasales.ru`; both hotel shortcodes returned empty output. Browser checks at `1280x900` and `375x812` confirmed the page loaded, the flight script was present, hotel scripts were absent, and no checkout/payment text appeared in main content. A frontend source scan found no `account_api_token`, `api_token`, `postback`, `secret`, `access_token`, authorization/bearer string, checkout, payment, or refund text. The temporary page and `travelpayouts_admin_settings` option were deleted after validation. WP-CLI emitted the known PHP `8.5.4` bundled dependency deprecation warning.
+
 ## REST Permission Failure Testing
 
 For every protected route:
