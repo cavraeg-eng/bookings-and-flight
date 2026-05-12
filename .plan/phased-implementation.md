@@ -1455,7 +1455,7 @@ Validation checklist:
 
 ## Phase 13: Travelpayouts Widget Registry and Safe Embed Layer
 
-Status: `In Progress`
+Status: `Completed`
 
 Objective: Provide governed WordPress-native placement of Travelpayouts widgets, tables, links, and White Label surfaces.
 
@@ -1494,6 +1494,8 @@ P13.3 note: `BAF\Core\Frontend\Travelpayouts_Widget_Renderer` now exposes the ap
 P13.4 note: `BAF\Core\Services\Travelpayouts_Widget_Subid_Service` now centralizes runtime SubID generation for frontend widget placements using the `{channel}_{surface}_{vertical}_{slug}_{placement}` convention, normalizes values to lowercase Latin letters, numbers, and underscores, and applies SubIDs to provider iframe/script/handoff URLs while preserving existing Travelpayouts `marker=partner.subid` tracking where present. The frontend renderer now exposes `data-baf-state` and `data-baf-render-mode`, renders consent-disabled messaging for public users without provider requests, keeps disclosure visible for monetized states, and provides styled loading, disabled, missing-configuration, no-script, unavailable, and configured states. Dashboard-script and White Label wrappers keep loading visible until provider content mounts or a safe fallback state is reached.
 
 P13.5 note: The Phase 13 security, capability, nonce, and exposure review passed locally for the current widget registry implementation. The review covered the registry service, placement admin screen, admin-post write actions, Settings API secret handling, shortcode/block renderer, frontend output, core `baf/v1` REST routes, and active affiliate bridge public route boundaries. Anonymous private registry reads, saves, and deletes return forbidden errors; public placement projections strip `embed.reference`, `embed.url`, and admin notes; missing admin nonces fail without creating placements; saved API keys render as masked empty password fields; frontend widget output does not expose private notes or saved secrets; and core REST routes use endpoint-specific permission callbacks. The affiliate bridge `config` and `postback` routes remain intentionally public: `config` exposes only non-secret supplier availability metadata, and `postback` rejects requests without the shared secret.
+
+P13.6 note: The final Phase 13 review gate passed on 2026-05-12. The review reconciled P13.1 through P13.5 implementation, registry/admin/frontend/security documentation, Phase 14 consumption needs, and runtime validation. Phase 14 now has stable placement keys (`flights_white_label_search` and `hotels_partner_search`), the `[baf_travelpayouts_widget]` shortcode, the `baf/travelpayouts-widget` block, trusted server-side registry reads, public-safe placement projections, consent-disabled states, SubID metadata, visible disclosures, and keyboard-reachable handoff behavior to consume. Runtime screenshots and keyboard review confirmed desktop/mobile rendering, no horizontal overflow, configured iframe state, consent-disabled no-provider-output state, and focus through the Trip.com iframe followed by the visible hotel handoff link. No production code bug was found in P13.6; known provider-owned console/performance warnings and WP-CLI/PHP 8.5 deprecation noise remain watchlist items.
 
 ## Phase 14: Homepage Competitive Rebuild
 

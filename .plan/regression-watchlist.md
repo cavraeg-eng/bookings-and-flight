@@ -153,6 +153,8 @@ What to check after future changes:
 - Unavailable White Label conflict fallbacks are visible, and their empty placeholder containers are not left in sequential keyboard navigation.
 - Keyboard navigation reaches the provider iframe when present and the visible handoff link immediately after it.
 - Desktop and mobile screenshots show no horizontal overflow, clipped controls, or oversized provider header area returning above the intended widget frame.
+- Phase 14 homepage/search templates consume the completed Phase 13 placement seam through approved placement keys, shortcode/block/PHP renderer calls, and public-safe metadata, never through copied raw embed snippets or private registry fields.
+- Consent-disabled browser review continues to confirm no provider iframe, script, handoff URL, raw embed URL, or private note appears in public output.
 
 Related files/routes/tables/settings:
 
