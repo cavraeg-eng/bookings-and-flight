@@ -1242,3 +1242,43 @@ Research consulted:
 - Existing Phase 12 research records for WordPress template hierarchy, theme structure, and Travelpayouts widget/White Label behavior.
 
 Decision: `ONE-79` can move to Done after PR review and merge. Phase 12 can be marked `Completed`; runtime visual/template implementation remains in Phase 13 and later mapped phases.
+
+## Phase 13.1 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-80` placement data model and registry service. Reviewed Phase 11 backend mode, Phase 12 widget-frame prerequisites, Phase 13 objective and child order, current `bookings-flights-core` settings/options/capability/service patterns, existing White Label and Trip.com shortcode wrappers, and Travelpayouts SubID/widget guidance.
+
+Acceptance criteria result: Passed for P13.1 implementation scope. The registry data model includes placement key, name, vertical, context, widget family, render mode, embed source/mode/reference/url, status, SubID pattern, public surfaces, consent flag, disclosure copy/rule, frame reservations, fallback metadata, and notes. The service sanitizes writes, installs an idempotent non-autoloaded option, and seeds current Flights/Hotels placements from existing safe settings. Admin UI and frontend rendering remain in later Phase 13 child issues.
+
+Security review: Passed for the service seam. Private embed references, embed URLs, and admin notes are available through capability-gated admin service calls requiring `manage_baf_affiliates` or `manage_baf_settings`; active configured placements also have a trusted server-side rendering read path so shortcodes/blocks do not bypass the registry. Public placement projections strip private embed values and notes. Pasted Travelpayouts script/iframe/link snippets are reduced to approved URLs or references rather than storing arbitrary raw embed code.
+
+REST permission review: Not applicable. No REST route was added in P13.1. Future REST or block-editor consumers must use the public projection unless the request is already capability-gated; the rendering read path is for trusted PHP renderers only.
+
+Database/migration review: Passed. No custom table was introduced. `baf_travelpayouts_widget_registry` is installed as a WordPress option using the Options API, is non-autoloaded, is normalized non-destructively on bootstrap/activation, and preserves malformed stored placements during normalization so a page load cannot silently delete recoverable registry data.
+
+UI review: Not applicable for runtime UI. P13.1 creates the storage/service layer only; admin management UI remains in `ONE-81`.
+
+Regression review: Existing `[baf_travelpayouts_white_label]` and `[baf_travelpayouts_hotel_widget]` shortcodes remain unchanged. Existing `baf_travelpayouts_settings` fields remain intact and are used only to seed the first registry records when the registry option is missing.
+
+Validation performed: PHP syntax checks for the new service, plugin bootstrap, and activator; option/service smoke check for install, public/private projection, trusted rendering read path, capability gate, sanitizer, malformed placement preservation, non-approved iframe path rejection, dashboard script URL rejection in iframe mode, temporary administrator save, temporary delete, SubID normalization, and idempotent registry normalization; plugin deactivate/reactivate smoke check; `git diff --check`; Codex review on PR #16, including follow-up fixes for all posted findings and final no-major-issues result on the latest implementation head.
+
+Bugs found: Initial bootstrap called the registry installer during `plugins_loaded`, which triggered WordPress's just-in-time translation warning because default placement strings passed through translation functions too early. Codex review on PR #16 found that registry normalization was touching placement `updated_at` values, that future unauthenticated frontend renderers would not have a service-owned path to private active embed data, that malformed stored placements could be dropped during bootstrap normalization, and that iframe mode could accept allowlisted dashboard script URLs that are not valid iframe sources.
+
+Bugs fixed: Moved runtime registry installation to `init` and made stored default placement copy plain data instead of translated UI strings. Updated registry sanitization so bootstrap/normalization preserves existing placement timestamps and malformed stored placements, while only actual saves refresh `updated_at`. Added a trusted server-side rendering read path for active, configured placements. Restricted iframe mode to known iframe-like partner paths and explicitly rejects widget script paths.
+
+Bugs deferred: Admin UI, nonces, frontend shortcode/block wrapper, public configured/missing/disabled/loading/no-script states, and full Phase 13 security review remain in the later mapped Phase 13 issues.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Settings API: settings forms, nonces, sanitization, and capability behavior.
+- WordPress Options API: storing, retrieving, and updating named options.
+- WordPress Plugin Security Handbook: capability checks, input sanitization, and output/privacy boundaries.
+- Travelpayouts Help Center: ID/SubID affiliate marker guidance.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+
+Decision: `ONE-80` can move to Done after PR #16 merge. Phase 13 remains `In Progress` for the remaining registry UI, wrapper, state, security, and review child issues.

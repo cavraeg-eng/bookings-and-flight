@@ -40,7 +40,7 @@ Related files/routes/tables/settings:
 - `baf_travelpayouts_settings`
 - `baf_tracking_settings`
 - `baf_consent_settings`
-- Future `baf_travelpayouts_widget_registry`
+- `baf_travelpayouts_widget_registry`
 
 ## Phase 12 Public Information Architecture
 
