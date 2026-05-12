@@ -1,0 +1,70 @@
+/* ==========================================================================
+   Mobile Navigation
+   ========================================================================== */
+.mobile-nav {
+  position: fixed;
+  inset: 0;
+  background-color: var(--dark);
+  z-index: calc(var(--z-header) - 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--duration-slow) var(--ease-out-expo);
+}
+
+.mobile-nav.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-nav__content {
+  text-align: center;
+}
+
+.mobile-nav__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  list-style: none;
+  margin: 0 0 var(--space-l);
+  padding: 0;
+}
+
+.mobile-nav__link {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--light);
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all var(--duration-normal) var(--ease-out-expo);
+}
+
+.mobile-nav.active .mobile-nav__link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-nav__item:nth-child(1) .mobile-nav__link { transition-delay: 100ms; }
+.mobile-nav__item:nth-child(2) .mobile-nav__link { transition-delay: 150ms; }
+.mobile-nav__item:nth-child(3) .mobile-nav__link { transition-delay: 200ms; }
+.mobile-nav__item:nth-child(4) .mobile-nav__link { transition-delay: 250ms; }
+.mobile-nav__item:nth-child(5) .mobile-nav__link { transition-delay: 300ms; }
+
+.mobile-nav__link:hover {
+  color: var(--accent-l-1);
+}
+
+.mobile-nav__cta {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  transition-delay: 350ms;
+}
+
+.mobile-nav.active .mobile-nav__cta {
+  opacity: 1;
+  transform: translateY(0);
+}

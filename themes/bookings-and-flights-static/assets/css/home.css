@@ -1,0 +1,373 @@
+/**
+ * Home Page Styles
+ * Bookings and Flights Static Theme
+ *
+ * Styles for page-home.php template
+ */
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+.hero {
+  position: relative;
+  min-block-size: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero__background {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.hero__image {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.hero__gradient-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--primary-d-3), var(--primary) 40%, var(--secondary) 70%, var(--accent-d-2));
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    hsl(220 25% 10% / 0.4) 0%,
+    hsl(220 25% 10% / 0.6) 100%
+  );
+}
+
+.hero__content {
+  text-align: center;
+  max-inline-size: 800px;
+  padding: var(--space-xl) var(--container-padding);
+  color: var(--light);
+}
+
+.hero__tagline {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-s);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent-l-1);
+  margin-block-end: var(--space-s);
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 500;
+  line-height: var(--line-height-tight);
+  margin-block-end: var(--space-m);
+}
+
+.hero__description {
+  font-size: var(--text-l);
+  line-height: var(--line-height-normal);
+  opacity: 0.9;
+  margin-block-end: var(--space-l);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  justify-content: center;
+}
+
+/* ==========================================================================
+   Features Section
+   ========================================================================== */
+.features {
+  padding: var(--space-3xl) 0;
+  background: var(--bg-body);
+}
+
+.features__container {
+  max-inline-size: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.features__header {
+  text-align: center;
+  max-inline-size: 700px;
+  margin-inline: auto;
+  margin-block-end: var(--space-2xl);
+}
+
+.features__tagline {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-s);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--primary);
+  margin-block-end: var(--space-xs);
+}
+
+.features__title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  color: var(--text-body);
+  margin-block-end: var(--space-s);
+}
+
+.features__description {
+  font-size: var(--text-l);
+  color: var(--text-muted);
+}
+
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-l);
+}
+
+/* Feature Card */
+.feature-card {
+  background: var(--bg-surface);
+  padding: var(--space-l);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-s);
+  transition: transform var(--duration-normal) var(--ease-out-expo),
+              box-shadow var(--duration-normal) var(--ease-out-expo);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-l);
+}
+
+.feature-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 64px;
+  block-size: 64px;
+  background: var(--primary);
+  color: var(--light);
+  border-radius: var(--radius-m);
+  margin-block-end: var(--space-m);
+}
+
+.feature-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--text-body);
+  margin-block-end: var(--space-xs);
+}
+
+.feature-card__description {
+  font-size: var(--text-m);
+  color: var(--text-muted);
+  line-height: var(--line-height-normal);
+}
+
+/* ==========================================================================
+   About Section
+   ========================================================================== */
+.about {
+  padding: var(--space-3xl) 0;
+  background: var(--bg-surface);
+}
+
+.about__container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+  align-items: center;
+  max-inline-size: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+@media (min-width: 56.25em) {
+  .about__container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.about__tagline {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-s);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--primary);
+  margin-block-end: var(--space-xs);
+}
+
+.about__title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  color: var(--text-body);
+  margin-block-end: var(--space-m);
+}
+
+.about__description {
+  font-size: var(--text-l);
+  color: var(--text-muted);
+  line-height: var(--line-height-relaxed);
+  margin-block-end: var(--space-l);
+}
+
+.about__image {
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+}
+
+.about__image img {
+  inline-size: 100%;
+  block-size: auto;
+  display: block;
+}
+
+.about__gradient-bg {
+  inline-size: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-l);
+  background: linear-gradient(135deg, var(--secondary-d-2), var(--primary) 50%, var(--accent-l-1));
+}
+
+/* ==========================================================================
+   Testimonials Section
+   ========================================================================== */
+.testimonials {
+  padding: var(--space-3xl) 0;
+  background: var(--bg-subtle);
+}
+
+.testimonials__container {
+  max-inline-size: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.testimonials__header {
+  text-align: center;
+  max-inline-size: 600px;
+  margin-inline: auto;
+  margin-block-end: var(--space-2xl);
+}
+
+.testimonials__tagline {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-s);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--primary);
+  margin-block-end: var(--space-xs);
+}
+
+.testimonials__title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  color: var(--text-body);
+}
+
+.testimonials__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-l);
+}
+
+/* Testimonial Card */
+.testimonial-card {
+  background: var(--bg-surface);
+  padding: var(--space-l);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-s);
+  margin: 0;
+}
+
+.testimonial-card__stars {
+  color: var(--accent);
+  font-size: 1.25rem;
+  margin-block-end: var(--space-s);
+}
+
+.testimonial-card__quote {
+  font-size: var(--text-l);
+  font-style: italic;
+  color: var(--text-body);
+  line-height: var(--line-height-normal);
+  margin-block-end: var(--space-m);
+}
+
+.testimonial-card__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.testimonial-card__author {
+  font-family: var(--font-display);
+  font-size: var(--text-l);
+  font-style: normal;
+  font-weight: 500;
+  color: var(--text-body);
+}
+
+.testimonial-card__role {
+  font-size: var(--text-s);
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   CTA Section
+   ========================================================================== */
+.cta {
+  padding: var(--space-3xl) 0;
+  background: var(--primary);
+  color: var(--light);
+}
+
+.cta__container {
+  max-inline-size: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.cta__content {
+  text-align: center;
+  max-inline-size: 700px;
+  margin-inline: auto;
+}
+
+.cta__title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  margin-block-end: var(--space-s);
+}
+
+.cta__description {
+  font-size: var(--text-l);
+  opacity: 0.9;
+  margin-block-end: var(--space-l);
+}
+
+.cta .btn--primary {
+  background: var(--light);
+  color: var(--primary);
+}
+
+.cta .btn--primary:hover {
+  background: var(--bg-body);
+  transform: var(--hover-lift);
+}

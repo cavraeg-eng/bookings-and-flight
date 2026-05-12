@@ -1,0 +1,388 @@
+/**
+ * CSS Custom Properties (Design Tokens)
+ * Bookings and Flights Static Theme
+ *
+ * Token naming follows the design system template.
+ * Load AFTER fonts.css, BEFORE all other styles.
+ *
+ * The plugin wizard writes base color/font values on project build.
+ * /wf-design extends this with calculated shade/opacity ramps.
+ */
+
+:root {
+  /* ==========================================================================
+     Screen Range
+     ========================================================================== */
+  --min-screen-width: 320px;
+  --max-screen-width: 1400px;
+
+  /* ==========================================================================
+     Brand Colors — Primary
+     ========================================================================== */
+  --primary: hsla(212, 55%, 23%, 1);
+
+  /* Darker shades (saturation & lightness adjusted down) */
+  --primary-d-1: hsl(212, calc(55 * 1% - 40%), calc(23 * 1% - 13%));
+  --primary-d-2: hsl(212, calc(55 * 1% - 43%), calc(23 * 1% - 26%));
+  --primary-d-3: hsl(212, calc(55 * 1% - 47%), calc(23 * 1% - 37%));
+  --primary-d-4: hsl(212, calc(55 * 1% - 55%), calc(23 * 1% - 48%));
+
+  /* Lighter shades (lightness adjusted up) */
+  --primary-l-1: hsl(212, 55%, calc(23 * 1% + 8%));
+  --primary-l-2: hsl(212, 55%, calc(23 * 1% + 15%));
+  --primary-l-3: hsl(212, 55%, calc(23 * 1% + 22%));
+  --primary-l-4: hsl(212, 55%, calc(23 * 1% + 30%));
+
+  /* Opacity scale */
+  --primary-5: hsla(212, 55%, 23%, 0.05);
+  --primary-10: hsla(212, 55%, 23%, 0.1);
+  --primary-20: hsla(212, 55%, 23%, 0.2);
+  --primary-30: hsla(212, 55%, 23%, 0.3);
+  --primary-40: hsla(212, 55%, 23%, 0.4);
+  --primary-50: hsla(212, 55%, 23%, 0.5);
+  --primary-60: hsla(212, 55%, 23%, 0.6);
+  --primary-70: hsla(212, 55%, 23%, 0.7);
+  --primary-80: hsla(212, 55%, 23%, 0.8);
+  --primary-90: hsla(212, 55%, 23%, 0.9);
+
+  /* ==========================================================================
+     Brand Colors — Secondary
+     ========================================================================== */
+  --secondary: hsl(199, 29%, 58%);
+
+  --secondary-d-1: hsl(199, calc(29 * 1% - 40%), calc(58 * 1% - 13%));
+  --secondary-d-2: hsl(199, calc(29 * 1% - 43%), calc(58 * 1% - 26%));
+  --secondary-d-3: hsl(199, calc(29 * 1% - 47%), calc(58 * 1% - 37%));
+  --secondary-d-4: hsl(199, calc(29 * 1% - 55%), calc(58 * 1% - 48%));
+
+  --secondary-l-1: hsl(199, 29%, calc(58 * 1% + 8%));
+  --secondary-l-2: hsl(199, 29%, calc(58 * 1% + 15%));
+  --secondary-l-3: hsl(199, 29%, calc(58 * 1% + 22%));
+  --secondary-l-4: hsl(199, 29%, calc(58 * 1% + 30%));
+
+  --secondary-5: hsla(199, 29%, 58%, 0.05);
+  --secondary-10: hsla(199, 29%, 58%, 0.1);
+  --secondary-20: hsla(199, 29%, 58%, 0.2);
+  --secondary-30: hsla(199, 29%, 58%, 0.3);
+  --secondary-40: hsla(199, 29%, 58%, 0.4);
+  --secondary-50: hsla(199, 29%, 58%, 0.5);
+  --secondary-60: hsla(199, 29%, 58%, 0.6);
+  --secondary-70: hsla(199, 29%, 58%, 0.7);
+  --secondary-80: hsla(199, 29%, 58%, 0.8);
+  --secondary-90: hsla(199, 29%, 58%, 0.9);
+
+  /* ==========================================================================
+     Brand Colors — Accent
+     ========================================================================== */
+  --accent: hsl(36, 31%, 53%);
+
+  --accent-d-1: hsl(36, calc(31 * 1% - 40%), calc(53 * 1% - 13%));
+  --accent-d-2: hsl(36, calc(31 * 1% - 43%), calc(53 * 1% - 26%));
+  --accent-d-3: hsl(36, calc(31 * 1% - 47%), calc(53 * 1% - 37%));
+  --accent-d-4: hsl(36, calc(31 * 1% - 55%), calc(53 * 1% - 48%));
+
+  --accent-l-1: hsl(36, 31%, calc(53 * 1% + 8%));
+  --accent-l-2: hsl(36, 31%, calc(53 * 1% + 15%));
+  --accent-l-3: hsl(36, 31%, calc(53 * 1% + 22%));
+  --accent-l-4: hsl(36, 31%, calc(53 * 1% + 30%));
+
+  --accent-5: hsla(36, 31%, 53%, 0.05);
+  --accent-10: hsla(36, 31%, 53%, 0.1);
+  --accent-20: hsla(36, 31%, 53%, 0.2);
+  --accent-30: hsla(36, 31%, 53%, 0.3);
+  --accent-40: hsla(36, 31%, 53%, 0.4);
+  --accent-50: hsla(36, 31%, 53%, 0.5);
+  --accent-60: hsla(36, 31%, 53%, 0.6);
+  --accent-70: hsla(36, 31%, 53%, 0.7);
+  --accent-80: hsla(36, 31%, 53%, 0.8);
+  --accent-90: hsla(36, 31%, 53%, 0.9);
+
+  /* ==========================================================================
+     Surface & Text Colors
+     ========================================================================== */
+  --bg-body: hsl(0, 0%, 90%);
+  --bg-surface: hsl(0, 0%, 100%);
+  --bg-subtle: hsl(0, 0%, 95%);
+  --bg-dark: hsl(0, 0%, 12%);
+  --text-body: hsl(0, 0%, 25%);
+  --text-title: hsl(0, 0%, 0%);
+  --text-muted: var(--text-body-l-3);
+
+  /* Text body lighter ramp */
+  --text-body-l-1: hsl(0, 0%, 30%);
+  --text-body-l-2: hsl(0, 0%, 40%);
+  --text-body-l-3: hsl(0, 0%, 50%);
+  --text-body-l-4: hsl(0, 0%, 55%);
+  --text-body-l-5: hsl(0, 0%, 60%);
+  --text-body-l-6: hsl(0, 0%, 65%);
+  --text-body-l-7: hsl(0, 0%, 70%);
+  --text-body-l-8: hsl(0, 0%, 75%);
+
+  /* ==========================================================================
+     Borders & Shadows
+     ========================================================================== */
+  --border-primary: hsla(0, 0%, 50%, 0.25);
+  --shadow-primary: hsla(0, 0%, 0%, 0.15);
+
+  /* ==========================================================================
+     Utility Colors — Light / Dark
+     ========================================================================== */
+  --light: hsl(0, 0%, 100%);
+  --dark: hsl(0, 0%, 0%);
+
+  /* Light opacity scale */
+  --light-5: hsla(0, 0%, 100%, 0.05);
+  --light-10: hsla(0, 0%, 100%, 0.1);
+  --light-20: hsla(0, 0%, 100%, 0.2);
+  --light-30: hsla(0, 0%, 100%, 0.3);
+  --light-40: hsla(0, 0%, 100%, 0.4);
+  --light-50: hsla(0, 0%, 100%, 0.5);
+  --light-60: hsla(0, 0%, 100%, 0.6);
+  --light-70: hsla(0, 0%, 100%, 0.7);
+  --light-80: hsla(0, 0%, 100%, 0.8);
+  --light-90: hsla(0, 0%, 100%, 0.9);
+
+  /* Dark opacity scale */
+  --dark-5: hsla(0, 0%, 0%, 0.05);
+  --dark-10: hsla(0, 0%, 0%, 0.1);
+  --dark-20: hsla(0, 0%, 0%, 0.2);
+  --dark-30: hsla(0, 0%, 0%, 0.3);
+  --dark-40: hsla(0, 0%, 0%, 0.4);
+  --dark-50: hsla(0, 0%, 0%, 0.5);
+  --dark-60: hsla(0, 0%, 0%, 0.6);
+  --dark-70: hsla(0, 0%, 0%, 0.7);
+  --dark-80: hsla(0, 0%, 0%, 0.8);
+  --dark-90: hsla(0, 0%, 0%, 0.9);
+
+  /* ==========================================================================
+     Semantic Colors
+     ========================================================================== */
+  --success: hsl(136, 95%, 56%);
+  --warning: hsl(38, 92%, 50%);
+  --error: hsl(351, 95%, 56%);
+  --info: hsl(199, 89%, 48%);
+
+  /* ==========================================================================
+     Typography
+     ========================================================================== */
+  --font-display: 'Inter', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Fluid Type Scale */
+  --text-xs: clamp(0.89rem, calc(-0.01vw + 0.89rem), 0.88rem);
+  --text-s: clamp(1rem, calc(0.26vw + 0.95rem), 1.17rem);
+  --text-m: clamp(1.13rem, calc(0.65vw + 1rem), 1.56rem);
+  --text-l: clamp(1.27rem, calc(1.21vw + 1.02rem), 2.08rem);
+  --text-xl: clamp(1.42rem, calc(2vw + 1.02rem), 2.78rem);
+  --text-2xl: clamp(1.6rem, calc(3.11vw + 0.98rem), 3.7rem);
+  --text-3xl: clamp(1.8rem, calc(4.64vw + 0.87rem), 4.93rem);
+  --text-4xl: clamp(2.03rem, calc(6.74vw + 0.68rem), 6.58rem);
+
+  /* Semantic Size Aliases */
+  --hero-title-size: var(--text-4xl);
+  --post-title-size: var(--text-2xl);
+  --nav-link-size: var(--text-s);
+
+  /* ==========================================================================
+     Spacing — Fluid Scale
+     ========================================================================== */
+  --space-4xs: clamp(0.33rem, calc(-0.03vw + 0.33rem), 0.31rem);
+  --space-3xs: clamp(0.41rem, calc(0.04vw + 0.4rem), 0.44rem);
+  --space-2xs: clamp(0.51rem, calc(0.16vw + 0.48rem), 0.62rem);
+  --space-xs: clamp(0.64rem, calc(0.35vw + 0.57rem), 0.88rem);
+  --space-s: clamp(0.8rem, calc(0.65vw + 0.67rem), 1.24rem);
+  --space-m: clamp(1rem, calc(1.11vw + 0.78rem), 1.75rem);
+  --space-l: clamp(1.25rem, calc(1.81vw + 0.89rem), 2.47rem);
+  --space-xl: clamp(1.56rem, calc(2.87vw + 0.99rem), 3.5rem);
+  --space-2xl: clamp(1.95rem, calc(4.44vw + 1.07rem), 4.95rem);
+  --space-3xl: clamp(2.44rem, calc(6.75vw + 1.09rem), 7rem);
+  --space-4xl: clamp(3.05rem, calc(10.13vw + 1.02rem), 9.89rem);
+
+  /* Semantic Spacing Aliases */
+  --header-space: var(--space-s);
+  --btn-space: var(--space-xs) var(--space-s);
+  --card-space: var(--space-s);
+  --footer-space: var(--space-s) var(--space-m);
+
+  /* ==========================================================================
+     Layout
+     ========================================================================== */
+  --container-max: 1400px;
+  --container-padding: clamp(1rem, 3vw, 3rem);
+
+  /* Grid Columns */
+  --columns-1: repeat(1, minmax(0, 1fr));
+  --columns-2: repeat(2, minmax(0, 1fr));
+  --columns-3: repeat(3, minmax(0, 1fr));
+  --columns-4: repeat(4, minmax(0, 1fr));
+  --columns-5: repeat(5, minmax(0, 1fr));
+  --columns-6: repeat(6, minmax(0, 1fr));
+  --columns-7: repeat(7, minmax(0, 1fr));
+  --columns-8: repeat(8, minmax(0, 1fr));
+
+  /* ==========================================================================
+     Border Radius (fluid)
+     ========================================================================== */
+  --radius-xs: 0.25rem;
+  --radius-s: clamp(0.38rem, calc(-0.19vw + 0.54rem), 0.5rem);
+  --radius-m: clamp(0.63rem, calc(-0.19vw + 0.79rem), 0.75rem);
+  --radius-l: clamp(1rem, calc(-0.37vw + 1.32rem), 1.25rem);
+  --radius-xl: clamp(1.63rem, calc(-0.56vw + 2.11rem), 2rem);
+  --radius-full: 999rem;
+
+  /* ==========================================================================
+     Shadows
+     ========================================================================== */
+  --shadow-xs: 0 1px 2px var(--shadow-primary);
+  --shadow-s: 0 1.5px 3px var(--shadow-primary);
+  --shadow-m: 0 2px 6px var(--shadow-primary);
+  --shadow-l: 0 3px 12px var(--shadow-primary);
+  --shadow-xl: 0 6px 48px var(--shadow-primary);
+
+  /* ==========================================================================
+     Transitions
+     ========================================================================== */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 800ms;
+
+  /* ==========================================================================
+     Font Weights
+     ========================================================================== */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ==========================================================================
+     Line Height
+     ========================================================================== */
+  --line-height-tight: 1.1;
+  --line-height-snug: 1.3;
+  --line-height-normal: 1.6;
+  --line-height-relaxed: 1.8;
+
+  /* ==========================================================================
+     Interaction States
+     ========================================================================== */
+  --hover-lift: translateY(-2px);
+  --hover-opacity: 0.85;
+  --disabled-opacity: 0.5;
+
+  /* ==========================================================================
+     Z-Index Scale
+     ========================================================================== */
+  --z-base: 0;
+  --z-above: 10;
+  --z-header: 100;
+  --z-overlay: 200;
+  --z-modal: 300;
+  --z-toast: 2000;
+}
+
+/* ==========================================================================
+   Dark Mode Overrides
+   ========================================================================== */
+.theme-dark {
+  --bg-body: hsl(0, 0%, 5%);
+  --bg-surface: hsl(0, 0%, 15%);
+  --bg-subtle: hsl(0, 0%, 10%);
+  --bg-dark: hsl(0, 0%, 3%);
+  --text-body: hsl(0, 0%, 75%);
+  --text-title: hsl(0, 0%, 100%);
+  --text-muted: var(--text-body-l-3);
+
+  --text-body-l-1: hsl(0, 0%, 70%);
+  --text-body-l-2: hsl(0, 0%, 60%);
+  --text-body-l-3: hsl(0, 0%, 50%);
+  --text-body-l-4: hsl(0, 0%, 45%);
+  --text-body-l-5: hsl(0, 0%, 40%);
+  --text-body-l-6: hsl(0, 0%, 35%);
+  --text-body-l-7: hsl(0, 0%, 30%);
+  --text-body-l-8: hsl(0, 0%, 25%);
+
+  --border-primary: hsla(0, 0%, 75%, 0.1);
+  --shadow-primary: hsla(0, 0%, 0%, 0.4);
+  --light: hsl(0, 0%, 0%);
+  --dark: hsl(0, 0%, 100%);
+
+  --light-5: hsla(0, 0%, 0%, 0.05);
+  --light-10: hsla(0, 0%, 0%, 0.1);
+  --light-20: hsla(0, 0%, 0%, 0.2);
+  --light-30: hsla(0, 0%, 0%, 0.3);
+  --light-40: hsla(0, 0%, 0%, 0.4);
+  --light-50: hsla(0, 0%, 0%, 0.5);
+  --light-60: hsla(0, 0%, 0%, 0.6);
+  --light-70: hsla(0, 0%, 0%, 0.7);
+  --light-80: hsla(0, 0%, 0%, 0.8);
+  --light-90: hsla(0, 0%, 0%, 0.9);
+
+  --dark-5: hsla(0, 0%, 100%, 0.05);
+  --dark-10: hsla(0, 0%, 100%, 0.1);
+  --dark-20: hsla(0, 0%, 100%, 0.2);
+  --dark-30: hsla(0, 0%, 100%, 0.3);
+  --dark-40: hsla(0, 0%, 100%, 0.4);
+  --dark-50: hsla(0, 0%, 100%, 0.5);
+  --dark-60: hsla(0, 0%, 100%, 0.6);
+  --dark-70: hsla(0, 0%, 100%, 0.7);
+  --dark-80: hsla(0, 0%, 100%, 0.8);
+  --dark-90: hsla(0, 0%, 100%, 0.9);
+}
+
+/* ==========================================================================
+   Dark Mode — OS Auto-Detection
+   Applies dark overrides when OS prefers dark AND user hasn't forced light.
+   The :not(.theme-light) selector lets the JS toggle override OS preference.
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not(.theme-light) {
+    --bg-body: hsl(0, 0%, 5%);
+    --bg-surface: hsl(0, 0%, 15%);
+    --bg-subtle: hsl(0, 0%, 10%);
+    --bg-dark: hsl(0, 0%, 3%);
+    --text-body: hsl(0, 0%, 75%);
+    --text-title: hsl(0, 0%, 100%);
+    --text-muted: var(--text-body-l-3);
+
+    --text-body-l-1: hsl(0, 0%, 70%);
+    --text-body-l-2: hsl(0, 0%, 60%);
+    --text-body-l-3: hsl(0, 0%, 50%);
+    --text-body-l-4: hsl(0, 0%, 45%);
+    --text-body-l-5: hsl(0, 0%, 40%);
+    --text-body-l-6: hsl(0, 0%, 35%);
+    --text-body-l-7: hsl(0, 0%, 30%);
+    --text-body-l-8: hsl(0, 0%, 25%);
+
+    --border-primary: hsla(0, 0%, 75%, 0.1);
+    --shadow-primary: hsla(0, 0%, 0%, 0.4);
+    --light: hsl(0, 0%, 0%);
+    --dark: hsl(0, 0%, 100%);
+
+    --light-5: hsla(0, 0%, 0%, 0.05);
+    --light-10: hsla(0, 0%, 0%, 0.1);
+    --light-20: hsla(0, 0%, 0%, 0.2);
+    --light-30: hsla(0, 0%, 0%, 0.3);
+    --light-40: hsla(0, 0%, 0%, 0.4);
+    --light-50: hsla(0, 0%, 0%, 0.5);
+    --light-60: hsla(0, 0%, 0%, 0.6);
+    --light-70: hsla(0, 0%, 0%, 0.7);
+    --light-80: hsla(0, 0%, 0%, 0.8);
+    --light-90: hsla(0, 0%, 0%, 0.9);
+
+    --dark-5: hsla(0, 0%, 100%, 0.05);
+    --dark-10: hsla(0, 0%, 100%, 0.1);
+    --dark-20: hsla(0, 0%, 100%, 0.2);
+    --dark-30: hsla(0, 0%, 100%, 0.3);
+    --dark-40: hsla(0, 0%, 100%, 0.4);
+    --dark-50: hsla(0, 0%, 100%, 0.5);
+    --dark-60: hsla(0, 0%, 100%, 0.6);
+    --dark-70: hsla(0, 0%, 100%, 0.7);
+    --dark-80: hsla(0, 0%, 100%, 0.8);
+    --dark-90: hsla(0, 0%, 100%, 0.9);
+  }
+}

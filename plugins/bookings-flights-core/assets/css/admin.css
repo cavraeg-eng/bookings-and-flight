@@ -1,0 +1,253 @@
+.baf-admin {
+	max-width: 1180px;
+	--baf-admin-surface: #fff;
+	--baf-admin-border: #c3c4c7;
+	--baf-admin-muted: #50575e;
+	--baf-admin-success: #008a20;
+	--baf-admin-warning: #996800;
+	--baf-admin-focus: #2271b1;
+}
+
+.baf-admin__intro {
+	color: var(--baf-admin-muted);
+	font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
+	max-width: 760px;
+}
+
+.baf-admin__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.baf-report-filters {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 18px 0;
+}
+
+.baf-status-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 16px;
+	margin-top: 20px;
+}
+
+.baf-status-card,
+.baf-notice {
+	background: var(--baf-admin-surface);
+	border: 1px solid var(--baf-admin-border);
+	border-left-width: 4px;
+	border-radius: 8px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+	padding: 16px;
+}
+
+.baf-status-card__header {
+	align-items: flex-start;
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+}
+
+.baf-status-card h2 {
+	font-size: 1rem;
+	margin: 0 0 8px;
+}
+
+.baf-status-card__badge {
+	border-radius: 999px;
+	display: inline-flex;
+	font-size: 0.75rem;
+	font-weight: 600;
+	line-height: 1.4;
+	padding: 2px 8px;
+	white-space: nowrap;
+}
+
+.baf-status-card p,
+.baf-notice {
+	color: var(--baf-admin-muted);
+	margin-bottom: 0;
+}
+
+.baf-report-card__value {
+	color: #1d2327;
+	font-size: clamp(1.4rem, 1rem + 1vw, 2rem);
+	font-weight: 700;
+	line-height: 1;
+}
+
+.baf-report-grid {
+	display: grid;
+	gap: 16px;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	margin-top: 20px;
+}
+
+.baf-report-panel {
+	background: var(--baf-admin-surface);
+	border: 1px solid var(--baf-admin-border);
+	border-radius: 8px;
+	margin-top: 20px;
+	padding: 16px;
+}
+
+.baf-report-grid .baf-report-panel {
+	margin-top: 0;
+}
+
+.baf-report-panel h2 {
+	font-size: 1rem;
+	margin: 0 0 12px;
+}
+
+.baf-report-panel .widefat {
+	border: 0;
+	box-shadow: none;
+}
+
+.baf-status-card--success,
+.baf-notice--success {
+	border-left-color: var(--baf-admin-success);
+}
+
+.baf-status-card--success .baf-status-card__badge {
+	background: #edfaef;
+	color: #005c12;
+}
+
+.baf-status-card--warning,
+.baf-notice--warning {
+	border-left-color: var(--baf-admin-warning);
+}
+
+.baf-status-card--warning .baf-status-card__badge {
+	background: #fcf5dd;
+	color: #674600;
+}
+
+.baf-settings-form {
+	background: var(--baf-admin-surface);
+	border: 1px solid var(--baf-admin-border);
+	border-radius: 8px;
+	margin-top: 16px;
+	max-width: 960px;
+	padding: 4px 20px 20px;
+}
+
+.baf-settings-form input[type="text"],
+.baf-settings-form input[type="email"],
+.baf-settings-form input[type="password"],
+.baf-settings-form select,
+.baf-settings-form textarea {
+	max-width: 100%;
+}
+
+.baf-settings-form input:focus-visible,
+.baf-settings-form select:focus-visible,
+.baf-settings-form textarea:focus-visible,
+.baf-admin a:focus-visible,
+.baf-admin .button:focus-visible {
+	outline: 2px solid var(--baf-admin-focus);
+	outline-offset: 2px;
+}
+
+.baf-settings-form .form-table th {
+	width: 220px;
+}
+
+.baf-admin-table-wrap {
+	margin-top: 20px;
+	overflow-x: auto;
+}
+
+.baf-jobs-table {
+	min-width: 760px;
+}
+
+.baf-jobs-table th,
+.baf-jobs-table td {
+	vertical-align: top;
+}
+
+.baf-jobs-table code {
+	display: inline-block;
+	margin-top: 6px;
+}
+
+@media (max-width: 782px) {
+	.baf-admin {
+		margin-right: 12px;
+	}
+
+	.baf-status-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.baf-settings-form .form-table th {
+		width: auto;
+	}
+
+	.baf-settings-form {
+		padding-inline: 14px;
+	}
+
+	.baf-admin-table-wrap {
+		overflow-x: visible;
+	}
+
+	.baf-report-filters {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.baf-report-filters select,
+	.baf-report-filters .button {
+		width: 100%;
+	}
+
+	.baf-jobs-table {
+		border: 0;
+		min-width: 0;
+	}
+
+	.baf-jobs-table thead {
+		display: none;
+	}
+
+	.baf-jobs-table tbody,
+	.baf-jobs-table tr,
+	.baf-jobs-table th,
+	.baf-jobs-table td {
+		display: block;
+		width: 100%;
+	}
+
+	.baf-jobs-table tr {
+		background: var(--baf-admin-surface);
+		border: 1px solid var(--baf-admin-border);
+		border-radius: 8px;
+		box-sizing: border-box;
+		margin-bottom: 12px;
+		padding: 12px;
+	}
+
+	.baf-jobs-table td {
+		border: 0;
+		padding: 8px 0;
+	}
+
+	.baf-jobs-table td::before {
+		color: var(--baf-admin-muted);
+		content: attr(data-label);
+		display: block;
+		font-size: 0.75rem;
+		font-weight: 600;
+		margin-bottom: 2px;
+		text-transform: uppercase;
+	}
+}
