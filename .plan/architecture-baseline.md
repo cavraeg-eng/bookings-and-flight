@@ -1,0 +1,483 @@
+# Architecture Baseline
+
+These contracts are shared across phases. Do not rename them without documenting the reason in `.plan/decisions.md`, reconciling affected code and docs, and reviewing downstream phase impact.
+
+## Product Identity
+
+| Contract | Value |
+| --- | --- |
+| Product name | Bookings and Flights |
+| Product model | WordPress-native travel discovery, AI planning, SEO, and affiliate conversion platform |
+| Monetization model | Travelpayouts-controlled affiliate handoff through the official plugin where compatible, Travelpayouts widgets, White Label Web, partner links, and SubID reporting |
+| Booking model | No direct checkout in MVP; booking completes on partner sites |
+
+## Travelpayouts-Controlled Backend Boundary
+
+The current product direction is Travelpayouts-first for monetized search, widgets, results, partner links, and booking handoff.
+
+Source-of-truth rules:
+
+- WordPress owns content, editorial workflows, SEO pages, page templates, admin state, consent, saved-trip intent, alert intent, and local privacy-aware analytics.
+- Travelpayouts owns live flight/hotel search surfaces, widgets, tables, partner links, White Label result pages, affiliate tracking, booking handoff, partner booking/payment, payout source of truth, and SubID performance reporting.
+- `bookings-flights-core` may wrap approved Travelpayouts placements, generate consistent SubIDs, render affiliate disclosures, enforce consent, and track safe local placement events.
+- `bookings-flights-core` must not become a custom OTA backend, live flight/hotel inventory database, booking engine, payment processor, or supplier reservation system.
+- If the official Travelpayouts WordPress plugin is incompatible with the local WordPress version, the fallback is Travelpayouts dashboard-generated widgets/White Label embed code inside a secured WordPress wrapper, not a custom replacement backend.
+- `platform/` remains an integration layer unless a documented architecture decision changes the WordPress and Travelpayouts source-of-truth boundary.
+
+Travelpayouts implementation contracts:
+
+- Official WordPress plugin slug: `travelpayouts` when installed from WordPress.org.
+- P11.1 local compatibility result: official `travelpayouts` plugin version `1.2.2` is installed and active in this Local WordPress `6.9.4` workspace after a successful activate, deactivate, and reactivate gate on 2026-05-09.
+- Local publish hardening redacted an embedded Airtable personal access token from the staged plugin package. The Airtable distribution script now fails closed unless a token is supplied outside Git through `TRAVELPAYOUTS_AIRTABLE_TOKEN`.
+- WordPress.org still warns that `travelpayouts` has not been tested with the latest three major WordPress releases, so plugin-first placement is only partially cleared until admin setup, widget rendering, handoff, White Label continuity, and secret-exposure checks pass.
+- Preferred placement path: official Travelpayouts plugin block/widget/table/link tools.
+- Fallback placement path: capability-gated `baf` widget registry that renders Travelpayouts-provided embed code.
+- SubID convention: lowercase Latin letters, numbers, and underscores in the pattern `{channel}_{surface}_{vertical}_{slug}_{placement}`.
+- White Label Web may be used for on-site search result experiences, but SEO landing pages should remain WordPress-owned because Travelpayouts documents crawler limitations for White Label result pages.
+- White Label search/result pages must preserve home-site header continuity. Prefer White Label Widget type inside WordPress pages where possible; if Page type is required, configure the Travelpayouts White Label header logo, brand name, favicon, color/image treatment, heading copy, and header/footer menu links to match the Bookings and Flights theme as closely as Travelpayouts customization allows.
+- Booking.com fares must not be promised inside White Label because Travelpayouts documents that Booking.com fares are unavailable there due to Booking.com policy.
+
+Detailed execution blueprint: `.plan/travelpayouts-wordpress-booking-site-blueprint.md`.
+
+## WordPress Plugins
+
+| Contract | Value |
+| --- | --- |
+| Planned core plugin name | Bookings and Flights Core |
+| Core plugin slug | `bookings-flights-core` |
+| Core plugin main file | `plugins/bookings-flights-core/bookings-flights-core.php` |
+| Core PHP namespace | `BAF\Core` |
+| Core function prefix | `baf_` |
+| Core plugin version constant | `BAF_CORE_VERSION` |
+| Core database schema version constant | `BAF_CORE_DB_VERSION` |
+| Core plugin path constants | `BAF_CORE_FILE`, `BAF_CORE_DIR`, `BAF_CORE_URL`, `BAF_CORE_BASENAME` |
+| Core plugin version option | `baf_core_version` |
+| Core lifecycle hooks | `baf_core_activated`, `baf_core_deactivated`, `baf_core_loaded` |
+| Core post type registrar | `BAF\Core\Post_Types\Post_Type_Registrar` |
+| Core taxonomy registrar | `BAF\Core\Taxonomies\Taxonomy_Registrar` |
+| Core capability manager | `BAF\Core\Capabilities\Capability_Manager` |
+| Existing affiliate bridge plugin slug | `bookings-and-flights-affiliate-bridge` |
+| Existing affiliate bridge main file | `plugins/bookings-and-flights-affiliate-bridge/bookings-and-flights-affiliate-bridge.php` |
+| Existing affiliate bridge namespace | `BAF\AffiliateBridge` |
+| Existing content manager plugin slug | `bookings-and-flights-content-manager` |
+| Existing content manager main file | `plugins/bookings-and-flights-content-manager/bookings-and-flights-content-manager.php` |
+| Existing content manager prefix | `bookings_and_flights_` |
+
+## WordPress Themes and Frontend
+
+| Contract | Value |
+| --- | --- |
+| Existing static WordPress theme | `themes/bookings-and-flights-static` |
+| Existing headless theme | `themes/bookings-and-flights-headless` |
+| Existing platform monorepo | `platform/` |
+| Platform web app | `platform/apps/web` |
+| Platform search API | `platform/services/search-api` |
+| Platform shared package | `platform/packages/shared` |
+
+## REST Namespace
+
+| Contract | Value |
+| --- | --- |
+| WordPress REST namespace | `baf/v1` |
+| Public REST base | `/wp-json/baf/v1/` |
+| Existing public config route | `GET /config` |
+| Existing protected status route | `GET /status` |
+
+Implemented core routes:
+
+- `GET /destinations`
+- `GET /routes`
+- `GET /affiliate/click`
+- `POST /ai/itinerary`
+
+Phase 8 reporting is admin-only through `admin.php?page=baf-reports`; no reporting REST endpoint is exposed.
+
+Core Phase 3 routes are read-only public discovery collections. They only return published `destination` or `route` posts and expose safe fields: `id`, `type`, `slug`, `link`, `date`, `modified`, rendered `title`, and rendered `excerpt`. They do not expose registered private post meta, provider credentials, drafts, private posts, partner records, alerts, trip plans, or AI/session data.
+
+Core route parameters:
+
+- `page`: positive integer, default `1`.
+- `per_page`: integer from `1` to `50`, default `10`.
+- `search`: sanitized text search string.
+- `orderby`: one of `date`, `modified`, `title`, `menu_order`.
+- `order`: one of `ASC`, `DESC`.
+
+Planned routes:
+
+- `POST /ai/chat`
+- `POST /trips/save`
+- `GET /trips/:id`
+- `POST /alerts`
+- `POST /affiliate/link`
+- `GET /search/flights`
+- `GET /search/hotels`
+
+Under the Travelpayouts-controlled backend boundary, planned `/search/flights` and `/search/hotels` routes must not become custom live inventory APIs. If implemented, they should expose only safe WordPress-owned shell configuration, placement metadata, status, or redirect/handoff information needed to render Travelpayouts-controlled widgets, links, or White Label surfaces.
+
+## Phase 4 Affiliate Workflow
+
+Phase 4 implements a WordPress-native destination-to-affiliate-card workflow. Editors can place `[baf_travel_cards]` in editable content and render a standalone disclosure with `[baf_affiliate_disclosure]`.
+
+Workflow behavior:
+
+- Affiliate cards are generated by `BAF\Core\Services\Affiliate_Link_Service`.
+- Initial provider support is Travelpayouts/Aviasales handoff links only.
+- Booking remains on partner sites; the plugin does not collect payment or perform checkout.
+- Provider request consent (`baf_consent_settings.allow_provider_requests`) and a Travelpayouts marker are required before monetized links render.
+- Missing consent or missing marker renders an escaped frontend notice rather than a broken or secret-bearing link.
+- Generated Travelpayouts links use the documented `marker` value with the generated SubID appended as `marker.subid`.
+- SubIDs are lowercase, underscore-normalized, and built from `baf_tracking_settings.subid_prefix`, shortcode/source context, and post ID where available.
+- Handoff links point to `GET /wp-json/baf/v1/affiliate/click`, include a signed target payload, expire after 24 hours, restrict redirects to `aviasales.com`/`www.aviasales.com`, and never expose provider API tokens.
+- Click tracking is optional through `baf_tracking_settings.enable_click_tracking`; when enabled, only event metadata and hashed request identifiers are stored.
+
+## Custom Post Types
+
+Registered by `BAF\Core\Post_Types\Post_Type_Registrar` on `init`.
+
+| CPT Key | Purpose | Public | Archive/Rewrite | Primary Capability Set |
+| --- | --- | --- | --- | --- |
+| `destination` | City, country, and region guides | Yes | `destinations` | `edit_baf_content`, `publish_baf_content` |
+| `route` | Origin-destination flight pages | Yes | `routes` | `edit_baf_content`, `publish_baf_content` |
+| `travel_deal` | Editorial or cached deal posts | Yes | `travel-deals` | `edit_baf_content`, `publish_baf_content` |
+| `trip_plan` | AI-generated and saved itineraries | No | Disabled | `edit_baf_content`, `publish_baf_content` |
+| `travel_partner` | Travelpayouts and provider records | No | Disabled | `manage_baf_affiliates` |
+| `travel_alert` | Price alert landing records or editorial alert pages | No | Disabled | `manage_baf_alerts` |
+
+All registered CPTs use `show_in_rest => true` for block editor compatibility and WordPress core REST behavior. No custom `baf/v1` routes are introduced in Phase 1.
+
+## Taxonomies
+
+Registered by `BAF\Core\Taxonomies\Taxonomy_Registrar` on `init`.
+
+| Taxonomy Key | Purpose | Hierarchical | Attached CPTs |
+| --- | --- | --- | --- |
+| `travel_region` | Continent, country, region, and destination grouping | Yes | `destination`, `route`, `travel_deal` |
+| `travel_style` | Budget, family, luxury, beach, business, adventure, culture | No | `destination`, `route`, `travel_deal`, `trip_plan` |
+| `travel_vertical` | Flights, hotels, cars, activities, insurance, eSIM, transfers | Yes | `route`, `travel_deal`, `travel_partner` |
+| `travel_season` | Month, season, holiday, or timing intent | No | `destination`, `route`, `travel_deal`, `trip_plan`, `travel_alert` |
+
+Taxonomy term management maps to `edit_baf_content`; assignment also requires `edit_baf_content`.
+
+## Post Meta Keys
+
+Use the `baf_` prefix for new meta. Phase 1 registers the following post meta keys with `show_in_rest => false`, sanitization callbacks, and edit authorization through `edit_post`/dedicated Bookings and Flights capabilities:
+
+- `baf_origin`
+- `baf_destination`
+- `baf_origin_airport`
+- `baf_destination_airport`
+- `baf_departure_window`
+- `baf_return_window`
+- `baf_budget_min`
+- `baf_budget_max`
+- `baf_travel_style`
+- `baf_affiliate_vertical`
+- `baf_provider_ids`
+- `baf_subid_template`
+- `baf_ai_source_session_id`
+- `baf_itinerary_json`
+- `baf_alert_route`
+- `baf_alert_frequency`
+- `baf_partner_apply_url`
+- `baf_partner_status`
+
+## User Meta Keys
+
+Planned keys:
+
+- `baf_home_airport`
+- `baf_travel_preferences`
+- `baf_saved_trip_ids`
+- `baf_alert_preferences`
+- `baf_ai_consent_at`
+
+## Option Keys
+
+Existing:
+
+- `baf_supplier_credentials`
+- `baf_search_api_url`
+- `baf_postback_secret`
+
+Implemented:
+
+- `baf_core_version`
+- `baf_db_version`
+- `baf_settings`
+- `baf_travelpayouts_settings`
+- `baf_ai_settings`
+- `baf_consent_settings`
+- `baf_tracking_settings`
+- `baf_job_status`
+
+Secrets must remain server-side and masked in admin UI.
+
+## Custom Tables
+
+Use `$wpdb->prefix` and the site's charset/collation.
+
+| Logical Name | Runtime Name |
+| --- | --- |
+| Searches | `$wpdb->prefix . 'bf_searches'` |
+| Clicks | `$wpdb->prefix . 'bf_clicks'` |
+| Alerts | `$wpdb->prefix . 'bf_alerts'` |
+| Cached offers | `$wpdb->prefix . 'bf_cached_offers'` |
+| AI sessions | `$wpdb->prefix . 'bf_ai_sessions'` |
+| Provider stats | `$wpdb->prefix . 'bf_provider_stats'` |
+
+Implemented Phase 6 AI session table:
+
+- `$wpdb->prefix . 'bf_ai_sessions'`
+- Created by `BAF\Core\Migrations\AI_Sessions_Table` using `dbDelta()`.
+- Stores run UUID, timestamps, user ID, provider, mode, status, prompt version, optional source post ID, request/output hashes, output summary, and sanitized error code/message.
+- Does not store raw prompts, raw model responses, provider API keys, private customer data, IP addresses, full provider payloads, or generated itinerary JSON.
+
+Implemented Phase 8 provider stats table:
+
+- `$wpdb->prefix . 'bf_provider_stats'`
+- Created by `BAF\Core\Migrations\Provider_Stats_Table` using `dbDelta()`.
+- Stores snapshot UUID, timestamp, provider key, safe status, metric key/value, sanitized message, and source label.
+- Does not store provider API keys, raw provider responses, raw request payloads, private customer data, raw IP addresses, user agents, referrers, revenue details, or conversion identifiers.
+
+## Capabilities
+
+Dedicated capabilities are registered for administrators by `BAF\Core\Capabilities\Capability_Manager`:
+
+- `manage_baf_settings`
+- `edit_baf_content`
+- `publish_baf_content`
+- `manage_baf_affiliates`
+- `view_baf_reports`
+- `run_baf_ai`
+- `manage_baf_alerts`
+
+Initial Phase 1 mapping is administrator-only. Future broader editor/member workflows must explicitly grant only the minimum needed dedicated capabilities.
+
+Dedicated primitive capabilities are mapped directly by `BAF\Core\Capabilities\Capability_Manager::map_dedicated_capabilities()` to avoid WordPress treating unknown primitive capabilities as denied meta capabilities.
+
+## Repository and Service Contracts
+
+| Contract | Purpose |
+| --- | --- |
+| `BAF\Core\AI\AI_Provider_Interface` | AI provider contract for itinerary generation adapters |
+| `BAF\Core\AI\Demo_AI_Provider` | Offline demo itinerary provider that requires no live credentials |
+| `BAF\Core\AI\OpenAI_Provider` | Live OpenAI Chat Completions adapter gated by configuration and consent |
+| `BAF\Core\AI\Provider_Factory` | Selects demo/live provider based on `baf_ai_settings` and `baf_consent_settings` |
+| `BAF\Core\AI\Itinerary_Schema` | Validates and sanitizes structured itinerary output before save/response |
+| `BAF\Core\Repositories\Repository_Interface` | Base interface for WordPress-backed travel entity repositories |
+| `BAF\Core\Repositories\Travel_Entity_Repository` | Bounded CPT-backed data access helper for Phase 1 travel entities |
+| `BAF\Core\Repositories\Click_Tracking_Repository` | Stores safe affiliate click event metadata in `$wpdb->prefix . 'bf_clicks'` |
+| `BAF\Core\Repositories\AI_Session_Repository` | Stores hashed, non-secret AI generation run metadata in `$wpdb->prefix . 'bf_ai_sessions'` |
+| `BAF\Core\Reports\Provider_Stats_Repository` | Stores and reads bounded provider status snapshots in `$wpdb->prefix . 'bf_provider_stats'` |
+| `BAF\Core\Reports\Reporting_Repository` | Aggregates bounded click, AI session, provider, and content report data |
+| `BAF\Core\Services\Travel_Entity_Service` | Capability-aware service boundary for reading/writing travel entities |
+| `BAF\Core\Services\Affiliate_Link_Service` | Builds Travelpayouts affiliate cards, SubIDs, disclosures, and signed handoff URLs |
+| `BAF\Core\Services\Click_Tracking_Service` | Gates optional click tracking before repository writes |
+| `BAF\Core\Services\AI_Itinerary_Service` | Orchestrates provider selection, schema validation, run logging, and optional draft trip-plan save |
+| `BAF\Core\Reports\Reporting_Service` | Builds capability-gated admin report summaries and CSV rows |
+| `BAF\Core\Cron\Cron_Manager` | Registers, schedules, and unschedules core WP-Cron automation hooks |
+| `BAF\Core\Jobs\Job_Repository` | Stores bounded non-secret background job status records in `baf_job_status` |
+| `BAF\Core\Jobs\Job_Runner` | Handles safe background job execution, deferrals, failures, and cleanup |
+| `BAF\Core\REST\Base_Controller` | Shared REST namespace, collection params, pagination headers, and collection links |
+| `BAF\Core\REST\Request_Parameters` | Shared REST request validation and sanitization callbacks |
+| `BAF\Core\REST\Permissions` | Shared REST permission callback helpers |
+| `BAF\Core\REST\Travel_Entity_Controller` | Thin read-only public collection controller for destinations and routes |
+| `BAF\Core\REST\Affiliate_Click_Controller` | Thin signed affiliate click handoff endpoint |
+| `BAF\Core\REST\AI_Itinerary_Controller` | Protected `POST /ai/itinerary` endpoint requiring `run_baf_ai` |
+| `BAF\Core\REST\Rest_Manager` | Registers core REST controllers on `rest_api_init` |
+
+Repository list queries cap `posts_per_page` at 50 and use WordPress APIs rather than direct SQL. `Travel_Entity_Service::list_public()` is the Phase 3 public read boundary for published destinations and routes.
+
+## Phase 6 AI Workflow
+
+`POST /wp-json/baf/v1/ai/itinerary` is protected by `run_baf_ai`.
+
+Request parameters:
+
+- `destination`: required sanitized text, max 120 characters.
+- `origin`: optional sanitized text.
+- `days`: integer from `1` to `21`, default `3`.
+- `travel_style`: optional sanitized text.
+- `budget`: optional sanitized text.
+- `preferences`: optional sanitized textarea.
+- `source_post_id`: optional non-negative integer.
+- `save`: optional boolean. When true, the validated itinerary is saved as a `draft` `trip_plan`; it is never published automatically.
+
+Response behavior:
+
+- Demo mode (`baf_ai_settings.mode = demo`) generates local deterministic itinerary drafts without external calls or credentials.
+- Live mode requires `baf_ai_settings.provider`, `baf_ai_settings.api_key`, and `baf_consent_settings.allow_external_ai`.
+- Current live PHP adapter support is `openai`; unsupported configured providers fail safely without sending data externally.
+- All AI outputs are validated by `BAF\Core\AI\Itinerary_Schema` before response or draft save.
+- Affiliate/provider tool opportunities are recommendations only: `status = not_executed`, `requires_approval = true`; no provider search, link creation, booking, or publishing action is executed by AI.
+- Provider errors return safe WordPress errors and do not expose API keys, raw prompts, raw provider payloads, or secrets.
+- `bf_ai_sessions` records hashed request/output metadata and sanitized summaries/errors only.
+
+## Admin Page Slugs
+
+Implemented by `BAF\Core\Admin\Admin_Manager`:
+
+- `baf-dashboard`
+- `baf-settings`
+- `baf-integrations`
+- `baf-jobs`
+- `baf-reports`
+
+Planned slugs:
+
+- `baf-affiliates`
+- `baf-ai-planner`
+- `baf-alerts`
+
+Existing affiliate bridge settings page remains at `options-general.php?page=baf-affiliate-bridge`; Phase 2 integrates status links without renaming or duplicating the bridge page.
+
+## Phase 8 Reporting
+
+`admin.php?page=baf-reports` is protected by `view_baf_reports`.
+
+Reports include:
+
+- affiliate click totals, provider breakdowns, and top clicked content from `bf_clicks`;
+- AI session totals, status breakdowns, and mode breakdowns from `bf_ai_sessions`;
+- latest local provider status snapshots from `bf_provider_stats`;
+- content inventory counts for registered Bookings and Flights CPTs;
+- CSV export guarded by a WordPress nonce and `view_baf_reports`.
+
+Reporting queries are bounded to approved date ranges (`7`, `30`, `90`, or `365` days) and limited result sets. Admin reports and exports minimize private data: they do not show raw IP addresses, user agents, referrers, raw prompts, API tokens, provider payloads, full target URLs, private customer data, or revenue/conversion identifiers. Revenue and conversion reporting displays a safe unavailable state until postback/provider conversion data exists.
+
+## Asset Handles
+
+Implemented handles:
+
+- `baf-admin`
+- `baf-frontend`
+
+Planned handles:
+
+- `baf-admin-settings`
+- `baf-admin-reports`
+- `baf-search`
+- `baf-ai-planner`
+- `baf-travel-cards`
+
+Existing theme/plugin handles beginning with `bookings_and_flights-` must not be renamed without review.
+
+## Cron Hooks
+
+Implemented by `BAF\Core\Cron\Cron_Manager`:
+
+| Hook | Recurrence | Purpose |
+| --- | --- | --- |
+| `baf_refresh_cached_offers` | `baf_ten_minutes` | Checks eligible cached offer/deal refresh work outside page render; defers provider work unless consent is enabled. |
+| `baf_process_travel_alerts` | `hourly` | Checks eligible travel alert work outside page render. |
+| `baf_sync_provider_stats` | `hourly` | Records safe provider configuration/status telemetry for future reporting. |
+| `baf_cleanup_job_records` | `daily` | Removes old successful job records and stale job locks. |
+
+Planned hooks:
+
+- `baf_cleanup_ai_sessions`
+- `baf_send_saved_trip_followups`
+- `baf_send_saved_trip_followups`
+
+## Action and Filter Prefixes
+
+Use:
+
+- Actions: `baf_*`
+- Filters: `baf_*`
+- Existing affiliate bridge namespace/prefixes must remain compatible.
+
+Implemented filters:
+
+- `baf_core_post_type_args`
+- `baf_core_taxonomy_args`
+
+Implemented actions:
+
+- `baf_after_affiliate_click_logged`
+
+Planned examples:
+
+- `baf_before_ai_itinerary_saved`
+- `baf_travel_card_data`
+- `baf_provider_registry`
+
+## Shortcodes
+
+Implemented shortcodes:
+
+- `[baf_travel_cards]`
+- `[baf_affiliate_disclosure]`
+
+Planned shortcodes:
+
+- `[baf_search]`
+- `[baf_ai_planner]`
+- `[baf_travelpayouts_widget]`
+
+## Blocks
+
+Planned block names:
+
+- `baf/search`
+- `baf/ai-planner`
+- `baf/travel-card`
+- `baf/destination-guide`
+- `baf/route-search`
+- `baf/affiliate-disclosure`
+- `baf/travelpayouts-widget`
+
+## Planned Architecture Deepening
+
+These are planning labels from the 2026-05-09 architecture review, not final class or Interface names until a phase implementation updates this baseline with concrete contracts.
+
+- Travelpayouts placement registry: one deep module for approved placement metadata, consent, disclosure, SubID generation, safe embed output, missing-configuration states, and official-plugin-versus-fallback Adapter selection.
+- Search surface mode seam: one place for choosing Travelpayouts widget, White Label page, safe redirect metadata, or an explicitly approved `platform/` Adapter without exposing custom live inventory by default.
+- Brand continuity module: one WordPress-owned source for logo, favicon, brand name, colors, primary nav, footer links, disclosure copy, and White Label heading copy.
+- AI opportunity handoff: one approval-oriented module that turns validated `not_executed` AI opportunities into approved Travelpayouts placement drafts only after consent and capability checks.
+- Content manager field pipeline: split the existing content manager along field rendering, field persistence, media portability, schema export/import, and admin notice seams before large template expansion.
+
+## Provider Interfaces
+
+Planned PHP service contracts:
+
+- `BAF\Core\Providers\Provider_Interface`
+- `BAF\Core\Providers\Affiliate_Link_Provider_Interface`
+- `BAF\Core\AI\AI_Provider_Interface`
+- `BAF\Core\Repositories\Repository_Interface`
+
+Planned AI tool names:
+
+- `searchFlights`
+- `searchHotels`
+- `searchActivities`
+- `createAffiliateLink`
+- `getDestinationGuide`
+- `buildItinerary`
+- `estimateBudget`
+- `saveTrip`
+- `createPriceAlert`
+- `recommendInsurance`
+- `recommendTransport`
+- `generateSeoDraft`
+
+## Existing Integration Boundary
+
+`platform/` currently contains:
+
+- Next.js visitor-facing app on port `3000`
+- Fastify search API on port `4050` by default, from `platform/services/search-api/src/config/env.ts` and `.env.example`.
+- `platform/README.md` still says `npm run dev` starts the search API on `:4000`; this is stale documentation and should be corrected before or during platform integration work.
+- Shared TypeScript package `@baf/shared`
+- Search adapters for Travelpayouts, Hotellook, Booking Demand, activities, and cars.
+
+WordPress remains optional in the current platform README, but the project direction for this setup treats WordPress as the system of record for the WordPress-native product.
+
+## Research Consulted
+
+- WordPress Plugin Developer Handbook.
+- WordPress Plugin Security Handbook.
+- WordPress REST API Handbook.
+- WordPress Plugin Activation and Deactivation Hooks documentation.
+- AI SDK documentation.
+- Existing project plan and workspace files.

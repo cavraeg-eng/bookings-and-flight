@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Odlet'
+  number_of_changes: Medzipristátia
+  button_column_title: 'Vyhľadať letenky'
+  button:
+    'Tickets from {price}': 'Letenky od {price}'
+    'OW tickets from {price}': 'Letenky od {price}'
+    'Find tickets': 'Vyhľadať letenky'
+    'Select dates': 'Vyberte dátumy'
+  price: Cena
+  trip_class: 'Letecká trieda'
+  distance: Vzdialenosť
+  return_at: 'Prílet'
+  airline_logo: Letecká spoločnosť
+  service_airline_logo: Letecká spoločnosť
+  flight_number: 'Číslo letu'
+  service_flight_number: 'Číslo letu'
+  flight: Let
+  airline: Letecká spoločnosť
+  service_airline: Letecká linka
+  destination: Cieľ
+  origin_destination: 'Začiatok - Cieľ'
+  place: Umiestnenie
+  direction: Smer
+  origin: Začiatok
+  found_at: 'Nájdené'
+  price_distance: Cena/vzdialenosť
+  time_and_stops: 'Čas a zastávky'
+  route: Trasa
+  schedule: Rozvrh
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'Najlacnejšie spiatočné letenky z {origin} do {destination} '
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'Najlacnejšie lety z {origin} do {destination} na nasledujúci rok'
+    'The cheapest flights for this month from {origin} to {destination}': 'Najlacnejšie lety na tento mesiac z {origin} do {destination}'
+    'Flights that have been found on our website': 'Lety nájdené na našich webových stránkach'
+    'Direct flights from {origin}': 'Priame lety z {origin}'
+    'Cheap flights from {origin}': 'Lacné lety z {origin}'
+    'Direct flights from {origin} to {destination}': 'Priame lety z {origin} do {destination}'
+    'Cheap flights to {destination}': 'Lacné lety do {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Ceny letov na nasledujúci mesiac z {origin} do {destination}, jednosmerné'
+    'Flights from {origin}': 'Lety z {origin}'
+    'Airline''s popular flights: {airline}': 'Obľúbené lety leteckej spoločnosti: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Lety na nasledujúce dni z {origin} do {destination}'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Viac ako {flights_number} lety{flights_every_day}, od {min_flight_duration}'
+    duration_short_days: 'd'
+    duration_short_hours: 'h'
+    duration_short_min: 'm'
+    every_day: 'denne'
+  class_name:
+    Economy: 'Ekonomická trieda'
+    Business: 'Biznis trieda'
+    'First class': 'First class'
+  stops:
+    Direct: 'Priamy'
+    nominative: 'Zastávka'
+    genitive: 'Zastávky'
+    prepositional: 'Zastávok'
+  schedule_days:
+    day_0: 'pon'
+    day_1: 'ut'
+    day_2: 'st'
+    day_3: 'št'
+    day_4: 'pia'
+    day_5: 'so'
+    day_6: 'ne'
+hotel:
+  name: Hotel
+  stars: Počet hviezdičiek
+  discount: Zľava
+  old_price_and_new_price: 'Cena pred zľavou'
+  button_column_title: 'Zvoliť dátumy'
+  button:
+    'View Hotel': 'Zobraziť hotel'
+  price_pn: 'Cena za noc'
+  old_price_and_discount: 'Cena pred zľavou'
+  distance: Vzdialenosť
+  old_price_pn: 'Cena pred zľavou'
+  rating: Hodnotenie
+  title:
+    'Hotels in {location}: {selection_name}': 'Hotely v {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Hotely v {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Najlepšie hotely'
+    Popularity: 'Obľúbenosť'
+    Cheap: 'Lacný'
+    Distance: 'Vzdialenosť'
+    Rating: 'Hodnotenie'
+    '0 stars': '0 hviezdičiek'
+    '1 star': '1 hviezdička'
+    '2 stars': '2 hviezdičky'
+    '3 stars': '3 hviezdičky'
+    '4 stars': '4 hviezdičky'
+    '5 stars': '5 hviezdičiek'
+    Luxury: 'Luxusný'
+    Expensive: 'Drahý'
+    'Hotels in the center': 'Hotely v centre'
+    Pool: 'Bazén'
+    'Gay friendly': 'Priateľský k homosexuálom'
+    'Smoking friendly': 'Priateľský k fajčiarom'
+    Restaurant: 'Reštaurácia'
+    'Pet friendly': 'Priateľský k domácim zvieratám'
+    'Russian guests': 'Ruská klientela'
+    'Sea view': 'Výhľad na more'
+    'Lake view': 'Výhľad na jazero'
+    'River view': 'Výhľad na rieku'
+    'Panoramic view': 'Panoramatický výhľad'
+    'Cheap hotels': 'Lacné hotely'
+    tophotels: 'Najlepšie hotely'
+    popularity: 'Obľúbenosť'
+    cheap: 'Lacný'
+    distance: 'Vzdialenosť'
+    rating: 'Hodnotenie'
+    0-stars: '0 hviezdičiek'
+    1-star: '1 hviezdička'
+    2-stars: '2 hviezdičky'
+    3-stars: '3 hviezdičky'
+    4-stars: '4 hviezdičky'
+    5-stars: '5 hviezdičiek'
+    0stars: '0 hviezdičiek'
+    1star: '1 hviezdička'
+    2stars: '2 hviezdičky'
+    3stars: '3 hviezdičky'
+    4stars: '4 hviezdičky'
+    5stars: '5 hviezdičiek'
+    luxury: 'Luxusný'
+    expensive: 'Drahý'
+    center: 'Hotely v centre'
+    pool: 'Bazén'
+    gay: 'Priateľský k homosexuálom'
+    smoke: 'Priateľský k fajčiarom'
+    restaurant: 'Reštaurácia'
+    pets: 'Priateľský k domácim zvieratám'
+    russians: 'Ruská klientela'
+    sea_view: 'Výhľad na more'
+    lake_view: 'Výhľad na jazero'
+    river_view: 'Výhľad na rieku'
+    Panoramic_view: 'Panoramatický výhľad'
+    price: 'Lacné hotely'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

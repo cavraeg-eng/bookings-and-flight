@@ -1,0 +1,154 @@
+flights:
+  departure_at: '出發日期'
+  number_of_changes: 站數
+  button_column_title: '尋找機票'
+  button:
+    'Tickets from {price}': '機票從 {price} 起'
+    'OW tickets from {price}': '單程機票從 {price} 起'
+    'Find tickets': '尋找機票'
+    'Select dates': '選取日期'
+  price: 價格
+  trip_class: '客艙等級'
+  distance: 距離
+  return_at: '回程日期'
+  airline_logo: 航空公司
+  service_airline_logo: 航空公司
+  flight_number: '飛航班次'
+  service_flight_number: '航班編號'
+  flight: 航班
+  airline: 航空公司
+  service_airline: 航空公司
+  destination: 目的地
+  origin_destination: '出發點─目的地'
+  place: 地點
+  direction: 方向
+  origin: 出發地
+  found_at: '找到的日期'
+  price_distance: 價格/距離
+  time_and_stops: '時間和航站'
+  route: 路線
+  schedule: 排程
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': '從 {origin} 飛往 {destination} 最便宜的來回機票'
+    'The cheapest flights from {origin} to {destination} for the year ahead': '將來一年從 {origin} 飛往 {destination} 的最便宜航班'
+    'The cheapest flights for this month from {origin} to {destination}': '本月從 {origin} 飛往 {destination} 的最便宜航班'
+    'Flights that have been found on our website': '在我們網站找到的航班'
+    'Direct flights from {origin}': '從 {origin} 出發的直飛航班'
+    'Cheap flights from {origin}': '從 {origin} 出發的廉價航班'
+    'Direct flights from {origin} to {destination}': '從 {origin} 飛往 {destination} 的直飛航班'
+    'Cheap flights to {destination}': '飛往 {destination} 的廉價航班'
+    'Flight prices for a month from {origin} to {destination}, one way': '從 {origin} 飛往 {destination} 一個月中的單程機票價格'
+    'Flights from {origin}': '從 {origin} 出發的航班'
+    'Airline''s popular flights: {airline}': '航空公司的熱門航班：{airline}'
+    'Flights from {origin} to {destination} for the next few days': '接下來幾天內從 {origin} 飛往 {destination} 的航班'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': '超過 {flights_number} 個航班{flights_every_day}，{min_flight_duration} 起'
+    duration_short_days: '天'
+    duration_short_hours: '小時'
+    duration_short_min: '分鐘'
+    every_day: '每天'
+  class_name:
+    Economy: '經濟艙'
+    Business: '商務艙'
+    'First class': 'First class'
+  stops:
+    Direct: '直达'
+    nominative: '站'
+    genitive: '站'
+    prepositional: '站'
+  schedule_days:
+    day_0: '週一'
+    day_1: '週二'
+    day_2: '週三'
+    day_3: '週四'
+    day_4: '週五'
+    day_5: '週六'
+    day_6: '週日'
+hotel:
+  name: 酒店
+  stars: 星等
+  discount: 折扣
+  old_price_and_new_price: '原價和折扣'
+  button_column_title: '選擇日期'
+  button:
+    'View Hotel': '檢視酒店'
+  price_pn: '每晚價格'
+  old_price_and_discount: '折扣前房價'
+  distance: 距離
+  old_price_pn: '折扣前房價'
+  rating: 評分
+  title:
+    'Hotels in {location}: {selection_name}': '{Location} 的酒店：{selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': '{Location} 的酒店：{selection_name}（{dates}）'
+  selections:
+    'Top hotels': '熱門'
+    Popularity: '熱門程度'
+    Cheap: '便宜'
+    Distance: '距離'
+    Rating: '評分'
+    '0 stars': '0 顆星'
+    '1 star': '1 顆星'
+    '2 stars': '2 顆星'
+    '3 stars': '3 顆星'
+    '4 stars': '4 顆星'
+    '5 stars': '5 顆星'
+    Luxury: '奢華'
+    Expensive: '昂貴'
+    'Hotels in the center': '中心地區的酒店'
+    Pool: '游泳池'
+    'Gay friendly': '同志友善'
+    'Smoking friendly': '吸煙友好'
+    Restaurant: '餐廳'
+    'Pet friendly': '寵物友好'
+    'Russian guests': '俄國客人'
+    'Sea view': '海景'
+    'Lake view': '湖景'
+    'River view': '河景'
+    'Panoramic view': '全景'
+    'Cheap hotels': '廉價酒店'
+    tophotels: '熱門'
+    popularity: '熱門程度'
+    cheap: '便宜'
+    distance: '距離'
+    rating: '評分'
+    0-stars: '0 顆星'
+    1-star: '1 顆星'
+    2-stars: '2 顆星'
+    3-stars: '3 顆星'
+    4-stars: '4 顆星'
+    5-stars: '5 顆星'
+    0stars: '0 顆星'
+    1star: '1 顆星'
+    2stars: '2 顆星'
+    3stars: '3 顆星'
+    4stars: '4 顆星'
+    5stars: '5 顆星'
+    luxury: '奢華'
+    expensive: '昂貴'
+    center: '中心地區的酒店'
+    pool: '游泳池'
+    gay: '同志友善'
+    smoke: '吸煙友好'
+    restaurant: '餐廳'
+    pets: '寵物友好'
+    russians: '俄國客人'
+    sea_view: '海景'
+    lake_view: '湖景'
+    river_view: '河景'
+    Panoramic_view: '全景'
+    price: '廉價酒店'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

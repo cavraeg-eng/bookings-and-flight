@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Khởi hành vào'
+  number_of_changes: Trạm dừng
+  button_column_title: 'Tìm vé'
+  button:
+    'Tickets from {price}': 'Vé từ {price}'
+    'OW tickets from {price}': 'Vé 1 chiều từ {price}'
+    'Find tickets': 'Tìm vé'
+    'Select dates': 'Chọn ngày'
+  price: Giá
+  trip_class: 'Hạng chuyến bay'
+  distance: Khoảng cách
+  return_at: 'Trở về vào'
+  airline_logo: Hãng hàng không
+  service_airline_logo: Hãng hàng không
+  flight_number: 'Chuyến bay số'
+  service_flight_number: 'Số chuyến bay'
+  flight: Chuyến bay
+  airline: Hãng hàng không
+  service_airline: Hãng hàng không
+  destination: Điểm đến
+  origin_destination: 'Xuất phát - Điểm đến'
+  place: Thứ hạng
+  direction: Hướng
+  origin: Xuất phát
+  found_at: 'Đã tìm thấy vào'
+  price_distance: Giá/khoảng cách
+  time_and_stops: 'Thời gian và điểm dừng'
+  route: Lộ trình
+  schedule: Lịch trình
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'Vé khứ hồi rẻ nhất từ {origin} đến {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'Chuyến bay giá rẻ nhất từ {origin} đến {destination} vào năm tới'
+    'The cheapest flights for this month from {origin} to {destination}': 'Chuyến bay giá rẻ nhất trong tháng này từ {origin} đến {destination}'
+    'Flights that have been found on our website': 'Chuyến bay được tìm thấy trên trang web của chúng tôi'
+    'Direct flights from {origin}': 'Chuyến bay thẳng từ {origin}'
+    'Cheap flights from {origin}': 'Chuyến bay giá rẻ từ {origin}'
+    'Direct flights from {origin} to {destination}': 'Chuyến bay thẳng từ {origin} đến {destination}'
+    'Cheap flights to {destination}': 'Chuyến bay giá rẻ đến {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Giá chuyến bay trong một tháng từ {origin} đến {destination}, một chiều'
+    'Flights from {origin}': 'Chuyến bay từ {origin}'
+    'Airline''s popular flights: {airline}': 'Chuyến bay phổ biến của hãng hàng không: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Chuyến bay từ {origin} đến {destination} trong vài ngày tới'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Nhiều hơn {flights_number} chuyến bay{flights_every_day}, từ {min_flight_duration}'
+    duration_short_days: 'n'
+    duration_short_hours: 'h'
+    duration_short_min: 'p'
+    every_day: 'mọi ngày'
+  class_name:
+    Economy: 'Phổ thông'
+    Business: 'Thương gia'
+    'First class': 'First class'
+  stops:
+    Direct: 'Bay thẳng'
+    nominative: 'Trạm'
+    genitive: 'Trạm'
+    prepositional: 'Trạm'
+  schedule_days:
+    day_0: 'T2'
+    day_1: 'T3'
+    day_2: 'T4'
+    day_3: 'T5'
+    day_4: 'T6'
+    day_5: 'T7'
+    day_6: 'CN'
+hotel:
+  name: Khách sạn
+  stars: Sao
+  discount: Mức giảm giá
+  old_price_and_new_price: 'Giá ban đầu và mức giảm'
+  button_column_title: 'Chọn ngày'
+  button:
+    'View Hotel': 'Xem khách sạn'
+  price_pn: 'Giá mỗi đêm'
+  old_price_and_discount: 'Giá trước khi giảm'
+  distance: Khoảng cách
+  old_price_pn: 'Giá trước khi giảm'
+  rating: Đánh giá
+  title:
+    'Hotels in {location}: {selection_name}': 'Khách sạn ở {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Khách sạn ở {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Khách sạn tốt nhất'
+    Popularity: 'Mức độ phổ biến'
+    Cheap: 'Rẻ'
+    Distance: 'Khoảng cách'
+    Rating: 'Xếp hạng'
+    '0 stars': '0 sao'
+    '1 star': '1 sao'
+    '2 stars': '2 sao'
+    '3 stars': '3 sao'
+    '4 stars': '4 sao'
+    '5 stars': '5 sao'
+    Luxury: 'Sang trọng'
+    Expensive: 'Đắt tiền'
+    'Hotels in the center': 'Những khách sạn trong trung tâm'
+    Pool: 'Bể bơi'
+    'Gay friendly': 'Thân thiện với người đồng tính'
+    'Smoking friendly': 'Thân thiện với người hút thuốc'
+    Restaurant: 'Nhà hàng'
+    'Pet friendly': 'Thân thiện với vật nuôi'
+    'Russian guests': 'Khách người Nga'
+    'Sea view': 'Hướng nhìn ra biển'
+    'Lake view': 'Hướng nhìn ra hồ'
+    'River view': 'Hướng nhìn ra sông'
+    'Panoramic view': 'Hướng nhìn toàn cảnh'
+    'Cheap hotels': 'khách sạn giá rẻ'
+    tophotels: 'Khách sạn tốt nhất'
+    popularity: 'Mức độ phổ biến'
+    cheap: 'Rẻ'
+    distance: 'Khoảng cách'
+    rating: 'Đánh giá'
+    0-stars: '0 sao'
+    1-star: '1 sao'
+    2-stars: '2 sao'
+    3-stars: '3 sao'
+    4-stars: '4 sao'
+    5-stars: '5 sao'
+    0stars: '0 sao'
+    1star: '1 sao'
+    2stars: '2 sao'
+    3stars: '3 sao'
+    4stars: '4 sao'
+    5stars: '5 sao'
+    luxury: 'Sang trọng'
+    expensive: 'Đắt tiền'
+    center: 'Những khách sạn trong trung tâm'
+    pool: 'Bể bơi'
+    gay: 'Thân thiện với người đồng tính'
+    smoke: 'Thân thiện với người hút thuốc'
+    restaurant: 'Nhà hàng'
+    pets: 'Thân thiện với vật nuôi'
+    russians: 'Khách người Nga'
+    sea_view: 'Hướng nhìn ra biển'
+    lake_view: 'Hướng nhìn ra hồ'
+    river_view: 'Hướng nhìn ra sông'
+    Panoramic_view: 'Hướng nhìn toàn cảnh'
+    price: 'Khách sạn giá rẻ'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

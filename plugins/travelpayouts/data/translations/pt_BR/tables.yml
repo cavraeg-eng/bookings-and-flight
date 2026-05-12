@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Partida em'
+  number_of_changes: Paradas
+  button_column_title: 'Encontrar passagens'
+  button:
+    'Tickets from {price}': 'Passagens a partir de {price}'
+    'OW tickets from {price}': 'Passagens só de ia a partir de {price}'
+    'Find tickets': 'Encontrar passagens'
+    'Select dates': 'Selecionar datas'
+  price: Preço
+  trip_class: 'Classe de viagem'
+  distance: Distância
+  return_at: 'Regresso em'
+  airline_logo: Linha aérea
+  service_airline_logo: Companhia aérea
+  flight_number: 'Número do voo'
+  service_flight_number: 'Número do voo'
+  flight: Voo
+  airline: Linha aérea
+  service_airline: Companhia aérea
+  destination: Destino
+  origin_destination: 'Origem — Destino'
+  place: Local
+  direction: Direção
+  origin: Origem
+  found_at: 'Encontrado em'
+  price_distance: Preço/distância
+  time_and_stops: 'Horário e paradas'
+  route: Rota
+  schedule: Horários
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'As passagens de ida e volta mais baratas de {origin} para {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'As passagens mais baratas de {origin} para {destination} para o resto do ano'
+    'The cheapest flights for this month from {origin} to {destination}': 'As passagens mais baratas para este mês de {origin} para {destination}'
+    'Flights that have been found on our website': 'Voos encontrados no nosso site'
+    'Direct flights from {origin}': 'Voos diretos de {origin}'
+    'Cheap flights from {origin}': 'Voos baratos de {origin}'
+    'Direct flights from {origin} to {destination}': 'Voos diretos de {origin} para {destination}'
+    'Cheap flights to {destination}': 'Voos baratos de {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Preços de voos por um mês de {origin} para {destination}, só de ida'
+    'Flights from {origin}': 'Voos de {origin}'
+    'Airline''s popular flights: {airline}': 'Voos populares da linha aérea: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Voos de {origin} para {destination} para os próximos dias'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Mais de {flights_number} voos{flights_every_day}, a partir de {min_flight_duration}'
+    duration_short_days: 'd'
+    duration_short_hours: 'h'
+    duration_short_min: 'm'
+    every_day: 'todo dia'
+  class_name:
+    Economy: 'Econômica'
+    Business: 'Executiva'
+    'First class': 'First class'
+  stops:
+    Direct: 'Direto'
+    nominative: 'Parada'
+    genitive: 'Paradas'
+    prepositional: 'Paradas'
+  schedule_days:
+    day_0: 's'
+    day_1: 't'
+    day_2: 'q'
+    day_3: 'q'
+    day_4: 's'
+    day_5: 's'
+    day_6: 'd'
+hotel:
+  name: Hotel
+  stars: Estrelas
+  discount: Desconto
+  old_price_and_new_price: 'Preço antes do desconto'
+  button_column_title: 'Selecionar datas'
+  button:
+    'View Hotel': 'Visualizar hotel'
+  price_pn: 'Preço por noite'
+  old_price_and_discount: 'Preço antes do desconto'
+  distance: Distância
+  old_price_pn: 'Preço antes do desconto'
+  rating: Avaliação
+  title:
+    'Hotels in {location}: {selection_name}': 'Hotéis em {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Hotéis em {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Popular'
+    Popularity: 'Popularidade'
+    Cheap: 'Econômico'
+    Distance: 'Distância'
+    Rating: 'Classificação'
+    '0 stars': '0 estrelas'
+    '1 star': '1 estrela'
+    '2 stars': '2 estrelas'
+    '3 stars': '3 estrelas'
+    '4 stars': '4 estrelas'
+    '5 stars': '5 estrelas'
+    Luxury: 'Luxo'
+    Expensive: 'Caro'
+    'Hotels in the center': 'Próximo ao centro da cidade'
+    Pool: 'Piscina'
+    'Gay friendly': 'LGBT'
+    'Smoking friendly': 'Fumantes'
+    Restaurant: 'Restaurentes'
+    'Pet friendly': 'Animais'
+    'Russian guests': 'Hóspedes russos'
+    'Sea view': 'Vista para o mar'
+    'Lake view': 'Vista para o lago'
+    'River view': 'Vista para o rio'
+    'Panoramic view': 'Vista panorâmica'
+    'Cheap hotels': 'Hotéis baratos'
+    tophotels: 'Popular'
+    popularity: 'Popularidade'
+    cheap: 'Econômico'
+    distance: 'Distância'
+    rating: 'Classificação'
+    0-stars: '0 estrelas'
+    1-star: '1 estrela'
+    2-stars: '2 estrelas'
+    3-stars: '3 estrelas'
+    4-stars: '4 estrelas'
+    5-stars: '5 estrelas'
+    0stars: '0 estrelas'
+    1star: '1 estrela'
+    2stars: '2 estrelas'
+    3stars: '3 estrelas'
+    4stars: '4 estrelas'
+    5stars: '5 estrelas'
+    luxury: 'Luxo'
+    expensive: 'Caro'
+    center: 'Próximo ao centro da cidade'
+    pool: 'Piscina'
+    gay: 'LGBT'
+    smoke: 'Fumantes'
+    restaurant: 'Restaurentes'
+    pets: 'Animais'
+    russians: 'Hóspedes russos'
+    sea_view: 'Vista para o mar'
+    lake_view: 'Vista para o lago'
+    river_view: 'Vista para o rio'
+    Panoramic_view: 'Vista panorâmica'
+    price: 'Hotéis baratos'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

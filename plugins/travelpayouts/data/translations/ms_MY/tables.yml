@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Berlepas pada'
+  number_of_changes: Hentian
+  button_column_title: 'Cari tiket'
+  button:
+    'Tickets from {price}': 'Tiket bermula {price}'
+    'OW tickets from {price}': 'Tiket sehala bermula {price}'
+    'Find tickets': 'Cari tiket'
+    'Select dates': 'Pilih tarikh'
+  price: Harga
+  trip_class: 'Kelas perjalanan'
+  distance: Jarak
+  return_at: 'Balik pada'
+  airline_logo: Syarikat penerbangan
+  service_airline_logo: Syarikat Penerbangan
+  flight_number: 'Nombor penerbangan'
+  service_flight_number: 'Nombor penerbangan'
+  flight: Penerbangan
+  airline: Syarikat penerbangan
+  service_airline: Syarikat Penerbangan
+  destination: Destinasi
+  origin_destination: 'Asal - Destinasi'
+  place: Tempat
+  direction: Hala
+  origin: Asal
+  found_at: 'Ditemui pada'
+  price_distance: Harga/jarak
+  time_and_stops: 'Masa dan perhentian'
+  route: Perjalanan
+  schedule: Jadual
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'Tiket pergi balik termurah dari {origin} ke {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'Penerbangan termurah dari {origin} ke {destination} untuk tahun hadapan '
+    'The cheapest flights for this month from {origin} to {destination}': 'Penerbangan termurah bulan ini dari {origin} ke {destination} '
+    'Flights that have been found on our website': 'Penerbangan yang ditemui di laman web kami'
+    'Direct flights from {origin}': 'Penerbangan terus dari {origin}'
+    'Cheap flights from {origin}': 'Penerbangan murah dari {origin}'
+    'Direct flights from {origin} to {destination}': 'Penerbangan terus dari {origin} ke {destination}'
+    'Cheap flights to {destination}': 'Penerbangan murah ke {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Harga penerbangan untuk sebulan dari {origin} ke {destination}, sehala'
+    'Flights from {origin}': 'Penerbangan dari {origin}'
+    'Airline''s popular flights: {airline}': 'Penerbangan popular syarikat penerbangan: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Penerbangan dari {origin} ke {destination} untuk beberapa hari seterusnya'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Lebih daripada {flights_number} penerbangan{flights_every_day}, daripada {min_flight_duration}'
+    duration_short_days: 'h'
+    duration_short_hours: 'j'
+    duration_short_min: 'm'
+    every_day: 'setiap hari'
+  class_name:
+    Economy: 'Ekonomi'
+    Business: 'Perniagaan'
+    'First class': 'First class'
+  stops:
+    Direct: 'Terus'
+    nominative: 'Hentian'
+    genitive: 'Hentian'
+    prepositional: 'Hentian'
+  schedule_days:
+    day_0: 'i'
+    day_1: 's'
+    day_2: 'r'
+    day_3: 'k'
+    day_4: 'j'
+    day_5: 's'
+    day_6: 'a'
+hotel:
+  name: Hotel
+  stars: Bintang
+  discount: Diskaun
+  old_price_and_new_price: 'Harga sebelum dan diskaun'
+  button_column_title: 'Pilih tarikh'
+  button:
+    'View Hotel': 'Lihat hotel'
+  price_pn: 'Harga satu malam'
+  old_price_and_discount: 'Harga sebelum diskaun'
+  distance: Jarak
+  old_price_pn: 'Harga sebelum diskaun'
+  rating: Rating
+  title:
+    'Hotels in {location}: {selection_name}': 'Hotel di {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Hotel di {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Hotel popular'
+    Popularity: 'Populariti'
+    Cheap: 'Murah'
+    Distance: 'Jarak'
+    Rating: 'Rating'
+    '0 stars': '0 bintang'
+    '1 star': '1 bintang'
+    '2 stars': '2 bintang'
+    '3 stars': '3 bintang'
+    '4 stars': '4 bintang'
+    '5 stars': '5 bintang'
+    Luxury: 'Mewah'
+    Expensive: 'Mahal'
+    'Hotels in the center': 'Hotel di pusat'
+    Pool: 'Kolam'
+    'Gay friendly': 'Mesra homoseksual'
+    'Smoking friendly': 'Mesra perokok'
+    Restaurant: 'Restoran'
+    'Pet friendly': 'Mesra haiwan peliharaan'
+    'Russian guests': 'Tetamu Rusia'
+    'Sea view': 'Pemandangan laut'
+    'Lake view': 'Pemandangan tasik'
+    'River view': 'Pemandangan sungai'
+    'Panoramic view': 'Pemandangan panorama'
+    'Cheap hotels': 'Hotel murah'
+    tophotels: 'Hotel popular'
+    popularity: 'Populariti'
+    cheap: 'Murah'
+    distance: 'Jarak'
+    rating: 'Penilaian'
+    0-stars: '0 bintang'
+    1-star: '1 bintang'
+    2-stars: '2 bintang'
+    3-stars: '3 bintang'
+    4-stars: '4 bintang'
+    5-stars: '5 bintang'
+    0stars: '0 bintang'
+    1star: '1 bintang'
+    2stars: '2 bintang'
+    3stars: '3 bintang'
+    4stars: '4 bintang'
+    5stars: '5 bintang'
+    luxury: 'Mewah'
+    expensive: 'Mahal'
+    center: 'Hotel di pusat'
+    pool: 'Kolam'
+    gay: 'Mesra homoseksual'
+    smoke: 'Mesra perokok'
+    restaurant: 'Restoran'
+    pets: 'Mesra haiwan peliharaan'
+    russians: 'Tetamu Rusia'
+    sea_view: 'Pemandangan laut'
+    lake_view: 'Pemandangan tasik'
+    river_view: 'Pemandangan sungai'
+    Panoramic_view: 'Pemandangan panorama'
+    price: 'Hotel murah'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

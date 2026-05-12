@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Дата вылета'
+  number_of_changes: Пересадки
+  button_column_title: 'Найти билеты'
+  button:
+    'Tickets from {price}': 'Билеты от {price}'
+    'OW tickets from {price}': 'Билеты от {price}'
+    'Find tickets': 'Найти билеты'
+    'Select dates': 'Выбрать даты'
+  price: Цена
+  trip_class: 'Класс перелета'
+  distance: Расстояние
+  return_at: 'Дата возвращения'
+  airline_logo: Авиакомпания
+  service_airline_logo: Авиакомпания
+  flight_number: 'Номер рейса'
+  service_flight_number: 'Номер рейса'
+  flight: Рейс
+  airline: Авиакомпания
+  service_airline: Авиакомпания
+  destination: Куда
+  origin_destination: 'Откуда - Куда'
+  place: Место
+  direction: Направление
+  origin: Откуда
+  found_at: 'Когда найден'
+  price_distance: Цена за километр
+  time_and_stops: 'Длительность и пересадки'
+  route: Маршрут
+  schedule: Расписание
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'Самые дешевые билеты из {origin} в {destination} и обратно'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'Самые дешевые авиабилеты из {origin} в {destination} на год вперед'
+    'The cheapest flights for this month from {origin} to {destination}': 'Самые дешевые билеты из {origin} в {destination} в этом месяце'
+    'Flights that have been found on our website': 'На нашем сайте искали'
+    'Direct flights from {origin}': 'Прямые рейсы из {origin}'
+    'Cheap flights from {origin}': 'Дешевые перелеты из {origin}'
+    'Direct flights from {origin} to {destination}': 'Рейсы без пересадок из {origin} в {destination}'
+    'Cheap flights to {destination}': 'Дешевые перелёты в {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Цены на месяц из {origin} в {destination}, в одну сторону'
+    'Flights from {origin}': 'Дешевые перелеты из {origin}'
+    'Airline''s popular flights: {airline}': 'Популярные направления авиакомпании {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Билеты из {origin} в {destination} на ближайшие дни'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Более {flights_number} рейсов {flights_every_day}, от {min_flight_duration}'
+    duration_short_days: 'дн'
+    duration_short_hours: 'ч'
+    duration_short_min: 'мин'
+    every_day: 'каждый день'
+  class_name:
+    Economy: 'Эконом'
+    Business: 'Бизнес'
+    'First class': 'First class'
+  stops:
+    Direct: 'Прямой рейс'
+    nominative: 'остановка'
+    genitive: 'остановки'
+    prepositional: 'остановок'
+  schedule_days:
+    day_0: 'П'
+    day_1: 'В'
+    day_2: 'С'
+    day_3: 'Ч'
+    day_4: 'П'
+    day_5: 'С'
+    day_6: 'В'
+hotel:
+  name: Отель
+  stars: Звездность
+  discount: Скидка
+  old_price_and_new_price: 'Цена до скидки'
+  button_column_title: 'Выберите даты'
+  button:
+    'View Hotel': 'Посмотреть отель'
+  price_pn: 'Цена за ночь'
+  old_price_and_discount: 'Цена до скидки'
+  distance: До центра
+  old_price_pn: 'Цена до скидки'
+  rating: Рейтинг
+  title:
+    'Hotels in {location}: {selection_name}': 'Отели в г. {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Отели в г. {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Популярные'
+    Popularity: 'Популярности'
+    Cheap: 'Дешёвые'
+    Distance: 'Расстояние'
+    Rating: 'Рейтинг'
+    '0 stars': '0 звезд'
+    '1 star': '1 звезда'
+    '2 stars': '2 звезды'
+    '3 stars': '3 звезды'
+    '4 stars': '4 звезды'
+    '5 stars': '5 звёзд'
+    Luxury: 'Люкс'
+    Expensive: 'Дорогие'
+    'Hotels in the center': 'Отели в центре'
+    Pool: 'С бассейном'
+    'Gay friendly': 'Гей френдли'
+    'Smoking friendly': 'Для курящих'
+    Restaurant: 'Ресторан'
+    'Pet friendly': 'Животные'
+    'Russian guests': 'Для русских'
+    'Sea view': 'С видом на море'
+    'Lake view': 'С видом на озеро'
+    'River view': 'С видом на реку'
+    'Panoramic view': 'С панорамным видом'
+    'Cheap hotels': 'Дешевые отели'
+    tophotels: 'Популярные'
+    popularity: 'Популярности'
+    cheap: 'Дешёвые'
+    distance: 'Расстояние'
+    rating: 'Рейтинг'
+    0-stars: '0 звезд'
+    1-star: '1 звезда'
+    2-stars: '2 звезды'
+    3-stars: '3 звезды'
+    4-stars: '4 звезды'
+    5-stars: '5 звёзд'
+    0stars: '0 звезд'
+    1star: '1 звезда'
+    2stars: '2 звезды'
+    3stars: '3 звезды'
+    4stars: '4 звезды'
+    5stars: '5 звёзд'
+    luxury: 'Люкс'
+    expensive: 'Дорогие'
+    center: 'Отели в центре'
+    pool: 'С бассейном'
+    gay: 'Гей френдли'
+    smoke: 'Для курящих'
+    restaurant: 'Ресторан'
+    pets: 'Животные'
+    russians: 'Для русских'
+    sea_view: 'С видом на море'
+    lake_view: 'С видом на озеро'
+    river_view: 'С видом на реку'
+    Panoramic_view: 'С панорамным видом'
+    price: 'Дешевые отели'
+railway:
+  train: 'Номер поезда'
+  route: Маршрут
+  departure: Отправление
+  arrival: Прибытие
+  duration: В пути
+  prices: Примерные цены
+  dates: Дата поездки
+  origin: Откуда
+  destination: Куда
+  departure_time: 'Время отправления'
+  arrival_time: 'Время прибытия'
+  route_first_station: 'Начальная станция маршрута'
+  route_last_station: 'Конечная станция маршрута'
+  route_short: Маршрут
+  route_info: Маршрут

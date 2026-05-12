@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Avgång kl.'
+  number_of_changes: Stopp
+  button_column_title: 'Hitta biljetter'
+  button:
+    'Tickets from {price}': 'Biljetter från {price}'
+    'OW tickets from {price}': 'Enkelbiljetter från {price}'
+    'Find tickets': 'Hitta biljetter'
+    'Select dates': 'Välj datum'
+  price: Pris
+  trip_class: 'Reseklass'
+  distance: Distans
+  return_at: 'Hemresa'
+  airline_logo: Flygbolag
+  service_airline_logo: Flygbolag
+  flight_number: 'Flightnummer'
+  service_flight_number: 'Flygnummer'
+  flight: Flight
+  airline: Flygbolag
+  service_airline: Flygbolag
+  destination: Destination
+  origin_destination: 'Från - Till'
+  place: Placering
+  direction: Riktning
+  origin: Start
+  found_at: 'Hittad'
+  price_distance: Pris/distans
+  time_and_stops: 'Tid och stopp'
+  route: Rutt
+  schedule: Schema
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'De billigaste tur-och-returbiljetterna från {origin} till {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'De billigaste avgångarna från {origin} till {destination} det kommande året'
+    'The cheapest flights for this month from {origin} to {destination}': 'Den här månadens billigaste avgångar från {origin} till {destination}'
+    'Flights that have been found on our website': 'Avgångar som hittades på vår webbsida'
+    'Direct flights from {origin}': 'Direktflyg från {origin}'
+    'Cheap flights from {origin}': 'Billiga avgångar från {origin}'
+    'Direct flights from {origin} to {destination}': 'Direktflyg från {origin} till {destination}'
+    'Cheap flights to {destination}': 'Billiga avgångar till {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Flygpriser för en månad från {origin} till {destination}, enkel resa'
+    'Flights from {origin}': 'Avgångar från {origin}'
+    'Airline''s popular flights: {airline}': 'Flygbolagets populära avgångar: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'De kommande dagarnas avgångar från {origin} till {destination}'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Mer än {flights_number} flyg{flights_every_day}, från {min_flight_duration}'
+    duration_short_days: 'd'
+    duration_short_hours: 'h'
+    duration_short_min: 'm'
+    every_day: 'varje dag'
+  class_name:
+    Economy: 'Ekonomi klass'
+    Business: 'Affärsresande'
+    'First class': 'First class'
+  stops:
+    Direct: 'Direkt'
+    nominative: 'Hållplats'
+    genitive: 'Hållplatser'
+    prepositional: 'Hållplatser'
+  schedule_days:
+    day_0: 'm'
+    day_1: 't'
+    day_2: 'o'
+    day_3: 't'
+    day_4: 'f'
+    day_5: 'l'
+    day_6: 's'
+hotel:
+  name: Hotell
+  stars: Stjärnor
+  discount: Rabatt
+  old_price_and_new_price: 'Ordinarie pris och rabatt'
+  button_column_title: 'Välj datum'
+  button:
+    'View Hotel': 'Se hotell'
+  price_pn: 'Pris per natt'
+  old_price_and_discount: 'Pris innan rabatt'
+  distance: Avstånd
+  old_price_pn: 'Pris innan rabatt'
+  rating: Betyg
+  title:
+    'Hotels in {location}: {selection_name}': 'Hotell i {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Hotell i {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Top hotels'
+    Popularity: 'Populäritet'
+    Cheap: 'Billig'
+    Distance: 'Distans'
+    Rating: 'Betyg'
+    '0 stars': '0 stjärnor'
+    '1 star': '1 stjärnor'
+    '2 stars': '2 stjärnor'
+    '3 stars': '3 stjärnor'
+    '4 stars': '4 stjärnor'
+    '5 stars': '5 stjärnor'
+    Luxury: 'Lyx'
+    Expensive: 'Dyra'
+    'Hotels in the center': 'Hotell i centrum'
+    Pool: 'Pool'
+    'Gay friendly': 'Gayvänligt'
+    'Smoking friendly': 'Rökning tillåten'
+    Restaurant: 'Restaurang'
+    'Pet friendly': 'Anpassad för husdjur'
+    'Russian guests': 'Svenska gäster'
+    'Sea view': 'Havsutsikt'
+    'Lake view': 'Sjöutsikt'
+    'River view': 'Flod vy'
+    'Panoramic view': 'Panoramautsikt'
+    'Cheap hotels': 'Billiga hotell'
+    tophotels: 'Topphotell'
+    popularity: 'Populäritet'
+    cheap: 'Billig'
+    distance: 'Distans'
+    rating: 'Betyg'
+    0-stars: '0 stjärnor'
+    1-star: '1 stjärnor'
+    2-stars: '2 stjärnor'
+    3-stars: '3 stjärnor'
+    4-stars: '4 stjärnor'
+    5-stars: '5 stjärnor'
+    0stars: '0 stjärnor'
+    1star: '1 stjärnor'
+    2stars: '2 stjärnor'
+    3stars: '3 stjärnor'
+    4stars: '4 stjärnor'
+    5stars: '5 stjärnor'
+    luxury: 'Lyx'
+    expensive: 'Dyra'
+    center: 'Hotell i centrum'
+    pool: 'Pool'
+    gay: 'Gayvänligt'
+    smoke: 'Rökning tillåten'
+    restaurant: 'Restaurang'
+    pets: 'Anpassad för husdjur'
+    russians: 'Svenska gäster'
+    sea_view: 'Havsutsikt'
+    lake_view: 'Sjöutsikt'
+    river_view: 'Flod vy'
+    Panoramic_view: 'Panoramautsikt'
+    price: 'Billiga hotell'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route

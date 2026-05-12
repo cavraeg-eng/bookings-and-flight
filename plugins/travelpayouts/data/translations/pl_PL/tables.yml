@@ -1,0 +1,154 @@
+flights:
+  departure_at: 'Wylot'
+  number_of_changes: Przesiadki
+  button_column_title: 'Znajdź bilety'
+  button:
+    'Tickets from {price}': 'Bilety od {price}'
+    'OW tickets from {price}': 'Bilety od {price}'
+    'Find tickets': 'Znajdź bilety'
+    'Select dates': 'Wybierz daty'
+  price: Cena
+  trip_class: 'Klasa'
+  distance: Dystans
+  return_at: 'Powrót'
+  airline_logo: Linia lotnicza
+  service_airline_logo: Linia lotnicza
+  flight_number: 'Numer lotu'
+  service_flight_number: 'Numer lotu'
+  flight: Lot
+  airline: Linia lotnicza
+  service_airline: Linia lotnicza
+  destination: Cel
+  origin_destination: 'Miejsce startu – cel'
+  place: Miejsce
+  direction: Kierunek
+  origin: Miejsce startu
+  found_at: 'Znaleziono'
+  price_distance: Cena/dystans
+  time_and_stops: 'Czas i przystanki'
+  route: Trasa
+  schedule: Harmonogram
+  title:
+    'The cheapest round-trip tickets from {origin} to {destination}': 'Najtańsze bilety w obie strony z {origin} do {destination}'
+    'The cheapest flights from {origin} to {destination} for the year ahead': 'Najtańsze loty z {origin} do {destination} na nadchodzący rok'
+    'The cheapest flights for this month from {origin} to {destination}': 'Najtańsze loty z {origin} do {destination} w tym miesiącu'
+    'Flights that have been found on our website': 'Loty znalezione na naszej stronie'
+    'Direct flights from {origin}': 'Bezpośrednie loty z {origin}'
+    'Cheap flights from {origin}': 'Tanie loty z {origin}'
+    'Direct flights from {origin} to {destination}': 'Bezpośrednie loty z {origin} do {destination}'
+    'Cheap flights to {destination}': 'Tanie loty do {destination}'
+    'Flight prices for a month from {origin} to {destination}, one way': 'Ceny lotów z {origin} do {destination} w miesiącu, w jedną stronę'
+    'Flights from {origin}': 'Loty z {origin}'
+    'Airline''s popular flights: {airline}': 'Popularne loty linii lotniczej: {airline}'
+    'Flights from {origin} to {destination} for the next few days': 'Loty z {origin} do {destination} w ciągu następnych dni'
+    'More than {flights_number} flights{flights_every_day}, from {min_flight_duration}': 'Więcej niż {flights_number} lotów{flights_every_day}, o czasie {min_flight_duration}'
+    duration_short_days: 'd'
+    duration_short_hours: 'g'
+    duration_short_min: 'm'
+    every_day: 'codziennie'
+  class_name:
+    Economy: 'klasa ekonomiczna'
+    Business: 'klasa biznesowa'
+    'First class': 'First class'
+  stops:
+    Direct: 'Lot bezpośredni'
+    nominative: 'Przystanek'
+    genitive: 'Przystanki'
+    prepositional: 'Przystanków'
+  schedule_days:
+    day_0: 'pon'
+    day_1: 'wt'
+    day_2: 'śr'
+    day_3: 'czw'
+    day_4: 'pt'
+    day_5: 'sob'
+    day_6: 'ndz'
+hotel:
+  name: Hotel
+  stars: Gwiazdki
+  discount: Zniżka
+  old_price_and_new_price: 'Cena przed zniżką oraz po zniżce'
+  button_column_title: 'Wybierz daty'
+  button:
+    'View Hotel': 'Zobacz hotel'
+  price_pn: 'Cena za noc'
+  old_price_and_discount: 'Cena przed zniżką'
+  distance: Odległość
+  old_price_pn: 'Cena przed zniżką'
+  rating: Ocena
+  title:
+    'Hotels in {location}: {selection_name}': 'Hotele w {location}: {selection_name}'
+    'Hotels in {location}: {selection_name} ({dates})': 'Hotele w {location}: {selection_name} ({dates})'
+  selections:
+    'Top hotels': 'Popularne'
+    Popularity: 'Popularność'
+    Cheap: 'Tanie'
+    Distance: 'Dystans'
+    Rating: 'Ocena'
+    '0 stars': '0 gwiazdek'
+    '1 star': '1 gwiazdka'
+    '2 stars': '2 gwiazdki'
+    '3 stars': '3 gwiazdki'
+    '4 stars': '4 gwiazdki'
+    '5 stars': '5 gwiazdek'
+    Luxury: 'Luksusowe'
+    Expensive: 'Drogie'
+    'Hotels in the center': 'Hotele w centrum'
+    Pool: 'Basen'
+    'Gay friendly': 'Przyjazny dla osób homoseksualnych'
+    'Smoking friendly': 'Dla palących'
+    Restaurant: 'Restauracja'
+    'Pet friendly': 'Przyjazny dla zwierząt'
+    'Russian guests': 'Dla Rosjan'
+    'Sea view': 'Z widokiem na morze'
+    'Lake view': 'Z widokiem na jezioro'
+    'River view': 'Z widokiem na rzekę'
+    'Panoramic view': 'Z panoramicznym widokiem'
+    'Cheap hotels': 'Tanie hotele'
+    tophotels: 'Popularne'
+    popularity: 'Popularność'
+    cheap: 'Tanie'
+    distance: 'Dystans'
+    rating: 'Ocena'
+    0-stars: '0 gwiazdek'
+    1-star: '1 gwiazdka'
+    2-stars: '2 gwiazdki'
+    3-stars: '3 gwiazdki'
+    4-stars: '4 gwiazdki'
+    5-stars: '5 gwiazdek'
+    0stars: '0 gwiazdek'
+    1star: '1 gwiazdka'
+    2stars: '2 gwiazdki'
+    3stars: '3 gwiazdki'
+    4stars: '4 gwiazdki'
+    5stars: '5 gwiazdek'
+    luxury: 'Luksusowe'
+    expensive: 'Drogie'
+    center: 'Hotele w centrum'
+    pool: 'Basen'
+    gay: 'Przyjazny dla osób homoseksualnych'
+    smoke: 'Dla palących'
+    restaurant: 'Restauracja'
+    pets: 'Przyjazny dla zwierząt'
+    russians: 'Dla Rosjan'
+    sea_view: 'Z widokiem na morze'
+    lake_view: 'Z widokiem na jezioro'
+    river_view: 'Z widokiem na rzekę'
+    Panoramic_view: 'Z panoramicznym widokiem'
+    price: 'Tanie hotele'
+railway:
+  train: 'Train number'
+  route: Route
+  departure: Departure
+  arrival: Arrival
+  duration: Duration
+  prices: Prices
+  dates: Dates
+  origin: Origin
+  destination: Destination
+  departure_time: 'Departure time'
+  arrival_time: 'Arrival time'
+  route_first_station: 'Route''s first station'
+  route_last_station: 'Route''s last station'
+  route_short: Route
+  route_info: Route
