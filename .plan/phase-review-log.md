@@ -1285,7 +1285,7 @@ Decision: `ONE-80` can move to Done after PR #16 merge. Phase 13 remains `In Pro
 
 ## Phase 13.2 Review - 2026-05-12
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
@@ -1303,7 +1303,7 @@ UI review: Passed locally with runtime browser evidence. Playwright captured des
 
 Regression review: Existing seeded Flights White Label and Hotels partner search placements remained present after the smoke placement was deleted. Existing admin Settings, Integrations, Background Jobs, and Reports slugs remain registered, and the admin CSS remains under the file-size limit.
 
-Validation performed: PHP syntax checks for changed admin PHP files; `git diff --check`; WP-CLI menu registration smoke for administrators and affiliate-only managers; WP-CLI page-render smoke confirming no raw Trip.com or Travelpayouts script URL printed on the listing page; WP-CLI subscriber/private-read denial plus administrator create/delete smoke; Playwright desktop/mobile screenshots and keyboard navigation review; browser console/page-error check; temporary smoke placement/user cleanup verification; `debug.log` related-error tail review; `bookings-flights-core` deactivate/reactivate smoke check.
+Validation performed: PHP syntax checks for changed admin PHP files; `git diff --check`; WP-CLI menu registration smoke for administrators and affiliate-only managers; WP-CLI page-render smoke confirming no raw Trip.com or Travelpayouts script URL printed on the listing page; WP-CLI subscriber/private-read denial plus administrator create/delete smoke; Playwright desktop/mobile screenshots and keyboard navigation review; browser console/page-error check; temporary smoke placement/user cleanup verification; `debug.log` related-error tail review; `bookings-flights-core` deactivate/reactivate smoke check; Codex review on PR #17 found no major issues.
 
 Bugs found: Initial WP-CLI attempts failed against the default `localhost` MySQL socket; the Local site requires passing `/Users/djcavy/Library/Application Support/Local/run/qRHZasMmV/mysql/mysqld.sock` through `mysqli.default_socket`. The first Playwright cleanup trap had a shell-quoting issue after successful browser validation. Local code review also found that an affiliate-only manager could pass the placement capability but miss the Bookings & Flights parent menu because the parent menu was still settings-only.
 
@@ -1320,4 +1320,4 @@ Research consulted:
 - WordPress Common APIs Handbook: Sanitizing Data.
 - WordPress Common APIs Handbook: Escaping Data.
 
-Decision: `ONE-81` can move to PR review. Keep Phase 13 `In Progress` until the remaining wrapper/state/security child issues pass review and merge.
+Decision: `ONE-81` can move to Done after PR #17 merge. Keep Phase 13 `In Progress` until the remaining wrapper/state/security child issues pass review and merge.
