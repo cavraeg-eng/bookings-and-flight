@@ -1168,7 +1168,7 @@ Decision: `ONE-78` passed local documentation review and Codex PR review with no
 
 ## Phase 12.6 Review - 2026-05-12
 
-Status: `Completed`
+Status: `Blocked`
 
 Reviewer: Codex
 
@@ -1204,4 +1204,4 @@ Research consulted:
 - Travelpayouts Help Center: Getting started with widgets.
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 
-Decision: `ONE-79` passed local documentation review and Codex PR review with no major issues on PR #14. Phase 12 can move to `Completed`; Phase 13 can start from the documented IA, design-system, widget-frame, wireframe, known-issue, and validation baselines.
+Decision: `ONE-79` cannot close the Phase 12 gate yet. Codex PR review on PR #14 found a P2 consistency issue because `.plan/phased-implementation.md` still requires browser screenshots and keyboard navigation review, while the completion gate had deferred those checks. Phase 12 remains `In Progress` until those validations are executed or the validation scope is reconciled in a documented follow-up.

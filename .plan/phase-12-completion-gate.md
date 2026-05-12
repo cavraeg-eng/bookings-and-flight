@@ -1,6 +1,6 @@
 # Phase 12 Completion Gate
 
-Status: `Completed`
+Status: `Blocked`
 
 Linear issue: `ONE-79`
 
@@ -37,7 +37,7 @@ Phase 12 objective:
 Rework the public WordPress frontend architecture so it feels like a modern travel search product rather than a static affiliate brochure.
 ```
 
-Phase 12 is complete as an information architecture, competitive design-system, CSS architecture, widget-frame, and page-wireframe gate. It is not the runtime homepage/search-template rebuild. Runtime public UI implementation remains mapped to Phase 13 and later visual/product phases.
+Phase 12 is complete as an information architecture, competitive design-system, CSS architecture, widget-frame, and page-wireframe gate, but the overall phase cannot be marked `Completed` yet because the phase validation checklist still requires browser screenshots and keyboard navigation review. Runtime public UI implementation remains mapped to Phase 13 and later visual/product phases.
 
 | Phase item | Result | Evidence |
 | --- | --- | --- |
@@ -46,7 +46,7 @@ Phase 12 is complete as an information architecture, competitive design-system, 
 | CSS split and theme architecture prep | Completed | `.plan/phase-12-css-split-theme-architecture.md`, PR #11 |
 | Widget frame, loading, responsive rules | Completed | `.plan/phase-12-widget-frame-layout-rules.md`, PR #12 |
 | Page-level wireframes | Completed | `.plan/phase-12-page-level-wireframes.md`, PR #13 |
-| Final review and documentation gate | Completed | This document, PR #14, and `ONE-79` |
+| Final review and documentation gate | Blocked | PR #14 and `ONE-79`; waiting on browser screenshot and keyboard navigation validation |
 
 ## Acceptance Criteria Review
 
@@ -101,7 +101,7 @@ Responsive behavior is documented for:
 - Disclosure placement before monetized actions.
 - Screenshot sizes and seed-content prerequisites for later UI implementation.
 
-Result: Passed for Phase 12 documentation. Browser screenshot execution remains deferred until runtime templates exist.
+Result: Passed for Phase 12 documentation. Browser screenshot execution remains deferred until runtime templates exist, so the overall Phase 12 completion gate is blocked by the unresolved validation checklist.
 
 ## Documentation Completeness Review
 
@@ -152,6 +152,6 @@ Phase 13 can start without rediscovering Phase 12 decisions if it follows this c
 
 ## Phase 12 Result
 
-Phase 12 is complete. The information architecture, competitive design-system direction, CSS module ownership, widget-frame rules, page-level wireframes, deferred implementation risks, and Phase 13 prerequisites are documented and linked from shared project baselines.
+Phase 12 is not complete yet. The information architecture, competitive design-system direction, CSS module ownership, widget-frame rules, page-level wireframes, deferred implementation risks, and Phase 13 prerequisites are documented and linked from shared project baselines, but the phase remains `In Progress` until browser screenshots and keyboard navigation review are executed or a documented scope decision changes that validation requirement.
 
-Codex PR review on PR #14 found no major issues.
+Codex PR review on PR #14 found a P2 consistency issue on the attempted `Completed` status. The docs now keep Phase 12 in progress and record the validation blocker.

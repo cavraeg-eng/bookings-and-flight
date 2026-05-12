@@ -460,7 +460,7 @@ rg -n "phase-12-completion-gate|P12.6|ONE-79" .plan/phased-implementation.md .pl
 git diff --check
 ```
 
-P12.6 local result on 2026-05-12: the final Phase 12 gate documents scope review, acceptance-criteria status, static template review, responsive wireframe review, CSS file-size review, documentation completeness, deferred runtime implementation risks, and the Phase 13 start checklist. Runtime visual/template work remains deferred to Phase 13+ follow-up phases. Codex review on PR #14 found no major issues.
+P12.6 local result on 2026-05-12: the final Phase 12 gate documents scope review, acceptance-criteria status, static template review, responsive wireframe review, CSS file-size review, documentation completeness, deferred runtime implementation risks, and the Phase 13 start checklist. Runtime visual/template work remains deferred to Phase 13+ follow-up phases. Codex review on PR #14 found a P2 consistency issue: Phase 12 cannot be marked `Completed` until browser screenshots and keyboard navigation review are executed or the validation scope is reconciled.
 
 ## Documentation-Only Changes
 
