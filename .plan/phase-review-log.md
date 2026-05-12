@@ -615,3 +615,100 @@ Research consulted:
 - WordPress Shortcodes Handbook: shortcode rendering and returned output context for the local smoke checks.
 
 Decision: P11.3 can move to `Completed`. For the remaining Phase 11 work, plugin-first is acceptable only for the tested flight widget path; hotel surfaces should use Travelpayouts dashboard-generated fallback embeds until the official plugin exposes active HotelLook tools, and White Label continuity needs a configured Widget or Page-type validation pass before production approval.
+
+## Phase 11.4 Header Continuity and White Label Configuration Notes - 2026-05-12
+
+Status: `Completed` for P11.4. Phase 11 remains `In Review` until the final review gate is recorded.
+
+Reviewer: Codex
+
+Scope reviewed: Compared the current WordPress home-site shell against Travelpayouts White Label Widget and Page-type options. The local browser check confirmed the WordPress site exposes a Bookings and Flights home link, primary navigation, footer navigation, legal links, and a route back to `/`. No real Travelpayouts White Label domain was configured in this local workspace.
+
+Plan alignment assessment: Passed. The continuity plan keeps WordPress as the branded shell and Travelpayouts as the monetized result/handoff layer. It does not introduce a custom inventory endpoint.
+
+Continuity decision: White Label Widget type is preferred because it keeps the Travelpayouts search/results module inside the WordPress page and preserves the WordPress header and footer. Page-type White Label is allowed only when the fuller result UX is needed and the Travelpayouts dashboard is configured to mirror the home-site header.
+
+Required Page-type inputs: logo URL, favicon URL, brand name `Bookings and Flights`, header background color or image treatment, search-heading copy, primary menu links for Home, About, Services, and Contact, footer links, legal links, and a visible route back to the main WordPress site.
+
+Limitations captured: Widget type has less page-level result control but best header continuity. Page type can be styled in Travelpayouts, but it is not the real WordPress header and needs configured domain/CNAME, brand assets, menu/footer matching, and a return route. Booking and payment still complete on external partner sites.
+
+Validation performed: Browser check of `http://bookings-and-flights.local/` and the temporary P11 validation page at `1280x900` and `375x812`; DOM checks for the Bookings and Flights home link, primary/footer navigation, Travelpayouts widget script, no checkout/payment/refund text, and no browser console errors.
+
+Documentation updated: `.plan/architecture-baseline.md`, `.plan/phased-implementation.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- Travelpayouts Help Center, What is White Label Web by Travelpayouts: Widget type preserves an existing site structure, Page type is standalone, and booking/payment completes on external partner sites.
+- Travelpayouts Help Center, Setting up a White Label with Widget type: Widget setup includes project, language/currency, destination, and design settings.
+- Travelpayouts Help Center, Setting up White Label through Travelpayouts WordPress plugin: plugin White Label fields route search results to configured White Label domains.
+
+Decision: P11.4 can move to `Completed`. Future frontend phases should use Widget type first for full WordPress header continuity and reserve Page type for configured-domain result pages that match the home shell as closely as Travelpayouts allows.
+
+## Phase 11.5 Backend Mode Decision and Documentation Update - 2026-05-12
+
+Status: `Completed` for P11.5. Phase 11 remains `In Review` until the final review gate is recorded.
+
+Reviewer: Codex
+
+Scope reviewed: Synthesized P11.1-P11.4 evidence and updated the backend boundary, fallback path, SubID strategy, known follow-ups, `platform/` non-canonical status, and regression watchlist.
+
+Backend mode decision: Use the official Travelpayouts WordPress plugin first only where local compatibility is proven. For Phase 11 that means the tested flight widget/search path. Use Travelpayouts dashboard-generated hotel widget/table/embed and White Label Widget/Page code inside the future capability-gated `baf` placement registry when the official plugin path is unavailable, disabled by upstream capability, or not configured with real domains.
+
+Search surface mode decision: Planned `/search/flights` and `/search/hotels` may expose WordPress-owned shell configuration, approved placement metadata, disclosure copy, consent state, SubID/handoff metadata, or safe redirect information. They must not store or serve canonical live supplier inventory or make `platform/` the canonical WordPress search backend without a new documented architecture decision.
+
+SubID decision: Keep `{channel}_{surface}_{vertical}_{slug}_{placement}` using lowercase Latin letters, numbers, and underscores. Do not include private user, trip, customer, analytics, or prompt data in SubIDs.
+
+Validation performed: Documentation diff review; contract review for unchanged plugin slugs, REST namespace, option keys, CPT keys, and planned table prefixes; source and diff review confirming no new WordPress route, database table, migration, live inventory storage, or custom booking engine was introduced. Existing `platform/` Fastify search routes and adapters remain optional integration infrastructure.
+
+Documentation updated: `.plan/architecture-baseline.md`, `.plan/known-issues.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phased-implementation.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- Travelpayouts Help Center, Adding widgets, tables, and links through Travelpayouts WordPress plugin: plugin placement flow and SubID support.
+- Travelpayouts Help Center, ID and SubID: Partner ID/marker attribution and SubID tracking behavior.
+- WordPress Plugin Security Handbook: capability, sanitization, escaping, and secret-handling context.
+- WordPress REST API Handbook, Adding Custom Endpoints: route permission expectations and REST-surface context.
+
+Decision: P11.5 can move to `Completed`. Phase 13 should implement the governed registry/fallback wrapper rather than re-litigating whether WordPress should become a custom travel inventory backend.
+
+## Phase 11.6 Phase Review and Validation Gate - 2026-05-12
+
+Status: `Completed`. Phase 11 can move to `Completed`.
+
+Reviewer: Codex
+
+Scope reviewed: Full Phase 11 objective, child-ticket sequence, acceptance criteria, security posture, REST/database impact, admin/frontend behavior, regression risk, documentation, and validation results.
+
+Current state summary: P11.1, P11.2, P11.3, P11.4, P11.5, and P11.6 are complete locally. The official `travelpayouts` plugin version `1.2.2` remains active on WordPress `6.9.4`. The final backend mode is plugin-first for validated flight widgets and Travelpayouts dashboard-generated fallback embeds for hotel and White Label surfaces until real account/domain validation expands the official-plugin path.
+
+Acceptance criteria result: Passed for Phase 11. A plugin-first or fallback path is confirmed; no direct booking, checkout, payment, custom inventory backend, new REST route, or canonical live inventory store was introduced; temporary frontend source scans did not expose tokens, Partner ID secrets, API keys, authorization strings, checkout/payment/refund language, or private data; White Label requirements and limitations are documented; and the SubID strategy remains `{channel}_{surface}_{vertical}_{slug}_{placement}`.
+
+Functional review: Passed for the locally available happy path. The official flight widget renders through the plugin with the expected Travelpayouts script and marker/SubID behavior. Hotel widgets are intentionally deferred to dashboard-generated fallback embeds because the staged plugin disables HotelLook tools. White Label is documented and gated on configured domains/dashboard code.
+
+Error, empty-state, and missing-configuration review: Passed. Missing `travelpayouts_admin_settings` remains a safe local state. Temporary credential/options checks restore or delete test options. Hotel shortcode empty output is documented as an upstream capability/fallback finding, not hidden as a successful hotel render.
+
+Security and data review: Passed. The phase did not add public REST endpoints, admin write actions, database migrations, direct provider calls, or secret-rendering paths. Previous P11.2 hardening keeps account tokens masked, preserves tokens on blank submission, sanitizes account fields, and returns non-secret token state from the Gutenberg token action.
+
+Regression review: Passed. The Travelpayouts-controlled backend boundary, no-custom-inventory rule, no direct checkout/payment rule, SubID convention, White Label continuity path, and fallback wrapper requirement are all documented in the architecture baseline, validation baseline, known issues, and regression watchlist.
+
+Validation performed: `wp plugin status travelpayouts`; `wp plugin deactivate travelpayouts`; `wp plugin activate travelpayouts`; compact WP-CLI `do_shortcode()` smoke check for `[tp_popular_routes_widget]`, `[tp_hotel_widget]`, and `[tp_hotel_selections_widget]`; forbidden-term scan of shortcode output; temporary browser validation page creation; Browser checks at `1280x900` and `375x812`; `curl` source scan for `weedle/widget.js` and forbidden token/secret/payment terms; temporary page deletion; temporary option deletion; documentation diff review; `git diff --check`. WP-CLI emitted the known PHP `8.5.4` bundled dependency deprecation warning, but commands succeeded with the Local MySQL socket.
+
+Bugs found: Official hotel widget/table shortcodes still render empty because the staged plugin disables HotelLook availability.
+
+Bugs fixed: None in P11.6. Earlier Phase 11 work fixed token masking, blank-token preservation, account option sanitization, and token-route secret exposure.
+
+Bugs deferred: Validate dashboard-generated hotel widget/table/embed fallback; validate real White Label Widget code on a WordPress page; validate Page-type White Label header continuity after domain/CNAME and Travelpayouts appearance settings are configured; keep WP-CLI PHP `8.5.4` deprecation warning on the environment watchlist.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/known-issues.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Plugin Security Handbook: sanitization, escaping, capability checks, nonces, and secret-handling context.
+- WordPress REST API Handbook, Adding Custom Endpoints: permission callback expectations and route review context.
+- WordPress Settings API Handbook: option storage and sanitization context.
+- WordPress Plugin Handbook, Activation and Deactivation Hooks: plugin lifecycle validation context.
+- Travelpayouts Help Center, How to install Travelpayouts WordPress plugin: plugin setup requires Token, Partner ID, traffic source, and optional White Label domains.
+- Travelpayouts Help Center, Adding widgets, tables, and links through Travelpayouts WordPress plugin: widget/table/link placement and SubID support.
+- Travelpayouts Help Center, Setting up White Label through Travelpayouts WordPress plugin: routing search results to configured White Label domains.
+- Travelpayouts Help Center, Setting up a White Label with Widget type: embedded Widget setup and design options.
+- Travelpayouts Help Center, What is White Label Web by Travelpayouts: Widget versus Page type, domain/CNAME requirements, external booking/payment boundary, and Booking.com limitation.
+- Travelpayouts Help Center, ID and SubID: Partner ID/marker and SubID tracking behavior.
+
+Decision: Phase 11 can move to `Completed`. Phase 12 may start from a Travelpayouts-controlled backend boundary, but production hotel and White Label surfaces must use the documented fallback/registry path until real Travelpayouts dashboard configuration validates them.

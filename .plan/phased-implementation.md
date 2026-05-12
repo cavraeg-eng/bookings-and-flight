@@ -1372,7 +1372,7 @@ Decision: Phase 10 is a planning and documentation phase only. Product implement
 
 ## Phase 11: Travelpayouts Compatibility and Backend Alignment
 
-Status: `In Progress`
+Status: `Completed`
 
 Objective: Confirm the official Travelpayouts WordPress plugin or fallback Travelpayouts embed path works safely in this WordPress environment.
 
@@ -1399,12 +1399,13 @@ Acceptance criteria:
 
 Validation checklist:
 
-- Plugin activation/deactivation check. P11.1 passed locally on 2026-05-09 with official `travelpayouts` plugin version `1.2.2` on WordPress `6.9.4`; widget rendering, handoff, White Label, and browser/source secret-exposure checks remain open.
+- Plugin activation/deactivation check. P11.1 passed locally on 2026-05-09 with official `travelpayouts` plugin version `1.2.2` on WordPress `6.9.4`; P11.6 re-ran deactivate/reactivate on 2026-05-12 and returned the plugin to `Status: Active`.
 - Admin setup smoke check. P11.2 passed locally on 2026-05-12 with temporary-token missing/configured option checks, saved-token masking, blank-submission preservation, option sanitization, and non-secret Gutenberg token-route state.
-- Frontend widget render smoke check. P11.3 passed for the official flight widget on desktop and mobile; official hotel widget/table shortcodes rendered empty because the plugin's HotelLook availability gate is disabled, so hotel surfaces require a Travelpayouts dashboard-generated fallback or an upstream plugin capability change.
-- Widget handoff/White Label smoke check. P11.3 confirmed the flight widget source hands off to Travelpayouts/Aviasales-controlled results by default; real White Label result validation still needs configured White Label domains or dashboard widget code.
-- White Label header continuity check against the WordPress homepage header. P11.3 documented Widget type as the preferred continuity path and Page type as the domain/header-customization path; real Page-type header asset validation remains open.
-- Secret exposure review. P11.3 browser/source scan passed for the temporary test page: no API token, postback secret, authorization string, checkout, payment, or direct booking flow appeared in WordPress output.
+- Frontend widget render smoke check. P11.3 and P11.6 passed for the official flight widget on desktop and mobile; official hotel widget/table shortcodes rendered empty because the plugin's HotelLook availability gate is disabled, so hotel surfaces require a Travelpayouts dashboard-generated fallback or an upstream plugin capability change.
+- Widget handoff/White Label smoke check. P11.3 and P11.6 confirmed the flight widget source hands off to Travelpayouts/Aviasales-controlled results by default; real White Label result validation is a production setup prerequisite using configured White Label domains or dashboard widget code.
+- White Label header continuity check against the WordPress homepage header. P11.4 documents Widget type as the preferred continuity path because it keeps the WordPress home shell; Page type is allowed only with Travelpayouts dashboard header customization that mirrors the WordPress logo, favicon, brand name, nav/footer links, colors, and route back to the main site.
+- Backend mode decision. P11.5 documented Travelpayouts-controlled backend mode: official-plugin-first only for validated surfaces, dashboard-generated Travelpayouts fallback embeds for inactive or unvalidated hotel and White Label surfaces, and `/search/flights` plus `/search/hotels` limited to safe shell/configuration/placement/handoff metadata instead of live inventory APIs.
+- Secret exposure review. P11.3 and P11.6 browser/source scans passed for temporary test pages: no API token, postback secret, authorization string, checkout, payment, refund, or direct booking flow appeared in WordPress output.
 
 ## Phase 12: Information Architecture and Competitive Design System
 
