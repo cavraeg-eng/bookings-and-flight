@@ -378,6 +378,29 @@ Not available yet:
 - Reason: No committed project browser test suite was discovered.
 - Future recommendation: Add smoke tests for critical admin and frontend workflows after UI surfaces stabilize.
 
+## Phase 12 Information Architecture Validation
+
+Use this for Phase 12 planning tickets before visual/template implementation begins.
+
+Static inventory commands:
+
+```bash
+git ls-files .plan
+rg --files themes/bookings-and-flights-static
+rg -n "register_post_type|register_taxonomy|add_shortcode|register_block_type|wp_nav_menu|register_nav_menus|Travelpayouts|tpwl|tpwgts|baf_" themes/bookings-and-flights-static plugins/bookings-flights-core .plan -g '!platform/**'
+wc -l themes/bookings-and-flights-static/assets/css/*.css themes/bookings-and-flights-static/*.php plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php
+```
+
+WordPress inventory commands:
+
+```bash
+php -d mysqli.default_socket="/Users/djcavy/Library/Application Support/Local/run/qRHZasMmV/mysql/mysqld.sock" /opt/homebrew/bin/wp --skip-plugins=travelpayouts post list --post_type=page --post_status=publish,draft,private --fields=ID,post_title,post_name,post_status,page_template --format=table
+php -d mysqli.default_socket="/Users/djcavy/Library/Application Support/Local/run/qRHZasMmV/mysql/mysqld.sock" /opt/homebrew/bin/wp --skip-plugins=travelpayouts menu item list primary-menu --fields=db_id,title,url,type,object,object_id,classes --format=table
+php -d mysqli.default_socket="/Users/djcavy/Library/Application Support/Local/run/qRHZasMmV/mysql/mysqld.sock" /opt/homebrew/bin/wp --skip-plugins=travelpayouts post list --post_type=destination,route,travel_deal,trip_plan,travel_partner,travel_alert --post_status=any --fields=ID,post_title,post_type,post_status,post_name --format=table
+```
+
+P12.1 local result on 2026-05-12: Phase 11 was confirmed complete and the backend mode remains Travelpayouts-controlled. The published front page is page ID `246` using `page-home.php`; `/flights/` is page ID `261` with `[baf_travelpayouts_white_label]`; `/hotels/` is page ID `262` with `[baf_travelpayouts_hotel_widget]`. The assigned primary menu has eight items: Home, Flights, Hotels, About, Contact, Services, Privacy Policy, and Terms & Conditions. It is missing the Phase 12 target items Explore, Deals, Trip Planner, and Saved Trips. No local destination, route, travel deal, trip plan, partner, or alert posts exist yet. Current tracked static theme source files are under the 600-line limit, but `header.css` is near the limit at 544 lines. Documentation review is captured in `.plan/phase-12-sitemap-navigation-page-ownership.md`. WP-CLI emitted known PHP 8.5 deprecation warnings from tooling and the Travelpayouts plugin, but inventory commands completed.
+
 ## Documentation-Only Changes
 
 For documentation-only changes:

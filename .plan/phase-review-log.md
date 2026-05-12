@@ -942,7 +942,7 @@ Decision: P11.6 should remain in review until this follow-up branch is published
 
 ## Phase 11.6 Hotel Widget Display Completion Follow-Up - 2026-05-12
 
-Status: `In Review`. Local validation passed; PR review and merge remain the final completion gate.
+Status: `Completed`. Local validation passed, PR #8 was reviewed by Codex, the selector-scope fix was merged, and Linear `ONE-73` was synced to Done.
 
 Reviewer: Codex
 
@@ -965,4 +965,45 @@ Research consulted:
 - WordPress Plugin Security Handbook: escaping output and protecting external provider boundaries.
 - Travelpayouts Help Center: widget and White Label setup guidance for provider-controlled search widgets and partner handoff behavior.
 
-Decision: Publish this focused display follow-up for Codex review. Phase 11 can remain `Completed` only after the branch is reviewed, merged, and Linear is updated with the final merge evidence.
+Decision: Phase 11 remains `Completed`. PR #8 merged the focused display follow-up after Codex review, and Linear `ONE-73` was updated with the final merge evidence.
+
+## Phase 12.1 Review - 2026-05-12
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-74` sitemap, navigation, and page ownership map. Reviewed Phase 11 backend mode, Phase 12 plan requirements, local blueprint source, static theme templates/assets, live WordPress pages/menu, core CPT registrations, and frontend shortcodes.
+
+Acceptance criteria result: In review. The target navigation now includes Flights, Hotels, Explore, Deals, Trip Planner, and Saved Trips. Each core surface has a documented owner and data source. SEO page families for flights, hotels, destinations, routes, and deals are mapped. Conflicts with current templates and live menu state are documented.
+
+Security review: Passed for documentation scope. No executable code, public routes, settings, provider calls, or database writes were added. The documented model preserves the Travelpayouts-controlled backend boundary and keeps WordPress from owning live supplier inventory, booking, or payment.
+
+REST permission review: Not applicable for this documentation-only child task. No REST routes changed.
+
+Database/migration review: Not applicable. No schema, migration, or data mutation changed.
+
+UI review: Static inventory only. The live menu still contains the older Home, Flights, Hotels, About, Contact, Services, Privacy Policy, and Terms & Conditions set, so the menu/fallback mismatch is documented for later implementation before visual completion.
+
+Regression review: Added a Phase 12 public information architecture watchlist entry for primary navigation, fallback navigation, page ownership, CPT SEO pages, and `/deals/` versus `travel-deals` archive reconciliation.
+
+Validation performed: Static template/page inventory review; WordPress page/menu inventory through WP-CLI; CPT and shortcode code review; CSS/PHP file-size review; documentation update review. WP-CLI emitted known PHP 8.5 deprecation warnings from tooling and the Travelpayouts plugin, but commands completed.
+
+Bugs found: Existing primary menu and theme fallback menu do not match Phase 12 navigation. Home remains a generic boilerplate page. About, Contact, and Services templates are effectively empty. Flights and Hotels currently use `index.php` rather than dedicated search templates. No local destination/route/deal content exists yet.
+
+Bugs fixed: Corrected the stale Phase 11.6 follow-up review entry from `In Review` to `Completed` now that PR #8 was reviewed, merged, and synced to Linear.
+
+Bugs deferred: Menu reconciliation, fallback menu update, homepage/search-template rebuild, seed content/empty-state decisions, and `/deals/` versus `travel-deals` archive reconciliation are deferred to follow-on Phase 12/implementation tickets.
+
+Documentation updated: `.plan/phase-12-sitemap-navigation-page-ownership.md`, `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Hierarchy.
+- WordPress Theme Handbook: Navigation Menus.
+- WordPress Block Editor Handbook.
+- WordPress Theme Handbook: Including CSS and JavaScript.
+- WordPress Theme Handbook: Accessibility.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: White Label Web and Widget-type setup.
+
+Decision: `ONE-74` can move to PR review once documentation diff and publication checks pass. Phase 12 remains `In Progress`.

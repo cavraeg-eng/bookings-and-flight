@@ -42,6 +42,32 @@ Related files/routes/tables/settings:
 - `baf_consent_settings`
 - Future `baf_travelpayouts_widget_registry`
 
+## Phase 12 Public Information Architecture
+
+Fragile area: Public sitemap, primary navigation, page ownership, CPT archive/single routing, and SEO page family ownership.
+
+Why risky: The current site still contains boilerplate navigation and empty template bodies while the product direction requires a travel-search navigation model. Future frontend work could accidentally keep legacy pages as primary navigation, bypass WordPress-owned SEO pages, or move search/result ownership into custom inventory code.
+
+What to check after future changes:
+
+- Primary navigation includes Flights, Hotels, Explore, Deals, Trip Planner, and Saved Trips, with trust/legal links moved to secondary or footer navigation.
+- The theme fallback menu matches the documented Phase 12 navigation target when no WordPress menu is assigned.
+- Home, Flights, Hotels, Explore, Deals, Trip Planner, and Saved Trips have documented WordPress page owners before visual implementation.
+- Destination, route, and deal SEO pages remain WordPress-owned CPT archives/singles or documented WordPress pages.
+- Travelpayouts widgets, White Label surfaces, and partner handoffs remain embedded or linked from WordPress-owned shells rather than becoming custom inventory endpoints.
+- About, Contact/Support, and Legal pages remain reachable and non-empty, but do not displace primary product navigation.
+- `/deals/` and the existing `travel-deals` CPT archive are reconciled before public launch without renaming CPT contracts silently.
+
+Related files/routes/tables/settings:
+
+- `.plan/phase-12-sitemap-navigation-page-ownership.md`
+- `.plan/phased-implementation.md`
+- `themes/bookings-and-flights-static/functions.php`
+- `themes/bookings-and-flights-static/header.php`
+- `themes/bookings-and-flights-static/index.php`
+- `themes/bookings-and-flights-static/page-home.php`
+- `plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php`
+
 ## Affiliate Bridge REST Config
 
 Fragile area: `GET /wp-json/baf/v1/config`
