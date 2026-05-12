@@ -67,12 +67,12 @@ class LandingModel extends InjectedModel
 			: '';
 
 		$this->token = $token ?: $this->getToken();
-		$this->marker = preg_replace('/[^0-9]/', '', strip_tags($data['marker']));
+		$this->marker = preg_replace('/[^0-9]/', '', strip_tags($data['marker'] ?? ''));
 		$this->language = substr(
 			preg_replace(
 				'/[^a-z]/',
 				'',
-				strip_tags($data['language'])
+				strip_tags($data['language'] ?? '')
 			),
 			0,
 			2
@@ -81,7 +81,7 @@ class LandingModel extends InjectedModel
 			preg_replace(
 				'/[^A-Z]/',
 				'',
-				strip_tags($data['currency'])
+				strip_tags($data['currency'] ?? '')
 			),
 			0,
 			3

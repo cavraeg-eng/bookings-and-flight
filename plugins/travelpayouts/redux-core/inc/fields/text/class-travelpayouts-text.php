@@ -37,6 +37,7 @@ if ( ! class_exists( 'Redux_Travelpayouts_Text', false ) ) {
 		 * @since TravelpayoutsSettingsFramework 1.0.0
 		 */
 		public function render() {
+			$is_secret = ! empty( $this->field['secret'] );
 
 			$this->field['attributes']            = wp_parse_args(
 				isset( $this->field['attributes'] ) ? $this->field['attributes'] : array(),
@@ -49,6 +50,10 @@ if ( ! class_exists( 'Redux_Travelpayouts_Text', false ) ) {
 					'type'         => ! isset( $this->field['type'] ) ? 'text' : $this->field['type'],
 				)
 			);
+			if ( $is_secret ) {
+				$this->field['attributes']['type']         = 'password';
+				$this->field['attributes']['autocomplete'] = ! empty( $this->field['autocomplete'] ) ? $this->field['autocomplete'] : 'new-password';
+			}
 			$this->field['attributes']['class'][] = 'regular-text tp-input';
 
 			// Deprecated from the docs. Left as not to break user's code!
@@ -92,7 +97,7 @@ if ( ! class_exists( 'Redux_Travelpayouts_Text', false ) ) {
 					if ( ! isset( $this->value[ $k ] ) ) {
 						$this->value[ $k ] = $v;
 					}
-					$attributes['value'] = $this->value[ $k ];
+					$attributes['value'] = $is_secret ? '' : $this->value[ $k ];
 					if ( ! empty( $placeholder ) ) {
 						$attributes['placeholder'] = ( is_array( $this->field['placeholder'] ) && isset( $this->field['placeholder'][ $k ] ) ) ? esc_attr( $this->field['placeholder'][ $k ] ) : '';
 					}
@@ -106,7 +111,7 @@ if ( ! class_exists( 'Redux_Travelpayouts_Text', false ) ) {
 			} else {
 				$this->field['attributes']['id']          = $this->field['id'];
 				$this->field['attributes']['name']        = esc_attr( $this->field['name'] . $this->field['name_suffix'] );
-				$this->field['attributes']['value']       = $this->value;
+				$this->field['attributes']['value']       = $is_secret ? '' : $this->value;
 				$this->field['attributes']['placeholder'] = ( isset( $this->field['placeholder'] ) && ! is_array( $this->field['placeholder'] ) ) ? esc_attr( $this->field['placeholder'] ) : '';
 				$attributes_string                        = $this->render_attributes( $this->field['attributes'] );
 				echo '<input ' . $attributes_string . '>'; // phpcs:ignore WordPress.Security.EscapeOutput
