@@ -1010,7 +1010,7 @@ Decision: `ONE-74` passed local documentation review after the Codex P2 validati
 
 ## Phase 12.2 Review - 2026-05-12
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
@@ -1047,4 +1047,4 @@ Research consulted:
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 - Travelpayouts Help Center: What is White Label Web by Travelpayouts?
 
-Decision: `ONE-75` can proceed to PR review as a documentation-only Phase 12.2 gate. Keep Phase 12 `In Progress` for the remaining child tickets until the full Phase 12 review gate passes.
+Decision: `ONE-75` passed local documentation review and Codex PR review with no major issues on PR #10. Keep Phase 12 `In Progress` for the remaining child tickets until the full Phase 12 review gate passes.

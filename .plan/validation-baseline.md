@@ -413,7 +413,7 @@ wc -l themes/bookings-and-flights-static/assets/css/*.css plugins/bookings-fligh
 git diff --check
 ```
 
-P12.2 local result on 2026-05-12: design-token direction, real-media strategy, component inventory, disclosure treatment, accessibility checklist, and widget-frame guardrails are documented in `.plan/phase-12-design-system-component-inventory.md`. Current CSS inventory still shows `header.css` at 544 lines, so Phase 12.3 should split or protect header/style architecture before adding large navigation/search-shell styles. `home.css` remains gradient-heavy and generic, which is now explicitly deferred to later visual implementation. The Trip.com hotel wrapper still relies on a visible handoff fallback because provider-owned iframe content can compress on mobile.
+P12.2 local result on 2026-05-12: design-token direction, real-media strategy, component inventory, disclosure treatment, accessibility checklist, and widget-frame guardrails are documented in `.plan/phase-12-design-system-component-inventory.md`. Current CSS inventory still shows `header.css` at 544 lines, so Phase 12.3 should split or protect header/style architecture before adding large navigation/search-shell styles. `home.css` remains gradient-heavy and generic, which is now explicitly deferred to later visual implementation. The Trip.com hotel wrapper still relies on a visible handoff fallback because provider-owned iframe content can compress on mobile. Codex review on PR #10 found no major issues.
 
 ## Documentation-Only Changes
 
