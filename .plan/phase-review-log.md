@@ -563,3 +563,55 @@ Research consulted:
 - Travelpayouts Help Center, WordPress plugin section: current plugin setup topics, widgets, tables, links, and White Label follow-up checks.
 - WordPress Plugin Security Handbook/Common APIs security guidance: capabilities, sanitizing input, escaping output, nonces, and secret-handling context.
 - WordPress Settings API Handbook: settings storage and sanitization context for option updates.
+
+## Phase 11.3 Flight, Hotel, and White Label Test Surfaces - 2026-05-12
+
+Status: `Completed` for P11.3 only. Phase 11 remains `In Progress`.
+
+Reviewer: Codex
+
+Scope reviewed: Temporary/documented Travelpayouts test surfaces for flight widgets, hotel widget/table shortcodes, and White Label result behavior. This included local shortcode rendering, frontend source review, desktop/mobile browser smoke checks, official plugin source inspection for hotel availability, and fallback-path documentation. This did not include real Travelpayouts credentials, a real White Label domain, production DNS/CNAME setup, or final production placement approval.
+
+Current state summary: The official `travelpayouts` plugin version `1.2.2` remains active on WordPress `6.9.4`. The P11.3 smoke test used a temporary non-secret marker (`123456`) and deleted the temporary test page and `travelpayouts_admin_settings` option after validation.
+
+Plan alignment assessment: Passed. Phase 11 asks for plugin-first compatibility evidence without introducing a custom inventory backend. P11.3 confirmed the official flight-widget path locally, identified the official hotel-widget blocker, and kept the hotel/White Label fallback inside Travelpayouts-controlled dashboard embeds rather than WordPress-owned search inventory.
+
+Acceptance criteria result: Partial for Phase 11, passed for P11.3. Flight widget rendering and source-level handoff evidence passed on desktop and mobile. Hotel widget/table rendering did not pass through the official plugin because the staged plugin disables HotelLook tools. White Label behavior is documented from official docs and plugin settings, but real result-page continuity still needs configured White Label domains or dashboard-generated White Label widget code.
+
+Flight surface review: Passed locally. `[tp_popular_routes_widget destination="BKK" subid="baf_home_flights_test_surface"]` rendered a Travelpayouts script source of `//www.travelpayouts.com/weedle/widget.js?marker=123456.wpplugin_baf_home_flights_test_surface&currency=usd&locale=en&powered_by=true&destination=BKK&host=hydra.aviasales.ru`.
+
+Hotel surface review: Blocked for the official plugin path. `[tp_hotel_widget]` and `[tp_hotel_selections_widget]` rendered empty output. Source inspection showed hotel widget models depend on `HotelLookWidgetShortcodeModel::isActive()`, which calls `BrandSubscriptionService::isHotelLookAvailable()`, and this staged plugin returns `false`; inactive shortcodes are registered as callbacks that return an empty string. The production hotel path should use Travelpayouts dashboard-generated hotel widget/table/embed code inside the governed WordPress wrapper unless a future official plugin version or upstream configuration activates HotelLook tools.
+
+White Label review: Documented, not fully validated against a real domain. Official Travelpayouts documentation confirms that plugin White Label fields can route widget/table/search results to configured White Label domains, Widget type can keep search and results on the embedded WordPress page, and Page type requires domain setup plus Travelpayouts appearance customization. For Bookings and Flights, Widget type remains preferred for full WordPress header continuity; Page type remains available only when its fuller result UX is needed and the logo, favicon, brand name, colors, heading copy, and menu/footer links are configured to match the home-site header.
+
+Security review: Passed for P11.3 scope. No real Token, API secret, postback secret, authorization header, private customer data, checkout, payment, refund, or WordPress-owned booking flow appeared in the temporary frontend source or browser main-content checks. The temporary marker is a non-secret test value. Temporary validation content and options were removed after checks.
+
+REST permission review: Not applicable. No REST routes were added or changed.
+
+Database/migration review: Passed. No schema or migration changed. The temporary validation page and temporary `travelpayouts_admin_settings` option were deleted after smoke checks.
+
+UI review: Passed for the flight-widget wrapper surface at the validation level available without a live external widget interaction. Browser checks at `1280x900` and `375x812` loaded the temporary page, confirmed the flight widget script was present, confirmed hotel scripts were absent, and did not find checkout/payment language in main content.
+
+Regression review: Rechecked the Travelpayouts-controlled backend boundary, SubID convention, no-custom-inventory rule, no frontend secret exposure, and no direct booking/payment surface in WordPress output.
+
+Validation performed: `wp plugin status travelpayouts`; temporary `travelpayouts_admin_settings` marker/language/currency setup; temporary WordPress page creation with flight and hotel shortcodes; WP-CLI `do_shortcode()` smoke check for flight, hotel widget, and hotel selections shortcodes; Browser desktop and mobile viewport checks; frontend source scan for token/secret/authorization/checkout/payment/refund strings; plugin hotel availability source inspection; temporary page deletion; temporary option deletion; `git diff --check`. WP-CLI emitted the known PHP `8.5.4` bundled dependency deprecation warning, but commands succeeded with the Local MySQL socket.
+
+Bugs found: Official hotel widget/table shortcodes render empty in the staged plugin because HotelLook availability is hardcoded off through `BrandSubscriptionService::isHotelLookAvailable()`.
+
+Bugs fixed: None. This is treated as an official-plugin compatibility/fallback finding rather than a local patch because forcing the HotelLook gate on would activate an upstream-controlled provider surface without proof that the account/subscription path supports it.
+
+Bugs deferred: Validate the dashboard-generated hotel widget/table fallback; validate real White Label Widget code on a WordPress page; validate Page-type White Label header continuity after domain/CNAME and Travelpayouts appearance settings are configured.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/known-issues.md`, `.plan/validation-baseline.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- Travelpayouts Help Center, Adding widgets, tables, and links through Travelpayouts WordPress plugin: plugin widget/table/link placement and SubID support.
+- Travelpayouts Help Center, General plugin settings: host, White Label, click behavior, script include, nofollow, and cache settings.
+- Travelpayouts Help Center, Setting up White Label through Travelpayouts WordPress plugin: routing search results to configured White Label domains.
+- Travelpayouts Help Center, Travelpayouts White Label Web Setup Guide: Widget versus Page type, hosting/domain requirements, and appearance settings.
+- Travelpayouts Help Center, Setting up a White Label with Widget type: embedded widget code, same-page results, and optional separate results page.
+- Travelpayouts Help Center, What is White Label Web by Travelpayouts: external partner booking/payment boundary, Booking.com limitation, CNAME/domain rules, and search-crawler limitation.
+- WordPress Plugin Security Handbook/Common APIs security guidance: secret handling, sanitizing input, escaping output, and capability context.
+- WordPress Shortcodes Handbook: shortcode rendering and returned output context for the local smoke checks.
+
+Decision: P11.3 can move to `Completed`. For the remaining Phase 11 work, plugin-first is acceptable only for the tested flight widget path; hotel surfaces should use Travelpayouts dashboard-generated fallback embeds until the official plugin exposes active HotelLook tools, and White Label continuity needs a configured Widget or Page-type validation pass before production approval.
