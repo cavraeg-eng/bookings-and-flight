@@ -352,6 +352,11 @@
 			return;
 		}
 
+		if (config.mode === 'live' && !config.liveReady) {
+			setStatus(config.strings.liveNotReady || config.strings.genericError, 'error');
+			return;
+		}
+
 		if (config.mode === 'live' && !payload.external_ai_consent) {
 			setStatus(config.strings.consentRequired, 'error');
 			return;

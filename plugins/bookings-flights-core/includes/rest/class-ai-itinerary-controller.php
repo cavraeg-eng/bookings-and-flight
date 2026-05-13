@@ -57,31 +57,31 @@ final class AI_Itinerary_Controller extends Base_Controller {
 			'destination'    => array(
 				'type'              => 'string',
 				'required'          => true,
-				'sanitize_callback' => 'sanitize_text_field',
+				'sanitize_callback' => array( $this, 'sanitize_text_arg' ),
 				'validate_callback' => array( $this, 'validate_required_text' ),
 			),
 			'origin'         => array(
 				'type'              => 'string',
 				'default'           => '',
-				'sanitize_callback' => 'sanitize_text_field',
+				'sanitize_callback' => array( $this, 'sanitize_text_arg' ),
 				'validate_callback' => array( $this, 'validate_optional_scalar' ),
 			),
 			'prompt'         => array(
 				'type'              => 'string',
 				'default'           => '',
-				'sanitize_callback' => 'sanitize_textarea_field',
+				'sanitize_callback' => array( $this, 'sanitize_textarea_arg' ),
 				'validate_callback' => array( $this, 'validate_optional_scalar' ),
 			),
 			'departure_date' => array(
 				'type'              => 'string',
 				'default'           => '',
-				'sanitize_callback' => 'sanitize_text_field',
+				'sanitize_callback' => array( $this, 'sanitize_text_arg' ),
 				'validate_callback' => array( $this, 'validate_optional_date' ),
 			),
 			'return_date'    => array(
 				'type'              => 'string',
 				'default'           => '',
-				'sanitize_callback' => 'sanitize_text_field',
+				'sanitize_callback' => array( $this, 'sanitize_text_arg' ),
 				'validate_callback' => array( $this, 'validate_optional_date' ),
 			),
 			'days'           => array(
@@ -103,40 +103,56 @@ final class AI_Itinerary_Controller extends Base_Controller {
 			'travel_style'   => array(
 				'type'              => 'string',
 				'default'           => '',
-				'sanitize_callback' => 'sanitize_text_field',
+				'sanitize_callback' => array( $this, 'sanitize_text_arg' ),
 				'validate_callback' => array( $this, 'validate_optional_scalar' ),
 			),
 			'budget'         => array(
 				'type'              => 'string',
 				'default'           => '',
-				'sanitize_callback' => 'sanitize_text_field',
+				'sanitize_callback' => array( $this, 'sanitize_text_arg' ),
 				'validate_callback' => array( $this, 'validate_optional_scalar' ),
 			),
 			'preferences'    => array(
 				'type'              => 'string',
 				'default'           => '',
-				'sanitize_callback' => 'sanitize_textarea_field',
+				'sanitize_callback' => array( $this, 'sanitize_textarea_arg' ),
 				'validate_callback' => array( $this, 'validate_optional_scalar' ),
 			),
 			'source_post_id' => array(
 				'type'              => 'integer',
 				'default'           => 0,
-				'sanitize_callback' => 'absint',
+				'sanitize_callback' => array( $this, 'sanitize_absint_arg' ),
 				'validate_callback' => array( $this, 'validate_non_negative_integer' ),
 			),
 			'save'           => array(
 				'type'              => 'boolean',
 				'default'           => false,
-				'sanitize_callback' => 'rest_sanitize_boolean',
+				'sanitize_callback' => array( $this, 'sanitize_boolean_arg' ),
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'external_ai_consent' => array(
 				'type'              => 'boolean',
 				'default'           => false,
-				'sanitize_callback' => 'rest_sanitize_boolean',
+				'sanitize_callback' => array( $this, 'sanitize_boolean_arg' ),
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);
+	}
+
+	public function sanitize_text_arg( mixed $value ): string {
+		return is_scalar( $value ) ? sanitize_text_field( (string) $value ) : '';
+	}
+
+	public function sanitize_textarea_arg( mixed $value ): string {
+		return is_scalar( $value ) ? sanitize_textarea_field( (string) $value ) : '';
+	}
+
+	public function sanitize_absint_arg( mixed $value ): int {
+		return is_scalar( $value ) ? absint( $value ) : 0;
+	}
+
+	public function sanitize_boolean_arg( mixed $value ): bool {
+		return is_bool( $value ) || is_scalar( $value ) ? rest_sanitize_boolean( $value ) : false;
 	}
 
 	public function validate_required_text( mixed $value ): bool {

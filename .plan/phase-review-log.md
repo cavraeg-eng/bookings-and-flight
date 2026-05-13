@@ -2759,3 +2759,48 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
 Decision: P18.4 completed. PR #52 was reviewed by Codex with no major issues, had no unresolved review threads, merged into `main` at `04124dbd5bc32d9fb86e3cfb4b44ea29847e45f2`, and the feature branch was deleted/pruned.
+
+### P18.5 — Consent, capability, demo mode, and live-provider guardrails
+
+Date: 2026-05-13
+
+Status: In Review
+
+Reviewer: Codex
+
+Linear issue: `ONE-117`
+
+Scope reviewed: `ONE-117` AI planner consent, capability, demo-mode, and live-provider guardrails. Reviewed current Phase 18 planner route, itinerary REST/service/provider contracts, settings and consent options, OpenAI adapter boundary, malformed REST argument paths, and browser runtime requirements.
+
+Acceptance criteria result: Passed locally for the PR candidate. Demo mode still produces an editable local trip brief without live credentials. Live mode now exposes actionable readiness messages for missing provider, unsupported provider, missing API key, and missing saved External AI consent. Known-misconfigured live states are blocked in the browser before an itinerary REST request is sent, and backend provider selection still enforces the same gates.
+
+Security review: Passed locally. Live provider calls still require saved External AI consent and per-request external AI consent. Unsupported providers and missing credentials fail safely without sending prompt data externally. Malformed non-scalar request values are guarded before sanitization or prompt-payload construction. Provider and session error checks did not expose fake API keys, raw prompt sentinels, provider payloads, bearer tokens, or secrets.
+
+REST permission review: Passed locally. The itinerary endpoint remains protected by `run_baf_ai`; unauthenticated requests fail with `401:baf_rest_forbidden` in the focused WP-CLI smoke. A run-AI-only user attempting `save=true` receives `403:baf_ai_save_forbidden`. Malformed non-scalar request input returns `400:rest_invalid_param` without app-owned PHP warnings.
+
+Database/migration review: No schema migration, custom table, option-key, cron, or destructive data change. Temporary AI option state and temporary browser users were restored/deleted after validation.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser path was attempted first but the Browser Node REPL invocation timed out after 15 seconds, so Playwright Chromium was used. The authenticated planner flow confirmed page identity, nonblank content, no framework overlay, keyboard focus through prompt, destination, save, and submit controls, desktop/mobile screenshots, live readiness messages, no fake API key in source, and no mobile horizontal overflow.
+
+Regression review: Existing P18.1 prompt-to-brief, P18.2 draft save, P18.3 opportunity schema, and P18.4 local handoff boundaries remain intact. AI cannot publish, book, pay, execute provider searches, create live provider links, send alerts, create public saved-trip records, or store provider-owned live inventory in this slice.
+
+Validation performed: PHP syntax checks for changed provider/service/REST/frontend/template files; `node --check` for `ai-planner.js`; focused WP-CLI REST/service permission, demo, consent, configuration, unsupported-provider, malformed-input, malformed-option, provider-error, and session-error smokes; Playwright Chromium desktop/mobile screenshots and keyboard review; fake-key source scan; console/request health checks; temporary user cleanup.
+
+Bugs found: The first Playwright assertion window stopped before the submit button because Chromium date inputs expose multiple keyboard subfields; the product focus order was valid, so the keyboard traversal window was widened and rerun. The first demo-result assertion was also case-sensitive against uppercased rendered run text. Self-review found the new readiness helper still needed safe scalar handling for malformed AI option values.
+
+Bugs fixed: `Provider_Factory::live_readiness()` now aligns frontend and backend live readiness; planner JS blocks known-misconfigured live states before `fetch()`; REST, service, provider, and readiness normalization now guard malformed non-scalar values before validation or prompt construction; the browser QA assertion window was corrected and rerun cleanly.
+
+Bugs deferred: Adding additional live AI providers, consuming local handoff intents into placement drafts, saved-trip CTAs, alert CTAs, and final Phase 18 release review remain later scope. No app-owned P18.5 blocker remains after the local gate.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-18-ai-guardrails.md`.
+
+Research consulted:
+- WordPress Plugin Security Handbook.
+- WordPress REST API Handbook: Adding Custom Endpoints.
+- WordPress Settings API documentation.
+- WordPress Nonces documentation.
+- WordPress Roles and Capabilities documentation.
+- AI SDK Core: Generating Structured Data.
+- OpenAI Chat Completions API reference.
+
+Decision: P18.5 PR candidate is ready for Codex review. Keep the issue and Phase 18 `In Progress` until Codex review is checked, any actionable feedback is patched, the PR is merged, Linear is synced, and the branch is cleaned up.

@@ -16,7 +16,7 @@ final class Request_Parameters {
 	}
 
 	public static function sanitize_positive_integer( mixed $value, ?\WP_REST_Request $request = null, string $parameter = '' ): int {
-		return max( 1, absint( $value ) );
+		return max( 1, is_scalar( $value ) ? absint( $value ) : 1 );
 	}
 
 	public static function validate_per_page( mixed $value, ?\WP_REST_Request $request = null, string $parameter = '' ): bool {
@@ -24,7 +24,7 @@ final class Request_Parameters {
 	}
 
 	public static function sanitize_per_page( mixed $value, ?\WP_REST_Request $request = null, string $parameter = '' ): int {
-		return min( 50, max( 1, absint( $value ) ) );
+		return min( 50, max( 1, is_scalar( $value ) ? absint( $value ) : 1 ) );
 	}
 
 	public static function validate_search( mixed $value, ?\WP_REST_Request $request = null, string $parameter = '' ): bool {

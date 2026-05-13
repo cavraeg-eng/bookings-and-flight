@@ -1312,6 +1312,9 @@ What to check after future changes:
 - The REST endpoint still requires `run_baf_ai` and unauthenticated requests fail safely.
 - Demo mode works without live credentials and without external provider requests.
 - Live mode requires saved external AI consent, provider configuration, and per-request `external_ai_consent` before provider selection.
+- Planner UI readiness and backend provider selection continue to use the same `Provider_Factory::live_readiness()` contract for missing provider, unsupported provider, missing API key, and missing saved External AI consent states.
+- Known-misconfigured live states do not send `POST /wp-json/baf/v1/ai/itinerary` from the browser; the visible status message explains the missing configuration or consent requirement.
+- Malformed non-scalar request values fail validation or normalize safely without `Array to string conversion` warnings before REST/service/provider handling.
 - Rendered results do not echo raw prompt text, API keys, bearer tokens, postback secrets, provider payloads, or private customer data.
 - Draft saving remains editor-only, requires `edit_baf_content`, creates `draft` `trip_plan` records only, and does not publish or store raw prompt text in post content.
 - AI opportunities remain `travelpayouts_opportunity_v1`, `not_executed`, `requires_approval`, `disclosure_required`, and `requires_editor_approval` until an authorized later workflow explicitly approves a handoff or placement draft.
