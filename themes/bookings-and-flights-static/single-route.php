@@ -185,20 +185,52 @@ get_header();
 			);
 		}
 
-		$related_args = array(
+		$related_base_args = array(
 			'post_type'      => 'route',
 			'post_status'    => 'publish',
 			'posts_per_page' => 3,
 			'post__not_in'   => array( $post_id ),
 			'no_found_rows'  => true,
+			'fields'         => 'ids',
 		);
+		$related_route_ids  = array();
+
 		if ( ! empty( $related_meta_query ) ) {
-			$related_args['meta_query'] = array_merge( array( 'relation' => 'OR' ), $related_meta_query );
-		} elseif ( ! empty( $related_route_tax_query ) ) {
-			$related_args['tax_query'] = array_merge( array( 'relation' => 'OR' ), $related_route_tax_query );
-		} else {
-			$related_args['post__in'] = array( 0 );
+			$related_route_ids = get_posts(
+				array_merge(
+					$related_base_args,
+					array(
+						'meta_query' => array_merge( array( 'relation' => 'OR' ), $related_meta_query ),
+					)
+				)
+			);
 		}
+
+		if ( ! empty( $related_route_tax_query ) && count( $related_route_ids ) < 3 ) {
+			$related_route_ids = array_merge(
+				$related_route_ids,
+				get_posts(
+					array_merge(
+						$related_base_args,
+						array(
+							'posts_per_page' => 3 - count( $related_route_ids ),
+							'post__not_in'   => array_merge( array( $post_id ), array_map( 'absint', $related_route_ids ) ),
+							'tax_query'      => array_merge( array( 'relation' => 'OR' ), $related_route_tax_query ),
+						)
+					)
+				)
+			);
+		}
+
+		$related_route_ids = array_slice( array_values( array_unique( array_map( 'absint', $related_route_ids ) ) ), 0, 3 );
+		$related_args      = array(
+			'post_type'      => 'route',
+			'post_status'    => 'publish',
+			'posts_per_page' => 3,
+			'post__in'       => ! empty( $related_route_ids ) ? $related_route_ids : array( 0 ),
+			'orderby'        => 'post__in',
+			'no_found_rows'  => true,
+		);
 		$related_routes = new WP_Query( $related_args );
 
 		$destination_meta_query = array();
