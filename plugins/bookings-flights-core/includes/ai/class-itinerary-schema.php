@@ -142,9 +142,9 @@ final class Itinerary_Schema {
 				return $claim_error;
 			}
 
-			$provider = sanitize_key( (string) ( $opportunity['provider'] ?? 'travelpayouts' ) );
-			$vertical = sanitize_key( (string) ( $opportunity['vertical'] ?? 'none' ) );
-			$type     = sanitize_key( (string) ( $opportunity['recommendation_type'] ?? self::default_recommendation_type( $vertical ) ) );
+			$provider = sanitize_key( self::string_value( $opportunity['provider'] ?? 'travelpayouts' ) );
+			$vertical = sanitize_key( self::string_value( $opportunity['vertical'] ?? 'none' ) );
+			$type     = sanitize_key( self::string_value( $opportunity['recommendation_type'] ?? self::default_recommendation_type( $vertical ) ) );
 			$label    = self::text( $opportunity['label'] ?? '', 140 );
 
 			if ( 'travelpayouts' !== $provider ) {
@@ -179,17 +179,17 @@ final class Itinerary_Schema {
 	}
 
 	private static function validate_recommendation_only( array $opportunity ): bool|\WP_Error {
-		$status = sanitize_key( (string) ( $opportunity['status'] ?? 'not_executed' ) );
+		$status = sanitize_key( self::string_value( $opportunity['status'] ?? 'not_executed' ) );
 
 		if ( 'not_executed' !== $status || in_array( $status, self::FORBIDDEN_STATUS_VALUES, true ) ) {
 			return self::error( 'baf_ai_opportunity_executed_claim', __( 'The AI opportunity response claimed a provider action that is not allowed.', 'bookings-flights-core' ) );
 		}
 
-		if ( array_key_exists( 'requires_approval', $opportunity ) && true !== rest_sanitize_boolean( $opportunity['requires_approval'] ) ) {
+		if ( array_key_exists( 'requires_approval', $opportunity ) && true !== self::boolean_value( $opportunity['requires_approval'] ) ) {
 			return self::error( 'baf_ai_opportunity_missing_approval', __( 'The AI opportunity response must require editor approval.', 'bookings-flights-core' ) );
 		}
 
-		if ( array_key_exists( 'disclosure_required', $opportunity ) && true !== rest_sanitize_boolean( $opportunity['disclosure_required'] ) ) {
+		if ( array_key_exists( 'disclosure_required', $opportunity ) && true !== self::boolean_value( $opportunity['disclosure_required'] ) ) {
 			return self::error( 'baf_ai_opportunity_missing_disclosure', __( 'The AI opportunity response must require affiliate disclosure.', 'bookings-flights-core' ) );
 		}
 
@@ -204,11 +204,11 @@ final class Itinerary_Schema {
 				continue;
 			}
 
-			if ( is_array( $value ) || is_object( $value ) ) {
+			if ( ! is_scalar( $value ) ) {
 				return self::error( 'baf_ai_opportunity_provider_claim', __( 'The AI opportunity response included provider-owned booking, price, availability, or link data.', 'bookings-flights-core' ) );
 			}
 
-			if ( '' === trim( (string) $value ) ) {
+			if ( '' === trim( self::string_value( $value ) ) ) {
 				continue;
 			}
 
@@ -228,19 +228,19 @@ final class Itinerary_Schema {
 	}
 
 	private static function confidence( mixed $value ): string {
-		$confidence = sanitize_key( (string) $value );
+		$confidence = sanitize_key( self::string_value( $value ) );
 
 		return in_array( $confidence, self::CONFIDENCE_LEVELS, true ) ? $confidence : 'medium';
 	}
 
 	private static function suggested_subid( array $opportunity, string $vertical, string $destination, int $index ): string {
-		$provided = self::sanitize_subid( (string) ( $opportunity['suggested_subid'] ?? '' ) );
+		$provided = self::sanitize_subid( $opportunity['suggested_subid'] ?? '' );
 
 		if ( '' !== $provided ) {
 			return $provided;
 		}
 
-		$context = self::sanitize_subid( (string) ( $opportunity['placement_context'] ?? '' ) );
+		$context = self::sanitize_subid( $opportunity['placement_context'] ?? '' );
 
 		if ( '' === $context ) {
 			$context = self::sanitize_subid( $destination );
@@ -249,20 +249,44 @@ final class Itinerary_Schema {
 		return self::sanitize_subid( implode( '_', array_filter( array( 'ai', $vertical, $context, (string) ( $index + 1 ) ) ) ) );
 	}
 
-	private static function sanitize_subid( string $value ): string {
-		$value = strtolower( $value );
-		$value = preg_replace( '/[^a-z0-9_]+/', '_', $value );
-		$value = trim( (string) $value, '_' );
+	private static function sanitize_subid( mixed $value ): string {
+		$value = strtolower( self::string_value( $value ) );
+		$value = (string) preg_replace( '/[^a-z0-9_]+/', '_', $value );
+		$value = trim( $value, '_' );
 
 		return substr( $value, 0, 96 );
 	}
 
 	private static function text( mixed $value, int $limit ): string {
-		return substr( sanitize_text_field( (string) $value ), 0, $limit );
+		return substr( sanitize_text_field( self::string_value( $value ) ), 0, $limit );
 	}
 
 	private static function textarea( mixed $value, int $limit ): string {
-		return substr( sanitize_textarea_field( (string) $value ), 0, $limit );
+		return substr( sanitize_textarea_field( self::string_value( $value ) ), 0, $limit );
+	}
+
+	private static function boolean_value( mixed $value ): bool {
+		if ( is_bool( $value ) || is_scalar( $value ) ) {
+			return rest_sanitize_boolean( $value );
+		}
+
+		return false;
+	}
+
+	private static function string_value( mixed $value ): string {
+		if ( is_string( $value ) ) {
+			return $value;
+		}
+
+		if ( is_int( $value ) || is_float( $value ) || is_bool( $value ) ) {
+			return (string) $value;
+		}
+
+		if ( is_object( $value ) && method_exists( $value, '__toString' ) ) {
+			return (string) $value;
+		}
+
+		return '';
 	}
 
 	private static function error( string $code, string $message ): \WP_Error {

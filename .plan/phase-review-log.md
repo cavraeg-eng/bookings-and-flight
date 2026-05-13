@@ -2695,9 +2695,9 @@ Regression review: Existing P18.1 and P18.2 boundaries remain intact: demo mode 
 
 Validation performed: PHP syntax checks for changed AI/service files; `node --check` for `ai-planner.js`; focused WP-CLI schema validation for valid opportunity output and malformed provider-like claims; runtime browser planner/save/editor-link screenshots and keyboard review; saved draft schema-meta check; temporary draft/user cleanup.
 
-Bugs found: String `"false"` values for `requires_approval` and `disclosure_required` needed explicit boolean parsing so model output cannot bypass approval or disclosure by using strings. Codex PR review also caught that non-scalar forbidden-claim fields such as `provider_link: []` could trigger an `Array to string conversion` warning before rejection.
+Bugs found: String `"false"` values for `requires_approval` and `disclosure_required` needed explicit boolean parsing so model output cannot bypass approval or disclosure by using strings. Codex PR review also caught that non-scalar opportunity fields such as `provider_link: []` and `recommendation_type: []` could trigger `Array to string conversion` warnings before rejection or fallback.
 
-Bugs fixed: Schema validation now uses `rest_sanitize_boolean()` for approval and disclosure gates, returns dedicated errors for approval/disclosure bypasses, and rejects non-scalar provider-owned claim fields without casting warnings.
+Bugs fixed: Schema validation now uses safe boolean and string normalization helpers for opportunity fields, returns dedicated errors for approval/disclosure bypasses, safely falls back or rejects malformed non-scalar values, and rejects provider-owned claim fields without casting warnings.
 
 Bugs deferred: Approval workflow that converts opportunities into Travelpayouts placement drafts, saved-trip CTAs, alert CTAs, and final Phase 18 review remain later Phase 18 scope.
 
