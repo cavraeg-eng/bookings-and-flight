@@ -43,13 +43,16 @@ $origin      = preg_match( '/^[A-Z]{3}$/', $origin ) ? $origin : '';
 $destination = strtoupper( trim( (string) $args['destination'] ) );
 $destination = preg_match( '/^[A-Z]{3}$/', $destination ) ? $destination : '';
 $title_id    = sanitize_html_class( implode( '-', array_filter( array( $surface, $placement, $slug, 'placement-title' ) ) ) );
+$support_note = trim( (string) $args['support_note'] );
 
 if ( '' === $title_id ) {
 	$title_id = wp_unique_id( 'search-placement-title-' );
 }
+
+$support_id = '' !== $support_note ? sanitize_html_class( $title_id . '-disclosure' ) : '';
 ?>
 
-<section class="<?php echo esc_attr( trim( 'search-placement ' . $class ) ); ?>" aria-labelledby="<?php echo esc_attr( $title_id ); ?>">
+<section class="<?php echo esc_attr( trim( 'search-placement ' . $class ) ); ?>" aria-labelledby="<?php echo esc_attr( $title_id ); ?>"<?php echo '' !== $support_id ? ' aria-describedby="' . esc_attr( $support_id ) . '"' : ''; ?>>
 	<div class="search-placement__header">
 		<?php if ( '' !== (string) $args['eyebrow'] ) : ?>
 			<p class="search-placement__eyebrow"><?php echo esc_html( (string) $args['eyebrow'] ); ?></p>
@@ -116,7 +119,10 @@ if ( '' === $title_id ) {
 		?>
 	</div>
 
-	<?php if ( '' !== (string) $args['support_note'] ) : ?>
-		<p class="search-placement__support"><?php echo esc_html( (string) $args['support_note'] ); ?></p>
+	<?php if ( '' !== $support_note ) : ?>
+		<p id="<?php echo esc_attr( $support_id ); ?>" class="search-placement__support">
+			<strong class="search-placement__support-label"><?php esc_html_e( 'Affiliate disclosure:', 'bookings_and_flights' ); ?></strong>
+			<?php echo esc_html( $support_note ); ?>
+		</p>
 	<?php endif; ?>
 </section>

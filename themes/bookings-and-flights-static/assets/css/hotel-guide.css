@@ -280,14 +280,18 @@
 }
 
 .hotel-partner-placements .search-placement {
+  align-content: start;
   height: 100%;
   margin: 0;
 }
 
 .hotel-partner-placements .search-placement__widget,
-.hotel-partner-placements .baf-travelpayouts-widget,
+.hotel-partner-placements .baf-travelpayouts-widget {
+  height: auto;
+}
+
 .hotel-partner-placements .baf-travelpayouts-widget__body {
-  height: 100%;
+  height: auto;
 }
 
 .hotel-partner-placements .baf-travelpayouts-widget__body {

@@ -239,6 +239,8 @@ Phase 16.1 starts the hotel/stays implementation on the same boundary. WordPress
 
 Phase 16.3 extends the hotel placement strategy without changing the backend boundary. The registry seeds `hotels_map_handoff` and `hotels_listing_handoff` as hotel companion placements using `render_mode="handoff_link"` and the existing approved hotel partner URL when that URL is safe for direct handoff. These placements provide readable SubIDs for hotel map and listing entry points while the partner provider continues to own live map controls, hotel listings, rates, taxes, policies, booking, payment, changes, and support.
 
+Phase 16.4 strengthens the hotel disclosure and handoff boundary without adding routes, provider contracts, options, tables, cron jobs, REST endpoints, shortcodes, or blocks. Hotel/stays pages must describe WordPress hotel controls as intent or editorial context unless the rendered Travelpayouts/partner surface owns the actual result filtering. Every monetized hotel placement rendered through `template-parts/travel-search-placement.php` exposes visible `Affiliate disclosure:` copy and links the section to that disclosure with `aria-describedby`. Hotel surfaces must not promise Booking.com White Label inventory, WordPress-owned live hotel inventory, direct checkout, auto-booking, guaranteed rates, or unsupported local hotel filters.
+
 ## User Meta Keys
 
 Planned keys:

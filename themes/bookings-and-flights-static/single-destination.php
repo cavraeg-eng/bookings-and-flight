@@ -86,7 +86,7 @@ get_header();
 				),
 			),
 			array(
-				'label' => __( 'Best hotels', 'bookings_and_flights' ),
+				'label' => __( 'Best-fit lens', 'bookings_and_flights' ),
 				'title' => __( 'Best-fit editorial lens', 'bookings_and_flights' ),
 				'copy'  => '' !== $best_for ? $best_for : __( 'Match the stay to the traveler first: location, comfort, group size, accessibility needs, and cancellation flexibility are editorial planning criteria, not live result filters.', 'bookings_and_flights' ),
 			),
@@ -98,15 +98,15 @@ get_header();
 		);
 		$stay_cards = array(
 			array(
-				'title' => __( 'Family hotels', 'bookings_and_flights' ),
+				'title' => __( 'Family stay lens', 'bookings_and_flights' ),
 				'copy'  => '' !== $family_notes ? $family_notes : __( 'Look for room setup, transit ease, elevator access, breakfast needs, and late-arrival plans before confirming live family options with the provider.', 'bookings_and_flights' ),
 			),
 			array(
-				'title' => __( 'Luxury hotels', 'bookings_and_flights' ),
+				'title' => __( 'Luxury stay lens', 'bookings_and_flights' ),
 				'copy'  => '' !== $luxury_notes ? $luxury_notes : __( 'Use this guide to frame preferred service level, neighborhood, wellness, dining, and view priorities without claiming live premium inventory.', 'bookings_and_flights' ),
 			),
 			array(
-				'title' => __( 'Budget hotels', 'bookings_and_flights' ),
+				'title' => __( 'Budget stay lens', 'bookings_and_flights' ),
 				'copy'  => '' !== $budget_notes ? $budget_notes : __( 'Plan around transit, review quality, room size, and total trip cost, then confirm current rates and taxes in the partner search flow.', 'bookings_and_flights' ),
 			),
 		);
@@ -177,7 +177,7 @@ get_header();
 						echo esc_html(
 							'' !== $summary ? $summary : sprintf(
 								/* translators: %s: destination name. */
-								__( 'Use this editable %s hotel guide for neighborhood and stay-type planning, then open the Travelpayouts partner surface for live availability and booking details.', 'bookings_and_flights' ),
+								__( 'Use this editable %s hotel guide for neighborhood and stay-type planning, then open the Travelpayouts partner surface for current availability and booking terms.', 'bookings_and_flights' ),
 								$destination_label
 							)
 						);
@@ -201,7 +201,7 @@ get_header();
 
 					<div class="hotel-guide-panel hotel-guide-panel--disclosure">
 						<h2><?php esc_html_e( 'Search boundary', 'bookings_and_flights' ); ?></h2>
-						<p><?php esc_html_e( 'These modules are editorial planning guidance. Live room availability, rates, taxes, policies, map filters, booking, payment, changes, and support stay with Travelpayouts, Trip.com, or the partner provider.', 'bookings_and_flights' ); ?></p>
+						<p><?php esc_html_e( 'These modules are editorial planning guidance. Current room availability, rates, taxes, policies, map filters, booking terms, payment, changes, and support stay with Travelpayouts, Trip.com, or the partner provider.', 'bookings_and_flights' ); ?></p>
 						<a class="hotel-guide-text-link" href="<?php echo esc_url( $flight_search_url ); ?>"><?php esc_html_e( 'Pair with flight search', 'bookings_and_flights' ); ?></a>
 					</div>
 				</div>
@@ -232,7 +232,7 @@ get_header();
 					<div class="hotel-guide-heading">
 						<p class="hotel-guide-heading__eyebrow"><?php esc_html_e( 'Stay types', 'bookings_and_flights' ); ?></p>
 						<h2 id="hotel-guide-stay-types-title"><?php esc_html_e( 'Family, luxury, and budget angles', 'bookings_and_flights' ); ?></h2>
-						<p><?php esc_html_e( 'These are content modules, not live filters. Refine actual hotels inside the partner surface when those controls are available.', 'bookings_and_flights' ); ?></p>
+						<p><?php esc_html_e( 'These are content modules, not provider-result filters. Refine actual hotels inside the partner surface when those controls are available.', 'bookings_and_flights' ); ?></p>
 					</div>
 
 					<div class="hotel-guide-card-grid">
@@ -256,7 +256,7 @@ get_header();
 						__( '%s hotel map and listing handoffs', 'bookings_and_flights' ),
 						$destination_label
 					),
-					'description' => __( 'Use the editorial guide to frame the stay, then open provider-owned map and listing tools for live hotel comparison and booking details.', 'bookings_and_flights' ),
+					'description' => __( 'Use the editorial guide to frame the stay, then open provider-owned map and listing tools to confirm current hotel options and booking terms.', 'bookings_and_flights' ),
 					'channel'     => 'destination_single',
 					'slug_prefix' => 'destination_' . $post_id,
 					'class'       => 'hotel-partner-placements--destination',
@@ -277,11 +277,11 @@ get_header();
 						'slug'             => 'destination_' . $post_id,
 						'class'            => 'search-placement--hotel-guide',
 						'eyebrow'          => __( 'Hotels partner surface', 'bookings_and_flights' ),
-						'title'            => __( 'Search hotels for this city', 'bookings_and_flights' ),
-						'description'      => __( 'Continue from the editorial city guide into the configured partner surface for live hotel availability, map controls, room choices, taxes, policies, booking, payment, changes, and support.', 'bookings_and_flights' ),
+						'title'            => __( 'Open partner search for this city', 'bookings_and_flights' ),
+						'description'      => __( 'Continue from the editorial city guide into the configured partner surface for current hotel availability, map controls, room choices, taxes, policies, booking terms, payment, changes, and support.', 'bookings_and_flights' ),
 						'details'          => $details,
 						'fallback_message' => __( 'Hotel search is configured through the Travelpayouts placement registry. If it is unavailable, use the hotel handoff link or check provider settings.', 'bookings_and_flights' ),
-						'support_note'     => __( 'Sponsored hotel search may earn a commission. Bookings and Flights keeps this city guide editable in WordPress; live hotel search and reservations stay with Travelpayouts, Trip.com, or the partner provider.', 'bookings_and_flights' ),
+						'support_note'     => __( 'Sponsored hotel search may earn a commission. Bookings and Flights keeps this city guide editable in WordPress; current hotel search and reservations stay with Travelpayouts, Trip.com, or the partner provider.', 'bookings_and_flights' ),
 					)
 				);
 				?>

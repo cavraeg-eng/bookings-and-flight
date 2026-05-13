@@ -32,7 +32,7 @@ get_header();
 		<div class="hotel-guide-hero__inner">
 			<p class="hotel-guide-hero__eyebrow"><?php esc_html_e( 'City hotel guides', 'bookings_and_flights' ); ?></p>
 			<h1 id="destination-archive-title" class="hotel-guide-hero__title"><?php esc_html_e( 'Where to stay before partner search', 'bookings_and_flights' ); ?></h1>
-			<p class="hotel-guide-hero__lede"><?php esc_html_e( 'Browse editable WordPress city guides for neighborhoods, stay types, landmarks, and related routes. Live hotel availability and booking stay inside Travelpayouts or the partner provider.', 'bookings_and_flights' ); ?></p>
+			<p class="hotel-guide-hero__lede"><?php esc_html_e( 'Browse editable WordPress city guides for neighborhoods, stay types, landmarks, and related routes. Current hotel availability and booking terms stay inside Travelpayouts or the partner provider.', 'bookings_and_flights' ); ?></p>
 			<div class="hotel-guide-hero__actions">
 				<a class="hotel-guide-button" href="<?php echo esc_url( home_url( '/hotels/' ) ); ?>"><?php esc_html_e( 'Open hotel search', 'bookings_and_flights' ); ?></a>
 				<a class="hotel-guide-button hotel-guide-button--secondary" href="<?php echo esc_url( home_url( '/routes/' ) ); ?>"><?php esc_html_e( 'Browse routes', 'bookings_and_flights' ); ?></a>
@@ -93,7 +93,7 @@ get_header();
 							</dl>
 							<div class="hotel-guide-listing-card__actions">
 								<a class="hotel-guide-text-link" href="<?php echo esc_url( get_permalink() ); ?>"><?php esc_html_e( 'Open city guide', 'bookings_and_flights' ); ?></a>
-								<a class="hotel-guide-text-link" href="<?php echo esc_url( $hotel_url ); ?>"><?php esc_html_e( 'Search hotels', 'bookings_and_flights' ); ?></a>
+								<a class="hotel-guide-text-link" href="<?php echo esc_url( $hotel_url ); ?>"><?php esc_html_e( 'Open partner search', 'bookings_and_flights' ); ?></a>
 							</div>
 						</article>
 					<?php endwhile; ?>
