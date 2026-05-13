@@ -167,7 +167,7 @@ final class Flight_Alert_Service {
 
 		$deleted = wp_delete_post( $alert_id, true );
 
-		return null !== $deleted ? true : new \WP_Error( 'baf_alert_delete_failed', __( 'Alert could not be deleted.', 'bookings-flights-core' ) );
+		return $deleted instanceof \WP_Post ? true : new \WP_Error( 'baf_alert_delete_failed', __( 'Alert could not be deleted.', 'bookings-flights-core' ) );
 	}
 
 	public function is_valid_delete_token( int $alert_id, string $token ): bool {
@@ -210,6 +210,7 @@ final class Flight_Alert_Service {
 		$sent    = wp_mail( $email, $subject, $message );
 
 		if ( true !== $sent ) {
+			update_post_meta( $alert_id, 'baf_alert_status', self::STATUS_EMAIL_FAILED );
 			update_post_meta( $alert_id, 'baf_alert_email_status', self::EMAIL_STATUS_FAILED );
 
 			return new \WP_Error( 'baf_alert_email_failed', __( 'Alert follow-up email could not be sent.', 'bookings-flights-core' ) );
@@ -295,6 +296,7 @@ final class Flight_Alert_Service {
 				'orderby'                => 'date',
 				'order'                  => 'ASC',
 				'no_found_rows'          => true,
+				'cache_results'          => false,
 				'update_post_meta_cache' => false,
 				'update_post_term_cache' => false,
 				'meta_query'             => array(
@@ -317,6 +319,7 @@ final class Flight_Alert_Service {
 				'posts_per_page'         => 1,
 				'fields'                 => 'ids',
 				'no_found_rows'          => true,
+				'cache_results'          => false,
 				'update_post_meta_cache' => false,
 				'update_post_term_cache' => false,
 				'meta_query'             => array(
@@ -349,6 +352,7 @@ final class Flight_Alert_Service {
 				'posts_per_page'         => self::MAX_ALERTS_PER_EMAIL + 1,
 				'fields'                 => 'ids',
 				'no_found_rows'          => true,
+				'cache_results'          => false,
 				'update_post_meta_cache' => false,
 				'update_post_term_cache' => false,
 				'meta_query'             => array(
@@ -359,7 +363,7 @@ final class Flight_Alert_Service {
 					),
 					array(
 						'key'     => 'baf_alert_status',
-						'value'   => array( self::STATUS_REQUESTED, self::STATUS_ACTIVE, self::STATUS_EMAIL_FAILED ),
+						'value'   => array( self::STATUS_REQUESTED, self::STATUS_ACTIVE ),
 						'compare' => 'IN',
 					),
 				),
