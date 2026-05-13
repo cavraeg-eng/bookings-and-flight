@@ -816,3 +816,31 @@ Related files/routes/settings:
 - `flights_route_map`
 - `/flights/`
 - `/routes/`
+
+## Phase 15 White Label Continuity
+
+Fragile area: Flights and route detail handoff from WordPress-owned pages into the embedded Travelpayouts Widget-type White Label module.
+
+Why risky: The White Label widget is provider-owned and can feel visually separate from the WordPress site if the header/footer, route back to WordPress, affiliate disclosure, or provider-owned booking language drifts away from the search module. Future Page-type White Label work could also bypass the WordPress shell if Travelpayouts dashboard branding is not kept in sync.
+
+What to check after future changes:
+
+- Flights and route detail pages still render `template-parts/white-label-continuity.php` before `flights_white_label_search`.
+- Continuity links include a route back to Home, Flights, route guides, and the current route guide where applicable.
+- Copy continues to state that WordPress owns SEO/editorial pages while Travelpayouts or the partner provider owns live results, filters, booking, payment, changes, and support.
+- Header logo and primary navigation match the homepage on Flights and route detail desktop/mobile views.
+- Provider sections keep enough scroll margin so anchored/jump navigation does not hide the continuity band behind the fixed header.
+- Keyboard review reaches continuity links and the visible `Open flight search` handoff without trapping focus inside provider placeholders.
+- Source scans continue to find no provider secrets, direct-checkout claims, guaranteed-fare claims, auto-booking, or WordPress-owned payment language.
+
+Related files/routes/settings:
+
+- `themes/bookings-and-flights-static/template-parts/white-label-continuity.php`
+- `themes/bookings-and-flights-static/page-flights.php`
+- `themes/bookings-and-flights-static/single-route.php`
+- `themes/bookings-and-flights-static/assets/css/search-surface.css`
+- `themes/bookings-and-flights-static/assets/css/route-surface.css`
+- `themes/bookings-and-flights-static/assets/css/white-label-continuity.css`
+- `flights_white_label_search`
+- `/flights/`
+- `/routes/`
