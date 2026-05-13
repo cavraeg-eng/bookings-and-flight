@@ -2433,9 +2433,9 @@ Regression review: Existing P17.1 destination guides, P17.2 route guides, P17.3 
 
 Validation performed: PHP syntax checks for changed PHP files; file-size checks; `git diff --check`; Node source smoke for temporary taxonomy archive page one and page two; source scans for internal-linking rules, public destination/route/deal cards, pagination, private/non-public content exclusion, secrets, direct checkout, auto-booking, and fake scarcity; Playwright Chromium responsive screenshots; keyboard navigation review; visual screenshot review; follow-up canonical smoke for taxonomy page one and page two after Codex review; temporary taxonomy content cleanup.
 
-Bugs found: The first runtime touch-target pass found mobile nav links could render below the 44px interactive target height when the taxonomy page loaded at mobile and 320px widths. Codex PR review found taxonomy archive page two and deeper pagination emitted a page-one canonical URL.
+Bugs found: The first runtime touch-target pass found mobile nav links could render below the 44px interactive target height when the taxonomy page loaded at mobile and 320px widths. Codex PR review found taxonomy archive page two and deeper pagination emitted a page-one canonical URL. A second Codex pass found the paginated canonical helper could inherit tracking query parameters from the current request URL.
 
-Bugs fixed: `mobile-nav.css` now renders mobile nav links as centered inline-flex controls with a 44px minimum block size. `seo-metadata.php` now returns the current paginated taxonomy URL as canonical when `paged` is greater than one. Follow-up Playwright validation returned `findingCount=0`, and the canonical smoke confirmed page two emits `/travel-styles/one109-canonical-smoke/page/2/`.
+Bugs fixed: `mobile-nav.css` now renders mobile nav links as centered inline-flex controls with a 44px minimum block size. `seo-metadata.php` now builds taxonomy canonicals from the clean term URL; page two and deeper append the pagination path without preserving request tracking parameters. Follow-up Playwright validation returned `findingCount=0`, and the canonical smoke confirmed page two emits `/travel-styles/one109-canonical-smoke/page/2/` even when the request includes `?utm_source=codex`.
 
 Bugs deferred: No app-owned P17.4 blocker remains after the local gate. Later Phase 17 work still needs editor workflow review, accessibility/SEO/disclosure pass, and final review.
 
@@ -2445,7 +2445,7 @@ Research consulted:
 - WordPress Theme Handbook: Taxonomy Templates.
 - WordPress Developer Resources: `WP_Query`.
 - WordPress Developer Resources: `paginate_links`.
-- WordPress Developer Resources: `get_pagenum_link`.
+- WordPress Developer Resources: `user_trailingslashit`.
 - WordPress Common APIs Handbook: Escaping Data.
 
 Decision: P17.4 local implementation and review gate passed. Keep Phase 17 overall `In Progress` until the remaining editor-workflow/accessibility/SEO/final-review issues pass review and merge.

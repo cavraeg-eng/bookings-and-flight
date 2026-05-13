@@ -46,14 +46,21 @@ function bookings_and_flights_public_deal_archive_url(): string {
 
 function bookings_and_flights_taxonomy_canonical_url( WP_Term $term ): string {
 	$paged = max( 1, absint( get_query_var( 'paged' ) ) );
-
-	if ( $paged > 1 ) {
-		return get_pagenum_link( $paged, false );
-	}
-
 	$term_link = get_term_link( $term );
 
-	return is_wp_error( $term_link ) ? '' : $term_link;
+	if ( is_wp_error( $term_link ) ) {
+		return '';
+	}
+
+	if ( $paged <= 1 ) {
+		return $term_link;
+	}
+
+	if ( get_option( 'permalink_structure' ) ) {
+		return trailingslashit( $term_link ) . user_trailingslashit( 'page/' . $paged, 'paged' );
+	}
+
+	return add_query_arg( 'paged', $paged, $term_link );
 }
 
 function bookings_and_flights_get_flight_query_code( string $key ): string {
