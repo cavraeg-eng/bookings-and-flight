@@ -202,6 +202,16 @@ Use the `baf_` prefix for new meta. Phase 1 registers the following post meta ke
 - `baf_destination_facts`
 - `baf_destination_activities`
 - `baf_destination_seasonal`
+- `baf_route_travel_time`
+- `baf_route_airport_notes`
+- `baf_route_flexible_dates`
+- `baf_route_destination_notes`
+- `baf_deal_seasonal_context`
+- `baf_deal_weekend_ideas`
+- `baf_deal_theme_notes`
+- `baf_deal_activity_notes`
+- `baf_deal_partner_notes`
+- `baf_deal_source_note`
 - `baf_departure_window`
 - `baf_return_window`
 - `baf_budget_min`
@@ -252,6 +262,8 @@ Phase 16.6 confirms the final Hotels and Stays boundary. WordPress owns the Hote
 Phase 17.1 starts the destination content engine on the existing `destination` CPT. WordPress owns the `/destinations/` archive, destination single guide layout, editable post content, taxonomy labels, destination fact modules, related destination links, related route links, and SEO title/description copy. The destination template may link to existing `/flights/`, `/hotels/`, and `/trip-planner/` shell surfaces, but it must not create live provider inventory, custom search APIs, booking, payment, or auto-publishing behavior. Monetized hotel modules continue to render the existing approved `hotels_partner_search`, `hotels_map_handoff`, and `hotels_listing_handoff` placements with `surface="hotels"` and `channel="destination_single"` context rather than a new unapproved destination placement surface.
 
 Phase 17.2 deepens the route content engine on the existing `route` CPT. WordPress owns the `/routes/` archive, origin-filtered route archives, route single guide layout, editable post content, route fact panels, travel-time/airport/flexible-date/destination notes, related route links, matching destination guide links, destination hotel/activity handoff modules, local alert intent links, and SEO copy. New route-only private meta keys are `baf_route_travel_time`, `baf_route_airport_notes`, `baf_route_flexible_dates`, and `baf_route_destination_notes`; they use textarea sanitization, edit-meta authorization, and `show_in_rest => false`. Route templates may render existing approved `flights_white_label_search`, `flights_low_price_calendar`, `flights_popular_routes`, and `flights_route_map` placements on the `route` surface, and may link to existing `/hotels/` and `/#explore` shell surfaces, but they must not create live provider inventory, custom fare APIs, fake prices, booking, payment, or auto-publishing behavior. Related routes require shared airport meta or shared route taxonomy terms before rendering.
+
+Phase 17.3 adds the deal content engine on the existing `travel_deal` CPT. WordPress owns the `/travel-deals/` archive, travel deal single layout, editable post content, taxonomy labels, editorial budget/date context, seasonal/weekend/theme/activity/source/partner notes, sponsored partner cards, related deal links, matching route links, matching destination guide links, and SEO copy. New deal-only private meta keys are `baf_deal_seasonal_context`, `baf_deal_weekend_ideas`, `baf_deal_theme_notes`, `baf_deal_activity_notes`, `baf_deal_partner_notes`, and `baf_deal_source_note`; they use textarea sanitization, edit-meta authorization, and `show_in_rest => false`. Deal singles may render the existing approved `flights_white_label_search` placement on the `deal` surface and may link to existing `/flights/`, `/hotels/`, `/#explore`, `/routes/`, and `/destinations/` shell surfaces, but they must not create live provider inventory, custom package APIs, fake urgency, unverified prices, booking, payment, or auto-publishing behavior. Related deal links require shared travel taxonomy terms before rendering.
 
 ## User Meta Keys
 
@@ -310,6 +322,8 @@ Phase 15.2 migrated the widget registry schema to `1.0.1`. The migration adds `r
 Phase 15.3 migrated the widget registry schema to `1.0.2`. The migration seeds approved official Travelpayouts plugin shortcode placements for `flights_low_price_calendar` (`tp_calendar_widget`), `flights_popular_routes` (`tp_popular_routes_widget`), and `flights_route_map` (`tp_map_widget`) on the `flights` and `route` public surfaces. These placements use trusted server-side rendering only: `BAF\Core\Frontend\Official_Shortcode_Renderer` checks the approved `tp_` shortcode reference, passes sanitized runtime `origin` and `destination` IATA codes only where available, attaches the generated SubID, and wraps provider output with reserved frame dimensions, loading, fallback, no-script, shadow-DOM loaded-state detection, and one-time visible iframe refresh for map widgets. Public placement projections and shortcode/block attributes still must not expose raw registry embed data or admin notes.
 
 Phase 16.3 migrated the widget registry schema to `1.0.3`. The migration seeds `hotels_map_handoff` and `hotels_listing_handoff` only if they do not already exist, preserving later admin edits. The renderer adds `baf-travelpayouts-widget--{widget_family}` and `baf-travelpayouts-widget--placement-{key}` classes so CSS can scope the current compact Trip.com search iframe treatment to `hotels_partner_search` without clipping future hotel map/listing iframes or link-card placements.
+
+Phase 17.3 migrated the widget registry schema to `1.0.4`. The migration adds `deal` to the existing `flights_white_label_search` placement's `public_surfaces` once so travel deal singles can render the approved Travelpayouts White Label widget with deal-specific SubIDs while preserving the surface allowlist guard for other contexts and respecting future admin edits.
 
 Phase 15.4 preserves White Label result-flow continuity at the theme shell level. Flights and route detail templates render `template-parts/white-label-continuity.php` before `flights_white_label_search`, keeping the Bookings and Flights header, primary navigation, footer disclosure, WordPress-owned route/SEO links, and visible provider handoff language adjacent to the embedded Widget-type White Label module. Widget type remains the preferred continuity mode because the provider result module loads inside the WordPress-owned shell. Page-type White Label is still allowed only when the Travelpayouts dashboard mirrors the Bookings and Flights logo, brand name, menu, footer/legal links, and route back to WordPress.
 

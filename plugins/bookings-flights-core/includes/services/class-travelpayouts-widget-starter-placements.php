@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 final class Travelpayouts_Widget_Starter_Placements {
 
-	public const SCHEMA_VERSION = '1.0.3';
+	public const SCHEMA_VERSION = '1.0.4';
 
 	public static function definitions(): array {
 		$settings          = Settings_Manager::get_travelpayouts();
@@ -36,7 +36,7 @@ final class Travelpayouts_Widget_Starter_Placements {
 					'approved_hosts' => array( 'tpwgts.com' ),
 				),
 				'status'          => '' === $white_label_id ? 'draft' : 'active',
-				'public_surfaces' => array( 'home', 'flights', 'route' ),
+				'public_surfaces' => array( 'home', 'flights', 'route', 'deal' ),
 				'notes'           => 'Seeded from the existing White Label Widget ID setting.',
 			),
 			array(
@@ -203,6 +203,10 @@ final class Travelpayouts_Widget_Starter_Placements {
 			$registry = self::migrate_hotel_discovery_placements( $registry );
 		}
 
+		if ( '' === $stored_version || version_compare( $stored_version, '1.0.4', '<' ) ) {
+			$registry = self::migrate_deal_surfaces( $registry );
+		}
+
 		return $registry;
 	}
 
@@ -250,6 +254,36 @@ final class Travelpayouts_Widget_Starter_Placements {
 
 			$registry['placements'][ $key ] = $sanitized;
 			$changed                       = true;
+		}
+
+		if ( true === $changed ) {
+			$registry['updated_at'] = self::timestamp();
+		}
+
+		return $registry;
+	}
+
+	private static function migrate_deal_surfaces( array $registry ): array {
+		$changed = false;
+		$keys    = array( 'flights_white_label_search' );
+
+		foreach ( $keys as $key ) {
+			if ( empty( $registry['placements'][ $key ] ) || ! is_array( $registry['placements'][ $key ] ) ) {
+				continue;
+			}
+
+			$placement = $registry['placements'][ $key ];
+			$surfaces  = self::sanitize_key_list( $placement['public_surfaces'] ?? array() );
+
+			if ( in_array( 'deal', $surfaces, true ) ) {
+				continue;
+			}
+
+			$surfaces[]                     = 'deal';
+			$placement['public_surfaces']   = $surfaces;
+			$placement['updated_at']        = self::timestamp();
+			$registry['placements'][ $key ] = $placement;
+			$changed                        = true;
 		}
 
 		if ( true === $changed ) {

@@ -38,6 +38,12 @@ function bookings_and_flights_public_route_archive_url( string $origin = '' ): s
 	return add_query_arg( 'route_origin', $origin, $archive_url );
 }
 
+function bookings_and_flights_public_deal_archive_url(): string {
+	$archive_url = get_post_type_archive_link( 'travel_deal' );
+
+	return is_string( $archive_url ) && '' !== $archive_url ? $archive_url : home_url( '/travel-deals/' );
+}
+
 function bookings_and_flights_get_flight_query_code( string $key ): string {
 	if ( ! isset( $_GET[ $key ] ) || ! is_scalar( $_GET[ $key ] ) ) {
 		return '';
@@ -126,6 +132,22 @@ function bookings_and_flights_destination_label_for_post( int $post_id ): string
 	return '' !== $destination ? $destination : wp_strip_all_tags( get_the_title( $post_id ) );
 }
 
+function bookings_and_flights_deal_label_for_post( int $post_id ): string {
+	$destination = sanitize_text_field( (string) get_post_meta( $post_id, 'baf_destination', true ) );
+	$season      = wp_get_post_terms( $post_id, 'travel_season', array( 'fields' => 'names' ) );
+
+	if ( ! is_wp_error( $season ) && ! empty( $season[0] ) && '' !== $destination ) {
+		return sprintf(
+			/* translators: 1: season label, 2: destination label. */
+			__( '%1$s trip idea for %2$s', 'bookings_and_flights' ),
+			sanitize_text_field( (string) $season[0] ),
+			$destination
+		);
+	}
+
+	return '' !== $destination ? $destination : wp_strip_all_tags( get_the_title( $post_id ) );
+}
+
 function bookings_and_flights_get_seo_context(): array {
 	if ( is_singular( 'destination' ) ) {
 		$post_id           = get_queried_object_id();
@@ -202,6 +224,34 @@ function bookings_and_flights_get_seo_context(): array {
 			'title'       => __( 'Flight route guides', 'bookings_and_flights' ),
 			'description' => __( 'Browse WordPress-owned flight route guides with editorial planning context and internal links to Travelpayouts-controlled provider handoff.', 'bookings_and_flights' ),
 			'canonical'   => bookings_and_flights_public_route_archive_url(),
+		);
+	}
+
+	if ( is_singular( 'travel_deal' ) ) {
+		$post_id     = get_queried_object_id();
+		$deal_label  = bookings_and_flights_deal_label_for_post( $post_id );
+		$excerpt     = has_excerpt( $post_id ) ? wp_strip_all_tags( get_the_excerpt( $post_id ) ) : '';
+		$source_note = sanitize_text_field( (string) get_post_meta( $post_id, 'baf_deal_source_note', true ) );
+
+		return array(
+			'title'       => sprintf(
+				/* translators: %s: deal title. */
+				__( '%s travel deal brief', 'bookings_and_flights' ),
+				wp_strip_all_tags( get_the_title( $post_id ) )
+			),
+			'description' => '' !== $excerpt ? wp_trim_words( $excerpt, 28, '' ) : ( '' !== $source_note ? wp_trim_words( $source_note, 28, '' ) : sprintf(
+				/* translators: %s: deal label. */
+				__( 'Review the %s editorial travel deal brief before opening Travelpayouts-controlled provider search and booking support.', 'bookings_and_flights' ),
+				$deal_label
+			) ),
+		);
+	}
+
+	if ( is_post_type_archive( 'travel_deal' ) ) {
+		return array(
+			'title'       => __( 'Travel deal ideas', 'bookings_and_flights' ),
+			'description' => __( 'Browse WordPress-owned travel deal briefs with seasonal, weekend, style, activity, disclosure, and approved provider handoff context.', 'bookings_and_flights' ),
+			'canonical'   => bookings_and_flights_public_deal_archive_url(),
 		);
 	}
 
