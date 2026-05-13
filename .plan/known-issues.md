@@ -117,3 +117,15 @@ Planned fix phase: Phase 17 is closed. Continue Phase 18 AI planner work after `
 Deferred editor/content-manager follow-up: The local `bookings-and-flights-content-manager` plugin remains untracked and page-template oriented. Its `class-meta-boxes.php` and `class-export-import.php` files exceed the 600-line guideline, and it has no declared P17 CPT export/import definitions for `destination`, `route`, or `travel_deal`. Before using that plugin as the tracked field system for large CPT expansion, split the rendering, persistence, media portability, schema export/import, and notice seams documented in `.plan/editor-workflow-content-manager-review.md`.
 
 Deferred CSS follow-up: `plugins/bookings-flights-core/assets/css/frontend.css` is 590 lines after the narrow P17.6 touch-target fix. It remains under the 600-line guideline, but future substantial core frontend CSS work should split the file first.
+
+## Phase 18 AI Planner Watch
+
+Severity: Resolved for Phase 18 after the P18.7 local review gate; keep live-provider, handoff-consumption, and release-readiness behavior on the Phase 19 watchlist.
+
+Affected area: `/trip-planner/`, AI itinerary generation, editable `trip_plan` drafts, `travelpayouts_opportunity_v1` recommendations, local AI handoff intents, AI settings, consent settings, and AI session privacy.
+
+Current issue: P18.1 through P18.7 completed the app-owned AI planner baseline using a WordPress-owned planner route, protected REST generation, demo/live provider abstraction, explicit consent gates, structured schema validation, editor-only draft save, approval-oriented local handoff intent storage, secret/raw-prompt privacy checks, real runtime screenshots, keyboard review, and final documentation gate. No app-owned Phase 18 blocker remains after the final local gate.
+
+Workaround: Use `/trip-planner/` for editable AI-assisted trip briefs only. Keep live availability, prices, booking, payment, provider links, provider search execution, changes, and support with Travelpayouts or partner providers. Treat `baf_ai_handoff_intents` as local approved metadata until a later phase explicitly consumes it with new consent, capability, validation, and documentation gates.
+
+Planned fix phase: Phase 18 is ready for Codex PR review and merge. Continue with Phase 19 saved trips, alerts, analytics, and release readiness only after the review-gate PR is merged and Linear is synced.

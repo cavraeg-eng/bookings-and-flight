@@ -1309,6 +1309,7 @@ Why risky: Phase 18 connects natural-language user intent to AI provider abstrac
 What to check after future changes:
 
 - `/trip-planner/` returns `200`, renders meaningful planner content, and does not show a blank page or framework/runtime overlay.
+- Phase 19 work must start from the P18.7 final gate baseline: AI planner output is editable draft assistance, local handoff intents are non-executing metadata, and any saved-trip, alert, analytics, or release-readiness consumption must add its own consent, capability, validation, and review evidence.
 - The REST endpoint still requires `run_baf_ai` and unauthenticated requests fail safely.
 - Demo mode works without live credentials and without external provider requests.
 - Live mode requires saved external AI consent, provider configuration, and per-request `external_ai_consent` before provider selection.
