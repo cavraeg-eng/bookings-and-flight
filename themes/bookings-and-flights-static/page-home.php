@@ -8,6 +8,7 @@
 $flight_search_url = home_url( '/flights/' );
 $hotel_search_url  = home_url( '/hotels/' );
 $planner_anchor    = home_url( '/trip-planner/' );
+$saved_trips_url   = home_url( '/saved-trips/' );
 $hero_image_id     = absint( bookings_and_flights_field( 'hero_image_id', 0 ) );
 $fallback_image    = get_template_directory_uri() . '/assets/images/home-hero-beach.jpg';
 $trending_routes   = array(
@@ -207,7 +208,7 @@ get_header();
 				<span class="home-entrypoint__label">Trip Planner</span>
 				<span class="home-entrypoint__text">Shape an itinerary idea, then choose the flight or hotel path.</span>
 			</a>
-			<a id="saved-trips" class="home-entrypoint" href="<?php echo esc_url( add_query_arg( 'travel_mode', 'saved', $hotel_search_url ) ); ?>">
+			<a id="saved-trips" class="home-entrypoint" href="<?php echo esc_url( $saved_trips_url ); ?>">
 				<span class="home-entrypoint__label">Saved Trips</span>
 				<span class="home-entrypoint__text">Return to a trip intent and refresh provider-owned search results.</span>
 			</a>

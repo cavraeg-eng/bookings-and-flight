@@ -1713,7 +1713,7 @@ P18.7 note: `ONE-119` started on 2026-05-13 after `ONE-118` merged and Linear wa
 
 ## Phase 19: Saved Trips, Alerts, Analytics, and Release Readiness
 
-Status: `Not Started`
+Status: `In Progress`
 
 Objective: Complete retention, measurement, hardening, and launch validation for the Travelpayouts-powered WordPress product.
 
@@ -1744,6 +1744,8 @@ Validation checklist:
 - Source review for secrets.
 - Performance baseline.
 - Architecture deepening review for Travelpayouts placements, search-surface routing, brand continuity, AI handoff, and content manager maintainability.
+
+P19.1 note: `ONE-120` started on 2026-05-13 after Phase 18 completed and Linear was synced. The saved-trip board now uses a WordPress-owned `/saved-trips/` route, private member-owned `trip_plan` intent records, and `baf/v1/saved-trips` REST endpoints for list, create, read, update, and delete. Saved records store minimized local intent fields plus public Travelpayouts placement context/SubID metadata; they do not store provider booking/payment/confirmation data, live availability, provider URLs, API keys, raw AI prompts, AI itinerary payloads, or AI handoff intents. Anonymous users see a sign-in handoff before storage, and logged-in members must provide a REST nonce plus explicit local-storage consent. Local runtime validation passed after fixing a new-route header contrast/admin-bar overlap bug. WordPress personal-data exporter/eraser integration remains planned for P19.3, while P19.1 provides immediate user deletion through the board and REST delete endpoint.
 
 ## Cross-Phase Rules
 

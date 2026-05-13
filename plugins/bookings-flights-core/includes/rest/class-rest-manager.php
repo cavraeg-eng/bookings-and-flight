@@ -20,6 +20,7 @@ final class Rest_Manager {
 			new Affiliate_Click_Controller(),
 			new AI_Itinerary_Controller(),
 			new AI_Handoff_Controller(),
+			new Saved_Trips_Controller(),
 		);
 
 		foreach ( $controllers as $controller ) {

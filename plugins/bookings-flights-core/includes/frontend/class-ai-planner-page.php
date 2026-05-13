@@ -9,6 +9,7 @@ namespace BAF\Core\Frontend;
 
 use BAF\Core\AI\Provider_Factory;
 use BAF\Core\Capabilities\Capability_Manager;
+use BAF\Core\Services\Saved_Trip_Service;
 use BAF\Core\Settings\Settings_Manager;
 
 defined( 'ABSPATH' ) || exit;
@@ -126,6 +127,7 @@ final class AI_Planner_Page {
 			'mode'                    => $mode,
 			'liveReady'               => 'live' === $mode && true === (bool) $live['ready'],
 			'liveReadinessReason'     => sanitize_key( (string) $live['reason'] ),
+			'resumeTrip'              => self::resume_trip_data(),
 			'externalAiAllowed'       => (bool) $consent['allow_external_ai'],
 			'providerRequestsAllowed' => (bool) $consent['allow_provider_requests'],
 			'strings'                 => array(
@@ -137,7 +139,22 @@ final class AI_Planner_Page {
 				'handoffConsent'     => __( 'Provider request consent must be enabled before preparing handoff intents.', 'bookings-flights-core' ),
 				'liveNotReady'       => (string) $live['message'],
 				'loading'            => __( 'Preparing a structured trip brief...', 'bookings-flights-core' ),
+				'resumeLoaded'       => __( 'Saved trip intent loaded into the planner.', 'bookings-flights-core' ),
 			),
 		);
+	}
+
+	private static function resume_trip_data(): array {
+		if ( ! isset( $_GET['resume_trip'] ) || ! is_scalar( $_GET['resume_trip'] ) ) {
+			return array();
+		}
+
+		$post_id = absint( wp_unslash( $_GET['resume_trip'] ) );
+
+		if ( $post_id <= 0 ) {
+			return array();
+		}
+
+		return ( new Saved_Trip_Service() )->resume_payload_for_current_user( $post_id );
 	}
 }
