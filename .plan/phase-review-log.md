@@ -2450,3 +2450,45 @@ Research consulted:
 - WordPress Common APIs Handbook: Escaping Data.
 
 Decision: P17.4 completed after PR #45 merged on 2026-05-13 with merge commit `226d154a1612f623e8fb95c985686b0ba355c992`. Keep Phase 17 overall `In Progress` until the remaining editor-workflow/accessibility/SEO/final-review issues pass review and merge.
+
+## Phase 17.5 Review - 2026-05-13
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Linear issue: `ONE-110`
+
+Scope reviewed: `ONE-110` editor workflow and content manager field pipeline. Reviewed Phase 17 objective, P17 destination/route/deal template metadata, current core post meta contracts, legacy local content-manager seams, Travelpayouts raw-script boundary, real admin runtime screenshots, keyboard navigation, and documentation alignment.
+
+Acceptance criteria result: Passed locally for the PR candidate. Destination, Route, and Travel Deal edit screens now expose structured guide-module meta boxes for the fields rendered by public Phase 17 templates, so editors can maintain destination facts, hotel-guide notes, route planning context, deal context, budget notes, airport codes, and source notes without typing raw `baf_*` custom-field keys.
+
+Security review: Passed locally. P17.5 added no public REST endpoints, provider API calls, custom SQL, options, custom tables, cron jobs, private-data writes beyond normal post meta, checkout, payment path, auto-booking, or auto-publishing behavior. Saves require a nonce, autosave/revision guards, and `edit_post` capability. Input is sanitized by field type and output is escaped on render.
+
+REST permission review: Not applicable. P17.5 added no REST endpoints and did not change public REST exposure. Existing registered P17 post meta remains `show_in_rest=false`.
+
+Database/migration review: Passed for scope. No schema migration, custom table, option migration, or destructive data change was added. Temporary browser QA posts and the temporary admin user were removed after validation and confirmed absent.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Playwright Chromium screenshots covered destination, route, and deal editor screens at desktop width plus a mobile destination editor view. Keyboard review reached the destination editor field, tabbed to the destination airport field, and focused the WordPress `Save draft` control.
+
+Regression review: Existing P17 destination, route, deal, and taxonomy public templates remain on the same `baf_*` meta contracts and approved Travelpayouts placement wrappers. Editors still use normal WordPress content, taxonomy assignment, preview, draft, and publish flows; raw Travelpayouts scripts remain governed by placement registry/admin screens rather than post content.
+
+Validation performed: PHP syntax checks for changed PHP files; file-size checks; `git diff --check`; core plugin active check; admin-context meta-box registration smoke; save-handler smoke for valid nonce, invalid nonce, airport-code sanitization, budget sanitization, textarea sanitization, empty-value cleanup, and rendered boundary copy; source scan for raw Travelpayouts script requirements; Playwright Chromium editor screenshots; keyboard navigation review; temporary post/user cleanup.
+
+Bugs found: CLI admin-context smoke initially found `add_meta_box()` could be unavailable if the registration hook was triggered outside loaded admin includes. Browser keyboard review found Destination fields inherited a stale "Route context" section and tabbed to travel style before airport code.
+
+Bugs fixed: `Editor_Meta_Boxes::register_meta_boxes()` now safely returns when `add_meta_box()` is unavailable, and Destination editor fields now use a "Guide context" section so visible grouping and keyboard order are destination, airport code, then travel style.
+
+Bugs deferred: No app-owned P17.5 blocker remains after the local gate. The legacy local `bookings-and-flights-content-manager` plugin remains untracked, page-template oriented, missing P17 CPT export/import declarations, and oversized in `class-meta-boxes.php` and `class-export-import.php`; those splits are documented in `.plan/editor-workflow-content-manager-review.md`.
+
+Documentation updated: `.plan/editor-workflow-content-manager-review.md`, `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Plugin Handbook: Custom Meta Boxes.
+- WordPress Plugin Security Handbook: Securing Input.
+- WordPress Plugin Security Handbook: Nonces.
+- WordPress Common APIs Handbook: Escaping Data.
+- WordPress Developer Resources: `admin_url()`.
+- WordPress Developer Resources: `admin_notices`.
+
+Decision: P17.5 local implementation and review gate passed. Keep Phase 17.5 `In Review` until the PR is reviewed, merged, and Linear is synced; keep Phase 17 overall `In Progress` until the remaining accessibility/SEO/disclosure and final-review issues pass review and merge.
