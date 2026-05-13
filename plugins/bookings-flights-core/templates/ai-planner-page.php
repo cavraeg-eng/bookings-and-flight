@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
 $ai_settings      = Settings_Manager::get_ai();
 $consent_settings = Settings_Manager::get_consent();
 $can_run_ai       = current_user_can( Capability_Manager::RUN_AI );
+$can_edit_content = current_user_can( Capability_Manager::EDIT_CONTENT );
 $mode             = sanitize_key( (string) $ai_settings['mode'] );
 $live_ready       = 'live' === $mode && Provider_Factory::supports_live_provider( (string) $ai_settings['provider'] ) && '' !== (string) $ai_settings['api_key'] && true === (bool) $consent_settings['allow_external_ai'];
 
@@ -92,6 +93,11 @@ get_header();
 						<span><?php esc_html_e( 'Allow this planner request to use the configured live AI provider if live mode is enabled. Demo mode stays inside WordPress.', 'bookings-flights-core' ); ?></span>
 					</label>
 
+					<label class="baf-ai-planner__consent baf-ai-planner__save-option" for="baf_ai_save_draft">
+						<input id="baf_ai_save_draft" type="checkbox" name="save_draft" value="1" <?php disabled( ! $can_edit_content ); ?>>
+						<span><?php esc_html_e( 'Save as an editable WordPress Trip Plan draft. It will not publish automatically.', 'bookings-flights-core' ); ?></span>
+					</label>
+
 					<div class="baf-ai-planner__actions">
 						<button class="baf-ai-planner__submit" type="submit" <?php disabled( ! $can_run_ai ); ?>><?php esc_html_e( 'Create trip brief', 'bookings-flights-core' ); ?></button>
 						<p class="baf-ai-planner__mode">
@@ -123,6 +129,7 @@ get_header();
 							<dl data-baf-ai-planner-brief></dl>
 						</div>
 
+						<p class="baf-ai-planner__draft" data-baf-ai-planner-draft hidden></p>
 						<div class="baf-ai-planner__days" data-baf-ai-planner-days></div>
 						<div class="baf-ai-planner__opportunities" data-baf-ai-planner-opportunities></div>
 						<p class="baf-ai-planner__disclaimer" data-baf-ai-planner-disclaimer></p>

@@ -1313,6 +1313,7 @@ What to check after future changes:
 - Demo mode works without live credentials and without external provider requests.
 - Live mode requires saved external AI consent, provider configuration, and per-request `external_ai_consent` before provider selection.
 - Rendered results do not echo raw prompt text, API keys, bearer tokens, postback secrets, provider payloads, or private customer data.
+- Draft saving remains editor-only, requires `edit_baf_content`, creates `draft` `trip_plan` records only, and does not publish or store raw prompt text in post content.
 - AI opportunities remain `not_executed` and `requires_approval` until an authorized later workflow explicitly approves a handoff or placement draft.
 - Planner CTAs in header, mobile nav, homepage, destination, taxonomy, and related content surfaces point to `/trip-planner/`.
 - Desktop/mobile screenshots show no horizontal overflow, clipped controls, unreadable text, missing disclosure/boundary copy, or fixed-header overlap.

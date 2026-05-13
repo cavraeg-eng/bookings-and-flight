@@ -139,6 +139,11 @@
 	accent-color: hsl(176 63% 28%);
 }
 
+.baf-ai-planner__save-option {
+	border-color: hsl(205 46% 76%);
+	background: hsl(204 78% 96%);
+}
+
 .baf-ai-planner__actions {
 	display: grid;
 	grid-template-columns: minmax(12rem, 0.35fr) minmax(0, 1fr);
@@ -231,6 +236,22 @@
 	min-inline-size: 0;
 	overflow-wrap: anywhere;
 	font-weight: 650;
+}
+
+.baf-ai-planner__draft {
+	margin: 1rem 0 0;
+	padding: 0.8rem 0.9rem;
+	border: 1px solid hsl(158 38% 72%);
+	border-radius: 8px;
+	background: hsl(150 55% 94%);
+	color: hsl(160 44% 24%);
+	font-weight: 750;
+}
+
+.baf-ai-planner__draft a {
+	color: hsl(176 63% 28%);
+	text-decoration: underline;
+	text-underline-offset: 3px;
 }
 
 .baf-ai-planner__days,

@@ -106,6 +106,8 @@ Phase 12.6 records the final Phase 12 review, runtime screenshot, keyboard navig
 
 Phase 18.1 starts the AI planner surface on a WordPress-owned route at `/trip-planner/`. The route is registered by `BAF\Core\Frontend\AI_Planner_Page` with query var `baf_ai_planner`, template `plugins/bookings-flights-core/templates/ai-planner-page.php`, route-scoped assets `baf-ai-planner`, and one-time rewrite invalidation tracked by option `baf_ai_planner_rewrite_version`. Header, mobile nav, homepage, destination, and taxonomy planner CTAs should point to `/trip-planner/` once this route exists. The page may call the protected AI itinerary REST endpoint, but it must not publish, book, pay, execute provider searches, or store live inventory.
 
+Phase 18.2 adds optional editor-controlled draft saving from the planner. The planner sends `save=true` only for users with `edit_baf_content`; the server also rejects unauthorized save requests before provider selection. Saved records are `draft` `trip_plan` posts with editable day-by-day post content and sanitized itinerary metadata. AI still cannot publish, book, pay, execute provider searches, or create Travelpayouts placement drafts in this slice.
+
 ## REST Namespace
 
 | Contract | Value |
@@ -452,6 +454,7 @@ Response behavior:
 - Current live PHP adapter support is `openai`; unsupported configured providers fail safely without sending data externally.
 - All AI outputs are validated by `BAF\Core\AI\Itinerary_Schema` before response or draft save.
 - Responses include a sanitized `trip_brief` with destination, origin, dates, day count, traveler count, style, budget, mode, and whether data was sent externally. Raw prompt text is not returned in the planner response.
+- When `save=true` succeeds, responses include `trip_plan_id`, `saved_status=draft`, and a `trip_plan` object with the draft ID, draft status, and an edit URL for users who can edit the post.
 - Affiliate/provider tool opportunities are recommendations only: `status = not_executed`, `requires_approval = true`; no provider search, link creation, booking, or publishing action is executed by AI.
 - Provider errors return safe WordPress errors and do not expose API keys, raw prompts, raw provider payloads, or secrets.
 - `bf_ai_sessions` records hashed request/output metadata and sanitized summaries/errors only.

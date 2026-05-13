@@ -2625,3 +2625,46 @@ Research consulted:
 - Travelpayouts Help Center: Affiliate programs tools.
 
 Decision: P18.1 can move through Codex PR review and merge if the thread-aware review check stays clear and final validation remains passing.
+
+### P18.2 — Day-by-day itinerary and editable trip plan draft
+
+Date: 2026-05-13
+
+Status: In Review
+
+Reviewer: Codex
+
+Linear issue: `ONE-114`
+
+Scope reviewed: `ONE-114` editable `trip_plan` draft flow. Reviewed current Phase 18 planner route, AI itinerary REST/service/provider contracts, existing private `trip_plan` CPT, post meta registration, capability model, schema validation, and no-auto-publish boundary.
+
+Acceptance criteria result: Passed locally for the PR candidate. Demo generation still works without live credentials. Editors can opt into saving a generated itinerary as an editable WordPress `trip_plan` draft. Structured output is validated before display/save, draft save is capability-gated, and AI never publishes content.
+
+Security review: Passed locally. The frontend sends `save=true` only for users with `edit_baf_content`. The service also rejects unauthorized save requests before provider selection, avoiding unnecessary live provider calls. Saved post content is built from sanitized schema output, not raw prompt text. The response exposes only draft ID/status/edit URL to a user who can edit the draft.
+
+REST permission review: Passed locally. The endpoint remains protected by `run_baf_ai`; save behavior additionally requires `edit_baf_content`. A temporary run-AI-only user received `403:baf_ai_save_forbidden` for `save=true`.
+
+Database/migration review: Passed for scope. No custom table or migration was added. Saved drafts use the existing non-public `trip_plan` CPT and existing `baf_*` post meta keys, including `baf_itinerary_json`.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser path was attempted first but reported no active pane, so Playwright Chromium was used. The authenticated planner flow confirmed the save checkbox, keyboard focus through save and submit, saved draft result, edit-link handoff to the WordPress editor, and cleanup.
+
+Regression review: Existing prompt-to-trip brief output, consent gate, demo/live provider selection, recommendation-only opportunities, no provider search execution, and no raw prompt echo remain intact.
+
+Validation performed: PHP syntax checks for changed PHP/template files; `node --check` for `ai-planner.js`; REST admin save and limited-user permission smokes; browser save/result/editor-link screenshots and keyboard review; temporary draft/user cleanup; final browser rerun after the frontend submit fix.
+
+Bugs found: The first browser editor-link validation waited for WordPress admin `networkidle`, which is too strict because admin/editor background requests can continue; the validation script was adjusted to use `domcontentloaded` plus URL evidence. A later self-review cleanup introduced a frontend submit regression by shadowing the request `payload` with the response payload inside the `try` block, which prevented the REST request from firing.
+
+Bugs fixed: The draft save path now performs an early `edit_baf_content` gate before provider selection, writes editable post content instead of an empty draft body, stores date meta, returns a safe edit-link payload, exposes an editor-only save option in the planner UI, and uses a separate `responsePayload` variable so submit requests fire correctly.
+
+Bugs deferred: Approval workflow that converts AI opportunities into Travelpayouts placement drafts, saved trip board, alert CTAs, and final Phase 18 review remain later Phase 18/19 scope.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/phase-review-log.md`, `.plan/phase-18-trip-plan-draft-flow.md`.
+
+Research consulted:
+- WordPress REST API Handbook: Adding Custom Endpoints.
+- WordPress Plugin Security Handbook.
+- WordPress Plugin Handbook: Registering Custom Post Types.
+- WordPress Code Reference: `wp_insert_post()`.
+- AI SDK Core: Generating Structured Data.
+
+Decision: P18.2 can move through Codex PR review and merge if final validation and thread-aware review checks stay clear.
