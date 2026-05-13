@@ -70,7 +70,7 @@ final class OpenAI_Provider implements AI_Provider_Interface {
 			return new \WP_Error( 'baf_ai_provider_malformed', __( 'The configured AI provider returned malformed data.', 'bookings-flights-core' ), array( 'status' => 502 ) );
 		}
 
-		$content = (string) ( $body['choices'][0]['message']['content'] ?? '' );
+		$content = $this->string_value( $body['choices'][0]['message']['content'] ?? '' );
 		$output  = json_decode( $content, true );
 
 		if ( ! is_array( $output ) ) {

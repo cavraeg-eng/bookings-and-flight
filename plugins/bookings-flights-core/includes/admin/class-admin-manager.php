@@ -139,6 +139,9 @@ final class Admin_Manager {
 		$travelpayouts = Settings_Manager::get_travelpayouts();
 		$ai            = Settings_Manager::get_ai();
 		$bridge_status = self::affiliate_bridge_status();
+		$ai_mode       = is_scalar( $ai['mode'] ?? '' ) ? (string) $ai['mode'] : '';
+		$ai_provider   = is_scalar( $ai['provider'] ?? '' ) ? (string) $ai['provider'] : '';
+		$ai_api_key    = is_scalar( $ai['api_key'] ?? '' ) ? (string) $ai['api_key'] : '';
 		?>
 		<div class="wrap baf-admin">
 			<h1><?php echo esc_html__( 'Bookings and Flights', 'bookings-flights-core' ); ?></h1>
@@ -181,8 +184,8 @@ final class Admin_Manager {
 				);
 				self::render_status_card(
 					__( 'AI mode', 'bookings-flights-core' ),
-					'demo' === (string) $ai['mode'] || ( '' !== (string) $ai['provider'] && '' !== (string) $ai['api_key'] ),
-					'demo' === (string) $ai['mode'] ? __( 'Demo mode is available without live credentials.', 'bookings-flights-core' ) : __( 'Live AI provider settings are configured.', 'bookings-flights-core' ),
+					'demo' === $ai_mode || ( '' !== $ai_provider && '' !== $ai_api_key ),
+					'demo' === $ai_mode ? __( 'Demo mode is available without live credentials.', 'bookings-flights-core' ) : __( 'Live AI provider settings are configured.', 'bookings-flights-core' ),
 					__( 'Live AI mode needs a provider and API key.', 'bookings-flights-core' )
 				);
 				?>

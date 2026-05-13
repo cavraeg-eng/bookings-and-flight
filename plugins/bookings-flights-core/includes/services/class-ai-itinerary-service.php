@@ -34,7 +34,7 @@ final class AI_Itinerary_Service {
 			return $this->save_forbidden_error();
 		}
 
-		if ( 'live' === sanitize_key( (string) $settings['mode'] ) && true !== $normalized['external_ai_consent'] ) {
+		if ( 'live' === sanitize_key( $this->string_value( $settings['mode'] ?? '' ) ) && true !== $normalized['external_ai_consent'] ) {
 			return new \WP_Error( 'baf_ai_request_consent_required', __( 'Confirm external AI consent before sending planner details to a live provider.', 'bookings-flights-core' ), array( 'status' => 403 ) );
 		}
 

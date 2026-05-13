@@ -168,8 +168,8 @@ final class Settings_Manager {
 	public static function sanitize_ai( $value ): array {
 		$value    = is_array( $value ) ? $value : array();
 		$existing = self::get_ai();
-		$mode     = sanitize_key( (string) ( $value['mode'] ?? 'demo' ) );
-		$provider = sanitize_key( (string) ( $value['provider'] ?? '' ) );
+		$mode     = sanitize_key( is_scalar( $value['mode'] ?? 'demo' ) ? (string) $value['mode'] : 'demo' );
+		$provider = sanitize_key( is_scalar( $value['provider'] ?? '' ) ? (string) $value['provider'] : '' );
 
 		if ( ! in_array( $mode, array( 'demo', 'live' ), true ) ) {
 			$mode = 'demo';
