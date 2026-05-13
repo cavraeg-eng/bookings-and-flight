@@ -76,6 +76,13 @@
   transform: translateY(0);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav__link,
+  .mobile-nav__cta {
+    transition-delay: 0ms !important;
+  }
+}
+
 @media (max-width: 42em) {
   .mobile-nav__link {
     font-size: 1.85rem;

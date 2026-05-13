@@ -124,6 +124,7 @@
 /* Logo - Dark variant (for light headers) */
 .header__logo-dark {
   display: none;
+  min-block-size: 44px;
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 600;
@@ -145,6 +146,7 @@
   display: flex;
   align-items: baseline;
   gap: 0.25em;
+  min-block-size: 44px;
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 600;
@@ -316,8 +318,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  inline-size: 2.5rem;
-  block-size: 2.5rem;
+  inline-size: 44px;
+  block-size: 44px;
   padding: 0;
   background: none;
   border: none;
@@ -385,10 +387,11 @@
 .header__menu-toggle-dark {
   display: none;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   gap: 5px;
-  inline-size: 28px;
-  block-size: 28px;
+  inline-size: 44px;
+  block-size: 44px;
   padding: 0;
   background: none;
   border: none;
@@ -405,10 +408,11 @@
 .header__menu-toggle-light {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   gap: 5px;
-  inline-size: 28px;
-  block-size: 28px;
+  inline-size: 44px;
+  block-size: 44px;
   padding: 0;
   background: none;
   border: none;
@@ -432,7 +436,7 @@
 .header__menu-toggle-dark .header__menu-bar,
 .header__menu-toggle-light .header__menu-bar {
   display: block;
-  inline-size: 100%;
+  inline-size: 28px;
   block-size: 2px;
   border-radius: var(--radius-full);
   transition: all var(--duration-normal) var(--ease-out-expo);

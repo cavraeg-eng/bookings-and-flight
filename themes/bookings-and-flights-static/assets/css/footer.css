@@ -41,8 +41,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  inline-size: 2.5rem;
-  block-size: 2.5rem;
+  inline-size: 44px;
+  block-size: 44px;
   background: hsl(0 0% 100% / 0.1);
   border-radius: 50%;
   color: var(--bg-subtle);
@@ -70,6 +70,10 @@
 }
 
 .site-footer__links a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  min-inline-size: 44px;
   font-family: var(--font-body);
   font-size: 0.9375rem;
   color: var(--text-muted);
@@ -186,6 +190,10 @@
 }
 
 .site-footer--layout-columns-3 .site-footer__legal a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  min-inline-size: 44px;
   font-family: var(--font-body);
   font-size: 0.875rem;
   color: hsl(0 0% 76%);
@@ -204,6 +212,10 @@
 }
 
 .site-footer__legal a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  min-inline-size: 44px;
   font-family: var(--font-body);
   font-size: 0.875rem;
   color: hsl(0 0% 76%);
