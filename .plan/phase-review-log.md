@@ -1728,3 +1728,47 @@ Research consulted:
 Decision: P14.6 local implementation and review gate passed. Keep Phase 14 overall `In Progress` until remaining Phase 14 issues pass review and merge.
 
 P14.6 Codex review follow-up on 2026-05-12: PR #27 review found that the original asset-pruning guard only inspected queried singular post content, so official Travelpayouts shortcodes rendered from widget areas, non-singular templates, or template-level `do_shortcode()` calls could lose their required `travelpayouts-assets-*` runtime. The guard now preserves official assets in non-singular contexts by default, scans active widget instance content for official Travelpayouts shortcode/block patterns, and exposes the `bookings_and_flights_has_official_travelpayouts_output` filter so template-level official output can opt in before pruning. PHP syntax, targeted diff checks, Local-socket WP-CLI smoke checks for content/widget/non-singular/filter detection, and the Playwright responsive/script-scope pass passed after the patch.
+
+## Phase 14.7 Final Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-92` final Phase 14 review and documentation gate. Reviewed Phase 14 objective, scope, acceptance criteria, P14.1 through P14.6 implementation/review notes, current runtime Home/Flights/Hotels/Privacy/Terms pages, Travelpayouts handoff boundaries, disclosure/legal copy, accessibility and responsive evidence, script enqueue scope, source-secret/unsupported-claim scans, and deferred-work documentation.
+
+Acceptance criteria result: Passed locally for the PR candidate. The placeholder homepage has been replaced with an image-led travel search shell, Travelpayouts-powered flight/hotel entry points, discovery modules, flexible planning prompts, price-alert and AI-planner placeholder entries, trust/disclosure cards, footer compliance links, and visible partner-support boundaries. Search actions route through the Phase 13/14 placement seam into Travelpayouts-controlled White Label or approved partner widget/handoff surfaces, while the Bookings and Flights header/navigation shell remains visible on Home, Flights, and Hotels. Disclosures remain visible, and source scans found no fake prices, unsupported live-availability/fare guarantees, direct-checkout claims, auto-booking, auto-publishing, or secret exposure.
+
+Security review: Passed locally. Phase 14 added no REST routes, custom SQL, database migrations, provider credential storage, AI provider calls, POST writes, alert capture, payment/checkout flows, or auto-publishing actions. Changed templates continue to escape output and route users to provider-owned booking surfaces. The final source scan found no API tokens, authorization/bearer strings, client/postback secrets, or direct Bookings-and-Flights checkout claims in the reviewed source/rendered pages.
+
+REST permission review: Not applicable. No REST routes or permission callbacks changed in the Phase 14 public homepage/search-surface work.
+
+Database/migration review: Not applicable. No custom tables, schema migrations, or persistent data mutations changed in Phase 14.
+
+UI review: Passed locally with real runtime screenshots. Desktop, tablet, and mobile screenshots covered the homepage; mobile-menu screenshots confirmed product navigation; and desktop/mobile widget screenshots covered Flights and Hotels. Runtime checks found no horizontal overflow, blank page state, framework overlay, page error, failed request, relevant console error, unexpected official Travelpayouts plugin runtime on Home/Flights/Hotels, or broken widget/handoff state. Keyboard review confirmed Home reaches the search submit flow, the mobile menu reaches Plan trip, Flights reaches `Open flight search`, and Hotels reaches the Trip.com iframe followed by `Open hotel search`.
+
+Regression review: Existing Phase 13 widget registry, SubID/handoff behavior, consent/disclosure boundaries, P14.2 Flights/Hotels shell templates, P14.5 legal/footer links, and P14.6 asset scoping remain intact. Provider-owned Flights React JSX-source warnings remain a watch item only; they did not produce page errors, failed requests, overlays, or broken keyboard behavior in the final gate.
+
+Validation performed: PHP syntax checks for public theme templates/functions/helpers; Local-socket WP-CLI published-page inventory; HTTP `200` smoke for Home, Flights, Hotels, Privacy, and Terms; required disclosure/handoff/legal text scans; negative scans for secrets and unsupported booking/fare claims; `git diff --check`; file-size checks; Playwright Chromium desktop/tablet/mobile screenshots; Playwright mobile-menu, widget-handoff, keyboard, console/failure, horizontal-overflow, and script-scope checks. The Codex Browser surface was unavailable in this turn, so Playwright Chromium was used for the required runtime browser screenshots and keyboard navigation review.
+
+Bugs found: No new production bug was found in the final P14.7 gate. The source-scan command initially ran in parallel before the temporary HTML files existed; it was rerun after the HTTP smoke wrote the files and then passed.
+
+Bugs fixed: No code bug required a P14.7 patch. Documentation was updated to mark Phase 14 completed, record the final validation baseline, preserve regression watch items, and clarify the next planned phases.
+
+Bugs deferred: Standalone Explore, Deals, Trip Planner, and Saved Trips pages remain later scope. Published destination, route, travel deal, and city editorial content remains absent until later SEO/content phases. Real price-alert capture, saved alert storage, AI prompt submission, and AI-generated itinerary workflows remain later planned phases. Provider-owned Travelpayouts runtime warnings remain watch items when they do not cause page errors, failed requests, overlays, broken handoffs, or keyboard traps.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Files.
+- WordPress Theme Handbook: Including CSS and JavaScript.
+- WordPress Common APIs Handbook: Escaping Data.
+- WordPress Common APIs Handbook: Sanitizing Data.
+- WordPress Developer Resources: `wp_enqueue_scripts()`, `wp_dequeue_script()`, and `wp_dequeue_style()`.
+- W3C WAI WCAG 2.2: Focus Visible and Target Size (Minimum).
+- W3C WAI WCAG technique C39 for `prefers-reduced-motion`.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+- Travelpayouts Help Center: ID and SubID affiliate marker guidance.
+
+Decision: Phase 14 is complete after this review gate merges. Phase 15 may start from the completed homepage/search-surface baseline.

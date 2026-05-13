@@ -698,3 +698,30 @@ Related files/routes/settings:
 - `/`
 - `/flights/`
 - `/hotels/`
+
+## Phase 14 Final Homepage Completion Gate
+
+Fragile area: completed Phase 14 homepage/search baseline that Phase 15 will build on.
+
+Why risky: Phase 15 flight work depends on the homepage search shell, product navigation, disclosure language, and Flights/Hotels handoff surfaces staying stable. Later flight-specific changes could accidentally reintroduce fake inventory claims, skip the Travelpayouts wrapper seam, or make the search/result flow feel like an unrelated redirect.
+
+What to check after future changes:
+
+- Homepage keeps the image-led search shell, discovery modules, flexible planning prompts, retention cards, trust/disclosure row, and footer compliance block.
+- Flight and hotel searches still route into approved WordPress shell pages before handing off to Travelpayouts/partner surfaces.
+- Header continuity remains visible on Home, Flights, and Hotels at desktop, tablet, and mobile sizes.
+- Browser screenshots stay free of horizontal overflow, overlapping widgets/text, blank provider regions, or unrelated provider headers.
+- Source scans remain free of API secrets, direct-checkout claims, fake prices, guaranteed-lowest-price claims, live-fare claims, auto-booking, and auto-publishing language.
+- Deferred homepage anchors for Explore, Deals, Trip Planner, and Saved Trips remain honest until standalone pages are implemented.
+
+Related files/routes/settings:
+
+- `themes/bookings-and-flights-static/page-home.php`
+- `themes/bookings-and-flights-static/page-flights.php`
+- `themes/bookings-and-flights-static/page-hotels.php`
+- `themes/bookings-and-flights-static/template-parts/travel-search-placement.php`
+- `themes/bookings-and-flights-static/assets/css/home.css`
+- `themes/bookings-and-flights-static/assets/css/search-surface.css`
+- `/`
+- `/flights/`
+- `/hotels/`

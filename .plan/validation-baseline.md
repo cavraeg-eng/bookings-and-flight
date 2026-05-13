@@ -658,6 +658,31 @@ P14.6 local result on 2026-05-12: PHP syntax checks for `functions.php` and `inc
 
 P14.6 Codex review follow-up on 2026-05-12: PR #27 review found that official Travelpayouts assets could be removed when an official shortcode rendered outside the queried singular post content. The asset guard now keeps official plugin assets on non-singular contexts by default, scans active widget instance content for official Travelpayouts shortcodes/blocks, supports a template-level `bookings_and_flights_has_official_travelpayouts_output` opt-in filter, and still prunes the official plugin runtime from the reviewed Home, Flights, and Hotels singular surfaces when no official shortcode/widget/filter output is present. PHP syntax, targeted `git diff --check`, Local-socket WP-CLI smoke checks for post-content detection, active-widget detection, non-singular preservation, and filter opt-in, and the Playwright responsive/script-scope pass passed after the patch.
 
+P14.7 final Phase 14 review gate validation:
+
+```bash
+php -l themes/bookings-and-flights-static/page-home.php
+php -l themes/bookings-and-flights-static/page-flights.php
+php -l themes/bookings-and-flights-static/page-hotels.php
+php -l themes/bookings-and-flights-static/template-parts/travel-search-placement.php
+php -l themes/bookings-and-flights-static/footer.php
+php -l themes/bookings-and-flights-static/page-legal.php
+php -l themes/bookings-and-flights-static/functions.php
+php -l themes/bookings-and-flights-static/inc/travelpayouts-assets.php
+php -d mysqli.default_socket="/Users/djcavy/Library/Application Support/Local/run/qRHZasMmV/mysql/mysqld.sock" /opt/homebrew/bin/wp --path="/Users/djcavy/Local Sites/bookings-and-flights/app/public" post list --post_type=page --fields=ID,post_title,post_name,post_status --format=table --skip-plugins --skip-themes
+curl -ksS -L -o /tmp/one92-home.html -w 'home %{http_code} %{url_effective}\n' 'http://bookings-and-flights.local/'
+curl -ksS -L -o /tmp/one92-flights.html -w 'flights %{http_code} %{url_effective}\n' 'http://bookings-and-flights.local/flights/'
+curl -ksS -L -o /tmp/one92-hotels.html -w 'hotels %{http_code} %{url_effective}\n' 'http://bookings-and-flights.local/hotels/'
+curl -ksS -L -o /tmp/one92-privacy.html -w 'privacy %{http_code} %{url_effective}\n' 'http://bookings-and-flights.local/privacy-policy/'
+curl -ksS -L -o /tmp/one92-terms.html -w 'terms %{http_code} %{url_effective}\n' 'http://bookings-and-flights.local/terms-and-conditions/'
+rg source checks for required disclosure/handoff/legal text
+rg negative source checks for secrets, unsupported direct-checkout claims, fake live-fare/guarantee claims, auto-booking, and auto-publishing language
+node Playwright final Phase 14 smoke against Home, Flights, and Hotels
+git diff --check
+```
+
+P14.7 local result on 2026-05-12: The final Phase 14 review gate passed locally. PHP syntax checks for the homepage, Flights, Hotels, shared search placement, footer, legal template, functions file, and Travelpayouts asset helper passed. WP-CLI with the Local MySQL socket confirmed Home, Flights, Hotels, About, Contact, Services, Privacy Policy, and Terms & Conditions pages are published; the command still emits known WP-CLI/PHP 8.5 deprecation noise but exits successfully. HTTP smoke returned `200` for Home, Flights, Hotels, Privacy, and Terms. Source scans confirmed required affiliate disclosure, partner checkout, Support, Destination index, Travelpayouts/handoff, `Open flight search`, `Open hotel search`, Privacy, and Terms text, and found no API tokens, authorization/bearer terms, client/postback secrets, direct-checkout claims, guaranteed-lowest-price claims, live/real-time fare claims, auto-booking, or auto-publishing language. Playwright Chromium captured final desktop, tablet, and mobile screenshots for the homepage, mobile-menu screenshots, and desktop/mobile widget screenshots for Flights and Hotels. The runtime report found no findings: no horizontal overflow, page errors, failed requests, relevant console errors, blank pages, or script-scope regressions. Homepage counts confirmed discovery/entry/retention content and visible disclosure/trip-planner signals. Script-scope checks confirmed Home loads no official Travelpayouts plugin assets, no `search-surface.js`, and no White Label script; Flights loads the approved search-surface and White Label assets without official plugin runtime assets; and Hotels keeps the approved widget output without search-surface or official plugin runtime assets. Keyboard review confirmed Home reaches the search submit path, mobile menu reaches Plan trip, Flights reaches `Open flight search`, and Hotels reaches the Trip.com iframe and `Open hotel search`. Screenshots: `/tmp/one92-home-desktop.png`, `/tmp/one92-home-desktop-full.png`, `/tmp/one92-home-tablet.png`, `/tmp/one92-home-mobile.png`, `/tmp/one92-home-mobile-full.png`, `/tmp/one92-home-mobile-menu.png`, `/tmp/one92-flights-desktop.png`, `/tmp/one92-flights-widget-desktop.png`, `/tmp/one92-flights-mobile.png`, `/tmp/one92-flights-widget-mobile.png`, `/tmp/one92-hotels-desktop.png`, `/tmp/one92-hotels-widget-desktop.png`, `/tmp/one92-hotels-mobile.png`, and `/tmp/one92-hotels-widget-mobile.png`. Runtime evidence: `/tmp/one92-phase14-review.json`. Decision: Phase 14 is complete after this review gate merges, and Phase 15 may start from the completed homepage/search-surface baseline.
+
 ## Documentation-Only Changes
 
 For documentation-only changes:
