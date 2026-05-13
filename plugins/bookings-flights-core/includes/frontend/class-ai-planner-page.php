@@ -115,17 +115,21 @@ final class AI_Planner_Page {
 		$consent = Settings_Manager::get_consent();
 
 		return array(
-			'endpoint'          => esc_url_raw( rest_url( 'baf/v1/ai/itinerary' ) ),
-			'nonce'             => wp_create_nonce( 'wp_rest' ),
-			'canRunAi'          => current_user_can( Capability_Manager::RUN_AI ),
-			'canEditContent'    => current_user_can( Capability_Manager::EDIT_CONTENT ),
-			'mode'              => sanitize_key( (string) $ai['mode'] ),
-			'externalAiAllowed' => (bool) $consent['allow_external_ai'],
-			'strings'           => array(
+			'endpoint'                => esc_url_raw( rest_url( 'baf/v1/ai/itinerary' ) ),
+			'handoffEndpoint'         => esc_url_raw( rest_url( 'baf/v1/ai/handoff' ) ),
+			'nonce'                   => wp_create_nonce( 'wp_rest' ),
+			'canRunAi'                => current_user_can( Capability_Manager::RUN_AI ),
+			'canEditContent'          => current_user_can( Capability_Manager::EDIT_CONTENT ),
+			'mode'                    => sanitize_key( (string) $ai['mode'] ),
+			'externalAiAllowed'       => (bool) $consent['allow_external_ai'],
+			'providerRequestsAllowed' => (bool) $consent['allow_provider_requests'],
+			'strings'                 => array(
 				'capabilityRequired' => __( 'AI planning is available to signed-in editors with AI permission in this phase.', 'bookings-flights-core' ),
 				'consentRequired'    => __( 'Live AI mode needs the external AI consent checkbox before any prompt data can leave WordPress.', 'bookings-flights-core' ),
 				'draftSaved'         => __( 'Trip brief ready and saved as an editable draft. Review it before publishing.', 'bookings-flights-core' ),
 				'genericError'       => __( 'The planner could not create a trip brief. Review the fields and try again.', 'bookings-flights-core' ),
+				'handoffReady'       => __( 'Local Travelpayouts handoff intent prepared for editorial review.', 'bookings-flights-core' ),
+				'handoffConsent'     => __( 'Provider request consent must be enabled before preparing handoff intents.', 'bookings-flights-core' ),
 				'loading'            => __( 'Preparing a structured trip brief...', 'bookings-flights-core' ),
 			),
 		);

@@ -19,6 +19,7 @@ final class Rest_Manager {
 			new Travel_Entity_Controller( Post_Type_Registrar::ROUTE, 'routes' ),
 			new Affiliate_Click_Controller(),
 			new AI_Itinerary_Controller(),
+			new AI_Handoff_Controller(),
 		);
 
 		foreach ( $controllers as $controller ) {

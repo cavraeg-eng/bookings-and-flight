@@ -23,6 +23,12 @@
 	const daysInput = form.querySelector('[name="days"]');
 	const departInput = form.querySelector('[name="departure_date"]');
 	const returnInput = form.querySelector('[name="return_date"]');
+	const handoffActionTypes = [
+		['placement_card', 'Travelpayouts card'],
+		['placement_draft', 'Placement draft'],
+		['saved_trip_cta', 'Saved-trip CTA'],
+		['alert_cta', 'Alert CTA'],
+	];
 
 	const clamp = (value, min, max) => Math.max(min, Math.min(max, Number.parseInt(value, 10) || min));
 	const text = (value, fallback = '') => String(value || fallback).trim();
@@ -134,7 +140,7 @@
 		});
 	};
 
-	const renderOpportunities = (items) => {
+	const renderOpportunities = (items, tripPlan) => {
 		clearNode(opportunities);
 
 		if (!Array.isArray(items) || items.length === 0) {
@@ -145,7 +151,7 @@
 		const list = document.createElement('ul');
 		heading.textContent = 'Recommendation-only handoffs';
 
-		items.forEach((item) => {
+		items.forEach((item, index) => {
 			const entry = document.createElement('li');
 			const label = document.createElement('strong');
 			const meta = document.createElement('span');
@@ -167,10 +173,68 @@
 				entry.appendChild(limitations);
 			}
 
+			appendHandoffControls(entry, item, index, tripPlan);
 			list.appendChild(entry);
 		});
 
 		opportunities.append(heading, list);
+	};
+
+	const appendHandoffControls = (entry, item, index, tripPlan) => {
+		if (!config.canEditContent) {
+			return;
+		}
+
+		const controls = document.createElement('div');
+		const select = document.createElement('select');
+		const approval = document.createElement('label');
+		const checkbox = document.createElement('input');
+		const button = document.createElement('button');
+		const result = document.createElement('span');
+		const hasDraft = tripPlan && tripPlan.id;
+		const canPrepare = Boolean(hasDraft && config.providerRequestsAllowed);
+
+		controls.className = 'baf-ai-planner__handoff-actions';
+		select.setAttribute('aria-label', `Handoff type for ${text(item.label, 'opportunity')}`);
+
+		handoffActionTypes.forEach(([value, labelText]) => {
+			const option = document.createElement('option');
+			option.value = value;
+			option.textContent = labelText;
+			select.appendChild(option);
+		});
+
+		checkbox.type = 'checkbox';
+		checkbox.disabled = !canPrepare;
+		approval.appendChild(checkbox);
+		approval.appendChild(document.createTextNode(' Approve local handoff preparation with provider request consent.'));
+
+		button.type = 'button';
+		button.textContent = 'Prepare handoff';
+		button.disabled = true;
+		result.className = 'baf-ai-planner__handoff-status';
+
+		if (!hasDraft) {
+			result.textContent = 'Save as a Trip Plan draft before preparing a handoff.';
+		} else if (!config.providerRequestsAllowed) {
+			result.textContent = config.strings.handoffConsent;
+		}
+
+		checkbox.addEventListener('change', () => {
+			button.disabled = !checkbox.checked || !canPrepare;
+		});
+
+		button.addEventListener('click', () => prepareHandoff({
+			actionType: select.value,
+			approved: checkbox.checked,
+			button,
+			opportunityIndex: index,
+			result,
+			tripPlanId: hasDraft ? tripPlan.id : 0,
+		}));
+
+		controls.append(select, approval, button, result);
+		entry.appendChild(controls);
 	};
 
 	const renderDraft = (tripPlan) => {
@@ -216,7 +280,7 @@
 		appendPair('External data', tripBrief.external_data_sent ? 'Sent to configured live provider after consent' : 'Not sent to a live provider');
 
 		renderDays(itinerary.days);
-		renderOpportunities(itinerary.affiliate_opportunities);
+		renderOpportunities(itinerary.affiliate_opportunities, payload.trip_plan);
 		renderDraft(payload.trip_plan);
 		disclaimer.textContent = text(itinerary.disclaimer);
 	};
@@ -227,6 +291,46 @@
 			return body && body.message ? body.message : config.strings.genericError;
 		} catch (error) {
 			return config.strings.genericError;
+		}
+	};
+
+	const prepareHandoff = async ({ actionType, approved, button, opportunityIndex, result, tripPlanId }) => {
+		if (!approved || !tripPlanId) {
+			return;
+		}
+
+		button.disabled = true;
+		result.textContent = 'Preparing local handoff...';
+
+		try {
+			const response = await fetch(config.handoffEndpoint, {
+				method: 'POST',
+				credentials: 'same-origin',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-WP-Nonce': config.nonce,
+				},
+				body: JSON.stringify({
+					action_type: actionType,
+					approved: true,
+					opportunity_index: opportunityIndex,
+					provider_request_consent: true,
+					trip_plan_id: tripPlanId,
+				}),
+			});
+
+			if (!response.ok) {
+				throw new Error(await readError(response));
+			}
+
+			const body = await response.json();
+			result.textContent = `${text(body.intent && body.intent.action_label, 'Handoff')} prepared. Provider action: ${text(body.provider_action, 'not_executed')}.`;
+			button.textContent = 'Handoff prepared';
+			setStatus(config.strings.handoffReady, 'success');
+		} catch (error) {
+			result.textContent = error.message || config.strings.genericError;
+			button.disabled = false;
+			setStatus(error.message || config.strings.genericError, 'error');
 		}
 	};
 

@@ -108,6 +108,10 @@ Phase 18.1 starts the AI planner surface on a WordPress-owned route at `/trip-pl
 
 Phase 18.2 adds optional editor-controlled draft saving from the planner. The planner sends `save=true` only for users with `edit_baf_content`; the server also rejects unauthorized save requests before provider selection. Saved records are `draft` `trip_plan` posts with editable day-by-day post content and sanitized itinerary metadata. AI still cannot publish, book, pay, execute provider searches, or create Travelpayouts placement drafts in this slice.
 
+Phase 18.3 defines the AI opportunity contract as `travelpayouts_opportunity_v1`: recommendation-only, `not_executed`, approval-required, disclosure-required, and blocked from provider-owned booking, payment, pricing, availability, confirmation, provider-link, live-inventory, published, or executed-action claims.
+
+Phase 18.4 adds local approval-oriented handoff preparation from saved `trip_plan` drafts. Editors can prepare `ai_handoff_intent_v1` records only after capability, nonce, source-post, global provider-consent, and per-request handoff-consent checks pass. The stored intent remains local with `provider_action=not_executed`, `provider_action_executed=false`, and `external_request_sent=false`; it does not call Travelpayouts, create provider links, publish posts, book, pay, or expose raw prompts.
+
 ## REST Namespace
 
 | Contract | Value |
@@ -123,6 +127,7 @@ Implemented core routes:
 - `GET /routes`
 - `GET /affiliate/click`
 - `POST /ai/itinerary`
+- `POST /ai/handoff`
 
 Phase 8 reporting is admin-only through `admin.php?page=baf-reports`; no reporting REST endpoint is exposed.
 
@@ -233,6 +238,8 @@ Use the `baf_` prefix for new meta. Phase 1 registers the following post meta ke
 - `baf_subid_template`
 - `baf_ai_source_session_id`
 - `baf_itinerary_json`
+- `baf_ai_opportunity_schema`
+- `baf_ai_handoff_intents`
 - `baf_alert_route`
 - `baf_alert_frequency`
 - `baf_alert_email`
@@ -409,6 +416,7 @@ Dedicated primitive capabilities are mapped directly by `BAF\Core\Capabilities\C
 | `BAF\Core\Services\Affiliate_Link_Service` | Builds Travelpayouts affiliate cards, SubIDs, disclosures, and signed handoff URLs |
 | `BAF\Core\Services\Click_Tracking_Service` | Gates optional click tracking before repository writes |
 | `BAF\Core\Services\AI_Itinerary_Service` | Orchestrates provider selection, schema validation, run logging, and optional draft trip-plan save |
+| `BAF\Core\Services\AI_Opportunity_Handoff_Service` | Prepares approved local handoff intents from validated Travelpayouts AI opportunities without executing provider actions |
 | `BAF\Core\Frontend\AI_Planner_Page` | Registers the `/trip-planner/` frontend route, route-scoped planner assets, safe localized REST configuration, and the planner template override |
 | `BAF\Core\Services\Travelpayouts_Widget_Registry_Service` | Stores approved Travelpayouts placement metadata, sanitizes private embed references, gates admin reads/writes by affiliate/settings capability, preserves malformed stored placements during normalization, exposes safe public placement metadata, and gives trusted server-side renderers active configured embed data |
 | `BAF\Core\Admin\Widget_Placements_Page` | Renders the capability-gated Travelpayouts placement management screen and handles nonce-protected admin-post save/delete actions |
@@ -423,6 +431,7 @@ Dedicated primitive capabilities are mapped directly by `BAF\Core\Capabilities\C
 | `BAF\Core\REST\Travel_Entity_Controller` | Thin read-only public collection controller for destinations and routes |
 | `BAF\Core\REST\Affiliate_Click_Controller` | Thin signed affiliate click handoff endpoint |
 | `BAF\Core\REST\AI_Itinerary_Controller` | Protected `POST /ai/itinerary` endpoint requiring `run_baf_ai` |
+| `BAF\Core\REST\AI_Handoff_Controller` | Protected `POST /ai/handoff` endpoint requiring `edit_baf_content` and a valid REST nonce |
 | `BAF\Core\REST\Rest_Manager` | Registers core REST controllers on `rest_api_init` |
 
 Repository list queries cap `posts_per_page` at 50 and use WordPress APIs rather than direct SQL. `Travel_Entity_Service::list_public()` is the Phase 3 public read boundary for published destinations and routes.
@@ -458,6 +467,26 @@ Response behavior:
 - Affiliate/provider tool opportunities use `opportunity_schema = travelpayouts_opportunity_v1` and are recommendations only: `status = not_executed`, `requires_approval = true`, `disclosure_required = true`, and `approval_state = requires_editor_approval`. Each opportunity may include `provider`, `vertical`, `recommendation_type`, `label`, `placement_context`, `destination`, `route`, `suggested_subid`, `confidence`, `limitations`, and fixed `blocked_actions`. The schema rejects unsupported provider IDs plus provider-owned booking, payment, price, availability, confirmation, link, and published-action claims; no provider search, link creation, booking, payment, or publishing action is executed by AI.
 - Provider errors return safe WordPress errors and do not expose API keys, raw prompts, raw provider payloads, or secrets.
 - `bf_ai_sessions` records hashed request/output metadata and sanitized summaries/errors only.
+
+`POST /wp-json/baf/v1/ai/handoff` is protected by `edit_baf_content` and an explicit `X-WP-Nonce` REST nonce.
+
+Handoff request parameters:
+
+- `trip_plan_id`: required positive integer for the saved `trip_plan` source.
+- `opportunity_index`: required non-negative integer into the validated `affiliate_opportunities` array.
+- `action_type`: one of `placement_card`, `placement_draft`, `saved_trip_cta`, or `alert_cta`.
+- `approved`: required boolean that must be true.
+- `provider_request_consent`: required boolean that must be true for the specific handoff preparation.
+- `approval_note`: optional sanitized textarea, max 500 characters.
+
+Handoff response and storage behavior:
+
+- The source post must be a `trip_plan` the current user can edit.
+- The source `baf_itinerary_json` is decoded and revalidated through `Itinerary_Schema` before an opportunity is used.
+- The selected opportunity must be a `travelpayouts` `not_executed` recommendation with approval and disclosure guardrails.
+- Successful responses return `201` with `status=prepared`, `provider_action=not_executed`, `external_data_sent=false`, the prepared local intent, and stored intent count.
+- The local intent is stored in `baf_ai_handoff_intents` and explicitly records `provider_action_executed=false` and `external_request_sent=false`.
+- The handoff route does not send external provider requests, create live links, publish content, book trips, pay providers, store raw prompts, or store provider-owned live inventory.
 
 ## Admin Page Slugs
 
@@ -542,6 +571,7 @@ Implemented filters:
 Implemented actions:
 
 - `baf_after_affiliate_click_logged`
+- `baf_ai_handoff_prepared`
 
 Planned examples:
 

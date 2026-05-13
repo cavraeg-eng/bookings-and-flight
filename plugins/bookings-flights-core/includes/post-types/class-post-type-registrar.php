@@ -230,6 +230,8 @@ final class Post_Type_Registrar {
 			'baf_alert_status'           => self::meta_definition( __( 'Local alert workflow status.', 'bookings-flights-core' ), array( self::TRAVEL_ALERT ), 'sanitize_key' ),
 			'baf_partner_apply_url'      => self::meta_definition( __( 'Partner application URL.', 'bookings-flights-core' ), array( self::TRAVEL_PARTNER ), 'esc_url_raw' ),
 			'baf_partner_status'         => self::meta_definition( __( 'Partner approval or integration status.', 'bookings-flights-core' ), array( self::TRAVEL_PARTNER ) ),
+			'baf_ai_opportunity_schema'  => self::meta_definition( __( 'AI opportunity schema version.', 'bookings-flights-core' ), array( self::TRIP_PLAN ) ),
+			'baf_ai_handoff_intents'     => self::meta_definition( __( 'Approved local AI handoff intent records.', 'bookings-flights-core' ), array( self::TRIP_PLAN ), array( __CLASS__, 'sanitize_json_text' ) ),
 		);
 	}
 

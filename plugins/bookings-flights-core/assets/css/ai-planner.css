@@ -309,6 +309,56 @@
 	font-size: 0.92rem;
 }
 
+.baf-ai-planner__handoff-actions {
+	display: grid;
+	gap: 0.55rem;
+	margin-block-start: 0.75rem;
+	padding: 0.75rem;
+	border: 1px solid hsl(198 18% 82%);
+	border-radius: 8px;
+	background: hsl(185 32% 96%);
+}
+
+.baf-ai-planner__handoff-actions select,
+.baf-ai-planner__handoff-actions button {
+	min-block-size: 44px;
+	border: 1px solid hsl(198 17% 70%);
+	border-radius: 8px;
+	font: inherit;
+}
+
+.baf-ai-planner__handoff-actions button {
+	background: hsl(205 46% 24%);
+	color: hsl(0 0% 100%);
+	font-weight: 800;
+}
+
+.baf-ai-planner__handoff-actions button:disabled {
+	cursor: not-allowed;
+	background: hsl(205 10% 57%);
+}
+
+.baf-ai-planner__handoff-actions label {
+	display: flex;
+	gap: 0.55rem;
+	align-items: flex-start;
+	font-size: 0.88rem;
+	line-height: 1.45;
+}
+
+.baf-ai-planner__handoff-actions input {
+	inline-size: 2rem;
+	block-size: 2rem;
+	flex: 0 0 auto;
+	accent-color: hsl(176 63% 28%);
+}
+
+.baf-ai-planner__handoff-status {
+	display: block;
+	color: hsl(205 14% 34%);
+	font-size: 0.86rem;
+}
+
 .baf-ai-planner__disclaimer {
 	margin-block-start: 1rem;
 	padding: 0.75rem 0.85rem;
