@@ -192,7 +192,8 @@
 .home-search__field input:focus-visible,
 .home-search__field select:focus-visible,
 .home-search__submit:focus-visible,
-.home-entrypoint:focus-visible {
+.home-entrypoint:focus-visible,
+.home-discovery a:focus-visible {
   outline: 3px solid hsl(177 66% 29%);
   outline-offset: 3px;
 }
@@ -227,7 +228,7 @@
 }
 
 .home-entrypoints {
-  padding-block: clamp(1.2rem, 3vw, 2.5rem) var(--space-2xl);
+  padding-block: clamp(1.2rem, 3vw, 2.5rem) var(--space-l);
 }
 
 .home-entrypoints__container {
@@ -272,6 +273,178 @@
   line-height: 1.45;
 }
 
+.home-discovery {
+  padding-block: var(--space-l) var(--space-2xl);
+}
+
+.home-discovery__container {
+  inline-size: min(100%, var(--container-max));
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.home-discovery__intro {
+  display: grid;
+  gap: 0.55rem;
+  max-inline-size: 64rem;
+}
+
+.home-discovery__eyebrow,
+.home-discovery-card__label {
+  margin: 0;
+  color: hsl(177 66% 29%);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-discovery__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0;
+  color: hsl(202 34% 14%);
+  text-wrap: balance;
+}
+
+.home-discovery__summary,
+.home-module__header p {
+  margin: 0;
+  color: hsl(205 12% 38%);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.home-module {
+  display: grid;
+  gap: var(--space-s);
+}
+
+.home-module--split {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-l);
+}
+
+.home-module__panel {
+  display: grid;
+  gap: var(--space-s);
+  min-inline-size: 0;
+}
+
+.home-module__header {
+  display: grid;
+  gap: 0.4rem;
+  max-inline-size: 54rem;
+}
+
+.home-module__header h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 3vw, 2.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+  color: hsl(202 34% 14%);
+}
+
+.home-card-grid {
+  display: grid;
+  gap: var(--space-s);
+}
+
+.home-card-grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.home-discovery-card,
+.home-compact-card {
+  min-inline-size: 0;
+  border: 1px solid hsl(198 22% 82%);
+  border-radius: 8px;
+  background: hsl(0 0% 100%);
+  box-shadow: 0 12px 30px hsl(205 30% 18% / 0.08);
+  transition:
+    transform var(--duration-fast) var(--ease-out-expo),
+    border-color var(--duration-fast) var(--ease-out-expo),
+    box-shadow var(--duration-fast) var(--ease-out-expo);
+}
+
+.home-discovery-card:hover,
+.home-compact-card:hover {
+  border-color: hsl(177 66% 29%);
+  box-shadow: 0 16px 38px hsl(205 30% 18% / 0.12);
+  transform: translateY(-2px);
+}
+
+.home-discovery-card {
+  display: grid;
+  align-content: start;
+  gap: 0.65rem;
+  min-block-size: 18rem;
+  padding: clamp(1rem, 2vw, 1.3rem);
+}
+
+.home-discovery-card--hotel {
+  min-block-size: 15rem;
+}
+
+.home-discovery-card__title {
+  color: hsl(202 34% 14%);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.3vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.home-discovery-card__meta {
+  color: hsl(177 60% 24%);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.home-discovery-card__text,
+.home-compact-card small {
+  color: hsl(205 12% 38%);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.home-discovery-card__action {
+  align-self: end;
+  margin-block-start: auto;
+  color: hsl(177 66% 25%);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.home-compact-card {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem;
+}
+
+.home-compact-card span {
+  color: hsl(202 34% 14%);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.home-discovery__disclosure {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid hsl(43 74% 70%);
+  border-radius: 8px;
+  background: hsl(43 88% 92%);
+  color: hsl(205 13% 32%);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
 @media (max-width: 78em) {
   .home-hero {
     min-block-size: auto;
@@ -294,7 +467,9 @@
 
 @media (max-width: 58em) {
   .home-search__forms,
-  .home-entrypoints__container {
+  .home-entrypoints__container,
+  .home-module--split,
+  .home-card-grid--three {
     grid-template-columns: 1fr;
   }
 

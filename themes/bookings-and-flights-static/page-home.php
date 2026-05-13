@@ -9,6 +9,83 @@ $flight_search_url = home_url( '/flights/' );
 $hotel_search_url  = home_url( '/hotels/' );
 $hero_image_id     = absint( bookings_and_flights_field( 'hero_image_id', 0 ) );
 $fallback_image    = get_template_directory_uri() . '/assets/images/home-hero-beach.jpg';
+$trending_routes   = array(
+	array(
+		'label'       => 'Route idea',
+		'title'       => 'New York to Tokyo',
+		'description' => 'Start with a long-haul city pairing, then compare dates inside the Travelpayouts flight surface.',
+		'meta'        => 'City break and culture',
+		'origin'      => 'NYC',
+		'destination' => 'TYO',
+	),
+	array(
+		'label'       => 'Route idea',
+		'title'       => 'Los Angeles to Honolulu',
+		'description' => 'Open a warm-weather route search without using placeholder estimates.',
+		'meta'        => 'Beach and family travel',
+		'origin'      => 'LAX',
+		'destination' => 'HNL',
+	),
+	array(
+		'label'       => 'Route idea',
+		'title'       => 'Miami to Lisbon',
+		'description' => 'Use this as a transatlantic starting point and refine travelers, dates, and filters with the provider.',
+		'meta'        => 'Europe gateway',
+		'origin'      => 'MIA',
+		'destination' => 'LIS',
+	),
+);
+$explore_ideas     = array(
+	array(
+		'title'       => 'Food-first weekends',
+		'description' => 'Pick a city known for restaurants, markets, and walkable neighborhoods before opening flight search.',
+		'destination' => 'MEX',
+	),
+	array(
+		'title'       => 'Rail-friendly Europe',
+		'description' => 'Start with a flight gateway, then shape the rest of the itinerary outside the provider search module.',
+		'destination' => 'LIS',
+	),
+	array(
+		'title'       => 'Island reset',
+		'description' => 'Use the provider handoff to compare travel dates after choosing a warm-weather direction.',
+		'destination' => 'HNL',
+	),
+);
+$flex_months       = array(
+	array(
+		'title'       => 'Shoulder-season city trip',
+		'description' => 'Flexible timing can reveal better-fit options, but details must be checked in the provider search.',
+		'focus'       => 'flexible_city',
+	),
+	array(
+		'title'       => 'Long weekend window',
+		'description' => 'Start broad, then narrow dates after the provider-owned results load.',
+		'focus'       => 'long_weekend',
+	),
+	array(
+		'title'       => 'School-break planning',
+		'description' => 'Compare routes early without displaying unverified estimates on the homepage.',
+		'focus'       => 'school_break',
+	),
+);
+$hotel_cities      = array(
+	array(
+		'title'       => 'Lisbon stays',
+		'description' => 'Neighborhood-first hotel discovery with the final availability handled by the partner.',
+		'destination' => 'Lisbon',
+	),
+	array(
+		'title'       => 'Tokyo stays',
+		'description' => 'Use the hotel surface to compare districts, dates, and traveler counts.',
+		'destination' => 'Tokyo',
+	),
+	array(
+		'title'       => 'Mexico City stays',
+		'description' => 'Start with a city idea, then continue into the approved hotel partner search.',
+		'destination' => 'Mexico City',
+	),
+);
 
 get_header();
 ?>
@@ -110,7 +187,7 @@ get_header();
 					</form>
 				</div>
 
-				<p class="home-search__disclosure">Bookings and Flights may earn a commission from partner searches. Live availability, booking, payment, changes, and support are handled by Travelpayouts or the partner provider.</p>
+				<p class="home-search__disclosure">Bookings and Flights may earn a commission from partner searches. Availability, booking, payment, changes, and support are handled by Travelpayouts or the partner provider.</p>
 			</section>
 		</div>
 	</section>
@@ -133,6 +210,85 @@ get_header();
 				<span class="home-entrypoint__label">Saved Trips</span>
 				<span class="home-entrypoint__text">Return to a trip intent and refresh provider-owned search results.</span>
 			</a>
+		</div>
+	</section>
+
+	<section class="home-discovery" aria-labelledby="home-discovery-title">
+		<div class="home-discovery__container">
+			<div class="home-discovery__intro">
+				<p class="home-discovery__eyebrow">Travel inspiration</p>
+				<h2 id="home-discovery-title" class="home-discovery__title">Browse ideas before opening partner search</h2>
+				<p class="home-discovery__summary">These modules are editorial starting points. Provider pages handle current availability and reservation details.</p>
+			</div>
+
+			<div class="home-module home-module--routes" aria-labelledby="home-routes-title">
+				<div class="home-module__header">
+					<h3 id="home-routes-title">Trending route starters</h3>
+					<p>Route ideas link into the approved flight placement without homepage estimates.</p>
+				</div>
+				<div class="home-card-grid home-card-grid--three">
+					<?php foreach ( $trending_routes as $route ) : ?>
+						<a class="home-discovery-card" href="<?php echo esc_url( add_query_arg( array( 'origin' => $route['origin'], 'destination' => $route['destination'], 'baf_surface' => 'home' ), $flight_search_url ) ); ?>">
+							<span class="home-discovery-card__label"><?php echo esc_html( $route['label'] ); ?></span>
+							<span class="home-discovery-card__title"><?php echo esc_html( $route['title'] ); ?></span>
+							<span class="home-discovery-card__meta"><?php echo esc_html( $route['meta'] ); ?></span>
+							<span class="home-discovery-card__text"><?php echo esc_html( $route['description'] ); ?></span>
+							<span class="home-discovery-card__action">Open flight handoff</span>
+						</a>
+					<?php endforeach; ?>
+				</div>
+			</div>
+
+			<div class="home-module home-module--split">
+				<div class="home-module__panel" aria-labelledby="home-explore-title">
+					<div class="home-module__header">
+						<h3 id="home-explore-title">Explore-anywhere prompts</h3>
+						<p>Choose a direction, then let the provider-owned flight search handle current options.</p>
+					</div>
+					<div class="home-card-grid">
+						<?php foreach ( $explore_ideas as $idea ) : ?>
+							<a class="home-compact-card" href="<?php echo esc_url( add_query_arg( array( 'destination' => $idea['destination'], 'baf_surface' => 'home' ), $flight_search_url ) ); ?>">
+								<span><?php echo esc_html( $idea['title'] ); ?></span>
+								<small><?php echo esc_html( $idea['description'] ); ?></small>
+							</a>
+						<?php endforeach; ?>
+					</div>
+				</div>
+
+				<div class="home-module__panel" aria-labelledby="home-flex-title">
+					<div class="home-module__header">
+						<h3 id="home-flex-title">Flexible-month planning</h3>
+						<p>No static estimates. Open search and compare partner results.</p>
+					</div>
+					<div class="home-card-grid">
+						<?php foreach ( $flex_months as $month ) : ?>
+							<a class="home-compact-card" href="<?php echo esc_url( add_query_arg( array( 'travel_focus' => $month['focus'], 'baf_surface' => 'home' ), $flight_search_url ) ); ?>">
+								<span><?php echo esc_html( $month['title'] ); ?></span>
+								<small><?php echo esc_html( $month['description'] ); ?></small>
+							</a>
+						<?php endforeach; ?>
+					</div>
+				</div>
+			</div>
+
+			<div class="home-module home-module--hotels" aria-labelledby="home-hotels-title">
+				<div class="home-module__header">
+					<h3 id="home-hotels-title">Hotel city discovery</h3>
+					<p>City prompts open the approved Trip.com or Travelpayouts Hotels partner placement.</p>
+				</div>
+				<div class="home-card-grid home-card-grid--three">
+					<?php foreach ( $hotel_cities as $city ) : ?>
+						<a class="home-discovery-card home-discovery-card--hotel" href="<?php echo esc_url( add_query_arg( array( 'travel_destination' => $city['destination'], 'guests' => 2, 'baf_surface' => 'home' ), $hotel_search_url ) ); ?>">
+							<span class="home-discovery-card__label">Hotel idea</span>
+							<span class="home-discovery-card__title"><?php echo esc_html( $city['title'] ); ?></span>
+							<span class="home-discovery-card__text"><?php echo esc_html( $city['description'] ); ?></span>
+							<span class="home-discovery-card__action">Open hotel handoff</span>
+						</a>
+					<?php endforeach; ?>
+				</div>
+			</div>
+
+			<p class="home-discovery__disclosure">Sponsored searches may earn a commission. Bookings and Flights keeps the inspiration and page shell; availability, booking, payment, changes, and support stay with the provider.</p>
 		</div>
 	</section>
 </main>
