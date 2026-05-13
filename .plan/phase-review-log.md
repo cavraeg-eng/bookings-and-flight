@@ -1772,3 +1772,44 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
 Decision: Phase 14 is complete after this review gate merges. Phase 15 may start from the completed homepage/search-surface baseline.
+
+## Phase 15.1 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-93` Flights landing page and search module. Reviewed Phase 15 objective, Phase 14 homepage/search baseline, Phase 13 Travelpayouts placement registry contracts, current `/flights/` template and shared placement renderer, WordPress template/sanitizing/escaping guidance, Travelpayouts Widget-type White Label guidance, SubID marker guidance, and runtime Travelpayouts White Label behavior.
+
+Acceptance criteria result: Passed locally for the PR candidate. `/flights/` now has a dedicated flight-intent module for origin, destination, depart date, return date, travelers, and cabin selection. Unsupported or provider-owned choices are not presented as local filters: direct-only, nearby-airport, flexible-date calendar, airline, baggage, and time filters are visibly marked as provider-controlled and set inside Travelpayouts. Submitted intent details render in the local shell, the approved `flights_white_label_search` placement remains the search/result handoff path, affiliate/provider support language remains visible, and mobile layout passed runtime review.
+
+Security review: Passed locally. The template sanitizes GET parameters with scalar checks, IATA/date allowlists, `sanitize_key()`, `sanitize_text_field()`, `wp_unslash()`, and `absint()`, then escapes rendered values with `esc_html()`, `esc_attr()`, and `esc_url()`. No provider credentials, API tokens, REST routes, POST writes, custom SQL, database migrations, alert capture, payment/checkout path, or custom flight inventory API were added. Source scans found no API token, API key, authorization, bearer, access token, refresh token, client secret, postback secret, guaranteed-lowest-price claim, real-time fare claim, direct-checkout claim, book-directly claim, or Bookings-and-Flights payment claim.
+
+REST permission review: Not applicable. P15.1 added no REST routes or permission callbacks.
+
+Database/migration review: Not applicable. P15.1 added no custom tables, options, migrations, cron jobs, or persistent alert storage.
+
+UI review: Passed locally with real runtime screenshots. Desktop `1440x1000` and mobile `390x844` screenshots confirmed the Flights landing page renders nonblank, the intent module is readable, provider-controlled options are visible, the Travelpayouts White Label module and `Open flight search` handoff remain visible, and there is no horizontal overflow or framework overlay. The desktop update-intent interaction changed the local form to `SEA` to `MIA`, `3` travelers, `Premium economy`, rendered the updated intent details, and cleaned provider query parameters from the visible URL. Keyboard review reached the local origin, destination, traveler, cabin, `Update flight intent`, and `Open flight search` targets on desktop and mobile.
+
+Regression review: Existing Phase 13 widget-registry rendering, SubID marker output, visible handoff link, P14.2 query cleanup behavior, P14.5 provider-support disclosure, P14.6 search-surface asset scope, header continuity, and footer compliance remain intact. The Travelpayouts-injected widget uses overlapping field names such as `origin`, so local browser tests and future scripts must scope local form selectors to `.flight-intent__form`.
+
+Validation performed: PHP syntax check for `page-flights.php`; JavaScript syntax check for `search-surface.js`; targeted `git diff --check`; file-size checks; HTTP `200` smoke for a submitted Flights intent URL; rendered/source scans for required intent/provider-controlled text, secrets, and unsupported booking/fare claims; attempted Codex in-app Browser validation; Playwright Chromium desktop/mobile screenshots; provider-section screenshots; update-intent interaction proof; keyboard navigation review; horizontal-overflow, blank-page, framework-overlay, console, failed-request, and handoff checks. The Codex in-app Browser path had no active pane in this thread, so Playwright Chromium was used for the required runtime browser screenshots and keyboard navigation review.
+
+Bugs found: The first runtime interaction script targeted `input[name="origin"]` globally and conflicted with the Travelpayouts-injected provider field. The first desktop screenshot also showed the action button lower than ideal in the first viewport.
+
+Bugs fixed: Scoped runtime interaction checks to `.flight-intent__form` and moved `Update flight intent` above the helper/disclosure note so the primary local form action is visible sooner. The product code already kept the local fields and provider fields separate.
+
+Bugs deferred: Origin/route landing pages, low-price calendar widgets, popular route widgets, and price-alert signup remain later Phase 15 scope. Provider-owned Travelpayouts JSX-source and duplicate GraphQL-fragment console warnings remain watchlist-only because they did not create page errors, failed requests, overlays, blank states, or broken handoff/keyboard behavior.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Files.
+- WordPress Theme Handbook: Including Assets.
+- WordPress Common APIs Handbook: Sanitizing Data.
+- WordPress Common APIs Handbook: Escaping Data.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+- Travelpayouts Help Center: ID and SubID affiliate marker guidance.
+- Travelpayouts Help Center: Getting started with widgets.
+
+Decision: P15.1 local implementation and review gate passed. Keep Phase 15 overall `In Progress` until the remaining flights experience issues pass review and merge.

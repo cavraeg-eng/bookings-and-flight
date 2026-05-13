@@ -725,3 +725,28 @@ Related files/routes/settings:
 - `/`
 - `/flights/`
 - `/hotels/`
+
+## Phase 15 Flights Landing And Search Intent Module
+
+Fragile area: the dedicated Flights page intent form, provider-controlled option labels, Travelpayouts White Label handoff, and query cleanup.
+
+Why risky: The local form records search intent only. If future changes try to push travelers, cabin, direct-only, nearby airports, or flexible-date filters into WordPress-owned logic, the page could imply unsupported live inventory control. The Travelpayouts White Label script also injects its own `origin` and flight-search controls, so scripts and tests must scope local form selectors to `.flight-intent__form`.
+
+What to check after future changes:
+
+- The local Flights form still sanitizes and renders origin, destination, depart date, return date, travelers, and cabin without exposing secrets.
+- The form action stays on `/flights/` and keeps the visible URL clean after rendering submitted intent.
+- Direct-only, nearby airports, flexible-date calendar, airline, baggage, and time filters remain clearly marked as provider-controlled unless a later documented Travelpayouts surface supports local application.
+- The Travelpayouts White Label wrapper still renders through `flights_white_label_search` and exposes a visible `Open flight search` handoff.
+- Desktop and mobile screenshots remain free of horizontal overflow, text overlap, blank provider states, and unrelated provider headers.
+- Keyboard order reaches the local intent form, `Update flight intent`, and `Open flight search` without traps.
+- Provider-owned JSX-source and duplicate GraphQL-fragment warnings remain non-blocking only when there are no page errors, failed requests, overlays, or broken handoff behavior.
+
+Related files/routes/settings:
+
+- `themes/bookings-and-flights-static/page-flights.php`
+- `themes/bookings-and-flights-static/assets/css/search-surface.css`
+- `themes/bookings-and-flights-static/assets/js/search-surface.js`
+- `themes/bookings-and-flights-static/template-parts/travel-search-placement.php`
+- `flights_white_label_search`
+- `/flights/`
