@@ -299,7 +299,7 @@ What to check after future changes:
 
 - Header output still includes Home, Flights, Hotels, Explore, Deals, Trip Planner, and Saved Trips when the stored WordPress menu is stale, nested, or pointed at old/external-host URLs.
 - Homepage search forms keep `data-baf-placement-key="flights_white_label_search"` and `data-baf-placement-key="hotels_partner_search"` metadata and do not copy raw provider snippets into the theme.
-- Search fields use non-conflicting query names such as `travel_destination`, not the reserved `destination` query var.
+- Hotel search fields use non-conflicting query names such as `travel_destination`, and the flight form's provider-style `destination` query parameter remains protected by the `/flights/` request guard so it does not trigger a destination CPT lookup.
 - Affiliate disclosure remains visible near the search shell at desktop, tablet, and mobile widths.
 - Desktop and mobile keyboard order reaches the menu, CTA, search fields, search buttons, entry cards, and mobile menu links without escaping the open mobile menu.
 - Frontend source does not expose API tokens, API keys, authorization headers, bearer tokens, postback secrets, raw registry embed URLs, or private registry notes.

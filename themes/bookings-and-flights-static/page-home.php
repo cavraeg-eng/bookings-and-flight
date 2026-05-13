@@ -55,19 +55,19 @@ get_header();
 						<div class="home-search__grid home-search__grid--flights">
 							<label class="home-search__field">
 								<span>From</span>
-								<input type="text" name="travel_origin" placeholder="New York" autocomplete="off">
+								<input type="text" name="origin" placeholder="NYC" autocomplete="off" autocapitalize="characters" maxlength="3" pattern="[A-Za-z]{3}" title="Use a 3-letter airport or city code">
 							</label>
 							<label class="home-search__field">
 								<span>To</span>
-								<input type="text" name="travel_destination" placeholder="Tokyo" autocomplete="off">
+								<input type="text" name="destination" placeholder="TYO" autocomplete="off" autocapitalize="characters" maxlength="3" pattern="[A-Za-z]{3}" title="Use a 3-letter airport or city code">
 							</label>
 							<label class="home-search__field">
 								<span>Depart</span>
-								<input type="date" name="depart_at">
+								<input type="date" name="depart_date">
 							</label>
 							<label class="home-search__field">
 								<span>Return</span>
-								<input type="date" name="return_at">
+								<input type="date" name="return_date">
 							</label>
 						</div>
 

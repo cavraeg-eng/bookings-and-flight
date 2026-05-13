@@ -88,34 +88,13 @@ function bookings_and_flights_product_nav_items() {
 
 function bookings_and_flights_required_product_nav_targets() {
 	return array(
-		'home'         => array(
-			'label'   => sanitize_title( __( 'Home', 'bookings_and_flights' ) ),
-			'targets' => array( '/' ),
-		),
-		'flights'      => array(
-			'label'   => sanitize_title( __( 'Flights', 'bookings_and_flights' ) ),
-			'targets' => array( '/flights/' ),
-		),
-		'hotels'       => array(
-			'label'   => sanitize_title( __( 'Hotels', 'bookings_and_flights' ) ),
-			'targets' => array( '/hotels/' ),
-		),
-		'explore'      => array(
-			'label'   => sanitize_title( __( 'Explore', 'bookings_and_flights' ) ),
-			'targets' => array( '/#explore', '/explore/' ),
-		),
-		'deals'        => array(
-			'label'   => sanitize_title( __( 'Deals', 'bookings_and_flights' ) ),
-			'targets' => array( '/#deals', '/deals/' ),
-		),
-		'trip-planner' => array(
-			'label'   => sanitize_title( __( 'Trip Planner', 'bookings_and_flights' ) ),
-			'targets' => array( '/#trip-planner', '/trip-planner/' ),
-		),
-		'saved-trips'  => array(
-			'label'   => sanitize_title( __( 'Saved Trips', 'bookings_and_flights' ) ),
-			'targets' => array( '/#saved-trips', '/saved-trips/' ),
-		),
+		'home'         => array( '/' ),
+		'flights'      => array( '/flights/' ),
+		'hotels'       => array( '/hotels/' ),
+		'explore'      => array( '/#explore', '/explore/' ),
+		'deals'        => array( '/#deals', '/deals/' ),
+		'trip-planner' => array( '/#trip-planner', '/trip-planner/' ),
+		'saved-trips'  => array( '/#saved-trips', '/saved-trips/' ),
 	);
 }
 
@@ -193,19 +172,14 @@ function bookings_and_flights_primary_menu_has_product_core() {
 			continue;
 		}
 
-		$item_label  = sanitize_title( (string) $item->title );
 		$item_target = bookings_and_flights_normalize_nav_target( (string) $item->url );
 
-		foreach ( $required_targets as $target_key => $target_config ) {
+		foreach ( $required_targets as $target_key => $target_values ) {
 			if ( true === $matched_targets[ $target_key ] ) {
 				continue;
 			}
 
-			if ( $target_config['label'] !== $item_label ) {
-				continue;
-			}
-
-			if ( in_array( $item_target, $target_config['targets'], true ) ) {
+			if ( in_array( $item_target, $target_values, true ) ) {
 				$matched_targets[ $target_key ] = true;
 			}
 		}
@@ -214,6 +188,36 @@ function bookings_and_flights_primary_menu_has_product_core() {
 	$has_product_core = ! in_array( false, $matched_targets, true );
 	return $has_product_core;
 }
+
+function bookings_and_flights_is_flights_request_path(): bool {
+	$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+	$request_path = wp_parse_url( $request_uri, PHP_URL_PATH );
+
+	if ( ! is_string( $request_path ) ) {
+		return false;
+	}
+
+	$home_path = wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+	$home_path = is_string( $home_path ) ? untrailingslashit( $home_path ) : '';
+	if ( '' !== $home_path && '/' !== $home_path && 0 === strpos( $request_path, $home_path . '/' ) ) {
+		$request_path = substr( $request_path, strlen( $home_path ) );
+	}
+
+	return '/flights/' === trailingslashit( '/' . trim( $request_path, '/' ) );
+}
+
+function bookings_and_flights_allow_flights_provider_query( $query_vars ) {
+	if ( ! bookings_and_flights_is_flights_request_path() ) {
+		return $query_vars;
+	}
+
+	$query_vars['pagename'] = 'flights';
+
+	unset( $query_vars['destination'], $query_vars['name'], $query_vars['post_type'] );
+
+	return $query_vars;
+}
+add_filter( 'request', 'bookings_and_flights_allow_flights_provider_query' );
 
 // Fallback menu for footer nav when no menu is assigned
 function bookings_and_flights_footer_fallback_menu( $args = array() ) {
