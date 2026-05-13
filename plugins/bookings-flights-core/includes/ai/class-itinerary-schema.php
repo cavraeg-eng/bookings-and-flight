@@ -200,7 +200,15 @@ final class Itinerary_Schema {
 
 			$value = $opportunity[ $field ];
 
-			if ( false === $value || null === $value || '' === trim( (string) $value ) ) {
+			if ( false === $value || null === $value ) {
+				continue;
+			}
+
+			if ( is_array( $value ) || is_object( $value ) ) {
+				return self::error( 'baf_ai_opportunity_provider_claim', __( 'The AI opportunity response included provider-owned booking, price, availability, or link data.', 'bookings-flights-core' ) );
+			}
+
+			if ( '' === trim( (string) $value ) ) {
 				continue;
 			}
 
