@@ -131,6 +131,15 @@ function bookings_and_flights_normalize_nav_path( $url ) {
 }
 
 function bookings_and_flights_normalize_nav_target( $url ) {
+	$url_host  = wp_parse_url( (string) $url, PHP_URL_HOST );
+	$home_host = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
+
+	if ( is_string( $url_host ) && '' !== $url_host ) {
+		if ( ! is_string( $home_host ) || strtolower( $url_host ) !== strtolower( $home_host ) ) {
+			return '';
+		}
+	}
+
 	$path     = bookings_and_flights_normalize_nav_path( $url );
 	$fragment = wp_parse_url( (string) $url, PHP_URL_FRAGMENT );
 
