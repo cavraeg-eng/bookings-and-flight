@@ -1602,3 +1602,43 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
 Decision: P14.3 local implementation and review gate passed. Keep Phase 14 overall `In Progress` until remaining Phase 14 issues pass review and merge.
+
+## Phase 14.4 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-89` price alert CTA and AI planner entry. Reviewed Phase 14 objective, P14.1-P14.3 homepage/search contracts, current homepage template/CSS state, existing Trip Planner and Saved Trips placeholder behavior, approved Flights handoff route, WordPress template and escaping guidance, and Travelpayouts handoff guidance.
+
+Acceptance criteria result: Passed locally for the PR candidate. The homepage now includes two retention/planning cards below the discovery modules: a price-alert preview CTA and an AI planner placeholder entry. The alert card states that alerts are not active yet and routes to the existing Flights handoff. The planner card states that AI itinerary generation is later-phase work, routes to the local `#trip-planner` placeholder, and does not send prompts to an AI provider.
+
+Security review: Passed locally. No POST form, AJAX/fetch call, beacon, nonce-requiring write, prompt submission, local data capture, auto-booking, auto-publishing, or unsupported provider execution was added. New links are escaped with `esc_url()`, and output is static template text.
+
+REST permission review: Not applicable. No REST routes or permission callbacks changed in P14.4.
+
+Database/migration review: Not applicable. No custom tables, options, migrations, or data mutations changed in P14.4.
+
+UI review: Passed locally with real runtime screenshots. Desktop `1440x1000` and mobile `390x844` screenshots confirmed the retention section renders two scannable cards, no horizontal overflow, and no text overlap. Keyboard review confirmed both new cards are reachable.
+
+Regression review: Existing homepage search forms, discovery modules, and P14.2 Flights/Hotels handoff pages remain intact. The price alert CTA opens `/flights/?travel_focus=price_alert`, where no alert write is attempted. The AI planner entry moves to `#trip-planner`, which remains the documented placeholder until the later AI planner phase.
+
+Validation performed: PHP syntax check for `page-home.php`; `git diff --check`; file-size check for `page-home.php`, `home.css`, and `functions.php`; HTTP 200 homepage smoke; source scans for unsupported claim terms and secret-token patterns; write-path scan confirming no new POST/fetch/beacon/nonce path beyond existing GET search forms; Playwright desktop/mobile screenshots; Playwright link smoke for price-alert and planner entries; Playwright no-overflow, console, failed-request, and keyboard reachability checks.
+
+Bugs found: The first retention heading used the word live, which made the unsupported-claim source scan noisy.
+
+Bugs fixed: Reworded the heading to avoid unsupported live-claim wording while preserving the limitation message.
+
+Bugs deferred: Real price alert capture, saved alert storage, AI prompt submission, and AI-generated itinerary workflows remain later planned phases.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Files.
+- WordPress Common APIs Handbook: Escaping Data.
+- WordPress `esc_url()` reference.
+- WordPress Common APIs Handbook: Nonces.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: ID and SubID affiliate marker guidance.
+
+Decision: P14.4 local implementation and review gate passed. Keep Phase 14 overall `In Progress` until remaining Phase 14 issues pass review and merge.

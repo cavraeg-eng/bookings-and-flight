@@ -7,6 +7,7 @@
 
 $flight_search_url = home_url( '/flights/' );
 $hotel_search_url  = home_url( '/hotels/' );
+$planner_anchor    = home_url( '/#trip-planner' );
 $hero_image_id     = absint( bookings_and_flights_field( 'hero_image_id', 0 ) );
 $fallback_image    = get_template_directory_uri() . '/assets/images/home-hero-beach.jpg';
 $trending_routes   = array(
@@ -289,6 +290,30 @@ get_header();
 			</div>
 
 			<p class="home-discovery__disclosure">Sponsored searches may earn a commission. Bookings and Flights keeps the inspiration and page shell; availability, booking, payment, changes, and support stay with the provider.</p>
+
+			<div class="home-retention" aria-labelledby="home-retention-title">
+				<div class="home-module__header">
+					<h3 id="home-retention-title">Keep planning without pretending every workflow is active</h3>
+					<p>Alert and AI planner workflows are staged as honest entry points until the later phases activate full capture and generation.</p>
+				</div>
+
+				<div class="home-retention__grid">
+					<a id="price-alerts" class="home-retention-card" href="<?php echo esc_url( add_query_arg( array( 'travel_focus' => 'price_alert', 'baf_surface' => 'home' ), $flight_search_url ) ); ?>">
+						<span class="home-retention-card__label">Price alert preview</span>
+						<span class="home-retention-card__title">Watch a route later</span>
+						<span class="home-retention-card__text">Alerts are not active yet. Start with provider-owned flight search now, then return when saved alert capture is enabled.</span>
+						<span class="home-retention-card__action">Open flight handoff</span>
+					</a>
+
+					<a id="ai-planner-entry" class="home-retention-card" href="<?php echo esc_url( $planner_anchor ); ?>">
+						<span class="home-retention-card__label">AI planner placeholder</span>
+						<span class="home-retention-card__title">Bring a trip idea</span>
+						<span class="home-retention-card__text">The AI planner will prepare editable itinerary ideas in a later phase. This entry stays local and does not send prompts to an AI provider.</span>
+						<span class="home-retention-card__prompt">Example: four days in Lisbon with hotels near transit</span>
+						<span class="home-retention-card__action">Review planner placeholder</span>
+					</a>
+				</div>
+			</div>
 		</div>
 	</section>
 </main>
