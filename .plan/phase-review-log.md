@@ -2285,3 +2285,42 @@ Research consulted:
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 
 Decision: P16.6 local review gate passed. Phase 16 Hotels and Stays Experience is ready to close after PR review, merge, and Linear sync; Phase 17 may start after that closeout.
+
+## Phase 17.1 Review - 2026-05-13
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-106` destination single and archive templates. Reviewed Phase 17 objective, destination CPT and taxonomy contracts, destination/hotel guide history from Phase 16, Travelpayouts provider-owned boundaries, current SEO metadata behavior, source output, real runtime screenshots, keyboard navigation, and documentation alignment.
+
+Acceptance criteria result: Passed locally for the PR candidate. `/destinations/` now renders editable destination guide cards, and destination singles render broader SEO guide content with post body, taxonomy labels, fact panels, best-time/activity/seasonal modules, provider handoff cards, hotel planning modules, related destination links, related route links, and visible affiliate disclosure boundaries.
+
+Security review: Passed locally. P17.1 added no public REST endpoints, provider calls, custom SQL, options, custom tables, cron jobs, private-data writes, checkout, payment path, or auto-publishing behavior. New destination meta keys are sanitized textareas, private from REST by default, and protected by existing edit-meta authorization. Template output escapes copy, URLs, attributes, taxonomy names, and metadata.
+
+REST permission review: Not applicable. P17.1 added no REST endpoints and did not change public REST exposure.
+
+Database/migration review: Passed for scope. No schema migration, custom table, option migration, or destructive data change was added. The core plugin registers destination-only post meta keys through existing WordPress meta registration.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Playwright Chromium captured archive and single pages across desktop, mobile, and 320px narrow widths. The final report at `/tmp/one106-destination-report.json` found no blank pages, framework overlays, horizontal overflow, clipped visible elements, numeric seed labels, or missing expected destination-guide content. Keyboard navigation reached `Open provider flight search`, `Open provider hotel search`, `Open hotel map`, `Open hotel listings`, and `ONE-106 Related Coast Guide`.
+
+Regression review: Existing Phase 16 hotel guide modules, hotel partner placement rendering, companion map/listing handoffs, affiliate disclosures, Phase 15 flight handoff links, and destination SEO metadata continue to render inside the WordPress-owned shell. The hotel partner placement keeps `surface="hotels"` with `channel="destination_single"` context, avoiding a new unapproved destination placement surface.
+
+Validation performed: PHP syntax for changed PHP files; file-size checks; `git diff --check`; WP-CLI Local-socket taxonomy/meta smoke; HTTP/source smoke for `/destinations/` and a temporary destination guide; source scans for taxonomy labels, destination modules, provider handoffs, sensitive strings, direct checkout, auto-booking, unsupported inventory claims, and numeric seed labels; Playwright Chromium responsive screenshots and keyboard review; visual screenshot review.
+
+Bugs found: The first runtime evidence used temporary posts whose taxonomy assignment command created terms literally named `27`, `28`, and `29`, so the page looked like it was rendering numeric labels. Self-review also found destination SEO descriptions still prioritized the legacy `baf_hotel_guide_summary` meta over the post excerpt, which could preserve old city-hotel wording on broadened destination pages.
+
+Bugs fixed: Validation content was reassigned by taxonomy slug to `ONE-106 Coast`, `ONE-106 Family`, and `ONE-106 Fall`; the numeric temporary terms were deleted; source and Playwright checks were rerun and confirmed readable labels with `findingCount=0`. Destination SEO descriptions now use the post excerpt first, then destination facts, then the legacy hotel summary as a fallback.
+
+Bugs deferred: No app-owned P17.1 blocker remains after the local gate. Later Phase 17 work still needs route template expansion, deal/taxonomy template work, internal-linking refinement, and final SEO content review.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Hierarchy.
+- WordPress Plugin Developer Handbook: Custom Post Types and Post Meta.
+- WordPress Common APIs Handbook: Escaping Data.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
+
+Decision: P17.1 local implementation and review gate passed. Keep Phase 17 overall `In Progress` until the remaining route/deal/taxonomy/internal-linking/SEO review issues pass review and merge.

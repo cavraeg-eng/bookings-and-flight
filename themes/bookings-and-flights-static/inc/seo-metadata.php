@@ -131,18 +131,19 @@ function bookings_and_flights_get_seo_context(): array {
 		$post_id           = get_queried_object_id();
 		$destination_label = bookings_and_flights_destination_label_for_post( $post_id );
 		$summary           = sanitize_text_field( (string) get_post_meta( $post_id, 'baf_hotel_guide_summary', true ) );
+		$destination_facts = sanitize_text_field( (string) get_post_meta( $post_id, 'baf_destination_facts', true ) );
 		$excerpt           = has_excerpt( $post_id ) ? wp_strip_all_tags( get_the_excerpt( $post_id ) ) : '';
-		$description       = '' !== $summary ? $summary : $excerpt;
+		$description       = '' !== $excerpt ? $excerpt : ( '' !== $destination_facts ? $destination_facts : $summary );
 
 		return array(
 			'title'       => sprintf(
 				/* translators: %s: destination name. */
-				__( '%s hotel guide', 'bookings_and_flights' ),
+				__( '%s destination guide', 'bookings_and_flights' ),
 				$destination_label
 			),
 			'description' => '' !== $description ? wp_trim_words( $description, 28, '' ) : sprintf(
 				/* translators: %s: destination name. */
-				__( 'Browse the %s city hotel guide with editable stay guidance and a Travelpayouts-controlled hotel search handoff.', 'bookings_and_flights' ),
+				__( 'Browse the %s destination guide with editable timing, activities, route, hotel, and partner handoff planning context.', 'bookings_and_flights' ),
 				$destination_label
 			),
 		);
@@ -153,8 +154,8 @@ function bookings_and_flights_get_seo_context(): array {
 		$archive_url = is_string( $archive_url ) && '' !== $archive_url ? $archive_url : home_url( '/destinations/' );
 
 		return array(
-			'title'       => __( 'City hotel guides', 'bookings_and_flights' ),
-			'description' => __( 'Browse WordPress-owned city hotel guides with editorial stay guidance, internal route links, and Travelpayouts-controlled hotel search handoff.', 'bookings_and_flights' ),
+			'title'       => __( 'Destination guides', 'bookings_and_flights' ),
+			'description' => __( 'Browse WordPress-owned destination guides with editable timing, activity, route, hotel, internal-link, and partner handoff planning context.', 'bookings_and_flights' ),
 			'canonical'   => $archive_url,
 		);
 	}

@@ -101,3 +101,15 @@ Current issue: P16.1 through P16.6 completed the app-owned hotel experience usin
 Workaround: Use `/hotels/` and destination hotel guide pages for the current WordPress-owned hotel discovery shell. Keep live rates, room inventory, maps, filters, booking, payment, changes, support, and supplier availability with Travelpayouts, Trip.com, or the partner provider.
 
 Planned fix phase: No remaining Phase 16 implementation issue after `ONE-105`; continue monitoring provider-owned Trip.com iframe/content-blocking and Chromium WebGL warnings during later phases.
+
+## Phase 17 Destination Content Engine Watch
+
+Severity: Low while P17 remains in progress.
+
+Affected area: `/destinations/`, destination single pages, taxonomy labels, destination planning modules, related destination links, related route links, and monetized hotel handoffs embedded on destination guides.
+
+Current issue: P17.1 now broadens destination pages from hotel-only city guides into editable SEO destination guides. No app-owned P17.1 runtime blocker remains after the local Playwright pass. The current templates still depend on published destination/route content and editor-entered metadata for rich production coverage, and later Phase 17 issues still need route/deal/taxonomy template work and final SEO review.
+
+Workaround: Use `/destinations/` and destination singles for the current editable destination guide shell. Keep live provider availability, search results, booking, payment, changes, support, and supplier inventory with Travelpayouts, Trip.com, or the partner provider.
+
+Planned fix phase: Continue Phase 17 route templates, deal/taxonomy templates, internal-linking modules, and final SEO content review issues after `ONE-106`.

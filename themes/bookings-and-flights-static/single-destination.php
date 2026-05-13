@@ -1,6 +1,6 @@
 <?php
 /**
- * Single destination hotel guide template.
+ * Single destination guide template.
  *
  * @package Bookings_and_Flights_Static
  */
@@ -25,11 +25,22 @@ if ( file_exists( $hotel_css ) ) {
 	);
 }
 
+$destination_css = get_template_directory() . '/assets/css/destination-surface.css';
+if ( file_exists( $destination_css ) ) {
+	wp_enqueue_style(
+		'bookings_and_flights-destination-surface',
+		get_template_directory_uri() . '/assets/css/destination-surface.css',
+		array( 'bookings_and_flights-hotel-guide' ),
+		filemtime( $destination_css )
+	);
+}
+
 add_filter(
 	'body_class',
 	static function ( array $classes ): array {
 		$classes[] = 'search-surface-page';
 		$classes[] = 'hotel-guide-page';
+		$classes[] = 'destination-guide-page';
 
 		return $classes;
 	}
@@ -38,7 +49,7 @@ add_filter(
 get_header();
 ?>
 
-<main id="main-content" class="hotel-guide hotel-guide--single">
+<main id="main-content" class="hotel-guide hotel-guide--single destination-guide">
 	<?php
 	while ( have_posts() ) :
 		the_post();
@@ -47,9 +58,30 @@ get_header();
 		$get_meta = static function ( string $key ) use ( $post_id ): string {
 			return trim( sanitize_textarea_field( (string) get_post_meta( $post_id, $key, true ) ) );
 		};
+		$get_terms = static function ( string $taxonomy ) use ( $post_id ): array {
+			$terms = get_the_terms( $post_id, $taxonomy );
+			if ( ! is_array( $terms ) ) {
+				return array();
+			}
+
+			return array_values(
+				array_filter(
+					array_map(
+						static function ( WP_Term $term ): string {
+							return sanitize_text_field( $term->name );
+						},
+						$terms
+					)
+				)
+			);
+		};
 		$destination_label = function_exists( 'bookings_and_flights_destination_label_for_post' ) ? bookings_and_flights_destination_label_for_post( $post_id ) : wp_strip_all_tags( get_the_title( $post_id ) );
 		$airport_code      = function_exists( 'bookings_and_flights_normalize_route_code' ) ? bookings_and_flights_normalize_route_code( get_post_meta( $post_id, 'baf_destination_airport', true ) ) : '';
 		$travel_style      = sanitize_text_field( (string) get_post_meta( $post_id, 'baf_travel_style', true ) );
+		$best_time         = $get_meta( 'baf_destination_best_time' );
+		$destination_facts = $get_meta( 'baf_destination_facts' );
+		$activity_notes    = $get_meta( 'baf_destination_activities' );
+		$seasonal_notes    = $get_meta( 'baf_destination_seasonal' );
 		$summary           = $get_meta( 'baf_hotel_guide_summary' );
 		$neighborhoods     = $get_meta( 'baf_hotel_neighborhoods' );
 		$best_for          = $get_meta( 'baf_hotel_best_for' );
@@ -57,6 +89,10 @@ get_header();
 		$luxury_notes      = $get_meta( 'baf_hotel_luxury_notes' );
 		$budget_notes      = $get_meta( 'baf_hotel_budget_notes' );
 		$landmark_notes    = $get_meta( 'baf_hotel_landmark_notes' );
+		$region_terms      = $get_terms( 'travel_region' );
+		$style_terms       = $get_terms( 'travel_style' );
+		$season_terms      = $get_terms( 'travel_season' );
+		$taxonomy_labels   = array_merge( $region_terms, $style_terms, $season_terms );
 		$hotel_search_url  = add_query_arg(
 			array(
 				'travel_destination' => $destination_label,
@@ -110,6 +146,28 @@ get_header();
 				'copy'  => '' !== $budget_notes ? $budget_notes : __( 'Plan around transit, review quality, room size, and total trip cost, then confirm current rates and taxes in the partner search flow.', 'bookings_and_flights' ),
 			),
 		);
+		$destination_modules = array(
+			array(
+				'label' => __( 'Best time', 'bookings_and_flights' ),
+				'title' => __( 'Best time to visit', 'bookings_and_flights' ),
+				'copy'  => '' !== $best_time ? $best_time : __( 'Use seasons, events, weather tolerance, and school or work calendars as editorial planning context before checking live provider availability.', 'bookings_and_flights' ),
+			),
+			array(
+				'label' => __( 'Destination facts', 'bookings_and_flights' ),
+				'title' => __( 'Arrival and local context', 'bookings_and_flights' ),
+				'copy'  => '' !== $destination_facts ? $destination_facts : __( 'Keep arrival airport, neighborhood base, trip length, transit, and accessibility notes editable in WordPress so editors can improve the guide over time.', 'bookings_and_flights' ),
+			),
+			array(
+				'label' => __( 'Activities', 'bookings_and_flights' ),
+				'title' => __( 'Activity planning links', 'bookings_and_flights' ),
+				'copy'  => '' !== $activity_notes ? $activity_notes : __( 'Frame museums, beaches, tours, dining, day trips, and local experiences as editorial ideas. Add partner activity placements later only after they are approved in the registry.', 'bookings_and_flights' ),
+			),
+			array(
+				'label' => __( 'Seasonal angle', 'bookings_and_flights' ),
+				'title' => __( 'Seasonal trip ideas', 'bookings_and_flights' ),
+				'copy'  => '' !== $seasonal_notes ? $seasonal_notes : __( 'Use seasonal modules for flexible-month and theme planning without claiming live rates, scarcity, or guaranteed availability.', 'bookings_and_flights' ),
+			),
+		);
 
 		$related_meta_query = array();
 		if ( '' !== $destination_label ) {
@@ -136,6 +194,32 @@ get_header();
 		}
 		$related_routes = new WP_Query( $related_routes_args );
 
+		$related_destination_tax_query = array();
+		foreach ( array( 'travel_region', 'travel_style', 'travel_season' ) as $related_taxonomy ) {
+			$term_ids = wp_get_post_terms( $post_id, $related_taxonomy, array( 'fields' => 'ids' ) );
+			if ( is_wp_error( $term_ids ) || empty( $term_ids ) ) {
+				continue;
+			}
+
+			$related_destination_tax_query[] = array(
+				'taxonomy' => $related_taxonomy,
+				'field'    => 'term_id',
+				'terms'    => array_map( 'absint', $term_ids ),
+			);
+		}
+
+		$related_destinations_args = array(
+			'post_type'      => 'destination',
+			'post_status'    => 'publish',
+			'posts_per_page' => 3,
+			'post__not_in'   => array( $post_id ),
+			'no_found_rows'  => true,
+		);
+		if ( ! empty( $related_destination_tax_query ) ) {
+			$related_destinations_args['tax_query'] = array_merge( array( 'relation' => 'OR' ), $related_destination_tax_query );
+		}
+		$related_destinations = new WP_Query( $related_destinations_args );
+
 		$details = array_filter(
 			array(
 				array(
@@ -148,7 +232,19 @@ get_header();
 				),
 				array(
 					'label' => __( 'Guide type', 'bookings_and_flights' ),
-					'value' => __( 'City hotel guide', 'bookings_and_flights' ),
+					'value' => __( 'Destination guide', 'bookings_and_flights' ),
+				),
+				array(
+					'label' => __( 'Regions', 'bookings_and_flights' ),
+					'value' => implode( ', ', $region_terms ),
+				),
+				array(
+					'label' => __( 'Styles', 'bookings_and_flights' ),
+					'value' => implode( ', ', $style_terms ),
+				),
+				array(
+					'label' => __( 'Seasons', 'bookings_and_flights' ),
+					'value' => implode( ', ', $season_terms ),
 				),
 			),
 			static function ( array $detail ): bool {
@@ -159,53 +255,88 @@ get_header();
 
 		<article id="post-<?php the_ID(); ?>" <?php post_class( 'hotel-guide__article' ); ?>>
 			<section class="hotel-guide-hero" aria-labelledby="hotel-guide-title">
-				<div class="hotel-guide-hero__inner">
-					<p class="hotel-guide-hero__eyebrow"><?php esc_html_e( 'City hotel guide', 'bookings_and_flights' ); ?></p>
-					<h1 id="hotel-guide-title" class="hotel-guide-hero__title">
-						<?php
-						echo esc_html(
-							sprintf(
-								/* translators: %s: destination name. */
-								__( 'Where to stay in %s', 'bookings_and_flights' ),
-								$destination_label
-							)
-						);
-						?>
-					</h1>
-					<p class="hotel-guide-hero__lede">
-						<?php
-						echo esc_html(
-							'' !== $summary ? $summary : sprintf(
-								/* translators: %s: destination name. */
-								__( 'Use this editable %s hotel guide for neighborhood and stay-type planning, then open the Travelpayouts partner surface for current availability and booking terms.', 'bookings_and_flights' ),
-								$destination_label
-							)
-						);
-						?>
-					</p>
-					<div class="hotel-guide-hero__actions">
-						<a class="hotel-guide-button" href="<?php echo esc_url( $hotel_search_url ); ?>"><?php esc_html_e( 'Open hotel search', 'bookings_and_flights' ); ?></a>
-						<a class="hotel-guide-button hotel-guide-button--secondary" href="<?php echo esc_url( $destinations_url ); ?>"><?php esc_html_e( 'Browse city guides', 'bookings_and_flights' ); ?></a>
+				<div class="hotel-guide-hero__inner destination-guide-hero__inner">
+					<div class="destination-guide-hero__content">
+						<p class="hotel-guide-hero__eyebrow"><?php esc_html_e( 'Destination guide', 'bookings_and_flights' ); ?></p>
+						<h1 id="hotel-guide-title" class="hotel-guide-hero__title">
+							<?php
+							echo esc_html(
+								sprintf(
+									/* translators: %s: destination name. */
+									__( 'Plan %s with editable travel context', 'bookings_and_flights' ),
+									$destination_label
+								)
+							);
+							?>
+						</h1>
+						<p class="hotel-guide-hero__lede">
+							<?php
+							echo esc_html(
+								'' !== get_the_excerpt() ? get_the_excerpt() : sprintf(
+									/* translators: %s: destination name. */
+									__( 'Use this WordPress-owned %s guide for neighborhoods, timing, activities, routes, hotels, and planning ideas before opening provider-owned search or booking surfaces.', 'bookings_and_flights' ),
+									$destination_label
+								)
+							);
+							?>
+						</p>
+						<?php if ( ! empty( $taxonomy_labels ) ) : ?>
+							<ul class="destination-guide-tax-list" aria-label="<?php esc_attr_e( 'Destination taxonomy labels', 'bookings_and_flights' ); ?>">
+								<?php foreach ( array_slice( $taxonomy_labels, 0, 6 ) as $taxonomy_label ) : ?>
+									<li><?php echo esc_html( $taxonomy_label ); ?></li>
+								<?php endforeach; ?>
+							</ul>
+						<?php endif; ?>
+						<div class="hotel-guide-hero__actions">
+							<a class="hotel-guide-button" href="<?php echo esc_url( $flight_search_url ); ?>"><?php esc_html_e( 'Open flight handoff', 'bookings_and_flights' ); ?></a>
+							<a class="hotel-guide-button hotel-guide-button--secondary" href="<?php echo esc_url( $hotel_search_url ); ?>"><?php esc_html_e( 'Open hotel handoff', 'bookings_and_flights' ); ?></a>
+							<a class="hotel-guide-button hotel-guide-button--secondary" href="<?php echo esc_url( $destinations_url ); ?>"><?php esc_html_e( 'Browse destinations', 'bookings_and_flights' ); ?></a>
+						</div>
 					</div>
+					<?php if ( has_post_thumbnail() ) : ?>
+						<figure class="destination-guide-hero__media">
+							<?php the_post_thumbnail( 'large' ); ?>
+						</figure>
+					<?php endif; ?>
 				</div>
 			</section>
 
-			<section class="hotel-guide-section" aria-label="<?php esc_attr_e( 'Hotel guide editorial notes', 'bookings_and_flights' ); ?>">
+			<section class="hotel-guide-section" aria-label="<?php esc_attr_e( 'Destination editorial notes', 'bookings_and_flights' ); ?>">
 				<div class="hotel-guide-section__inner hotel-guide-section__inner--split">
 					<div class="hotel-guide-panel hotel-guide-panel--entry">
-						<h2><?php esc_html_e( 'City stay brief', 'bookings_and_flights' ); ?></h2>
+						<h2><?php esc_html_e( 'Editable destination brief', 'bookings_and_flights' ); ?></h2>
 						<div class="hotel-guide-entry">
 							<?php the_content(); ?>
 						</div>
 					</div>
 
 					<div class="hotel-guide-panel hotel-guide-panel--disclosure">
-						<h2><?php esc_html_e( 'Search boundary', 'bookings_and_flights' ); ?></h2>
-						<p><?php esc_html_e( 'These modules are editorial planning guidance. Current room availability, rates, taxes, policies, map filters, booking terms, payment, changes, and support stay with Travelpayouts, Trip.com, or the partner provider.', 'bookings_and_flights' ); ?></p>
-						<a class="hotel-guide-text-link" href="<?php echo esc_url( $flight_search_url ); ?>"><?php esc_html_e( 'Pair with flight search', 'bookings_and_flights' ); ?></a>
+						<h2><?php esc_html_e( 'Search and booking boundary', 'bookings_and_flights' ); ?></h2>
+						<p><?php esc_html_e( 'Destination copy, facts, seasons, internal links, and planning prompts are editable in WordPress. Live flight and hotel results, rates, taxes, policies, booking terms, payment, changes, and support stay with Travelpayouts, Trip.com, or the partner provider.', 'bookings_and_flights' ); ?></p>
+						<dl class="destination-guide-facts">
+							<?php foreach ( $details as $detail ) : ?>
+								<div>
+									<dt><?php echo esc_html( $detail['label'] ); ?></dt>
+									<dd><?php echo esc_html( $detail['value'] ); ?></dd>
+								</div>
+							<?php endforeach; ?>
+						</dl>
 					</div>
 				</div>
 			</section>
+
+			<?php
+			get_template_part(
+				'template-parts/destination-planning-modules',
+				null,
+				array(
+					'modules'           => $destination_modules,
+					'flight_search_url' => $flight_search_url,
+					'hotel_search_url'  => $hotel_search_url,
+					'planner_url'       => home_url( '/#trip-planner' ),
+				)
+			);
+			?>
 
 			<section class="hotel-guide-section" aria-labelledby="hotel-guide-modules-title">
 				<div class="hotel-guide-section__inner">
@@ -277,11 +408,11 @@ get_header();
 						'slug'             => 'destination_' . $post_id,
 						'class'            => 'search-placement--hotel-guide',
 						'eyebrow'          => __( 'Hotels partner surface', 'bookings_and_flights' ),
-						'title'            => __( 'Open partner search for this city', 'bookings_and_flights' ),
-						'description'      => __( 'Continue from the editorial city guide into the configured partner surface for current hotel availability, map controls, room choices, taxes, policies, booking terms, payment, changes, and support.', 'bookings_and_flights' ),
+							'title'            => __( 'Open partner search for this destination', 'bookings_and_flights' ),
+							'description'      => __( 'Continue from the editorial destination guide into the configured partner surface for current hotel availability, map controls, room choices, taxes, policies, booking terms, payment, changes, and support.', 'bookings_and_flights' ),
 						'details'          => $details,
 						'fallback_message' => __( 'Hotel search is configured through the Travelpayouts placement registry. If it is unavailable, use the hotel handoff link or check provider settings.', 'bookings_and_flights' ),
-						'support_note'     => __( 'Sponsored hotel search may earn a commission. Bookings and Flights keeps this city guide editable in WordPress; current hotel search and reservations stay with Travelpayouts, Trip.com, or the partner provider.', 'bookings_and_flights' ),
+							'support_note'     => __( 'Sponsored hotel search may earn a commission. Bookings and Flights keeps this destination guide editable in WordPress; current hotel search and reservations stay with Travelpayouts, Trip.com, or the partner provider.', 'bookings_and_flights' ),
 					)
 				);
 				?>
@@ -311,8 +442,36 @@ get_header();
 					</div>
 
 					<div class="hotel-guide-panel hotel-guide-panel--next">
-						<h2><?php esc_html_e( 'Continue planning', 'bookings_and_flights' ); ?></h2>
-						<p><?php esc_html_e( 'Move between the WordPress city guide, flight route pages, and the approved hotel partner search without changing the booking-owner boundary.', 'bookings_and_flights' ); ?></p>
+						<h2><?php esc_html_e( 'Related destination links', 'bookings_and_flights' ); ?></h2>
+						<?php if ( $related_destinations->have_posts() ) : ?>
+							<div class="destination-guide-related-grid">
+								<?php
+								while ( $related_destinations->have_posts() ) :
+									$related_destinations->the_post();
+									$related_destination_id    = get_the_ID();
+									$related_destination_label = function_exists( 'bookings_and_flights_destination_label_for_post' ) ? bookings_and_flights_destination_label_for_post( $related_destination_id ) : wp_strip_all_tags( get_the_title( $related_destination_id ) );
+									?>
+									<a class="hotel-guide-related-link" href="<?php echo esc_url( get_permalink() ); ?>">
+										<span><?php echo esc_html( get_the_title() ); ?></span>
+										<small>
+											<?php
+											echo esc_html(
+												sprintf(
+													/* translators: %s: destination name. */
+													__( 'Open %s guide', 'bookings_and_flights' ),
+													$related_destination_label
+												)
+											);
+											?>
+										</small>
+									</a>
+								<?php endwhile; ?>
+							</div>
+							<?php wp_reset_postdata(); ?>
+						<?php else : ?>
+							<p><?php esc_html_e( 'Related destination guides will appear here when more destinations share region, style, or season taxonomy terms.', 'bookings_and_flights' ); ?></p>
+						<?php endif; ?>
+						<p><?php esc_html_e( 'Move between WordPress destination guides, flight route pages, and approved partner handoffs without changing the booking-owner boundary.', 'bookings_and_flights' ); ?></p>
 						<div class="hotel-guide-panel__actions">
 							<a class="hotel-guide-button" href="<?php echo esc_url( $hotel_search_url ); ?>"><?php esc_html_e( 'Open hotel handoff', 'bookings_and_flights' ); ?></a>
 							<a class="hotel-guide-button hotel-guide-button--secondary" href="<?php echo esc_url( $flight_search_url ); ?>"><?php esc_html_e( 'Open flight handoff', 'bookings_and_flights' ); ?></a>

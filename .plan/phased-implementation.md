@@ -1627,7 +1627,7 @@ P16.6 note: `ONE-105` started on 2026-05-13. The final Phase 16 review gate reco
 
 ## Phase 17: Destination, Route, and SEO Content Engine
 
-Status: `Not Started`
+Status: `In Progress`
 
 Objective: Scale organic landing pages around WordPress CPTs and Travelpayouts monetized placement zones.
 
@@ -1652,6 +1652,8 @@ Validation checklist:
 - Accessibility and responsive review.
 - SEO source review.
 - Editor workflow smoke check.
+
+P17.1 note: `ONE-106` started on 2026-05-13. Destination archive and single templates now present `destination` CPT content as broader editable destination guides instead of hotel-only pages. The single destination template renders post content, taxonomy labels, destination facts, best-time/activity/seasonal modules, related destination links, related route links, and the existing governed hotel handoff section while keeping provider search, live availability, booking, payment, changes, and support outside WordPress. The core plugin registers destination-only editable meta keys for best-time, facts, activities, and seasonal notes with private REST exposure. Runtime validation found the temporary browser seed content was initially assigned numeric taxonomy terms by WP-CLI, so the validation data was corrected to slug-based `ONE-106 Coast`, `ONE-106 Family`, and `ONE-106 Fall` terms before final screenshots. Playwright Chromium captured archive and single guide pages across desktop, mobile, and 320px narrow widths and keyboard focus to `Open provider flight search`, `Open provider hotel search`, `Open hotel map`, `Open hotel listings`, and a related destination guide; the final report at `/tmp/one106-destination-report.json` returned `findingCount=0`.
 
 ## Phase 18: AI Planner With Travelpayouts Handoff
 

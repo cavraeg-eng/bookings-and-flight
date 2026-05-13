@@ -1093,3 +1093,35 @@ Related files/routes/settings:
 - `/hotels/`
 - `/destinations/`
 - `/destinations/{destination}/`
+
+## Phase 17 Destination Guide Templates
+
+Fragile area: destination archive/single templates, destination-specific meta modules, taxonomy chips/fact panels, related destination links, related route links, and embedded hotel partner handoffs.
+
+Why risky: These pages now combine indexable editorial SEO content with monetized handoffs. Future changes could accidentally expose provider settings, imply local live inventory, break taxonomy labels, over-index transient provider search state, or route hotel placements through an unapproved destination surface.
+
+What to check after future changes:
+
+- `/destinations/` renders published destination cards with readable taxonomy labels rather than numeric term IDs.
+- A destination single renders editable post content, taxonomy chips, destination facts, best-time/activity/seasonal modules, related destination links, and related route links or safe empty-state copy.
+- Destination-only meta keys `baf_destination_best_time`, `baf_destination_facts`, `baf_destination_activities`, and `baf_destination_seasonal` remain registered with `show_in_rest => false`, sanitization, and edit-meta authorization.
+- Destination guide flight and hotel links route to existing shell surfaces and do not claim live provider results inside WordPress.
+- Embedded hotel placements keep `surface="hotels"` and `channel="destination_single"` until the registry explicitly approves a destination surface.
+- Source scans find no API keys, authorization/bearer strings, postback secrets, private keys, direct checkout, auto-booking, guaranteed availability, unsupported local inventory claims, or numeric seed labels.
+- Desktop/mobile/320px screenshots show no horizontal overflow, clipped handoff controls, hidden disclosures, blank pages, framework overlays, or app-owned console/request failures.
+- Keyboard navigation reaches `Open provider flight search`, `Open provider hotel search`, `Open hotel map`, `Open hotel listings`, and related destination guide links with visible focus.
+
+Related files/routes/settings:
+
+- `plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php`
+- `themes/bookings-and-flights-static/archive-destination.php`
+- `themes/bookings-and-flights-static/single-destination.php`
+- `themes/bookings-and-flights-static/template-parts/destination-planning-modules.php`
+- `themes/bookings-and-flights-static/assets/css/destination-surface.css`
+- `themes/bookings-and-flights-static/inc/seo-metadata.php`
+- `baf_destination_best_time`
+- `baf_destination_facts`
+- `baf_destination_activities`
+- `baf_destination_seasonal`
+- `/destinations/`
+- `/destinations/{destination}/`

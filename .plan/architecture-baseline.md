@@ -198,6 +198,10 @@ Use the `baf_` prefix for new meta. Phase 1 registers the following post meta ke
 - `baf_destination`
 - `baf_origin_airport`
 - `baf_destination_airport`
+- `baf_destination_best_time`
+- `baf_destination_facts`
+- `baf_destination_activities`
+- `baf_destination_seasonal`
 - `baf_departure_window`
 - `baf_return_window`
 - `baf_budget_min`
@@ -244,6 +248,8 @@ Phase 16.4 strengthens the hotel disclosure and handoff boundary without adding 
 Phase 16.5 confirms the hotel mobile/source review boundary without adding routes, provider contracts, options, tables, cron jobs, REST endpoints, shortcodes, blocks, or registry schema changes. WordPress-owned hotel pages must keep header navigation, local intent controls, guide cards, partner handoff buttons, companion placement cards, and disclosure bands responsive through 320px narrow viewports with no horizontal overflow, no clipped handoff controls, no missing disclosures, and no sub-44px interactive targets. Provider-owned WebGL/runtime warnings remain separate from app-owned console and request failures.
 
 Phase 16.6 confirms the final Hotels and Stays boundary. WordPress owns the Hotels shell, city guide/editorial context, partner placement shells, affiliate disclosures, SubID context, source-safe metadata, and transient hotel-intent SEO behavior. Hotel-intent query URLs are not indexable landing pages: they render `noindex, follow` and canonicalize to `/hotels/`, while `/hotels/` without transient query state remains the indexable hotel entry surface. The hotel path helper strips the site's `home_url()` path prefix so subdirectory installs preserve the same transient-query robots behavior. Travelpayouts, Trip.com, and partner providers continue to own live inventory, rates, maps, filters, taxes, room policies, booking, payment, changes, support, and supplier availability.
+
+Phase 17.1 starts the destination content engine on the existing `destination` CPT. WordPress owns the `/destinations/` archive, destination single guide layout, editable post content, taxonomy labels, destination fact modules, related destination links, related route links, and SEO title/description copy. The destination template may link to existing `/flights/`, `/hotels/`, and `/trip-planner/` shell surfaces, but it must not create live provider inventory, custom search APIs, booking, payment, or auto-publishing behavior. Monetized hotel modules continue to render the existing approved `hotels_partner_search`, `hotels_map_handoff`, and `hotels_listing_handoff` placements with `surface="hotels"` and `channel="destination_single"` context rather than a new unapproved destination placement surface.
 
 ## User Meta Keys
 
