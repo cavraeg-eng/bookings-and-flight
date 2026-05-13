@@ -1169,6 +1169,35 @@ Related files/routes/settings:
 - `/travel-verticals/{term}/`
 - `/travel-seasons/{term}/`
 
+## Phase 17 Editor Workflow And Field Pipeline
+
+Fragile area: structured editor meta boxes for `destination`, `route`, and `travel_deal`, P17 `baf_*` meta persistence, raw-script boundaries, and the legacy content-manager split.
+
+Why risky: P17 pages depend on editor-entered module metadata. If the structured fields disappear or save incorrectly, editors fall back to brittle custom-field keys. If raw provider scripts drift into post content, the approved placement registry, disclosure, SubID, and consent boundaries can be bypassed.
+
+What to check after future changes:
+
+- Destination, Route, and Travel Deal edit screens show the structured guide-module meta box for users who can edit the post.
+- Meta-box saves require a valid nonce and `edit_post` capability.
+- Airport-code fields save normalized uppercase codes without punctuation.
+- Textarea fields sanitize markup while preserving normal editorial line breaks.
+- Budget fields save non-negative numbers and do not imply live or guaranteed provider prices.
+- Empty fields are cleared rather than leaving stale generated metadata.
+- P17 public templates still read registered private `baf_*` meta and escape output on render.
+- Editors do not need to paste raw Travelpayouts scripts into posts; monetized modules stay behind approved widget registry placements and shell handoff links.
+- Legacy `bookings-and-flights-content-manager` code remains documented as untracked/page-template oriented until its rendering, persistence, media, export/import, and notice seams are split.
+
+Related files/routes/settings:
+
+- `plugins/bookings-flights-core/includes/post-types/class-editor-meta-boxes.php`
+- `plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php`
+- `.plan/editor-workflow-content-manager-review.md`
+- `baf_destination_best_time`
+- `baf_route_travel_time`
+- `baf_deal_source_note`
+- `plugins/bookings-and-flights-content-manager/includes/class-meta-boxes.php`
+- `plugins/bookings-and-flights-content-manager/includes/class-export-import.php`
+
 ## Phase 16 Mobile Hotel Layout And Touch Targets
 
 Fragile area: Header navigation, hotel guide card title links, hotel companion placement cards, and embedded/handoff widget frames across mobile, tablet, desktop, and 320px narrow widths.

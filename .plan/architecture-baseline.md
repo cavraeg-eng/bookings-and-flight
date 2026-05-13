@@ -572,7 +572,7 @@ These are planning labels from the 2026-05-09 architecture review, not final cla
 - Search surface mode seam: one place for choosing Travelpayouts widget, White Label page, safe redirect metadata, or an explicitly approved `platform/` Adapter without exposing custom live inventory by default.
 - Brand continuity module: one WordPress-owned source for logo, favicon, brand name, colors, primary nav, footer links, disclosure copy, and White Label heading copy.
 - AI opportunity handoff: one approval-oriented module that turns validated `not_executed` AI opportunities into approved Travelpayouts placement drafts only after consent and capability checks.
-- Content manager field pipeline: split the existing content manager along field rendering, field persistence, media portability, schema export/import, and admin notice seams before large template expansion.
+- Content manager field pipeline: P17.5 adds tracked core editor meta boxes for `destination`, `route`, and `travel_deal` guide-module fields so editors no longer need raw `baf_*` custom-field keys for Phase 17 page families. The legacy local `bookings-and-flights-content-manager` plugin still needs a split along field rendering, field persistence, media portability, schema export/import, and admin notice seams before it becomes the tracked field system for large CPT expansion.
 
 ## Provider Interfaces
 
