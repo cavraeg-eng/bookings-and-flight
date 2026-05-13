@@ -2495,7 +2495,7 @@ Decision: P17.5 completed after PR #46 merged on 2026-05-13 with merge commit `e
 
 ## Phase 17.6 Review - 2026-05-13
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
@@ -2536,4 +2536,48 @@ Research consulted:
 - Travelpayouts Help Center: Getting started with widgets.
 - FTC Business Guidance: Disclosures 101 for Social Media Influencers.
 
-Decision: P17.6 local implementation and review gate passed. Keep Phase 17 overall `In Progress` until PR review, merge, Linear sync, and the remaining final Phase 17 review issue are complete.
+Decision: P17.6 completed after PR #47 merged on 2026-05-13 with merge commit `bfd703800b0213ef3b88bf4afa40d8fcb1e39b0d`. Phase 17 then moved into the final P17.7 review gate.
+
+## Phase 17.7 Review - 2026-05-13
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Linear issue: `ONE-112`
+
+Scope reviewed: `ONE-112` final Phase 17 review and documentation gate. Reviewed destination, route, deal, taxonomy, editor workflow, internal linking, monetized placements, disclosure, no-auto-publish boundary, accessibility, responsive behavior, SEO, source/security review, validation baseline, and current documentation alignment before Phase 18 starts.
+
+Acceptance criteria result: Passed locally for the PR candidate. Phase 17 now provides editable WordPress-owned destination, route, deal, and taxonomy SEO surfaces; structured editor fields for the rendered guide modules; approved Travelpayouts placement wrappers; visible affiliate disclosure boundaries; no local live inventory or auto-booking behavior; and validated transient Flights/Hotels query noindex behavior.
+
+Security review: Passed locally. P17.7 added no executable code, REST endpoints, provider API calls, custom SQL, options, tables, cron jobs, checkout, payment paths, booking behavior, auto-publishing, or private-data writes. Final source checks found no API keys, authorization/bearer strings, postback secrets, private keys, direct checkout, auto-booking, guaranteed availability, or confirmed availability in app-owned output.
+
+REST permission review: Passed for scope. P17.7 added no REST endpoints. Final metadata smoke confirmed P17 destination, route, and deal editor meta remains `show_in_rest=false`, sanitized, and protected by edit-meta authorization callbacks.
+
+Database/migration review: Passed for scope. No migration, custom table, option migration, or destructive data change was added. Temporary final-gate destination, route, deal, taxonomy, private destination, and trip-plan fixtures were deleted and confirmed absent.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Playwright Chromium covered destination/archive, route/archive, deal/archive, taxonomy, transient Flights query, and transient Hotels query states. Final screenshots and keyboard evidence are listed in `.plan/phase-17-final-review.md`; `/tmp/one112-phase17-final-report.json` returned `status=pass` and `findingCount=0`.
+
+Regression review: P17.1 through P17.6 remain intact. Phase 15 flight-query SEO behavior, Phase 16 hotel-intent SEO behavior, Phase 13 placement wrappers, SubID/disclosure boundaries, private CPT boundaries, and provider-owned booking/payment/support language remain intact. Phase 18 may start only after this review gate merges and Linear is synced.
+
+Validation performed: PHP syntax for P17 CPT/editor/template/SEO files; file-size checks; plugin active and registered CPT/meta smoke; Playwright Chromium runtime/source/SEO/disclosure/console/request review; keyboard navigation review; temporary fixture cleanup; `git diff --check`.
+
+Bugs found: No new app-owned P17.7 bug was found. The first final-gate report flagged a visually small checkbox input and an Aviasales/Travelpayouts provider analytics-pixel `400`.
+
+Bugs fixed: No code fix was needed. The checkbox is inside a large label hit area, and the provider analytics-pixel `400` is third-party widget noise. The final report was rerun with label-target and provider-boundary classification and returned `findingCount=0`.
+
+Bugs deferred: No app-owned Phase 17 blocker remains after the local gate. `plugins/bookings-flights-core/assets/css/frontend.css` remains 590 lines and should be split before future substantial core frontend CSS expansion. Provider-owned Travelpayouts/Aviasales WebGL, Babel, GraphQL, `tp.media`, and `avsplow.com` warnings remain watchlist-only when app-owned checks pass. Production richness still depends on published destination, route, and travel deal content plus editor-entered metadata. The local untracked content-manager plugin remains a deferred field-pipeline candidate.
+
+Documentation updated: `.plan/phase-17-final-review.md`, `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`, `.plan/phase-17-accessibility-seo-disclosure-review.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Hierarchy.
+- WordPress Plugin Handbook: Custom Post Types.
+- WordPress Plugin Handbook: Custom Meta Boxes.
+- WordPress Plugin Security Handbook: Securing Input.
+- WordPress Common APIs Handbook: Escaping Data.
+- WordPress Developer Resources: `wp_robots`.
+- Travelpayouts Help Center: White Label Web, Widget setup, SubID, and widgets.
+- FTC Business Guidance: Disclosures 101 for Social Media Influencers.
+
+Decision: Phase 17 local review gate passed. Phase 18 can start after this PR is reviewed by Codex, merged, and Linear `ONE-112` is synced to Done.

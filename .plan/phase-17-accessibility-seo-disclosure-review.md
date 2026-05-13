@@ -4,7 +4,7 @@ Date: 2026-05-13
 
 Linear issue: `ONE-111`
 
-Status: `In Review`
+Status: `Completed`
 
 ## Scope
 
