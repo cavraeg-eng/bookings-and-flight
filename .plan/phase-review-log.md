@@ -2010,3 +2010,43 @@ Research consulted:
 - WordPress Code Reference: `WP_Query`.
 
 Decision: P15.6 local implementation and review gate passed. Phase 15 Flights Experience is complete after PR review, merge, and Linear closeout for `ONE-98`.
+
+## Phase 15.7 Review - 2026-05-13
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-99` final Phase 15 review and documentation gate. Reviewed P15.1-P15.6 implementation notes, current Flights and route templates, Travelpayouts widget placement registry behavior, White Label continuity, alert intent handling, route SEO/indexing behavior, public REST route exposure, source output, runtime screenshots, keyboard navigation, and docs alignment before Phase 16 hotel/stays work starts.
+
+Acceptance criteria result: Passed locally for the PR candidate. The Flights landing page, transient flight query behavior, route archive, origin-filtered route archive, route detail page, Travelpayouts White Label handoff, discovery widget shell, local alert intent permission failure, route SEO metadata, and public route REST collection all matched the Phase 15 objective and acceptance criteria.
+
+Security review: Passed locally. Source scans found no app-owned PHP warnings, API keys, tokens, authorization headers, bearer strings, postback secrets, passwords, fake scarcity, direct-checkout, auto-booking, or stored-inventory leakage. Missing alert nonce returned `403`, and a follow-up query confirmed no alert record was created for the rejected submission. No code path was added, and no capability, nonce, settings, route, custom SQL, provider secret, direct checkout, payment, booking, or auto-publishing boundary changed in P15.7.
+
+REST permission review: Passed for scope. P15.7 added no REST endpoints. The public WordPress route collection smoke returned `200` with `per_page=1`, and the existing route meta/private alert boundaries remain unchanged from earlier Phase 15 gates.
+
+Database/migration review: Passed for scope. P15.7 added no tables, options, migrations, cron jobs, or persistent records. Temporary route post `312` was created for runtime validation, deleted after the browser pass, and confirmed at `remaining=0`.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Playwright Chromium screenshots covered the Flights handoff page, White Label widget section, route detail page, mobile origin archive, and keyboard-focused route link. The runtime report found no blank pages, framework overlays, horizontal overflow, duplicate IDs, app-owned console errors, app-owned failed requests, or relevant failed requests. Keyboard navigation tabbed from the origin archive to the temporary route card link and pressing Enter opened the route detail page.
+
+Regression review: Existing P15.1 Flights intent behavior, P15.2 route archive/detail templates, P15.3 discovery widgets, P15.4 White Label continuity, P15.5 alert intent capture, P15.6 SEO metadata/indexing, Phase 13 registry output, SubID/disclosure boundaries, and provider-owned booking/payment/support language remain intact. Provider-owned Travelpayouts warnings and external request noise remain watchlist-only because app-owned checks passed and widget/handoff output stayed usable.
+
+Validation performed: HTTP `200` smoke for `/flights/`, `/flights/?origin=nyc&destination=lax&depart_date=2026-08-01`, `/routes/`, `/routes/?route_origin=nyc`, a temporary route detail URL, and `/wp-json/wp/v2/route?per_page=1`; source checks for metadata, canonical output, noindex behavior, route context, widget placement output, warnings, secrets, and unsupported ownership claims; missing-alert-nonce POST returning `403`; alert email creation check returning zero records; attempted Codex in-app Browser validation; Playwright Chromium desktop/mobile screenshots and keyboard navigation; temporary route cleanup; and `git diff --check`.
+
+Bugs found: No app-owned Phase 15 bugs were found in the P15.7 local gate. The only runtime noise was provider-owned Travelpayouts console warnings and external request failures already tracked as non-blocking watchlist items.
+
+Bugs fixed: None required in P15.7. Documentation was updated to record the completed gate and carry-forward watchlist.
+
+Bugs deferred: Provider-owned Travelpayouts runtime warnings and external request noise remain a later-phase watch item. Phase 16 hotel/stays work still needs its own runtime validation and must preserve the Travelpayouts-controlled backend boundary.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Plugin Security Handbook: `https://developer.wordpress.org/plugins/security/`
+- WordPress REST API Handbook: `https://developer.wordpress.org/rest-api/`
+- WordPress Code Reference: `wp_head()`
+- WordPress Code Reference: `rel_canonical()`
+- WordPress Code Reference: `WP_Query`
+- Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
+
+Decision: P15.7 local review gate passed. Phase 15 Flights Experience is ready to close after PR review, merge, and Linear sync; Phase 16 hotel/stays work may start after that closeout.
