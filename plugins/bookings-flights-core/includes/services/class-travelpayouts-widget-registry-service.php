@@ -195,6 +195,10 @@ final class Travelpayouts_Widget_Registry_Service {
 		$embed  = self::sanitize_embed( $embed_input );
 		$status = self::sanitize_choice( (string) ( $placement['status'] ?? $existing['status'] ?? 'draft' ), self::STATUSES, 'draft' );
 
+		if ( 'active' === $status && 'official_shortcode' === (string) ( $embed['mode'] ?? '' ) && ! self::embed_is_configured( $embed ) ) {
+			$status = 'draft';
+		}
+
 		if ( 'active' === $status && ! self::embed_is_configured( $embed ) ) {
 			return new \WP_Error( 'baf_widget_placement_embed_required', __( 'Active Travelpayouts widget placements require an approved embed reference or URL.', 'bookings-flights-core' ), array( 'status' => 400 ) );
 		}
@@ -412,8 +416,16 @@ final class Travelpayouts_Widget_Registry_Service {
 	}
 
 	private static function embed_is_configured( array $embed ): bool {
-		if ( in_array( (string) ( $embed['mode'] ?? '' ), array( 'disabled', '' ), true ) ) {
+		$mode = (string) ( $embed['mode'] ?? '' );
+
+		if ( in_array( $mode, array( 'disabled', '' ), true ) ) {
 			return false;
+		}
+
+		if ( 'official_shortcode' === $mode ) {
+			$reference = sanitize_key( (string) ( $embed['reference'] ?? '' ) );
+
+			return '' !== $reference && shortcode_exists( $reference );
 		}
 
 		return '' !== (string) ( $embed['reference'] ?? '' ) || '' !== (string) ( $embed['url'] ?? '' );
