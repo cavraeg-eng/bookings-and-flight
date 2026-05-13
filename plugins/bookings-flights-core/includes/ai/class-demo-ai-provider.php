@@ -22,9 +22,12 @@ final class Demo_AI_Provider implements AI_Provider_Interface {
 	public function generate_itinerary( array $request ): array|\WP_Error {
 		$destination  = sanitize_text_field( (string) ( $request['destination'] ?? __( 'your destination', 'bookings-flights-core' ) ) );
 		$origin       = sanitize_text_field( (string) ( $request['origin'] ?? '' ) );
+		$prompt       = sanitize_textarea_field( (string) ( $request['prompt'] ?? '' ) );
 		$days         = max( 1, min( 21, absint( $request['days'] ?? 3 ) ) );
+		$travelers    = max( 1, min( 12, absint( $request['travelers'] ?? 2 ) ) );
 		$travel_style = sanitize_text_field( (string) ( $request['travel_style'] ?? __( 'balanced', 'bookings-flights-core' ) ) );
 		$day_items    = array();
+		$prompt_note  = '' !== $prompt ? __( 'The entered prompt was converted into this editable local brief without calling a live AI provider.', 'bookings-flights-core' ) : __( 'This editable local brief uses the planner form fields without calling a live AI provider.', 'bookings-flights-core' );
 
 		for ( $day = 1; $day <= $days; ++$day ) {
 			$day_items[] = array(
@@ -59,7 +62,7 @@ final class Demo_AI_Provider implements AI_Provider_Interface {
 
 		return array(
 			'title'                   => sprintf( __( '%1$d-day %2$s itinerary', 'bookings-flights-core' ), $days, $destination ),
-			'summary'                 => sprintf( __( 'Demo itinerary for %1$s with a %2$s travel style. Edit all copy before publishing or sharing.', 'bookings-flights-core' ), $destination, $travel_style ),
+			'summary'                 => sprintf( __( 'Demo itinerary for %1$s with a %2$s travel style for %3$d traveler(s). %4$s', 'bookings-flights-core' ), $destination, $travel_style, $travelers, $prompt_note ),
 			'destination'             => $destination,
 			'duration_days'           => $days,
 			'days'                    => $day_items,

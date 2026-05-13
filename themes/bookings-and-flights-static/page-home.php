@@ -7,7 +7,7 @@
 
 $flight_search_url = home_url( '/flights/' );
 $hotel_search_url  = home_url( '/hotels/' );
-$planner_anchor    = home_url( '/#trip-planner' );
+$planner_anchor    = home_url( '/trip-planner/' );
 $hero_image_id     = absint( bookings_and_flights_field( 'hero_image_id', 0 ) );
 $fallback_image    = get_template_directory_uri() . '/assets/images/home-hero-beach.jpg';
 $trending_routes   = array(
@@ -203,7 +203,7 @@ get_header();
 				<span class="home-entrypoint__label">Deals</span>
 				<span class="home-entrypoint__text">Look for travel dates and routes before opening provider results.</span>
 			</a>
-			<a id="trip-planner" class="home-entrypoint" href="<?php echo esc_url( add_query_arg( 'travel_mode', 'planner', $flight_search_url ) ); ?>">
+			<a id="trip-planner" class="home-entrypoint" href="<?php echo esc_url( $planner_anchor ); ?>">
 				<span class="home-entrypoint__label">Trip Planner</span>
 				<span class="home-entrypoint__text">Shape an itinerary idea, then choose the flight or hotel path.</span>
 			</a>
@@ -316,7 +316,7 @@ get_header();
 			<div class="home-retention" aria-labelledby="home-retention-title">
 				<div class="home-module__header">
 					<h3 id="home-retention-title">Keep planning without pretending every workflow is active</h3>
-					<p>Alert and AI planner workflows are staged as honest entry points until the later phases activate full capture and generation.</p>
+					<p>Alert workflows stay staged while the AI planner turns local trip intent into editable briefs.</p>
 				</div>
 
 				<div class="home-retention__grid">
@@ -328,11 +328,11 @@ get_header();
 					</a>
 
 					<a id="ai-planner-entry" class="home-retention-card" href="<?php echo esc_url( $planner_anchor ); ?>">
-						<span class="home-retention-card__label">AI planner placeholder</span>
+						<span class="home-retention-card__label">AI trip planner</span>
 						<span class="home-retention-card__title">Bring a trip idea</span>
-						<span class="home-retention-card__text">The AI planner will prepare editable itinerary ideas in a later phase. This entry stays local and does not send prompts to an AI provider.</span>
+						<span class="home-retention-card__text">Demo mode prepares a structured trip brief locally; live providers require explicit external AI consent before prompts leave WordPress.</span>
 						<span class="home-retention-card__prompt">Example: four days in Lisbon with hotels near transit</span>
-						<span class="home-retention-card__action">Review planner placeholder</span>
+						<span class="home-retention-card__action">Open AI planner</span>
 					</a>
 				</div>
 			</div>

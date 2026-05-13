@@ -1300,6 +1300,43 @@ Related files/routes/settings:
 - `/flights/?origin={code}&destination={code}`
 - `/hotels/?travel_destination={destination}`
 
+## Phase 18 AI Planner Prompt-To-Brief Gate
+
+Fragile area: `/trip-planner/`, `POST /wp-json/baf/v1/ai/itinerary`, AI provider consent gates, planner CTAs, and rendered trip-brief output.
+
+Why risky: Phase 18 connects natural-language user intent to AI provider abstractions and monetized handoff recommendations. Small changes can accidentally send data to a live provider without per-request consent, leak raw prompts in rendered output, imply live pricing or availability, execute provider searches before approval, or leave stale placeholder links in public navigation.
+
+What to check after future changes:
+
+- `/trip-planner/` returns `200`, renders meaningful planner content, and does not show a blank page or framework/runtime overlay.
+- The REST endpoint still requires `run_baf_ai` and unauthenticated requests fail safely.
+- Demo mode works without live credentials and without external provider requests.
+- Live mode requires saved external AI consent, provider configuration, and per-request `external_ai_consent` before provider selection.
+- Rendered results do not echo raw prompt text, API keys, bearer tokens, postback secrets, provider payloads, or private customer data.
+- AI opportunities remain `not_executed` and `requires_approval` until an authorized later workflow explicitly approves a handoff or placement draft.
+- Planner CTAs in header, mobile nav, homepage, destination, taxonomy, and related content surfaces point to `/trip-planner/`.
+- Desktop/mobile screenshots show no horizontal overflow, clipped controls, unreadable text, missing disclosure/boundary copy, or fixed-header overlap.
+- Keyboard navigation reaches the prompt field, form controls, consent checkbox, submit button, result area, and navigation handoffs with visible focus.
+
+Related files/routes/settings:
+
+- `plugins/bookings-flights-core/includes/frontend/class-ai-planner-page.php`
+- `plugins/bookings-flights-core/templates/ai-planner-page.php`
+- `plugins/bookings-flights-core/assets/js/ai-planner.js`
+- `plugins/bookings-flights-core/assets/css/ai-planner.css`
+- `plugins/bookings-flights-core/includes/rest/class-ai-itinerary-controller.php`
+- `plugins/bookings-flights-core/includes/services/class-ai-itinerary-service.php`
+- `plugins/bookings-flights-core/includes/ai/class-demo-ai-provider.php`
+- `plugins/bookings-flights-core/includes/ai/class-openai-provider.php`
+- `themes/bookings-and-flights-static/header.php`
+- `themes/bookings-and-flights-static/page-home.php`
+- `themes/bookings-and-flights-static/single-destination.php`
+- `themes/bookings-and-flights-static/taxonomy.php`
+- `/trip-planner/`
+- `/wp-json/baf/v1/ai/itinerary`
+- `baf_ai_settings`
+- `baf_consent_settings`
+
 ## Phase 17 Final Review Gate
 
 Fragile area: The combined Phase 17 content engine across destination, route, deal, taxonomy, editor metadata, SEO metadata, disclosure, and provider handoff boundaries.

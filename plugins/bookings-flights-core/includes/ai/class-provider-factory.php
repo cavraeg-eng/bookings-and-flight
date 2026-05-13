@@ -13,6 +13,10 @@ defined( 'ABSPATH' ) || exit;
 
 final class Provider_Factory {
 
+	public static function supports_live_provider( string $provider ): bool {
+		return 'openai' === sanitize_key( $provider );
+	}
+
 	public static function make(): AI_Provider_Interface|\WP_Error {
 		$settings = Settings_Manager::get_ai();
 		$mode     = sanitize_key( (string) $settings['mode'] );
@@ -34,7 +38,7 @@ final class Provider_Factory {
 			return new \WP_Error( 'baf_ai_not_configured', __( 'Live AI generation is not configured yet.', 'bookings-flights-core' ), array( 'status' => 503 ) );
 		}
 
-		if ( 'openai' !== $provider ) {
+		if ( ! self::supports_live_provider( $provider ) ) {
 			return new \WP_Error( 'baf_ai_provider_not_supported', __( 'The selected live AI provider is not supported by the current WordPress adapter.', 'bookings-flights-core' ), array( 'status' => 501 ) );
 		}
 

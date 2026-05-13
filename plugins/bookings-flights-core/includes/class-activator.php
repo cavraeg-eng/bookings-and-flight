@@ -9,6 +9,7 @@ namespace BAF\Core;
 
 use BAF\Core\Capabilities\Capability_Manager;
 use BAF\Core\Cron\Cron_Manager;
+use BAF\Core\Frontend\AI_Planner_Page;
 use BAF\Core\Migrations\AI_Sessions_Table;
 use BAF\Core\Migrations\Clicks_Table;
 use BAF\Core\Migrations\Provider_Stats_Table;
@@ -32,6 +33,7 @@ final class Activator {
 		Cron_Manager::activate();
 		Post_Type_Registrar::register();
 		Taxonomy_Registrar::register();
+		AI_Planner_Page::register_rewrite();
 		delete_option( 'rewrite_rules' );
 
 		do_action( 'baf_core_activated' );

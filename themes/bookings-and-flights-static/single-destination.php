@@ -335,7 +335,7 @@ get_header();
 					'modules'           => $destination_modules,
 					'flight_search_url' => $flight_search_url,
 					'hotel_search_url'  => $hotel_search_url,
-					'planner_url'       => home_url( '/#trip-planner' ),
+					'planner_url'       => home_url( '/trip-planner/' ),
 				)
 			);
 			?>

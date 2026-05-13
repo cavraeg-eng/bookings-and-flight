@@ -86,12 +86,16 @@ final class OpenAI_Provider implements AI_Provider_Interface {
 
 	private function prompt_payload( array $request ): array {
 		return array(
-			'destination'  => sanitize_text_field( (string) ( $request['destination'] ?? '' ) ),
-			'origin'       => sanitize_text_field( (string) ( $request['origin'] ?? '' ) ),
-			'days'         => max( 1, min( 21, absint( $request['days'] ?? 3 ) ) ),
-			'travel_style' => sanitize_text_field( (string) ( $request['travel_style'] ?? '' ) ),
-			'budget'       => sanitize_text_field( (string) ( $request['budget'] ?? '' ) ),
-			'preferences'  => sanitize_textarea_field( (string) ( $request['preferences'] ?? '' ) ),
+			'destination'    => sanitize_text_field( (string) ( $request['destination'] ?? '' ) ),
+			'origin'         => sanitize_text_field( (string) ( $request['origin'] ?? '' ) ),
+			'prompt'         => sanitize_textarea_field( (string) ( $request['prompt'] ?? '' ) ),
+			'departure_date' => sanitize_text_field( (string) ( $request['departure_date'] ?? '' ) ),
+			'return_date'    => sanitize_text_field( (string) ( $request['return_date'] ?? '' ) ),
+			'days'           => max( 1, min( 21, absint( $request['days'] ?? 3 ) ) ),
+			'travelers'      => max( 1, min( 12, absint( $request['travelers'] ?? 2 ) ) ),
+			'travel_style'   => sanitize_text_field( (string) ( $request['travel_style'] ?? '' ) ),
+			'budget'         => sanitize_text_field( (string) ( $request['budget'] ?? '' ) ),
+			'preferences'    => sanitize_textarea_field( (string) ( $request['preferences'] ?? '' ) ),
 		);
 	}
 }

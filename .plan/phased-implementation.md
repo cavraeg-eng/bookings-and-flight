@@ -1669,7 +1669,7 @@ P17.7 note: `ONE-112` started on 2026-05-13 after `ONE-111` merged and Linear wa
 
 ## Phase 18: AI Planner With Travelpayouts Handoff
 
-Status: `Not Started`
+Status: `In Progress`
 
 Objective: Turn AI itinerary planning into a conversion assistant while keeping live availability and booking controlled by Travelpayouts.
 
@@ -1696,6 +1696,8 @@ Validation checklist:
 - Missing-key and missing-consent tests.
 - Schema validation.
 - Prompt/output secret review.
+
+P18.1 note: `ONE-113` started on 2026-05-13 after Phase 17 merged and Linear was synced. The first AI planner slice adds a WordPress-owned `/trip-planner/` frontend route, dedicated planner template, scoped CSS/JS assets, homepage/header/content CTA routing, and a prompt-to-trip-brief form that calls the protected `POST /wp-json/baf/v1/ai/itinerary` endpoint. Demo mode prepares structured editable briefs locally; live mode now requires both saved external AI consent and a per-request `external_ai_consent` confirmation before a live provider is selected. The response exposes a sanitized `trip_brief` plus validated itinerary cards and recommendation-only affiliate opportunities with `not_executed` status. This slice does not save trip drafts from the public page, publish content, execute provider searches, book, pay, store live inventory, or expose raw prompts in rendered results. Runtime validation used Playwright Chromium after the Codex in-app Browser path reported no active pane; screenshots and keyboard review confirmed the planner loads at `/trip-planner/`, focuses the prompt field, submits a demo brief, does not echo the raw prompt in the rendered result, has no horizontal overflow on desktop/mobile, and logs no app-owned console or request failures.
 
 ## Phase 19: Saved Trips, Alerts, Analytics, and Release Readiness
 
