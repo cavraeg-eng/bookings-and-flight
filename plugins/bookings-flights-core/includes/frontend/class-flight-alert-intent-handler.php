@@ -1,0 +1,218 @@
+<?php
+/**
+ * Frontend flight alert intent form handler.
+ *
+ * @package BAF\Core
+ */
+
+namespace BAF\Core\Frontend;
+
+use BAF\Core\Post_Types\Post_Type_Registrar;
+
+defined( 'ABSPATH' ) || exit;
+
+final class Flight_Alert_Intent_Handler {
+
+	public const ACTION           = 'baf_save_flight_alert';
+	public const NONCE_ACTION     = 'baf_save_flight_alert';
+	public const NONCE_FIELD      = 'baf_alert_nonce';
+	public const STATUS_QUERY_ARG = 'baf_alert_status';
+
+	private const STATUS_SAVED           = 'saved';
+	private const STATUS_INVALID_EMAIL   = 'invalid_email';
+	private const STATUS_MISSING_ROUTE   = 'missing_route';
+	private const STATUS_CONSENT         = 'consent_required';
+	private const STATUS_UNAVAILABLE     = 'unavailable';
+	private const STATUS_INVALID_REQUEST = 'invalid_request';
+
+	public static function bootstrap(): void {
+		add_action( 'admin_post_' . self::ACTION, array( self::class, 'handle_submit' ) );
+		add_action( 'admin_post_nopriv_' . self::ACTION, array( self::class, 'handle_submit' ) );
+	}
+
+	public static function handle_submit(): void {
+		check_admin_referer( self::NONCE_ACTION, self::NONCE_FIELD );
+
+		$posted       = self::posted_data();
+			$redirect_url = self::redirect_url( self::url_field( $posted, 'baf_alert_redirect' ) );
+
+		if ( ! post_type_exists( Post_Type_Registrar::TRAVEL_ALERT ) ) {
+			self::redirect_with_status( $redirect_url, self::STATUS_UNAVAILABLE );
+		}
+
+		if ( 'POST' !== self::request_method() ) {
+			self::redirect_with_status( $redirect_url, self::STATUS_INVALID_REQUEST );
+		}
+
+		if ( '1' !== self::field( $posted, 'baf_alert_consent' ) ) {
+			self::redirect_with_status( $redirect_url, self::STATUS_CONSENT );
+		}
+
+		$route_id    = absint( self::field( $posted, 'baf_alert_route_post_id' ) );
+		$route_codes = self::route_codes_from_post( $route_id );
+		$origin      = self::normalize_iata( self::field( $posted, 'baf_alert_origin' ) );
+		$destination = self::normalize_iata( self::field( $posted, 'baf_alert_destination' ) );
+
+		if ( '' === $origin && isset( $route_codes['origin'] ) ) {
+			$origin = $route_codes['origin'];
+		}
+
+		if ( '' === $destination && isset( $route_codes['destination'] ) ) {
+			$destination = $route_codes['destination'];
+		}
+
+		if ( '' === $origin || '' === $destination ) {
+			self::redirect_with_status( $redirect_url, self::STATUS_MISSING_ROUTE );
+		}
+
+		$email = sanitize_email( self::field( $posted, 'baf_alert_email' ) );
+		if ( '' === $email && is_user_logged_in() ) {
+			$user  = wp_get_current_user();
+			$email = sanitize_email( (string) $user->user_email );
+		}
+
+		if ( '' === $email || ! is_email( $email ) ) {
+			self::redirect_with_status( $redirect_url, self::STATUS_INVALID_EMAIL );
+		}
+
+		$user_id     = get_current_user_id();
+		$frequency   = self::allowed_value( self::field( $posted, 'baf_alert_frequency' ), array( 'daily', 'weekly', 'monthly' ), 'weekly' );
+		$cabin       = self::allowed_value( self::field( $posted, 'baf_alert_cabin' ), array( 'economy', 'premium_economy', 'business', 'first' ), 'economy' );
+		$depart_date = self::normalize_date( self::field( $posted, 'baf_alert_depart_date' ) );
+		$return_date = self::normalize_date( self::field( $posted, 'baf_alert_return_date' ) );
+		$travelers   = min( 9, max( 1, absint( self::field( $posted, 'baf_alert_travelers' ) ) ) );
+		$surface     = sanitize_key( self::field( $posted, 'baf_alert_surface' ) );
+		$source_url  = self::url_field( $posted, 'baf_alert_source_url' );
+		$route_key   = $origin . '-' . $destination;
+
+		$alert_id = wp_insert_post(
+			array(
+				'post_type'   => Post_Type_Registrar::TRAVEL_ALERT,
+				'post_status' => 'private',
+				'post_title'  => sprintf(
+					/* translators: %s: route code pair. */
+					__( 'Flight alert intent: %s', 'bookings-flights-core' ),
+					$route_key
+				),
+				'post_author' => $user_id,
+			),
+			true
+		);
+
+		if ( is_wp_error( $alert_id ) || $alert_id <= 0 ) {
+			self::redirect_with_status( $redirect_url, self::STATUS_UNAVAILABLE );
+		}
+
+		$meta = array(
+			'baf_origin_airport'       => $origin,
+			'baf_destination_airport'  => $destination,
+			'baf_departure_window'     => $depart_date,
+			'baf_return_window'        => $return_date,
+			'baf_alert_route'          => $route_key,
+			'baf_alert_frequency'      => $frequency,
+			'baf_alert_email'          => $email,
+			'baf_alert_user_id'        => (string) $user_id,
+			'baf_alert_route_post_id'  => (string) $route_id,
+			'baf_alert_travelers'      => (string) $travelers,
+			'baf_alert_cabin'          => $cabin,
+			'baf_alert_surface'        => $surface,
+			'baf_alert_source_url'     => $source_url,
+			'baf_alert_consent_at'     => wp_date( DATE_ATOM ),
+			'baf_alert_status'         => 'requested',
+		);
+
+		foreach ( $meta as $meta_key => $meta_value ) {
+			if ( '' === $meta_value ) {
+				continue;
+			}
+
+			update_post_meta( (int) $alert_id, $meta_key, $meta_value );
+		}
+
+		self::redirect_with_status( $redirect_url, self::STATUS_SAVED );
+	}
+
+	public static function normalize_iata( string $value ): string {
+		$value = strtoupper( preg_replace( '/[^A-Z]/', '', $value ) );
+
+		return preg_match( '/^[A-Z]{3}$/', $value ) ? $value : '';
+	}
+
+	public static function normalize_date( string $value ): string {
+		$value = trim( $value );
+
+		if ( ! preg_match( '/^(\d{4})-(\d{2})-(\d{2})$/', $value, $matches ) ) {
+			return '';
+		}
+
+		return wp_checkdate( (int) $matches[2], (int) $matches[3], (int) $matches[1], $value ) ? $value : '';
+	}
+
+	public static function allowed_value( string $value, array $allowed, string $fallback ): string {
+		$value = sanitize_key( $value );
+
+		return in_array( $value, $allowed, true ) ? $value : $fallback;
+	}
+
+	private static function posted_data(): array {
+		if ( empty( $_POST ) || ! is_array( $_POST ) ) {
+			return array();
+		}
+
+		return wp_unslash( $_POST );
+	}
+
+	private static function field( array $data, string $key ): string {
+		if ( ! isset( $data[ $key ] ) || ! is_scalar( $data[ $key ] ) ) {
+			return '';
+		}
+
+		return sanitize_text_field( (string) $data[ $key ] );
+	}
+
+	private static function url_field( array $data, string $key ): string {
+		if ( ! isset( $data[ $key ] ) || ! is_scalar( $data[ $key ] ) ) {
+			return '';
+		}
+
+		return esc_url_raw( (string) $data[ $key ] );
+	}
+
+	private static function request_method(): string {
+		if ( ! isset( $_SERVER['REQUEST_METHOD'] ) || ! is_scalar( $_SERVER['REQUEST_METHOD'] ) ) {
+			return '';
+		}
+
+		return strtoupper( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) );
+	}
+
+	private static function route_codes_from_post( int $route_id ): array {
+		if ( $route_id <= 0 || Post_Type_Registrar::ROUTE !== get_post_type( $route_id ) ) {
+			return array();
+		}
+
+		return array(
+			'origin'      => self::normalize_iata( (string) get_post_meta( $route_id, 'baf_origin_airport', true ) ),
+			'destination' => self::normalize_iata( (string) get_post_meta( $route_id, 'baf_destination_airport', true ) ),
+		);
+	}
+
+	private static function redirect_url( string $url ): string {
+		$fallback = home_url( '/flights/' );
+		$url      = '' !== $url ? $url : $fallback;
+		$url      = wp_validate_redirect( $url, $fallback );
+
+		return remove_query_arg( self::STATUS_QUERY_ARG, $url );
+	}
+
+	private static function redirect_with_status( string $redirect_url, string $status ): void {
+		wp_safe_redirect(
+			add_query_arg(
+				self::STATUS_QUERY_ARG,
+				sanitize_key( $status ),
+				$redirect_url
+			)
+		);
+		exit;
+	}
+}

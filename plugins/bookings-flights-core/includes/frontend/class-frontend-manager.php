@@ -22,6 +22,8 @@ final class Frontend_Manager {
 		add_shortcode( 'baf_travelpayouts_white_label', array( Travelpayouts_White_Label_Shortcode::class, 'render' ) );
 		add_shortcode( 'baf_travelpayouts_hotel_widget', array( Travelpayouts_Hotel_Widget_Shortcode::class, 'render' ) );
 		add_shortcode( 'baf_travelpayouts_widget', array( Travelpayouts_Widget_Shortcode::class, 'render' ) );
+		add_shortcode( 'baf_flight_alert_signup', array( Flight_Alert_Signup_Shortcode::class, 'render' ) );
+		Flight_Alert_Intent_Handler::bootstrap();
 	}
 
 	public static function register_assets(): void {

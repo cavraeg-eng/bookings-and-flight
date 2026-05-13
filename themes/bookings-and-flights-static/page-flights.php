@@ -204,6 +204,26 @@ get_header();
 				</ul>
 			</div>
 		</section>
+
+		<?php if ( shortcode_exists( 'baf_flight_alert_signup' ) ) : ?>
+			<?php
+			echo do_shortcode(
+				sprintf(
+					'[baf_flight_alert_signup origin="%1$s" destination="%2$s" depart_date="%3$s" return_date="%4$s" travelers="%5$d" cabin="%6$s" surface="flights" context="flights"]',
+					esc_attr( $origin ),
+					esc_attr( $destination ),
+					esc_attr( $depart_date ),
+					esc_attr( $return_date ),
+					$travelers,
+					esc_attr( $cabin )
+				)
+			);
+			?>
+		<?php else : ?>
+			<section class="flight-intent" aria-label="<?php esc_attr_e( 'Price alert status', 'bookings_and_flights' ); ?>">
+				<p class="flight-intent__helper"><?php esc_html_e( 'Price alert capture is unavailable until the Bookings and Flights Core alert workflow is active. Use the provider search to confirm live fares.', 'bookings_and_flights' ); ?></p>
+			</section>
+		<?php endif; ?>
 	</div>
 
 	<div id="flights-provider-search" class="search-page__content search-page__content--provider">

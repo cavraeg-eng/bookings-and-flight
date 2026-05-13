@@ -1931,3 +1931,44 @@ Research consulted:
 - Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
 
 Decision: P15.4 local implementation and review gate passed. Keep Phase 15 overall `In Progress` until alert storage and final flights review issues pass review and merge.
+
+## Phase 15.5 Review - 2026-05-13
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-97` price alert signup and local intent handling. Reviewed Phase 15 objective, P15.1-P15.4 implementation notes, existing `travel_alert` CPT/capability/cron contracts, current Flights and route templates, WordPress nonce/admin-post/post-meta/sanitization/escaping guidance, and the Travelpayouts-controlled live fare/search boundary.
+
+Acceptance criteria result: Passed locally for the PR candidate. Flights and route detail pages now render local alert signup through `[baf_flight_alert_signup]`. The form captures email, origin, destination, frequency, explicit consent, and current route/search context, then stores a private `travel_alert` record as local watch intent. It does not claim live fare ownership or store provider inventory, booking, payment, reservation, or supplier result data.
+
+Security review: Passed locally. The write path uses `admin-post.php` for logged-in and anonymous users, verifies a WordPress nonce with `check_admin_referer()`, requires consent, validates email, bounds route codes to three-letter IATA-style values, sanitizes scalar POST input after `wp_unslash()`, uses safe redirects, registers private alert meta with `show_in_rest => false`, and escapes all rendered form output. Public source scans found no API token, API key, access token, authorization, bearer, client secret, postback secret, password, or secret text.
+
+REST permission review: Passed for scope. P15.5 added no custom REST endpoint. The `travel_alert` CPT remains non-public, uses the `manage_baf_alerts` capability set for administration, and new alert meta is not exposed through REST.
+
+Database/migration review: Passed. No custom tables or destructive migrations changed. The implementation stores local alert intent as private `travel_alert` posts with minimized meta: route, email, user ID when present, route post ID, traveler/cabin context, source surface/URL, consent timestamp, and requested status.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Desktop/mobile Flights and route screenshots confirmed the alert form renders with consent and provider-limit copy, no horizontal overflow, no duplicate IDs, no framework overlays, no hidden consent text, and no app-owned page errors. A real browser form submission rendered the saved state. Keyboard review reached email, origin, destination, frequency, consent, and `Save alert intent` on both Flights and route pages.
+
+Regression review: Existing P15.1 Flights intent form, P15.2 route archive/detail behavior, P15.3 discovery widgets, P15.4 White Label continuity, Phase 13 registry output, SubID/disclosure boundaries, header/footer continuity, and provider-owned handoff language remain intact. Existing search-surface URL cleanup removes the visible saved query string after the server-rendered success message loads, which is expected.
+
+Validation performed: PHP syntax checks for changed plugin/theme PHP files; targeted `git diff --check`; file-size checks; WP-CLI shortcode, CPT, and meta registration checks; HTTP/source smoke for the Flights alert surface; admin-post happy-path, missing-nonce, invalid-email, and missing-consent probes; plugin deactivate/reactivate; Playwright Chromium desktop/mobile screenshots; real alert form submission; keyboard navigation review; horizontal-overflow, duplicate-ID, framework-overlay, source-secret, and app-owned error checks. The Codex in-app Browser plugin was attempted first, but its expected tab API was unavailable in this session, so Playwright Chromium was used for runtime screenshots and keyboard navigation review.
+
+Bugs found: The first runtime QA assertion expected the saved query string to remain visible after submission, but the existing Flights search script correctly cleans query parameters from the visible URL after the server-rendered saved state loads.
+
+Bugs fixed: Updated the runtime assertion and reran the browser pass with the expected query-cleanup behavior, plus a deeper route keyboard pass to confirm the lower alert form remains reachable after provider/discovery sections.
+
+Bugs deferred: Final Phase 15 SEO metadata, source review, and route indexing remain `ONE-98`. Provider-owned Travelpayouts Sentry/analytics, duplicate GraphQL, JSX-source, and WebGL/map warnings remain watchlist-only because alert capture and page layout passed without app-owned failures.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Common APIs Handbook: Nonces.
+- WordPress Code Reference: `admin_post_{$action}`.
+- WordPress Code Reference: `register_post_meta()`.
+- WordPress Code Reference: `sanitize_email()`.
+- WordPress Code Reference: `wp_insert_post()`.
+- WordPress Common APIs Handbook: Sanitizing Data.
+- WordPress Common APIs Handbook: Escaping Data.
+
+Decision: P15.5 local implementation and review gate passed. Keep Phase 15 overall `In Progress` until the final SEO/source/release review issue passes review and merge.
