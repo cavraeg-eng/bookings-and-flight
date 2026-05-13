@@ -1061,6 +1061,34 @@ For documentation-only changes:
 - Confirm phase statuses and architecture contracts are consistent.
 - No PHP/TypeScript runtime validation is required unless code also changes.
 
+## Phase 19 Saved Trips Validation
+
+Use this when changing `/saved-trips/`, saved-trip REST endpoints, saved-trip storage meta, or planner resume-prefill behavior.
+
+```bash
+php -l plugins/bookings-flights-core/includes/services/class-saved-trip-service.php
+php -l plugins/bookings-flights-core/includes/rest/class-saved-trips-controller.php
+php -l plugins/bookings-flights-core/includes/frontend/class-saved-trips-page.php
+php -l plugins/bookings-flights-core/includes/frontend/class-ai-planner-page.php
+php -l plugins/bookings-flights-core/templates/saved-trips-page.php
+php -l plugins/bookings-flights-core/includes/rest/class-rest-manager.php
+php -l plugins/bookings-flights-core/includes/frontend/class-frontend-manager.php
+php -l plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php
+php -l themes/bookings-and-flights-static/functions.php
+php -l themes/bookings-and-flights-static/page-home.php
+node --check plugins/bookings-flights-core/assets/js/saved-trips.js
+node --check plugins/bookings-flights-core/assets/js/ai-planner.js
+wc -l changed PHP/CSS/JS files
+wp eval-file /tmp/one120-saved-trips-smoke.php
+node /tmp/one120-runtime-review.mjs
+wp plugin deactivate bookings-flights-core
+wp plugin activate bookings-flights-core
+wp plugin is-active bookings-flights-core
+git diff --check
+```
+
+P19.1 local result on 2026-05-13: PHP syntax passed for changed saved-trip service, REST controller, frontend route, template, post-type registrar, REST/frontend managers, AI planner prefill, and theme files. `node --check` passed for `saved-trips.js` and `ai-planner.js`. File-size review passed; the largest new source file is `class-saved-trip-service.php` at 495 lines, and the existing static theme `functions.php` remains exactly 600 lines with only an in-place URL change. WP-CLI saved-trip REST smoke passed 25 assertions for route registration, explicit permission callbacks, anonymous denial, nonce denial, consent denial, valid save/list/update/delete, cross-user denial, invalid date rejection, resume payload, minimized storage, and cleanup. Code review also patched partial item-update merge behavior so omitted fields are preserved while local-storage consent remains required. The Codex in-app Browser connection timed out after 15 seconds, so Playwright Chromium was used for runtime screenshots and keyboard review. Runtime evidence is saved at `/tmp/one120-runtime-review-report.json`; screenshots include `/tmp/one120-saved-trips-logged-out.png`, `/tmp/one120-saved-trips-empty.png`, `/tmp/one120-saved-trips-saved.png`, `/tmp/one120-saved-trips-planner-resume.png`, and `/tmp/one120-saved-trips-mobile.png`. The final report returned `status=pass` and `findingCount=0`, with no relevant app-owned console errors, failed requests, horizontal overflow, blank page, framework overlay, saved-card secret/payment/booking strings, or cleanup residue. Follow-up fixes addressed saved-route header contrast, mobile admin-bar overlap, and exposed the AI planner resume link on saved-trip cards.
+
 ## Phase 18 AI Planner Validation
 
 Use this when changing `/trip-planner/`, AI planner assets, or `POST /wp-json/baf/v1/ai/itinerary` prompt-to-brief behavior.

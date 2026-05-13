@@ -129,3 +129,15 @@ Current issue: P18.1 through P18.7 completed the app-owned AI planner baseline u
 Workaround: Use `/trip-planner/` for editable AI-assisted trip briefs only. Keep live availability, prices, booking, payment, provider links, provider search execution, changes, and support with Travelpayouts or partner providers. Treat `baf_ai_handoff_intents` as local approved metadata until a later phase explicitly consumes it with new consent, capability, validation, and documentation gates.
 
 Planned fix phase: Phase 18 is closed after PR #55 merged. Continue with Phase 19 saved trips, alerts, analytics, and release readiness.
+
+## Phase 19 Saved Trips Follow-Ups
+
+Severity: Low after the P19.1 local gate; keep privacy export/erase and later retention surfaces on the Phase 19 watchlist.
+
+Affected area: `/saved-trips/`, `baf/v1/saved-trips`, private `trip_plan` saved-trip records, planner resume prefill, and local Travelpayouts placement/SubID context.
+
+Current issue: P19.1 added the WordPress-owned saved-trip board, member save/list/resume/update/delete REST workflow, anonymous sign-in handoff, minimized saved-trip metadata, and browser-verified desktop/mobile UI. No app-owned P19.1 blocker remains after the local gate. WordPress personal-data exporter/eraser hooks are still deferred to P19.3, where user data export/delete behavior is the explicit child issue.
+
+Workaround: Use `/saved-trips/` for immediate member-owned saved-trip deletion. Keep export/erase integration tracked for P19.3 before launch-readiness completion.
+
+Planned fix phase: Continue with P19.2 alerts and P19.3 resume/export/erase behavior after `ONE-120` is reviewed, merged, and synced.

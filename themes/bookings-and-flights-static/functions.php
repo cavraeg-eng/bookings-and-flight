@@ -82,7 +82,7 @@ function bookings_and_flights_product_nav_items() {
 		),
 		array(
 			'label' => __( 'Saved Trips', 'bookings_and_flights' ),
-			'url'   => home_url( '/#saved-trips' ),
+			'url'   => home_url( '/saved-trips/' ),
 		),
 	);
 }

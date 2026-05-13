@@ -112,6 +112,8 @@ Phase 18.3 defines the AI opportunity contract as `travelpayouts_opportunity_v1`
 
 Phase 18.4 adds local approval-oriented handoff preparation from saved `trip_plan` drafts. Editors can prepare `ai_handoff_intent_v1` records only after capability, nonce, source-post, global provider-consent, and per-request handoff-consent checks pass. The stored intent remains local with `provider_action=not_executed`, `provider_action_executed=false`, and `external_request_sent=false`; it does not call Travelpayouts, create provider links, publish posts, book, pay, or expose raw prompts.
 
+Phase 19.1 adds the member saved-trip board at `/saved-trips/`. Saved trips are private `trip_plan` records owned by the signed-in user and marked with `baf_saved_trip_status=active`. The board and `baf/v1/saved-trips` REST routes store local itinerary intent only: origin, destination, travel dates, traveler count, travel style, a short planning note, and public Travelpayouts placement/SubID context. They do not store provider booking IDs, payment data, confirmation numbers, live prices, room/fare availability, provider URLs, secrets, raw AI prompts, AI itinerary JSON, or AI handoff intents. Anonymous users are sent to sign in before storage; logged-in writes require a valid REST nonce and explicit local-storage consent. Users can permanently delete saved-trip records from the board.
+
 Phase 18.5 hardens live-provider readiness and malformed-input handling. `BAF\Core\AI\Provider_Factory::live_readiness()` is the shared contract for live-mode UI messaging and backend provider selection. The planner blocks known-misconfigured live states before sending prompt data to the itinerary REST endpoint, while backend provider selection still rejects missing providers, unsupported providers, missing API keys, missing saved External AI consent, and missing per-request consent. Demo mode remains available without live credentials or external provider calls.
 
 ## REST Namespace
@@ -242,6 +244,11 @@ Use the `baf_` prefix for new meta. Phase 1 registers the following post meta ke
 - `baf_itinerary_json`
 - `baf_ai_opportunity_schema`
 - `baf_ai_handoff_intents`
+- `baf_saved_trip_context`
+- `baf_saved_trip_saved_at`
+- `baf_saved_trip_status`
+- `baf_saved_trip_travelers`
+- `baf_saved_trip_user_id`
 - `baf_alert_route`
 - `baf_alert_frequency`
 - `baf_alert_email`
@@ -490,6 +497,30 @@ Handoff response and storage behavior:
 - Successful responses return `201` with `status=prepared`, `provider_action=not_executed`, `external_data_sent=false`, the prepared local intent, and stored intent count.
 - The local intent is stored in `baf_ai_handoff_intents` and explicitly records `provider_action_executed=false` and `external_request_sent=false`.
 - The handoff route does not send external provider requests, create live links, publish content, book trips, pay providers, store raw prompts, or store provider-owned live inventory.
+
+`GET|POST /wp-json/baf/v1/saved-trips` and `GET|POST|PUT|PATCH|DELETE /wp-json/baf/v1/saved-trips/{id}` are protected by the logged-in `read` capability plus an explicit `X-WP-Nonce` REST nonce.
+
+Saved-trip request parameters:
+
+- `destination`: required sanitized text, max 120 characters.
+- `origin`: optional sanitized text, max 120 characters.
+- `departure_date`: optional `YYYY-MM-DD` date string.
+- `return_date`: optional `YYYY-MM-DD` date string; rejected when before `departure_date`.
+- `travelers`: integer from `1` to `12`, default `2`.
+- `travel_style`: one of `balanced`, `food_culture`, `family`, `budget`, `luxury`, or `outdoors`.
+- `placement_key`: one of the approved public placement paths `flights_white_label_search` or `hotels_partner_search`.
+- `note`: optional sanitized textarea, max 500 characters.
+- `local_storage_consent`: required boolean that must be true before create/update.
+
+Saved-trip response and storage behavior:
+
+- Records are private `trip_plan` posts authored by the current user and marked with `baf_saved_trip_status=active`.
+- Item updates merge submitted fields over the owner-scoped existing record, so partial update payloads preserve omitted saved-trip fields while still requiring `local_storage_consent=true`.
+- Collection responses are limited to the current user's active saved trips and capped at 20 per page by the service.
+- Item reads, updates, and deletes return `404` for other users instead of exposing record existence.
+- Deletes permanently remove the saved-trip `trip_plan` record.
+- Placement context stores public registry metadata and a suggested SubID only; private embed URLs/references and admin notes remain stripped by the registry public projection.
+- Manual saved trips do not write `baf_itinerary_json` or `baf_ai_handoff_intents`.
 
 ## Admin Page Slugs
 

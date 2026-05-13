@@ -232,6 +232,11 @@ final class Post_Type_Registrar {
 			'baf_partner_status'         => self::meta_definition( __( 'Partner approval or integration status.', 'bookings-flights-core' ), array( self::TRAVEL_PARTNER ) ),
 			'baf_ai_opportunity_schema'  => self::meta_definition( __( 'AI opportunity schema version.', 'bookings-flights-core' ), array( self::TRIP_PLAN ) ),
 			'baf_ai_handoff_intents'     => self::meta_definition( __( 'Approved local AI handoff intent records.', 'bookings-flights-core' ), array( self::TRIP_PLAN ), array( __CLASS__, 'sanitize_json_text' ) ),
+			'baf_saved_trip_context'     => self::meta_definition( __( 'Local saved trip placement and resume context.', 'bookings-flights-core' ), array( self::TRIP_PLAN ), array( __CLASS__, 'sanitize_json_text' ) ),
+			'baf_saved_trip_saved_at'    => self::meta_definition( __( 'Saved trip intent timestamp.', 'bookings-flights-core' ), array( self::TRIP_PLAN ) ),
+			'baf_saved_trip_status'      => self::meta_definition( __( 'Saved trip workflow status.', 'bookings-flights-core' ), array( self::TRIP_PLAN ), 'sanitize_key' ),
+			'baf_saved_trip_travelers'   => self::meta_definition( __( 'Saved trip traveler count.', 'bookings-flights-core' ), array( self::TRIP_PLAN ), array( __CLASS__, 'sanitize_non_negative_integer' ), 'integer' ),
+			'baf_saved_trip_user_id'     => self::meta_definition( __( 'Saved trip owner user ID.', 'bookings-flights-core' ), array( self::TRIP_PLAN ), array( __CLASS__, 'sanitize_non_negative_integer' ), 'integer' ),
 		);
 	}
 

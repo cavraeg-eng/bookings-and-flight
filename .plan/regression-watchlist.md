@@ -1300,6 +1300,41 @@ Related files/routes/settings:
 - `/flights/?origin={code}&destination={code}`
 - `/hotels/?travel_destination={destination}`
 
+## Phase 19 Saved Trips Watch
+
+Fragile area: `/saved-trips/`, member-owned private `trip_plan` saved-trip records, saved-trip REST routes, planner resume prefill, and local Travelpayouts placement/SubID context.
+
+Why risky: Saved trips sit between anonymous visitors, logged-in member data, Travelpayouts placement context, and Phase 18 AI planner state. Future alert, analytics, export/erase, or reporting work could accidentally expose private trip intent, weaken REST nonce/ownership checks, store partner booking data, or treat local placement context as provider execution.
+
+What to check after future changes:
+
+- `/saved-trips/` remains a WordPress-owned route with clear logged-out sign-in handoff and no anonymous local/browser storage.
+- `baf/v1/saved-trips` routes keep explicit permission callbacks, logged-in `read`, REST nonce checks, owner scoping, local-storage consent, bounded collection responses, and permanent user delete behavior.
+- Cross-user item reads/deletes continue to return `404`.
+- Saved-trip records remain private `trip_plan` posts owned by the current user and marked with `baf_saved_trip_status=active`.
+- Saved context stores only public placement metadata and suggested SubID values; it must not store private embed references, provider URLs, provider payloads, API keys, raw AI prompts, AI itinerary JSON, AI handoff intents, booking IDs, payment data, confirmation numbers, live prices, or availability.
+- Planner resume prefill must not grant `run_baf_ai`, draft-save, edit-content, or handoff permissions.
+- Homepage and fallback navigation continue pointing Saved Trips to `/saved-trips/`.
+- Desktop/mobile screenshots show no horizontal overflow, low-contrast header text, admin-bar/header overlap, clipped controls, or inaccessible consent/delete controls.
+- WordPress personal-data exporter/eraser integration remains a P19.3 requirement and should consume the same minimized saved-trip contract.
+
+Related files/routes/settings:
+
+- `.plan/phase-19-saved-trips-review.md`
+- `plugins/bookings-flights-core/includes/services/class-saved-trip-service.php`
+- `plugins/bookings-flights-core/includes/rest/class-saved-trips-controller.php`
+- `plugins/bookings-flights-core/includes/frontend/class-saved-trips-page.php`
+- `plugins/bookings-flights-core/templates/saved-trips-page.php`
+- `plugins/bookings-flights-core/assets/js/saved-trips.js`
+- `plugins/bookings-flights-core/assets/css/saved-trips.css`
+- `plugins/bookings-flights-core/includes/frontend/class-ai-planner-page.php`
+- `plugins/bookings-flights-core/assets/js/ai-planner.js`
+- `themes/bookings-and-flights-static/functions.php`
+- `themes/bookings-and-flights-static/page-home.php`
+- `/saved-trips/`
+- `/wp-json/baf/v1/saved-trips`
+- `/wp-json/baf/v1/saved-trips/{id}`
+
 ## Phase 18 AI Planner Prompt-To-Brief Gate
 
 Fragile area: `/trip-planner/`, `POST /wp-json/baf/v1/ai/itinerary`, `POST /wp-json/baf/v1/ai/handoff`, AI provider consent gates, planner CTAs, local handoff intents, and rendered trip-brief output.

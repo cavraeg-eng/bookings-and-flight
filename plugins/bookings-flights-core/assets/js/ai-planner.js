@@ -20,9 +20,14 @@
 	const disclaimer = document.querySelector('[data-baf-ai-planner-disclaimer]');
 	const draft = document.querySelector('[data-baf-ai-planner-draft]');
 	const submit = form.querySelector('button[type="submit"]');
+	const promptInput = form.querySelector('[name="prompt"]');
+	const originInput = form.querySelector('[name="origin"]');
+	const destinationInput = form.querySelector('[name="destination"]');
 	const daysInput = form.querySelector('[name="days"]');
 	const departInput = form.querySelector('[name="departure_date"]');
 	const returnInput = form.querySelector('[name="return_date"]');
+	const travelersInput = form.querySelector('[name="travelers"]');
+	const travelStyleInput = form.querySelector('[name="travel_style"]');
 	const handoffActionTypes = [
 		['placement_card', 'Travelpayouts card'],
 		['placement_draft', 'Placement draft'],
@@ -336,6 +341,18 @@
 
 	departInput.addEventListener('change', calculateDaysFromDates);
 	returnInput.addEventListener('change', calculateDaysFromDates);
+
+	if (config.resumeTrip && config.resumeTrip.id) {
+		promptInput.value = text(config.resumeTrip.planner_prompt, promptInput.value);
+		originInput.value = text(config.resumeTrip.origin, originInput.value);
+		destinationInput.value = text(config.resumeTrip.destination, destinationInput.value);
+		departInput.value = text(config.resumeTrip.departure_date, departInput.value);
+		returnInput.value = text(config.resumeTrip.return_date, returnInput.value);
+		travelersInput.value = String(config.resumeTrip.travelers || travelersInput.value || 2);
+		travelStyleInput.value = text(config.resumeTrip.travel_style, travelStyleInput.value || 'balanced');
+		calculateDaysFromDates();
+		setStatus(config.strings.resumeLoaded, 'success');
+	}
 
 	form.addEventListener('submit', async (event) => {
 		event.preventDefault();

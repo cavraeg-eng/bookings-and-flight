@@ -2894,3 +2894,45 @@ Research consulted:
 - OpenAI Chat Completions API reference.
 
 Decision: P18.7 completed. PR #55 was reviewed by Codex with no major issues, had no unresolved review threads, merged into `main` at `ac6e2669e4d7c64c7911884e5b1defe0d47f0fe3`, and Phase 18 is complete after Linear sync and branch cleanup.
+
+### P19.1 — Saved trip board and anonymous-to-member save flow
+
+Date: 2026-05-13
+
+Status: In Review
+
+Reviewer: Codex
+
+Linear issue: `ONE-120`
+
+Scope reviewed: Saved-trip board and anonymous-to-member save flow. Reviewed Phase 19 plan, Phase 18 final baseline, private `trip_plan` CPT boundaries, member/session handling, frontend routes, REST permission/nonce requirements, Travelpayouts placement registry/SubID behavior, deletion, and browser UX.
+
+Acceptance criteria result: Passed locally for the PR candidate. `/saved-trips/` now supports logged-out sign-in handoff, logged-in save/list/resume/update/delete, local flight/hotel/planner continuation links, and minimized private `trip_plan` saved-trip records.
+
+Security review: Passed locally. Saved-trip REST routes require logged-in `read` plus a REST nonce. Create/update requires local-storage consent. Item reads/deletes are owner-scoped and return `404` across users. Saved context omits provider URLs, booking IDs, payment data, confirmation numbers, live availability, API keys, raw AI prompts, AI itinerary JSON, and AI handoff intents.
+
+REST permission review: Passed locally. `GET|POST /baf/v1/saved-trips` and item read/update/delete routes have explicit permission callbacks. WP-CLI smoke covered anonymous denial, nonce denial, consent denial, valid save/list/update/delete, cross-user denial, invalid date rejection, resume payload, and cleanup.
+
+Database/migration review: No custom table, migration, cron, or destructive schema change. Saved trips use the existing private `trip_plan` CPT and registered private meta keys: `baf_saved_trip_context`, `baf_saved_trip_saved_at`, `baf_saved_trip_status`, `baf_saved_trip_travelers`, and `baf_saved_trip_user_id`.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser connection timed out after 15 seconds, so Playwright Chromium was used. Evidence includes logged-out, empty board, saved card, planner resume, and mobile screenshots at `/tmp/one120-saved-trips-*.png`; the final report is `/tmp/one120-runtime-review-report.json` with `status=pass` and `findingCount=0`.
+
+Regression review: Phase 18 AI planner permissions remain intact. Saved-trip planner prefill does not grant `run_baf_ai`, draft-save, or handoff permissions. Homepage and fallback nav now route Saved Trips to `/saved-trips/` instead of the old placeholder path. Travelpayouts/partner-owned booking, payment, live availability, and support remain outside WordPress.
+
+Validation performed: PHP syntax checks for changed PHP files; `node --check` for `saved-trips.js` and `ai-planner.js`; file-size review; `git diff --check`; WP-CLI saved-trip REST smoke with 25 assertions; Playwright Chromium runtime screenshots and keyboard review; temporary user/post cleanup checks.
+
+Bugs found: Runtime validation found test-script strict-locator and viewport-call issues, an unrelated WordPress profile-page login error, low-contrast saved-trips header text, and logged-in mobile admin-bar/header overlap. Code review also found that item updates behaved as full replacements despite the editable REST route methods, which could fail or clear omitted fields for partial update clients.
+
+Bugs fixed: Corrected the runtime validation script; redirected test login to `/saved-trips/`; added a saved-trips route body class, scoped header contrast styles, admin-bar offsets, an AI planner resume link on saved-trip cards, and owner-scoped merge behavior for saved-trip updates while still requiring local-storage consent.
+
+Bugs deferred: WordPress personal-data exporter/eraser integration remains planned for P19.3 (`ONE-122`). P19.1 provides immediate user deletion through the board and REST delete endpoint.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-19-saved-trips-review.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress REST API Handbook: Adding Custom Endpoints.
+- WordPress Plugin Security Handbook: Nonces, Securing Input, Securing Output.
+- WordPress Plugin Handbook: Personal Data Exporter, Personal Data Eraser, Privacy Related Options/Hooks/Capabilities.
+- Travelpayouts Help Center: ID and SubID.
+
+Decision: P19.1 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
