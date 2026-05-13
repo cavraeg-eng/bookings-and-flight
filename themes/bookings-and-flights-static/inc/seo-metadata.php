@@ -83,7 +83,45 @@ function bookings_and_flights_route_label_for_post( int $post_id ): string {
 	return 2 === count( $route_label_parts ) ? implode( ' to ', $route_label_parts ) : get_the_title( $post_id );
 }
 
+function bookings_and_flights_destination_label_for_post( int $post_id ): string {
+	$destination = sanitize_text_field( (string) get_post_meta( $post_id, 'baf_destination', true ) );
+
+	return '' !== $destination ? $destination : wp_strip_all_tags( get_the_title( $post_id ) );
+}
+
 function bookings_and_flights_get_seo_context(): array {
+	if ( is_singular( 'destination' ) ) {
+		$post_id           = get_queried_object_id();
+		$destination_label = bookings_and_flights_destination_label_for_post( $post_id );
+		$summary           = sanitize_text_field( (string) get_post_meta( $post_id, 'baf_hotel_guide_summary', true ) );
+		$excerpt           = has_excerpt( $post_id ) ? wp_strip_all_tags( get_the_excerpt( $post_id ) ) : '';
+		$description       = '' !== $summary ? $summary : $excerpt;
+
+		return array(
+			'title'       => sprintf(
+				/* translators: %s: destination name. */
+				__( '%s hotel guide', 'bookings_and_flights' ),
+				$destination_label
+			),
+			'description' => '' !== $description ? wp_trim_words( $description, 28, '' ) : sprintf(
+				/* translators: %s: destination name. */
+				__( 'Browse the %s city hotel guide with editable stay guidance and a Travelpayouts-controlled hotel search handoff.', 'bookings_and_flights' ),
+				$destination_label
+			),
+		);
+	}
+
+	if ( is_post_type_archive( 'destination' ) ) {
+		$archive_url = get_post_type_archive_link( 'destination' );
+		$archive_url = is_string( $archive_url ) && '' !== $archive_url ? $archive_url : home_url( '/destinations/' );
+
+		return array(
+			'title'       => __( 'City hotel guides', 'bookings_and_flights' ),
+			'description' => __( 'Browse WordPress-owned city hotel guides with editorial stay guidance, internal route links, and Travelpayouts-controlled hotel search handoff.', 'bookings_and_flights' ),
+			'canonical'   => $archive_url,
+		);
+	}
+
 	if ( is_singular( 'route' ) ) {
 		$post_id     = get_queried_object_id();
 		$route_label = bookings_and_flights_route_label_for_post( $post_id );

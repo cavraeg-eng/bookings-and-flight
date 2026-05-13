@@ -963,3 +963,40 @@ Related files/routes/settings:
 - `baf_travelpayouts_widget_registry`
 - `hotels_partner_search`
 - `/hotels/`
+
+## Phase 16 City Hotel Guides
+
+Fragile area: city hotel guide archive/single templates, destination hotel-guide meta, related route links, and the hotel partner placement embedded on destination guide pages.
+
+Why risky: These pages sit at the edge between editable SEO/editorial destination content and monetized hotel search. Future changes could accidentally route the approved hotel placement through an unapproved surface, imply local live filtering, expose private provider settings, or break related route/internal guide links.
+
+What to check after future changes:
+
+- `/destinations/` renders the city hotel guide archive with published destination cards.
+- A destination single renders editable post content plus `baf_hotel_*` guide modules for neighborhoods, best-fit, family, luxury, budget, and landmarks.
+- Destination hotel-guide meta remains registered with `show_in_rest => false` and edit-meta authorization.
+- The city guide provider section renders `hotels_partner_search` with `surface="hotels"` and `channel="destination_single"` context.
+- Related route links appear when route posts share destination city or destination airport meta.
+- The Hotels page guide teaser appears when published destination posts exist.
+- Visible copy keeps hotel modules editorial and keeps live rates, filters, booking, payment, changes, and support provider-owned.
+- Desktop/mobile screenshots show no horizontal overflow, duplicate IDs, hidden disclosures, blank pages, or app-owned console/request failures.
+- Keyboard navigation reaches archive guide links, opens a guide with Enter, and reaches `Open hotel search` on the guide.
+
+Related files/routes/settings:
+
+- `plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php`
+- `themes/bookings-and-flights-static/archive-destination.php`
+- `themes/bookings-and-flights-static/single-destination.php`
+- `themes/bookings-and-flights-static/page-hotels.php`
+- `themes/bookings-and-flights-static/assets/css/hotel-guide.css`
+- `themes/bookings-and-flights-static/inc/seo-metadata.php`
+- `baf_hotel_guide_summary`
+- `baf_hotel_neighborhoods`
+- `baf_hotel_best_for`
+- `baf_hotel_family_notes`
+- `baf_hotel_luxury_notes`
+- `baf_hotel_budget_notes`
+- `baf_hotel_landmark_notes`
+- `hotels_partner_search`
+- `/destinations/`
+- `/hotels/`

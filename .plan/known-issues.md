@@ -36,6 +36,8 @@ Current issue: Phase 11 locally confirmed the Travelpayouts-controlled backend b
 
 P16.1 update: the Hotels page now wraps the existing `hotels_partner_search` placement with a local hotel-intent module and clearer provider-owned live-search/booking boundaries. The provider iframe/handoff behavior remains the same underlying Travelpayouts/Trip.com path, so the content-blocking fallback watch item still applies.
 
+P16.2 update: city hotel guide pages now reuse the approved `hotels_partner_search` placement with `surface="hotels"` and `channel="destination_single"` context. The first runtime pass caught an unavailable-placement state when the guide used a new `destination` surface, so future hotel guide work should keep new surfaces out of provider rendering until the placement registry explicitly approves them.
+
 Security watch item: GitHub push protection identified an embedded Airtable personal access token in the official plugin package during PR publication. The staged local package now redacts the hard-coded token and disables the Airtable distribution script unless a token is supplied outside Git through `TRAVELPAYOUTS_AIRTABLE_TOKEN`. Do not commit provider, analytics, or distribution tokens into the repository.
 
 Compatibility watch item: Direct PHP syntax scanning of the official plugin passed with no syntax errors, but PHP `8.5.4` emitted deprecation warnings from bundled Redux/PHP-DI/Parsedown/Opis/Travelpayouts classes. A P11.6 browser pass found the PHP-DI `ReflectionProperty::setAccessible()` deprecation printing into the Flights page when local PHP displayed deprecations; the bundled PHP-DI resolver now skips `setAccessible()` on PHP 8.1+ and uses an explicit nullable type for the injected class name.
