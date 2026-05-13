@@ -83,7 +83,11 @@ $is_privacy = (strpos($page_slug, 'privacy') !== false);
                     <ul>
                         <li><strong>Form processing</strong> — to handle contact form submissions</li>
                         <li><strong>Hosting provider</strong> — to serve website content</li>
+                        <li><strong>Travelpayouts and travel partners</strong> — to provide sponsored search widgets, affiliate links, and booking handoffs</li>
                     </ul>
+
+                    <h2 id="affiliate-tracking">Affiliate Tracking and Partner Handoff</h2>
+                    <p>When you use a sponsored Travelpayouts or partner link, the provider may receive the travel search context and may set cookies or affiliate markers used to attribute referrals. Bookings and Flights does not collect payment details for partner reservations.</p>
 
                     <h2 id="data-retention">Data Retention</h2>
                     <p>Form submissions are retained for the duration necessary to complete your inquiry. You may request deletion of your data at any time by contacting us.</p>
@@ -123,6 +127,12 @@ $is_privacy = (strpos($page_slug, 'privacy') !== false);
 
                     <h2 id="external-links">External Links</h2>
                     <p>This website may contain links to external sites. We are not responsible for the content or privacy practices of those sites.</p>
+
+                    <h2 id="affiliate-disclosure">Affiliate Disclosure</h2>
+                    <p>Bookings and Flights may earn a commission when visitors use sponsored Travelpayouts or partner links. Partner search, availability, booking, payment, changes, cancellations, and reservation support are handled by the provider shown during the handoff.</p>
+
+                    <h2 id="support-boundary">Support Boundary</h2>
+                    <p>Contact Bookings and Flights for questions about this website, planning content, or local account features. For a completed reservation, use the confirmation and support channel provided by the travel partner.</p>
 
                     <h2 id="changes-to-terms">Changes to Terms</h2>
                     <p>We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting to this page.</p>

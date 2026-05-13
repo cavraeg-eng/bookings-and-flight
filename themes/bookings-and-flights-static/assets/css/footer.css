@@ -89,6 +89,22 @@
   margin: 0;
 }
 
+.site-footer__compliance {
+  display: grid;
+  gap: 1rem;
+  margin-block-start: 2rem;
+  padding-block-start: 1.5rem;
+  border-block-start: 1px solid hsl(0 0% 100% / 0.1);
+}
+
+.site-footer__disclosure {
+  max-inline-size: 62rem;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
 /* ==========================================================================
    Footer Layout: columns-3
    ========================================================================== */
@@ -165,18 +181,38 @@
 
 .site-footer--layout-columns-3 .site-footer__legal {
   display: flex;
+  flex-wrap: wrap;
   gap: 1.5rem;
 }
 
 .site-footer--layout-columns-3 .site-footer__legal a {
   font-family: var(--font-body);
   font-size: 0.875rem;
-  color: var(--text-body-l-2);
+  color: hsl(0 0% 76%);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .site-footer--layout-columns-3 .site-footer__legal a:hover {
+  color: var(--accent);
+}
+
+.site-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.5rem;
+}
+
+.site-footer__legal a {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: hsl(0 0% 76%);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.site-footer__legal a:hover,
+.site-footer__legal a:focus-visible {
   color: var(--accent);
 }
 

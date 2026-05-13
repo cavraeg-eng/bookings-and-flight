@@ -18,6 +18,7 @@ $args = wp_parse_args(
 		'description'      => '',
 		'details'          => array(),
 		'fallback_message' => __( 'Travel search is being configured. Please use the partner handoff link on this page or check back shortly.', 'bookings_and_flights' ),
+		'support_note'     => __( 'Sponsored partner search may earn a commission. Bookings and Flights does not complete reservations; booking, payment, changes, and support stay with Travelpayouts or the partner provider.', 'bookings_and_flights' ),
 	)
 );
 
@@ -83,4 +84,8 @@ $details   = is_array( $args['details'] ) ? $args['details'] : array();
 		}
 		?>
 	</div>
+
+	<?php if ( '' !== (string) $args['support_note'] ) : ?>
+		<p class="search-placement__support"><?php echo esc_html( (string) $args['support_note'] ); ?></p>
+	<?php endif; ?>
 </section>

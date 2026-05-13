@@ -1642,3 +1642,43 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
 Decision: P14.4 local implementation and review gate passed. Keep Phase 14 overall `In Progress` until remaining Phase 14 issues pass review and merge.
+
+## Phase 14.5 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-90` trust, disclosure, partner handoff, footer content, and legal-path clarity. Reviewed Phase 14 objective, P14.1-P14.4 homepage/search contracts, Phase 13 provider wrapper boundary, published page slugs, current footer layouts, legal template content, WordPress template/escaping guidance, nonce guidance for write-path scope, and Travelpayouts affiliate marker/White Label guidance.
+
+Acceptance criteria result: Passed locally for the PR candidate. Homepage trust cards now explain affiliate commission, partner checkout/support ownership, local support, and destination-index entry. Flights and Hotels placement pages now display local support/disclosure language outside provider frames. Footer compliance now includes affiliate disclosure plus Terms, Privacy, Support, and Destination index links across layouts, and Terms points to the published `/terms-and-conditions/` page. Privacy and Terms legal content now covers Travelpayouts/partner handoff, affiliate tracking/disclosure, and support boundaries.
+
+Security review: Passed locally. All changed template output uses escaped URLs/text, no raw provider snippets or credentials were added, no POST/AJAX/fetch/beacon/write path was added, and source scans found no API token, API key, authorization, bearer, access token, refresh token, client secret, postback secret, direct checkout, payment-with-Bookings, guaranteed, lowest-price, live-fare, or direct-booking claims.
+
+REST permission review: Not applicable. No REST routes or permission callbacks changed in P14.5.
+
+Database/migration review: Not applicable. No custom tables, options, migrations, or data mutations changed in P14.5.
+
+UI review: Passed locally with real runtime screenshots. Desktop and mobile screenshots confirmed homepage trust cards and footer compliance render without text overflow, legal links are readable on the dark footer, and Flights/Hotels support notes render below the approved provider wrapper. Keyboard review confirmed Support, Destination index, Terms, Privacy, `Open flight search`, and `Open hotel search` are reachable. Footer legal link contrast is `11.76:1`; footer disclosure contrast is `5.28:1`.
+
+Regression review: Existing homepage search forms, discovery modules, retention cards, P14.2 Flights/Hotels wrapper behavior, provider handoff links, and footer layouts remain intact. The previous footer `/terms/` slug regression is fixed to `/terms-and-conditions/`. Provider-owned Travelpayouts React/GraphQL warnings on Flights and browser WebGL provider-context warnings on Hotels remain watchlist items; there were no page errors or failed requests in the P14.5 runtime pass.
+
+Validation performed: PHP syntax checks for changed PHP files; `git diff --check`; file-size checks; WP-CLI page/theme checks with the Local MySQL socket; HTTP 200 smoke for Home, Flights, Hotels, Contact, Privacy, and Terms; source scans for required trust/disclosure/link text; source scans for secret and unsupported direct-booking terms; Playwright desktop/mobile screenshots; Playwright link smoke for Terms, Privacy, Support, and Destination index; Playwright keyboard review; footer contrast checks. The Codex in-app Browser surface was attempted first but had no active pane, so Playwright Chromium was used for the required runtime browser screenshots and keyboard navigation review.
+
+Bugs found: The footer still pointed Terms to `/terms/` even though the published page is `/terms-and-conditions/`. The first footer compliance pass inherited the older low-contrast legal link color on the dark footer.
+
+Bugs fixed: Updated the footer Terms URL to `/terms-and-conditions/` and raised footer legal link contrast to `11.76:1` on the dark footer.
+
+Bugs deferred: Standalone Explore, Deals, Trip Planner, and Saved Trips pages remain later Phase 14+ scope. Provider-owned Flights/Hotels runtime warnings remain watchlist items because they do not create page errors, failed requests, broken handoff links, or keyboard traps.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Files.
+- WordPress Common APIs Handbook: Escaping Data.
+- WordPress `esc_url()` reference.
+- WordPress Common APIs Handbook: Nonces.
+- Travelpayouts Help Center: ID and SubID affiliate marker guidance.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+
+Decision: P14.5 local implementation and review gate passed. Keep Phase 14 overall `In Progress` until remaining Phase 14 issues pass review and merge.

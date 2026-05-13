@@ -638,3 +638,32 @@ Related files/routes/tables/settings:
 - `baf_travelpayouts_settings`
 - `baf_consent_settings`
 - `baf_tracking_settings`
+
+## Phase 14 Public Trust and Legal Handoff
+
+Fragile area: homepage trust cards, Flights/Hotels support notes, footer compliance links, and legal template handoff language.
+
+Why risky: Disclosure and partner-support boundaries must stay visible outside provider iframes/scripts. Legal/support links can regress to unpublished slugs, and low-contrast footer links can make required disclosures hard to read.
+
+What to check after future changes:
+
+- Homepage keeps visible affiliate disclosure, partner checkout/support ownership, Support, and Destination index entry points.
+- Flights and Hotels search surfaces keep local support/disclosure language outside provider frames.
+- Footer includes Terms, Privacy, Support, and Destination index links; Terms points to `/terms-and-conditions/`.
+- Footer disclosure and legal links meet contrast requirements on the dark footer.
+- Privacy and Terms content mention Travelpayouts/partner handoff, affiliate tracking/disclosure, and support boundaries.
+- No page claims Bookings and Flights owns booking, payment, changes, reservation support, direct checkout, live fares, or guaranteed lowest prices.
+
+Related files/routes/settings:
+
+- `themes/bookings-and-flights-static/page-home.php`
+- `themes/bookings-and-flights-static/template-parts/travel-search-placement.php`
+- `themes/bookings-and-flights-static/footer.php`
+- `themes/bookings-and-flights-static/page-legal.php`
+- `themes/bookings-and-flights-static/assets/css/footer.css`
+- `themes/bookings-and-flights-static/assets/css/search-surface.css`
+- `/`
+- `/flights/`
+- `/hotels/`
+- `/privacy-policy/`
+- `/terms-and-conditions/`
