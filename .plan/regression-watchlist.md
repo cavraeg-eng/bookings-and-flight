@@ -905,3 +905,33 @@ Related files/routes/settings:
 - `/flights/`
 - `/routes/`
 - `route`
+
+## Phase 15 Final Flights Gate
+
+Fragile area: the combined Flights Experience across landing page intent, route pages, discovery widgets, White Label continuity, alert intent, SEO, and provider-owned runtime behavior.
+
+Why risky: Later hotel/stays or SEO work could accidentally change shared shell, widget-registry, alert, route-code, disclosure, or source-review assumptions that Phase 15 depends on.
+
+What to check after future changes:
+
+- `/flights/`, `/flights/?origin=nyc&destination=lax&depart_date=2026-08-01`, `/routes/`, and `/routes/?route_origin=nyc` still pass HTTP/source smoke.
+- Public route REST reads stay bounded and do not expose private alert or provider fields.
+- Missing alert nonce still fails closed without creating `travel_alert` posts.
+- White Label and discovery widgets stay inside governed `baf` placement shells with provider-owned booking/payment/support copy.
+- Route-code normalization remains uppercase-first across query handling, theme output, and post-meta sanitization.
+- Desktop/mobile browser screenshots show no app-owned page errors, framework overlays, horizontal overflow, duplicate IDs, or hidden disclosures.
+- Keyboard navigation reaches local forms, handoff links, route card links, and route detail pages without traps.
+- Provider-owned Travelpayouts warnings and external request failures are non-blocking only when app-owned checks are clean and widget/handoff output remains usable.
+
+Related files/routes/settings:
+
+- `.plan/phase-review-log.md`
+- `.plan/phased-implementation.md`
+- `themes/bookings-and-flights-static/page-flights.php`
+- `themes/bookings-and-flights-static/archive-route.php`
+- `themes/bookings-and-flights-static/single-route.php`
+- `plugins/bookings-flights-core/includes/frontend/class-flight-alert-intent-handler.php`
+- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-renderer.php`
+- `baf_travelpayouts_widget_registry`
+- `/flights/`
+- `/routes/`
