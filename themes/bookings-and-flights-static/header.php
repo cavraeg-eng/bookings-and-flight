@@ -39,13 +39,7 @@ $is_nav_left_layout = 'logo-center-nav-left' === $header_layout;
             <!-- Navigation -->
             <nav class="header__nav" role="navigation" aria-label="Main navigation">
                 <?php
-                wp_nav_menu(array(
-                    'theme_location' => 'primary',
-                    'container'      => false,
-                    'menu_class'     => 'header__nav-list',
-                    'fallback_cb'    => 'bookings_and_flights_fallback_menu',
-                    'walker'         => new WP_Forge_Menu_Walker('header__nav-item', 'header__nav-link'),
-                ));
+                bookings_and_flights_primary_menu( 'header__nav-list', 'header__nav-item', 'header__nav-link' );
                 ?>
             </nav>
         <?php endif; ?>
@@ -64,13 +58,7 @@ $is_nav_left_layout = 'logo-center-nav-left' === $header_layout;
             <!-- Navigation -->
             <nav class="header__nav" role="navigation" aria-label="Main navigation">
                 <?php
-                wp_nav_menu(array(
-                    'theme_location' => 'primary',
-                    'container'      => false,
-                    'menu_class'     => 'header__nav-list',
-                    'fallback_cb'    => 'bookings_and_flights_fallback_menu',
-                    'walker'         => new WP_Forge_Menu_Walker('header__nav-item', 'header__nav-link'),
-                ));
+                bookings_and_flights_primary_menu( 'header__nav-list', 'header__nav-item', 'header__nav-link' );
                 ?>
             </nav>
         <?php endif; ?>
@@ -78,8 +66,8 @@ $is_nav_left_layout = 'logo-center-nav-left' === $header_layout;
         <!-- Header Actions (CTA + Theme Toggle) -->
         <div class="header__actions">
             <?php if ( $show_desktop_cta ) : ?>
-                <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="header__cta btn btn--primary">
-                    <span>Get Started</span>
+                <a href="<?php echo esc_url( home_url( '/#trip-planner' ) ); ?>" class="header__cta btn btn--primary">
+                    <span>Plan trip</span>
                     <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
                         <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
@@ -122,15 +110,9 @@ $is_nav_left_layout = 'logo-center-nav-left' === $header_layout;
 <div class="mobile-nav" aria-hidden="true" data-mobile-nav>
     <nav class="mobile-nav__content">
         <?php
-        wp_nav_menu(array(
-            'theme_location' => 'primary',
-            'container'      => false,
-            'menu_class'     => 'mobile-nav__list',
-            'fallback_cb'    => 'bookings_and_flights_fallback_menu',
-            'walker'         => new WP_Forge_Menu_Walker('mobile-nav__item', 'mobile-nav__link'),
-        ));
+        bookings_and_flights_primary_menu( 'mobile-nav__list', 'mobile-nav__item', 'mobile-nav__link' );
         ?>
-        <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="mobile-nav__cta btn btn--primary btn--large">Get Started</a>
+        <a href="<?php echo esc_url( home_url( '/#trip-planner' ) ); ?>" class="mobile-nav__cta btn btn--primary btn--large">Plan trip</a>
     </nav>
 </div>
 

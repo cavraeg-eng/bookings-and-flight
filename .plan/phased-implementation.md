@@ -1499,7 +1499,7 @@ P13.6 note: The final Phase 13 review gate passed on 2026-05-12. The review reco
 
 ## Phase 14: Homepage Competitive Rebuild
 
-Status: `Not Started`
+Status: `In Progress`
 
 Objective: Replace the current placeholder homepage with a premium Travelpayouts-powered search, discovery, and planning experience.
 
@@ -1529,6 +1529,8 @@ Validation checklist:
 - Widget render and handoff checks.
 - Header continuity check for WordPress-to-White Label search/result flow.
 - No secret exposure in source.
+
+P14.1 note: `ONE-86` started on 2026-05-12. The homepage first viewport now uses local real travel media, a dense flight/hotel search shell, visible affiliate disclosure, and Phase 13 placement-key metadata (`flights_white_label_search`, `hotels_partner_search`) without copying raw provider snippets into the theme. Header and mobile navigation now fall back to the planned product sections when the stored WordPress menu is stale, and the CTA points to the homepage trip-planner entry instead of the old contact-path copy. Explore, Deals, Trip Planner, and Saved Trips remain homepage anchor entry points until their planned standalone pages are implemented in later Phase 14+ issues. Runtime Playwright screenshots and keyboard review were captured at desktop, tablet, and mobile widths with no horizontal overflow; the Codex in-app Browser surface was attempted first but had no active pane in this thread.
 
 ## Phase 15: Flights Experience
 

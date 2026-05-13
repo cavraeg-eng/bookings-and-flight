@@ -288,6 +288,32 @@ Related files/routes/tables/settings:
 - `themes/bookings-and-flights-static/page-home.php`
 - `themes/bookings-and-flights-static/page-services.php`
 - `themes/bookings-and-flights-static/assets/css/accessibility.css`
+
+## Phase 14 Homepage Search Shell
+
+Fragile area: `page-home.php`, `home.css`, product fallback navigation, and the homepage search forms.
+
+Why risky: The homepage now owns the first public search entry point for Flights and Hotels while live availability and booking remain provider-owned. Future edits can accidentally reintroduce fake inventory claims, break the mobile menu tab trap, lose affiliate disclosure, or bypass the Phase 13 placement-key seam.
+
+What to check after future changes:
+
+- Header output still includes Home, Flights, Hotels, Explore, Deals, Trip Planner, and Saved Trips when the stored WordPress menu is stale.
+- Homepage search forms keep `data-baf-placement-key="flights_white_label_search"` and `data-baf-placement-key="hotels_partner_search"` metadata and do not copy raw provider snippets into the theme.
+- Search fields use non-conflicting query names such as `travel_destination`, not the reserved `destination` query var.
+- Affiliate disclosure remains visible near the search shell at desktop, tablet, and mobile widths.
+- Desktop and mobile keyboard order reaches the menu, CTA, search fields, search buttons, entry cards, and mobile menu links without escaping the open mobile menu.
+- Frontend source does not expose API tokens, API keys, authorization headers, bearer tokens, postback secrets, raw registry embed URLs, or private registry notes.
+- Local hero media stays local or WordPress-owned; do not hotlink third-party hero images from the public template.
+
+Related files/routes/tables/settings:
+
+- `themes/bookings-and-flights-static/page-home.php`
+- `themes/bookings-and-flights-static/functions.php`
+- `themes/bookings-and-flights-static/header.php`
+- `themes/bookings-and-flights-static/assets/css/home.css`
+- `themes/bookings-and-flights-static/assets/css/header.css`
+- `themes/bookings-and-flights-static/assets/css/mobile-nav.css`
+- `themes/bookings-and-flights-static/assets/images/home-hero-beach.jpg`
 - `themes/bookings-and-flights-static/assets/css/content-pages.css`
 - `themes/bookings-and-flights-static/assets/js/dark-mode.js`
 - `themes/bookings-and-flights-static/assets/js/home.js`
