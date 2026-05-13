@@ -62,7 +62,7 @@ What to check after future changes:
 - Alert emails and frontend copy keep provider-owned live fare, booking, payment, changes, and support language visible.
 - Signed alert delete links open a confirmation page, require an alert-specific nonce-protected POST to permanently delete the private alert record, do not rely on plaintext stored tokens, and treat `wp_delete_post()` `false`/`null` returns as failures.
 - Alert and saved-trip cleanup checks confirm temporary validation records are removed.
-- P19.3 personal-data export/erase work must cover both saved trips and alerts without exposing unrelated users' records.
+- Personal-data export/erase work must keep saved trips, alerts, AI trip-plan drafts, and AI session logs scoped to the requester and must not expose unrelated users' records, raw AI prompts, provider payloads, request/output hashes, booking/payment identifiers, provider secrets, or live inventory.
 
 Related files/routes/settings:
 

@@ -2981,3 +2981,46 @@ Research consulted:
 - WordPress Common APIs Handbook: Sanitizing Data.
 
 Decision: P19.2 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
+
+### P19.3 — Resume planning links and user data delete/export behavior
+
+Date: 2026-05-13
+
+Status: In Review
+
+Reviewer: Codex
+
+Linear issue: `ONE-122`
+
+Scope reviewed: Resume planning and user data-control behavior. Reviewed Phase 19 plan, P19.1 saved-trip board/deletion behavior, P19.2 alert lifecycle/delete links, private `trip_plan` and `travel_alert` records, AI trip-plan drafts, AI session logging table, WordPress personal-data exporter/eraser hook contracts, and the provider-owned booking/search boundary.
+
+Acceptance criteria result: Passed locally for the PR candidate. Saved-trip records expose local Flights, Hotels, and Trip Planner resume links; alert records expose local Flights price-alert resume links; AI trip-plan drafts expose a local WordPress draft link when available. WordPress personal-data export/erase hooks now cover saved trips, travel alerts, AI trip-plan drafts, and AI session logs.
+
+Security review: Passed locally. Exporters are scoped by the requester email: saved trips and AI trip-plan drafts resolve through the matching WordPress user, alerts resolve through the stored alert email, and AI sessions resolve through the matching user ID. Export payloads omit raw AI prompts, itinerary JSON, provider payloads, request/output hashes, provider credentials, booking IDs, payment data, confirmation numbers, and live inventory. Erasers delete saved trips, alerts, and AI drafts, while AI session rows are anonymized by clearing user/source linkage, run UUID, request/output hashes, output summary, and error message.
+
+REST permission review: Passed for scope. P19.3 adds no REST endpoint. Existing saved-trip REST routes remain logged-in, nonce-protected, owner-scoped, and consent-gated for writes. The browser pass confirmed cross-user planner resume does not expose another member's saved-trip payload through the existing service path.
+
+Database/migration review: No schema migration or destructive table change. P19.3 reads existing `trip_plan`, `travel_alert`, and `bf_ai_sessions` records through WordPress APIs and prepared SQL. AI session erasure updates existing rows in place for anonymization rather than deleting aggregate operational history.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser connection timed out after 15 seconds, so Playwright Chromium was used. Evidence includes saved-trip resume links, planner resume prefill, alert resume route prefill, and mobile saved-trip screenshots at `/tmp/one122-*.png`; the final runtime report is `/tmp/one122-runtime-review-report.json` with `status=pass` and `findingCount=0`.
+
+Regression review: Existing P19.1 saved-trip save/list/update/delete behavior, P19.2 alert delete behavior, P18 AI planner permission boundaries, and Travelpayouts/provider ownership boundaries remain intact. Privacy export links route to local WordPress surfaces only and do not execute provider searches, book, pay, store live provider inventory, or expose private data from unrelated users.
+
+Validation performed: PHP syntax checks for changed PHP files; file-size review; `git diff --check`; `bookings-flights-core` deactivate/reactivate/is-active checks; focused WP-CLI privacy smoke with 54 assertions for exporters, erasers, cross-user denial, anonymization, unrelated-user preservation, export omissions, and cleanup; Playwright Chromium runtime screenshots and keyboard review for saved-trip resume links, planner prefill, alert route prefill, desktop/mobile overflow, source-secret checks, app-owned request health, and cleanup.
+
+Bugs found: The first privacy smoke assertions were too literal about JSON-escaped URLs, so the temporary validation harness was tightened. The first browser pass surfaced only known provider-owned widget console noise: a React JSX-source warning and a generic `400` resource message from provider/widget traffic, while app-owned request checks passed.
+
+Bugs fixed: Added `BAF\Core\Privacy\Personal_Data_Manager`, registered it from the core bootstrap, added the privacy directory guard file, scoped export/erase callbacks across saved trips, alerts, AI drafts, and AI sessions, scrubbed AI session personal linkage during erasure, and updated validation scripts to assert link presence without depending on JSON URL slash escaping.
+
+Bugs deferred: None for P19.3 privacy/export/delete scope. Remaining Phase 19 analytics/reporting and release-readiness issues are still later child issues.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-19-privacy-export-erase-review.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Plugin Handbook: Personal Data Exporter.
+- WordPress Plugin Handbook: Personal Data Eraser.
+- WordPress Code Reference: `wp_privacy_personal_data_exporters`.
+- WordPress Code Reference: `wp_privacy_personal_data_erasers`.
+- WordPress Plugin Security Handbook: sanitizing, escaping, capability, and privacy boundaries.
+
+Decision: P19.3 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
