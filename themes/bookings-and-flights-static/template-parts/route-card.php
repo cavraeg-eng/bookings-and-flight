@@ -23,9 +23,7 @@ $route_meta = static function ( string $key ) use ( $post_id ): string {
 };
 
 $route_code = static function ( string $value ): string {
-	$value = strtoupper( preg_replace( '/[^A-Z0-9]/', '', $value ) );
-
-	return substr( $value, 0, 10 );
+	return bookings_and_flights_normalize_route_code( $value );
 };
 
 $origin            = $route_meta( 'baf_origin' );

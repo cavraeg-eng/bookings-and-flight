@@ -224,6 +224,8 @@ Use the `baf_` prefix for new meta. Phase 1 registers the following post meta ke
 
 Phase 15.5 adds local flight alert intent capture through the `[baf_flight_alert_signup]` shortcode and `admin-post.php` actions `baf_save_flight_alert` / `admin_post_nopriv_baf_save_flight_alert`. Alert signup stores private `travel_alert` posts with route codes, optional date/traveler/cabin context, contact email, source surface, consent timestamp, and local status only. It does not store provider fare inventory, partner booking records, payment data, reservation state, or supplier result payloads. Public writes require a WordPress nonce, explicit consent, email validation, bounded route-code input, and a short per-client/email/route transient throttle; alert administration remains capability-gated by `manage_baf_alerts`.
 
+Phase 15.6 documents the flight SEO/indexing boundary. WordPress owns indexable `/routes/`, sanitized origin-filter archives such as `/routes/?route_origin=NYC`, and individual `route` posts as editorial SEO pages. The Flights page remains an indexable search-handoff entry point, but transient flight-search query URLs are not SEO landing pages: they render `noindex, follow` and canonicalize to `/flights/`. Travelpayouts White Label, official widgets, and partner scripts remain provider-owned result/handoff surfaces and must not become the canonical SEO source, local fare inventory, booking backend, or source of fake price/scarcity claims.
+
 ## User Meta Keys
 
 Planned keys:

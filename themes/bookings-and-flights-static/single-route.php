@@ -60,9 +60,7 @@ get_header();
 			return sanitize_text_field( (string) get_post_meta( $post_id, $key, true ) );
 		};
 		$normalize_code = static function ( string $value ): string {
-			$value = strtoupper( preg_replace( '/[^A-Z0-9]/', '', $value ) );
-
-			return substr( $value, 0, 10 );
+			return bookings_and_flights_normalize_route_code( $value );
 		};
 
 		$origin              = $get_meta( 'baf_origin' );

@@ -875,3 +875,33 @@ Related files/routes/settings:
 - `travel_alert`
 - `/flights/`
 - `/routes/`
+
+## Phase 15 SEO Metadata And Route Indexing
+
+Fragile area: flight and route SEO metadata, canonical behavior, and route-code normalization.
+
+Why risky: Route pages are indexable WordPress-owned SEO surfaces, while Flights query URLs and Travelpayouts result widgets are handoff/result surfaces. Future changes could accidentally index transient search URLs, canonicalize origin pages to the wrong route archive, expose provider/private data in public source, or reintroduce lowercase route-code mismatches.
+
+What to check after future changes:
+
+- `/routes/` keeps an archive title, description, and canonical URL.
+- `/routes/?route_origin=nyc` normalizes to `NYC`, keeps `Flights from NYC`, and canonicalizes to `/routes/?route_origin=NYC`.
+- Individual `route` posts keep excerpt-backed descriptions, core canonical output, internal links, and no fake fare, scarcity, checkout, or payment claims.
+- `/flights/` remains indexable and canonical to the base page.
+- `/flights/?origin=NYC&destination=LAX...` renders `noindex, follow` and canonicalizes to `/flights/` instead of becoming a search-query SEO page.
+- Route code normalization uppercases before filtering in theme helpers, archive filters, route cards, route detail output, and core post-meta sanitization.
+- Public source scans find no `Deprecated`, `Warning`, `Fatal`, API key, token, authorization, bearer, postback secret, password, or private provider payload.
+- Route archive and related-route queries remain bounded with explicit `posts_per_page` and `no_found_rows` where custom queries are used.
+- Desktop/mobile screenshots show no overlap, clipping, horizontal overflow, or duplicate IDs on route archive, origin-filter archive, and route detail pages.
+- Keyboard review reaches the route archive actions, route card links, route detail handoffs, and related-route links without traps.
+
+Related files/routes/settings:
+
+- `themes/bookings-and-flights-static/inc/seo-metadata.php`
+- `themes/bookings-and-flights-static/archive-route.php`
+- `themes/bookings-and-flights-static/single-route.php`
+- `themes/bookings-and-flights-static/template-parts/route-card.php`
+- `plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php`
+- `/flights/`
+- `/routes/`
+- `route`
