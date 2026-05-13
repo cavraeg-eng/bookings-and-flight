@@ -241,6 +241,8 @@ Phase 16.3 extends the hotel placement strategy without changing the backend bou
 
 Phase 16.4 strengthens the hotel disclosure and handoff boundary without adding routes, provider contracts, options, tables, cron jobs, REST endpoints, shortcodes, or blocks. Hotel/stays pages must describe WordPress hotel controls as intent or editorial context unless the rendered Travelpayouts/partner surface owns the actual result filtering. Every monetized hotel placement rendered through `template-parts/travel-search-placement.php` exposes visible `Affiliate disclosure:` copy and links the section to that disclosure with `aria-describedby`. Hotel surfaces must not promise Booking.com White Label inventory, WordPress-owned live hotel inventory, direct checkout, auto-booking, guaranteed rates, or unsupported local hotel filters.
 
+Phase 16.5 confirms the hotel mobile/source review boundary without adding routes, provider contracts, options, tables, cron jobs, REST endpoints, shortcodes, blocks, or registry schema changes. WordPress-owned hotel pages must keep header navigation, local intent controls, guide cards, partner handoff buttons, companion placement cards, and disclosure bands responsive through 320px narrow viewports with no horizontal overflow, no clipped handoff controls, no missing disclosures, and no sub-44px interactive targets. Provider-owned WebGL/runtime warnings remain separate from app-owned console and request failures.
+
 ## User Meta Keys
 
 Planned keys:

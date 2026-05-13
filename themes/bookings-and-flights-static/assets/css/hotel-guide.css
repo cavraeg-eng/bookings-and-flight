@@ -365,6 +365,9 @@
 }
 
 .hotel-guide-listing-card h3 a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
   color: inherit;
   text-decoration: none;
 }
