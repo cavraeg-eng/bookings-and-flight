@@ -34,6 +34,10 @@ final class AI_Itinerary_Service {
 			return new \WP_Error( 'baf_ai_request_consent_required', __( 'Confirm external AI consent before sending planner details to a live provider.', 'bookings-flights-core' ), array( 'status' => 403 ) );
 		}
 
+		if ( true === $normalized['save'] && ! current_user_can( Capability_Manager::EDIT_CONTENT ) ) {
+			return $this->save_forbidden_error();
+		}
+
 		$provider = Provider_Factory::make();
 
 		if ( is_wp_error( $provider ) ) {
@@ -99,6 +103,7 @@ final class AI_Itinerary_Service {
 			'itinerary'    => $itinerary,
 			'trip_plan_id' => $saved_post_id,
 			'saved_status' => $saved_post_id > 0 ? 'draft' : '',
+			'trip_plan'    => $this->trip_plan_response( $saved_post_id ),
 		);
 	}
 
@@ -149,7 +154,7 @@ final class AI_Itinerary_Service {
 
 	private function save_draft_trip_plan( array $itinerary, array $request, string $run_uuid ): int|\WP_Error {
 		if ( ! current_user_can( Capability_Manager::EDIT_CONTENT ) ) {
-			return new \WP_Error( 'baf_ai_save_forbidden', __( 'You are not allowed to save AI-generated trip plans.', 'bookings-flights-core' ), array( 'status' => rest_authorization_required_code() ) );
+			return $this->save_forbidden_error();
 		}
 
 		$post_id = wp_insert_post(
@@ -157,6 +162,7 @@ final class AI_Itinerary_Service {
 				'post_type'    => Post_Type_Registrar::TRIP_PLAN,
 				'post_status'  => 'draft',
 				'post_title'   => $itinerary['title'],
+				'post_content' => $this->draft_content( $itinerary ),
 				'post_excerpt' => $itinerary['summary'],
 				'post_author'  => get_current_user_id(),
 			),
@@ -169,11 +175,99 @@ final class AI_Itinerary_Service {
 
 		update_post_meta( $post_id, 'baf_destination', $request['destination'] );
 		update_post_meta( $post_id, 'baf_origin', $request['origin'] );
+		update_post_meta( $post_id, 'baf_departure_window', $request['departure_date'] );
+		update_post_meta( $post_id, 'baf_return_window', $request['return_date'] );
 		update_post_meta( $post_id, 'baf_travel_style', $request['travel_style'] );
 		update_post_meta( $post_id, 'baf_ai_source_session_id', $run_uuid );
 		update_post_meta( $post_id, 'baf_itinerary_json', wp_json_encode( $itinerary ) );
 
 		return (int) $post_id;
+	}
+
+	private function draft_content( array $itinerary ): string {
+		$blocks = array();
+
+		if ( '' !== (string) $itinerary['summary'] ) {
+			$blocks[] = '<p>' . esc_html( (string) $itinerary['summary'] ) . '</p>';
+		}
+
+		foreach ( $itinerary['days'] as $day ) {
+			$heading = sprintf(
+				/* translators: 1: itinerary day number, 2: itinerary day title. */
+				__( 'Day %1$d: %2$s', 'bookings-flights-core' ),
+				absint( $day['day'] ?? 0 ),
+				(string) ( $day['title'] ?? __( 'Untitled day', 'bookings-flights-core' ) )
+			);
+
+			$blocks[] = '<h2>' . esc_html( $heading ) . '</h2>';
+
+			if ( '' !== (string) ( $day['summary'] ?? '' ) ) {
+				$blocks[] = '<p>' . esc_html( (string) $day['summary'] ) . '</p>';
+			}
+
+			$items = array();
+
+			foreach ( $day['activities'] ?? array() as $activity ) {
+				$parts = array_filter(
+					array(
+						ucfirst( str_replace( '_', ' ', sanitize_key( (string) ( $activity['time_of_day'] ?? 'flexible' ) ) ) ),
+						(string) ( $activity['title'] ?? '' ),
+						(string) ( $activity['location'] ?? '' ),
+						(string) ( $activity['description'] ?? '' ),
+					)
+				);
+
+				if ( empty( $parts ) ) {
+					continue;
+				}
+
+				$items[] = '<li>' . esc_html( implode( ' - ', $parts ) ) . '</li>';
+			}
+
+			if ( ! empty( $items ) ) {
+				$blocks[] = '<ul>' . implode( '', $items ) . '</ul>';
+			}
+		}
+
+		if ( ! empty( $itinerary['affiliate_opportunities'] ) ) {
+			$blocks[] = '<h2>' . esc_html__( 'Recommendation-only handoffs', 'bookings-flights-core' ) . '</h2>';
+			$items    = array();
+
+			foreach ( $itinerary['affiliate_opportunities'] as $opportunity ) {
+				$items[] = '<li>' . esc_html( sprintf( '%s - %s - %s', (string) $opportunity['label'], (string) $opportunity['vertical'], (string) $opportunity['status'] ) ) . '</li>';
+			}
+
+			$blocks[] = '<ul>' . implode( '', $items ) . '</ul>';
+		}
+
+		if ( '' !== (string) $itinerary['booking_notes'] ) {
+			$blocks[] = '<h2>' . esc_html__( 'Review notes', 'bookings-flights-core' ) . '</h2>';
+			$blocks[] = '<p>' . esc_html( (string) $itinerary['booking_notes'] ) . '</p>';
+		}
+
+		if ( '' !== (string) $itinerary['disclaimer'] ) {
+			$blocks[] = '<p><strong>' . esc_html__( 'Disclosure:', 'bookings-flights-core' ) . '</strong> ' . esc_html( (string) $itinerary['disclaimer'] ) . '</p>';
+		}
+
+		return wp_kses_post( implode( "\n\n", $blocks ) );
+	}
+
+	private function trip_plan_response( int $post_id ): array {
+		if ( $post_id <= 0 ) {
+			return array();
+		}
+
+		$edit_url = current_user_can( 'edit_post', $post_id ) ? get_edit_post_link( $post_id, 'raw' ) : '';
+
+		return array(
+			'id'       => $post_id,
+			'status'   => 'draft',
+			'edit_url' => is_string( $edit_url ) ? esc_url_raw( $edit_url ) : '',
+		);
+	}
+
+	private function save_forbidden_error(): \WP_Error {
+		return new \WP_Error( 'baf_ai_save_forbidden', __( 'You are not allowed to save AI-generated trip plans.', 'bookings-flights-core' ), array( 'status' => rest_authorization_required_code() ) );
 	}
 
 	private function finish_error( int $session_id, \WP_Error $error ): void {

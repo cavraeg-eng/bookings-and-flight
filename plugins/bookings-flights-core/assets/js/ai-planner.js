@@ -18,6 +18,7 @@
 	const days = document.querySelector('[data-baf-ai-planner-days]');
 	const opportunities = document.querySelector('[data-baf-ai-planner-opportunities]');
 	const disclaimer = document.querySelector('[data-baf-ai-planner-disclaimer]');
+	const draft = document.querySelector('[data-baf-ai-planner-draft]');
 	const submit = form.querySelector('button[type="submit"]');
 	const daysInput = form.querySelector('[name="days"]');
 	const departInput = form.querySelector('[name="departure_date"]');
@@ -79,7 +80,7 @@
 			budget: text(data.get('budget')),
 			preferences: preferenceParts.join('\n'),
 			external_ai_consent: data.get('external_ai_consent') === '1',
-			save: false,
+			save: config.canEditContent && data.get('save_draft') === '1',
 		};
 	};
 
@@ -153,6 +154,28 @@
 		opportunities.append(heading, list);
 	};
 
+	const renderDraft = (tripPlan) => {
+		clearNode(draft);
+		draft.hidden = true;
+
+		if (!tripPlan || !tripPlan.id) {
+			return;
+		}
+
+		const label = document.createElement('span');
+		label.textContent = `Draft saved as Trip Plan #${tripPlan.id}. `;
+		draft.appendChild(label);
+
+		if (tripPlan.edit_url) {
+			const link = document.createElement('a');
+			link.href = tripPlan.edit_url;
+			link.textContent = 'Open draft';
+			draft.appendChild(link);
+		}
+
+		draft.hidden = false;
+	};
+
 	const renderResult = (payload) => {
 		const itinerary = payload.itinerary || {};
 		const tripBrief = payload.trip_brief || {};
@@ -175,6 +198,7 @@
 
 		renderDays(itinerary.days);
 		renderOpportunities(itinerary.affiliate_opportunities);
+		renderDraft(payload.trip_plan);
 		disclaimer.textContent = text(itinerary.disclaimer);
 	};
 
@@ -228,8 +252,9 @@
 				throw new Error(await readError(response));
 			}
 
-			renderResult(await response.json());
-			setStatus('Trip brief ready. Review every field before using it in public content.', 'success');
+			const responsePayload = await response.json();
+			renderResult(responsePayload);
+			setStatus(responsePayload.trip_plan && responsePayload.trip_plan.id ? config.strings.draftSaved : 'Trip brief ready. Review every field before using it in public content.', 'success');
 		} catch (error) {
 			setStatus(error.message || config.strings.genericError, 'error');
 		} finally {

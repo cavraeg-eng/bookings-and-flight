@@ -18,7 +18,7 @@ P18.1 implements the first user-facing AI planner slice:
 Out of scope for this slice:
 
 - Saved trip board.
-- Public draft saving from the planner page.
+- Publishing generated trip plans from the planner page.
 - Price-alert capture from generated plans.
 - Approval workflow that converts AI opportunities into Travelpayouts placement drafts.
 - Live provider search execution, booking, payment, publishing, or inventory storage.
@@ -32,7 +32,7 @@ Out of scope for this slice:
 - Assets: `baf-ai-planner` CSS/JS
 - REST endpoint: `POST /wp-json/baf/v1/ai/itinerary`
 - Required REST capability: `run_baf_ai`
-- Public page request behavior: sends `save=false`
+- Public page request behavior: sends `save=true` only when an editor with `edit_baf_content` checks the draft-save option; otherwise sends `save=false`
 - Live provider request gate: saved external AI consent plus per-request `external_ai_consent`
 
 ## Review Notes
@@ -44,6 +44,7 @@ Security and privacy:
 - Live AI mode is blocked server-side unless the planner request includes explicit `external_ai_consent`.
 - Existing AI session logging stores request/output hashes and sanitized summaries/errors, not raw prompts or raw provider payloads.
 - Affiliate opportunities remain `not_executed` and `requires_approval`.
+- Draft saving is optional, editor-only, and creates WordPress `draft` `trip_plan` posts without auto-publishing.
 
 UI and accessibility:
 
@@ -66,6 +67,7 @@ Local validation passed on 2026-05-13:
 - First browser pass found the checkbox visual target below threshold and a false source-secret match on WordPress core's `luminous-dusk` preset name; the checkbox was enlarged and the source scan was narrowed before the final report returned `findingCount=0`.
 - Codex PR review found impossible date strings and unsupported live-provider readiness; follow-up fixes use `checkdate()` and `Provider_Factory::supports_live_provider()`.
 - Post-review runtime validation reused Playwright Chromium after the Codex in-app Browser pane remained unavailable; the authenticated planner flow generated a four-day demo brief, keyboard focus reached the form controls through submit, and screenshots were saved at `/tmp/one113-after-codex-authenticated-result.png` and `/tmp/one113-after-codex-keyboard-auth.png`.
+- P18.2 follow-up added editor-only `trip_plan` draft saving, validated with `/tmp/one114-runtime-report.json`.
 - Temporary admin user cleanup.
 - `git diff --check`.
 

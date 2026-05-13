@@ -124,6 +124,7 @@ final class AI_Planner_Page {
 			'strings'           => array(
 				'capabilityRequired' => __( 'AI planning is available to signed-in editors with AI permission in this phase.', 'bookings-flights-core' ),
 				'consentRequired'    => __( 'Live AI mode needs the external AI consent checkbox before any prompt data can leave WordPress.', 'bookings-flights-core' ),
+				'draftSaved'         => __( 'Trip brief ready and saved as an editable draft. Review it before publishing.', 'bookings-flights-core' ),
 				'genericError'       => __( 'The planner could not create a trip brief. Review the fields and try again.', 'bookings-flights-core' ),
 				'loading'            => __( 'Preparing a structured trip brief...', 'bookings-flights-core' ),
 			),
