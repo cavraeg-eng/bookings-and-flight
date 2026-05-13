@@ -7,6 +7,7 @@
 
 namespace BAF\Core\Jobs;
 
+use BAF\Core\Post_Types\Post_Type_Registrar;
 use BAF\Core\Reports\Provider_Stats_Repository;
 use BAF\Core\Services\Flight_Alert_Service;
 use BAF\Core\Settings\Settings_Manager;

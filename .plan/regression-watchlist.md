@@ -58,7 +58,7 @@ What to check after future changes:
 - Per-email active/pending alert limits remain enforced before creating a new route alert.
 - `baf_process_travel_alerts` remains idempotent: already-sent/active alerts are not emailed repeatedly.
 - Alert emails and frontend copy keep provider-owned live fare, booking, payment, changes, and support language visible.
-- Signed alert delete links permanently delete the private alert record and do not rely on plaintext stored tokens.
+- Signed alert delete links open a confirmation page, require a nonce-protected POST to permanently delete the private alert record, and do not rely on plaintext stored tokens.
 - Alert and saved-trip cleanup checks confirm temporary validation records are removed.
 - P19.3 personal-data export/erase work must cover both saved trips and alerts without exposing unrelated users' records.
 

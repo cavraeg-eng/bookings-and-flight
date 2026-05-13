@@ -14,11 +14,13 @@ defined( 'ABSPATH' ) || exit;
 
 final class Flight_Alert_Intent_Handler {
 
-	public const ACTION           = 'baf_save_flight_alert';
-	public const DELETE_ACTION    = 'baf_delete_flight_alert';
-	public const NONCE_ACTION     = 'baf_save_flight_alert';
-	public const NONCE_FIELD      = 'baf_alert_nonce';
-	public const STATUS_QUERY_ARG = 'baf_alert_status';
+	public const ACTION              = 'baf_save_flight_alert';
+	public const DELETE_ACTION       = 'baf_delete_flight_alert';
+	public const NONCE_ACTION        = 'baf_save_flight_alert';
+	public const NONCE_FIELD         = 'baf_alert_nonce';
+	public const DELETE_NONCE_ACTION = 'baf_delete_flight_alert';
+	public const DELETE_NONCE_FIELD  = 'baf_alert_delete_nonce';
+	public const STATUS_QUERY_ARG    = 'baf_alert_status';
 
 	private const STATUS_SAVED           = 'saved';
 	private const STATUS_UPDATED         = 'updated';
@@ -130,6 +132,13 @@ final class Flight_Alert_Intent_Handler {
 	public static function handle_delete(): void {
 		$data         = self::request_data();
 		$redirect_url = self::redirect_url( self::url_field( $data, 'baf_alert_redirect' ) );
+
+		if ( 'POST' !== self::request_method() ) {
+			self::redirect_with_status( $redirect_url, self::STATUS_DELETE_INVALID );
+		}
+
+		check_admin_referer( self::DELETE_NONCE_ACTION, self::DELETE_NONCE_FIELD );
+
 		$alert_id     = absint( self::field( $data, 'baf_alert_id' ) );
 		$token        = self::field( $data, 'baf_alert_token' );
 		$result       = ( new Flight_Alert_Service() )->delete_by_token( $alert_id, $token );

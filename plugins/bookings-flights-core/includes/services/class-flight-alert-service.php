@@ -161,21 +161,25 @@ final class Flight_Alert_Service {
 	}
 
 	public function delete_by_token( int $alert_id, string $token ): bool|\WP_Error {
-		if ( $alert_id <= 0 || Post_Type_Registrar::TRAVEL_ALERT !== get_post_type( $alert_id ) ) {
-			return new \WP_Error( 'baf_alert_delete_invalid', __( 'Alert could not be found.', 'bookings-flights-core' ) );
-		}
-
-		$expected = $this->delete_token( $alert_id );
-		$token    = preg_replace( '/[^a-f0-9]/', '', strtolower( $token ) );
-		$token    = is_string( $token ) ? $token : '';
-
-		if ( '' === $expected || '' === $token || ! hash_equals( $expected, $token ) ) {
+		if ( ! $this->is_valid_delete_token( $alert_id, $token ) ) {
 			return new \WP_Error( 'baf_alert_delete_invalid', __( 'Alert delete link is invalid.', 'bookings-flights-core' ) );
 		}
 
 		$deleted = wp_delete_post( $alert_id, true );
 
 		return null !== $deleted ? true : new \WP_Error( 'baf_alert_delete_failed', __( 'Alert could not be deleted.', 'bookings-flights-core' ) );
+	}
+
+	public function is_valid_delete_token( int $alert_id, string $token ): bool {
+		if ( $alert_id <= 0 || Post_Type_Registrar::TRAVEL_ALERT !== get_post_type( $alert_id ) ) {
+			return false;
+		}
+
+		$expected = $this->delete_token( $alert_id );
+		$token    = preg_replace( '/[^a-f0-9]/', '', strtolower( $token ) );
+		$token    = is_string( $token ) ? $token : '';
+
+		return '' !== $expected && '' !== $token && hash_equals( $expected, $token );
 	}
 
 	private function send_followup_email( int $alert_id ): bool|\WP_Error {
@@ -228,7 +232,7 @@ final class Flight_Alert_Service {
 			),
 			home_url( '/flights/' )
 		);
-		$delete_url = $this->delete_url( $alert_id );
+		$delete_url = $this->delete_confirmation_url( $alert_id );
 
 		return implode(
 			"\n\n",
@@ -258,14 +262,14 @@ final class Flight_Alert_Service {
 		);
 	}
 
-	private function delete_url( int $alert_id ): string {
+	public function delete_confirmation_url( int $alert_id ): string {
 		return add_query_arg(
 			array(
-				'action'          => 'baf_delete_flight_alert',
-				'baf_alert_id'    => $alert_id,
-				'baf_alert_token' => $this->delete_token( $alert_id ),
+				'baf_alert_status' => 'confirm_delete',
+				'baf_alert_id'     => $alert_id,
+				'baf_alert_token'  => $this->delete_token( $alert_id ),
 			),
-			admin_url( 'admin-post.php' )
+			home_url( '/flights/' )
 		);
 	}
 

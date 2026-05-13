@@ -138,6 +138,6 @@ Affected area: `/saved-trips/`, `baf/v1/saved-trips`, private `trip_plan` saved-
 
 Current issue: P19.1 added the WordPress-owned saved-trip board, member save/list/resume/update/delete REST workflow, anonymous sign-in handoff, minimized saved-trip metadata, and browser-verified desktop/mobile UI. P19.2 finalized local alert intent limits, dedupe, queued confirmation/manage email, and signed alert deletion. No app-owned P19.1 or P19.2 blocker remains after the local gates. WordPress personal-data exporter/eraser hooks are still deferred to P19.3, where user data export/delete behavior is the explicit child issue.
 
-Workaround: Use `/saved-trips/` for immediate member-owned saved-trip deletion and the alert email delete link for immediate alert deletion. Keep export/erase integration tracked for P19.3 before launch-readiness completion.
+Workaround: Use `/saved-trips/` for immediate member-owned saved-trip deletion and the alert email delete link to open the nonce-confirmed alert deletion form. Keep export/erase integration tracked for P19.3 before launch-readiness completion.
 
 Planned fix phase: Continue with P19.3 resume/export/erase behavior after `ONE-121` is reviewed, merged, and synced.
