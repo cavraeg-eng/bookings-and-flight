@@ -78,7 +78,7 @@ function bookings_and_flights_product_nav_items() {
 		),
 		array(
 			'label' => __( 'Trip Planner', 'bookings_and_flights' ),
-			'url'   => home_url( '/#trip-planner' ),
+			'url'   => home_url( '/trip-planner/' ),
 		),
 		array(
 			'label' => __( 'Saved Trips', 'bookings_and_flights' ),

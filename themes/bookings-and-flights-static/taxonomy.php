@@ -96,8 +96,8 @@ $archive_links = array(
 	),
 	array(
 		'label' => __( 'Planner', 'bookings_and_flights' ),
-		'copy'  => __( 'The AI planner entry remains a local placeholder until a later phase activates provider-safe generation.', 'bookings_and_flights' ),
-		'url'   => home_url( '/#trip-planner' ),
+		'copy'  => __( 'The AI planner turns trip intent into editable briefs without booking, publishing, or executing provider searches.', 'bookings_and_flights' ),
+		'url'   => home_url( '/trip-planner/' ),
 	),
 );
 

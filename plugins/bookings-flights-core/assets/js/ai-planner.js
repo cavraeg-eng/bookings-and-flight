@@ -1,0 +1,239 @@
+(function () {
+	'use strict';
+
+	const config = window.bafAiPlanner || {};
+	const form = document.querySelector('[data-baf-ai-planner-form]');
+
+	if (!form) {
+		return;
+	}
+
+	const status = document.querySelector('[data-baf-ai-planner-status]');
+	const empty = document.querySelector('[data-baf-ai-planner-empty]');
+	const success = document.querySelector('[data-baf-ai-planner-success]');
+	const run = document.querySelector('[data-baf-ai-planner-run]');
+	const title = document.querySelector('[data-baf-ai-planner-title]');
+	const summary = document.querySelector('[data-baf-ai-planner-summary]');
+	const brief = document.querySelector('[data-baf-ai-planner-brief]');
+	const days = document.querySelector('[data-baf-ai-planner-days]');
+	const opportunities = document.querySelector('[data-baf-ai-planner-opportunities]');
+	const disclaimer = document.querySelector('[data-baf-ai-planner-disclaimer]');
+	const submit = form.querySelector('button[type="submit"]');
+	const daysInput = form.querySelector('[name="days"]');
+	const departInput = form.querySelector('[name="departure_date"]');
+	const returnInput = form.querySelector('[name="return_date"]');
+
+	const clamp = (value, min, max) => Math.max(min, Math.min(max, Number.parseInt(value, 10) || min));
+	const text = (value, fallback = '') => String(value || fallback).trim();
+
+	const setStatus = (message, type) => {
+		status.textContent = message || '';
+		status.dataset.state = type || '';
+	};
+
+	const setLoading = (isLoading) => {
+		form.classList.toggle('is-loading', isLoading);
+		submit.disabled = isLoading || !config.canRunAi;
+	};
+
+	const calculateDaysFromDates = () => {
+		if (!departInput.value || !returnInput.value) {
+			return;
+		}
+
+		const depart = new Date(`${departInput.value}T00:00:00`);
+		const back = new Date(`${returnInput.value}T00:00:00`);
+
+		if (Number.isNaN(depart.getTime()) || Number.isNaN(back.getTime()) || back <= depart) {
+			return;
+		}
+
+		const diff = Math.round((back - depart) / 86400000);
+		daysInput.value = String(clamp(diff, 1, 21));
+	};
+
+	const makePayload = () => {
+		const data = new FormData(form);
+		const prompt = text(data.get('prompt'));
+		const destination = text(data.get('destination'));
+		const departureDate = text(data.get('departure_date'));
+		const returnDate = text(data.get('return_date'));
+		const travelers = clamp(data.get('travelers'), 1, 12);
+		const dayCount = clamp(data.get('days'), 1, 21);
+		const preferenceParts = [
+			prompt,
+			departureDate ? `Departure date: ${departureDate}` : '',
+			returnDate ? `Return date: ${returnDate}` : '',
+			`Travelers: ${travelers}`,
+		].filter(Boolean);
+
+		return {
+			prompt,
+			destination,
+			origin: text(data.get('origin')),
+			departure_date: departureDate,
+			return_date: returnDate,
+			days: dayCount,
+			travelers,
+			travel_style: text(data.get('travel_style'), 'balanced'),
+			budget: text(data.get('budget')),
+			preferences: preferenceParts.join('\n'),
+			external_ai_consent: data.get('external_ai_consent') === '1',
+			save: false,
+		};
+	};
+
+	const clearNode = (node) => {
+		while (node.firstChild) {
+			node.removeChild(node.firstChild);
+		}
+	};
+
+	const appendPair = (label, value) => {
+		if (!value) {
+			return;
+		}
+
+		const term = document.createElement('dt');
+		const detail = document.createElement('dd');
+		term.textContent = label;
+		detail.textContent = value;
+		brief.append(term, detail);
+	};
+
+	const renderDays = (items) => {
+		clearNode(days);
+
+		if (!Array.isArray(items) || items.length === 0) {
+			return;
+		}
+
+		const heading = document.createElement('h3');
+		heading.textContent = 'Planning outline';
+		days.appendChild(heading);
+
+		items.forEach((item) => {
+			const section = document.createElement('article');
+			const itemTitle = document.createElement('h4');
+			const itemSummary = document.createElement('p');
+			const list = document.createElement('ul');
+
+			section.className = 'baf-ai-planner__day';
+			itemTitle.textContent = `Day ${item.day || ''}: ${text(item.title, 'Untitled day')}`;
+			itemSummary.textContent = text(item.summary);
+
+			(item.activities || []).forEach((activity) => {
+				const entry = document.createElement('li');
+				entry.textContent = `${text(activity.time_of_day, 'flexible')}: ${text(activity.title)}${activity.location ? ` (${activity.location})` : ''}`;
+				list.appendChild(entry);
+			});
+
+			section.append(itemTitle, itemSummary, list);
+			days.appendChild(section);
+		});
+	};
+
+	const renderOpportunities = (items) => {
+		clearNode(opportunities);
+
+		if (!Array.isArray(items) || items.length === 0) {
+			return;
+		}
+
+		const heading = document.createElement('h3');
+		const list = document.createElement('ul');
+		heading.textContent = 'Recommendation-only handoffs';
+
+		items.forEach((item) => {
+			const entry = document.createElement('li');
+			entry.textContent = `${text(item.label, 'Travelpayouts opportunity')} - ${text(item.vertical, 'travel')} - ${text(item.status, 'not_executed')}`;
+			list.appendChild(entry);
+		});
+
+		opportunities.append(heading, list);
+	};
+
+	const renderResult = (payload) => {
+		const itinerary = payload.itinerary || {};
+		const tripBrief = payload.trip_brief || {};
+
+		clearNode(brief);
+		empty.hidden = true;
+		success.hidden = false;
+		run.textContent = `${text(payload.mode, 'demo')} mode - ${text(payload.provider, 'demo')} - Run ${text(payload.run_id).slice(0, 8)}`;
+		title.textContent = text(itinerary.title, 'Trip brief');
+		summary.textContent = text(itinerary.summary);
+
+		appendPair('Destination', tripBrief.destination);
+		appendPair('Origin', tripBrief.origin);
+		appendPair('Dates', [tripBrief.departure_date, tripBrief.return_date].filter(Boolean).join(' to '));
+		appendPair('Days', tripBrief.days ? `${tripBrief.days}` : '');
+		appendPair('Travelers', tripBrief.travelers ? `${tripBrief.travelers}` : '');
+		appendPair('Style', tripBrief.travel_style);
+		appendPair('Budget', tripBrief.budget || 'Flexible');
+		appendPair('External data', tripBrief.external_data_sent ? 'Sent to configured live provider after consent' : 'Not sent to a live provider');
+
+		renderDays(itinerary.days);
+		renderOpportunities(itinerary.affiliate_opportunities);
+		disclaimer.textContent = text(itinerary.disclaimer);
+	};
+
+	const readError = async (response) => {
+		try {
+			const body = await response.json();
+			return body && body.message ? body.message : config.strings.genericError;
+		} catch (error) {
+			return config.strings.genericError;
+		}
+	};
+
+	departInput.addEventListener('change', calculateDaysFromDates);
+	returnInput.addEventListener('change', calculateDaysFromDates);
+
+	form.addEventListener('submit', async (event) => {
+		event.preventDefault();
+
+		if (!config.canRunAi) {
+			setStatus(config.strings.capabilityRequired, 'error');
+			return;
+		}
+
+		const payload = makePayload();
+
+		if (!payload.destination || !payload.prompt) {
+			setStatus('Add a prompt and destination before creating a trip brief.', 'error');
+			return;
+		}
+
+		if (config.mode === 'live' && !payload.external_ai_consent) {
+			setStatus(config.strings.consentRequired, 'error');
+			return;
+		}
+
+		setLoading(true);
+		setStatus(config.strings.loading, 'loading');
+
+		try {
+			const response = await fetch(config.endpoint, {
+				method: 'POST',
+				credentials: 'same-origin',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-WP-Nonce': config.nonce,
+				},
+				body: JSON.stringify(payload),
+			});
+
+			if (!response.ok) {
+				throw new Error(await readError(response));
+			}
+
+			renderResult(await response.json());
+			setStatus('Trip brief ready. Review every field before using it in public content.', 'success');
+		} catch (error) {
+			setStatus(error.message || config.strings.genericError, 'error');
+		} finally {
+			setLoading(false);
+		}
+	});
+})();

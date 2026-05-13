@@ -44,8 +44,8 @@ $planner_url       = isset( $args['planner_url'] ) ? esc_url( (string) $args['pl
 			</a>
 			<a class="destination-guide-link-card" href="<?php echo esc_url( $planner_url ); ?>">
 				<span><?php esc_html_e( 'AI planner', 'bookings_and_flights' ); ?></span>
-				<strong><?php esc_html_e( 'Review planner placeholder', 'bookings_and_flights' ); ?></strong>
-				<small><?php esc_html_e( 'AI planning remains a later-phase, consent-gated workflow and does not auto-publish or book.', 'bookings_and_flights' ); ?></small>
+				<strong><?php esc_html_e( 'Open AI planner', 'bookings_and_flights' ); ?></strong>
+				<small><?php esc_html_e( 'AI planning is consent-gated and does not auto-publish, book, or execute provider searches.', 'bookings_and_flights' ); ?></small>
 			</a>
 		</div>
 	</div>

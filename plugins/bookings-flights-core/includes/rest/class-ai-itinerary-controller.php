@@ -66,6 +66,24 @@ final class AI_Itinerary_Controller extends Base_Controller {
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => array( $this, 'validate_optional_scalar' ),
 			),
+			'prompt'         => array(
+				'type'              => 'string',
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_textarea_field',
+				'validate_callback' => array( $this, 'validate_optional_scalar' ),
+			),
+			'departure_date' => array(
+				'type'              => 'string',
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( $this, 'validate_optional_date' ),
+			),
+			'return_date'    => array(
+				'type'              => 'string',
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( $this, 'validate_optional_date' ),
+			),
 			'days'           => array(
 				'type'              => 'integer',
 				'default'           => 3,
@@ -73,6 +91,14 @@ final class AI_Itinerary_Controller extends Base_Controller {
 				'maximum'           => 21,
 				'sanitize_callback' => array( Request_Parameters::class, 'sanitize_positive_integer' ),
 				'validate_callback' => array( $this, 'validate_days' ),
+			),
+			'travelers'      => array(
+				'type'              => 'integer',
+				'default'           => 2,
+				'minimum'           => 1,
+				'maximum'           => 12,
+				'sanitize_callback' => array( Request_Parameters::class, 'sanitize_positive_integer' ),
+				'validate_callback' => array( $this, 'validate_travelers' ),
 			),
 			'travel_style'   => array(
 				'type'              => 'string',
@@ -104,6 +130,12 @@ final class AI_Itinerary_Controller extends Base_Controller {
 				'sanitize_callback' => 'rest_sanitize_boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
+			'external_ai_consent' => array(
+				'type'              => 'boolean',
+				'default'           => false,
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
 		);
 	}
 
@@ -117,6 +149,18 @@ final class AI_Itinerary_Controller extends Base_Controller {
 
 	public function validate_days( mixed $value ): bool {
 		return is_numeric( $value ) && (int) $value >= 1 && (int) $value <= 21;
+	}
+
+	public function validate_travelers( mixed $value ): bool {
+		return is_numeric( $value ) && (int) $value >= 1 && (int) $value <= 12;
+	}
+
+	public function validate_optional_date( mixed $value ): bool {
+		if ( null === $value || '' === $value ) {
+			return true;
+		}
+
+		return is_scalar( $value ) && 1 === preg_match( '/^\d{4}-\d{2}-\d{2}$/', (string) $value );
 	}
 
 	public function validate_non_negative_integer( mixed $value ): bool {

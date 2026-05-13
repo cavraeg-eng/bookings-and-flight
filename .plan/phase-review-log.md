@@ -2581,3 +2581,47 @@ Research consulted:
 - FTC Business Guidance: Disclosures 101 for Social Media Influencers.
 
 Decision: Phase 17 local review gate passed. Phase 18 can start after this PR is reviewed by Codex, merged, and Linear `ONE-112` is synced to Done.
+
+## Phase 18.1 Review - 2026-05-13
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Linear issue: `ONE-113`
+
+Scope reviewed: `ONE-113` AI planner page and prompt-to-trip brief flow. Reviewed Phase 18 objective, Phase 17 completion baseline, existing AI itinerary REST/service/provider contracts, settings and consent contracts, Travelpayouts handoff boundary, public planner CTAs, and runtime browser validation requirements.
+
+Acceptance criteria result: Passed locally for the PR candidate. `/trip-planner/` now renders a real WordPress-owned AI planner page. Editors with `run_baf_ai` can submit a natural-language trip prompt, destination, dates, day count, traveler count, style, budget, and per-request external AI consent choice. Demo mode returns a structured editable trip brief and day-by-day itinerary without live credentials. Affiliate opportunities remain recommendations only and are not executed.
+
+Security review: Passed locally. The page localizes only a normal WordPress REST nonce, capability booleans, consent state, mode, endpoint URL, and safe UI strings. The JS uses `textContent`/created nodes for rendered output, requires capability state before submit, and blocks live-mode client submissions without the consent checkbox. The service blocks live provider selection unless the per-request `external_ai_consent` value is true. No provider API keys, raw prompts, bearer tokens, postback secrets, checkout, payment, booking, auto-publish, or live inventory behavior is rendered.
+
+REST permission review: Passed locally. `POST /wp-json/baf/v1/ai/itinerary` remains protected by `run_baf_ai`; unauthenticated requests return `401`. The new prompt/date/traveler/request-consent parameters have explicit sanitization and validation callbacks. Live mode without per-request consent returns `403:baf_ai_request_consent_required` before provider selection.
+
+Database/migration review: Passed for scope. No schema migration, custom table change, destructive data change, or new provider inventory storage was added. Existing AI session logging stores request/output hashes and sanitized summaries/errors only. The public planner sends `save=false`; draft trip-plan saving remains an existing protected REST capability path for later workflow slices.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser path was attempted first but reported no active browser pane, so Playwright Chromium was used. Desktop, keyboard-focus, success, and mobile screenshots confirmed the route loads at `http://bookings-and-flights.local/trip-planner/`, focuses the prompt textarea through keyboard navigation, submits a demo brief, renders a structured result, avoids horizontal overflow, and does not echo the raw prompt in the visible result.
+
+Regression review: Existing demo/live AI provider boundaries, schema validation, session logging, draft-save behavior, Travelpayouts/partner handoff boundaries, Phase 17 content surfaces, and transient Flights/Hotels SEO behavior remain intact. Existing header, mobile nav, homepage, destination, and taxonomy planner CTAs now route to `/trip-planner/` instead of the old homepage placeholder anchor.
+
+Validation performed: PHP syntax checks for changed PHP/template files; `node --check` for `ai-planner.js`; file-size checks; WP-CLI REST registration, unauthenticated permission, demo happy path, and live-missing-request-consent smokes; HTTP route smoke for `/trip-planner/`; Playwright Chromium screenshot and keyboard navigation review at desktop and mobile widths; console/request/source checks; raw-prompt echo check; cleanup of temporary admin user; `git diff --check`.
+
+Bugs found: Existing planner CTAs in the static theme still pointed to the old `/#trip-planner` placeholder even after the real planner route was implemented. The first strict browser pass also found the consent checkbox input itself was under the 40px visible target threshold; a source-secret regex separately matched WordPress core's built-in `luminous-dusk` gradient token as a false positive.
+
+Bugs fixed: Header desktop CTA, mobile CTA, homepage planner cards, destination planner module URL/text, taxonomy planner card, and fallback product nav now point to `/trip-planner/`; taxonomy copy no longer describes the planner as a later-phase placeholder. The planner consent checkbox is now a 44px control, and the browser source scan now distinguishes real secret-token shapes from WordPress preset names.
+
+Bugs deferred: No app-owned P18.1 blocker remains after the local gate. The Codex in-app Browser pane was unavailable in this thread, so the required runtime review used Playwright Chromium fallback evidence. Saved trip board, alert CTAs, approval workflow for AI opportunity handoff, and broader Phase 18 final review remain later Phase 18/19 scope.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`, `.plan/phase-18-ai-planner-brief-flow.md`.
+
+Research consulted:
+- WordPress REST API Handbook: Adding Custom Endpoints.
+- WordPress Plugin Security Handbook.
+- WordPress Common APIs Handbook: Nonces.
+- WordPress Settings API Handbook.
+- AI SDK Core: Generating Structured Data.
+- AI SDK Core: Tools and Tool Calling.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Affiliate programs tools.
+
+Decision: P18.1 can move through Codex PR review and merge if the thread-aware review check stays clear and final validation remains passing.

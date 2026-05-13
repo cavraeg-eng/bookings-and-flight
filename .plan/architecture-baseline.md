@@ -104,6 +104,8 @@ Phase 12.5 defines structured desktop, tablet, and mobile wireframes for home, f
 
 Phase 12.6 records the final Phase 12 review, runtime screenshot, keyboard navigation, and documentation gate. The runtime keyboard follow-up keeps Travelpayouts White Label mount focus visible and routes keyboard hotel handoff through the visible Trip.com link instead of the provider iframe. Phase 13 can start from the documented IA, design system, CSS ownership, widget-frame, page-wireframe, known-issue, and validation baselines without rediscovering those decisions.
 
+Phase 18.1 starts the AI planner surface on a WordPress-owned route at `/trip-planner/`. The route is registered by `BAF\Core\Frontend\AI_Planner_Page` with query var `baf_ai_planner`, template `plugins/bookings-flights-core/templates/ai-planner-page.php`, route-scoped assets `baf-ai-planner`, and one-time rewrite invalidation tracked by option `baf_ai_planner_rewrite_version`. Header, mobile nav, homepage, destination, and taxonomy planner CTAs should point to `/trip-planner/` once this route exists. The page may call the protected AI itinerary REST endpoint, but it must not publish, book, pay, execute provider searches, or store live inventory.
+
 ## REST Namespace
 
 | Contract | Value |
@@ -405,6 +407,7 @@ Dedicated primitive capabilities are mapped directly by `BAF\Core\Capabilities\C
 | `BAF\Core\Services\Affiliate_Link_Service` | Builds Travelpayouts affiliate cards, SubIDs, disclosures, and signed handoff URLs |
 | `BAF\Core\Services\Click_Tracking_Service` | Gates optional click tracking before repository writes |
 | `BAF\Core\Services\AI_Itinerary_Service` | Orchestrates provider selection, schema validation, run logging, and optional draft trip-plan save |
+| `BAF\Core\Frontend\AI_Planner_Page` | Registers the `/trip-planner/` frontend route, route-scoped planner assets, safe localized REST configuration, and the planner template override |
 | `BAF\Core\Services\Travelpayouts_Widget_Registry_Service` | Stores approved Travelpayouts placement metadata, sanitizes private embed references, gates admin reads/writes by affiliate/settings capability, preserves malformed stored placements during normalization, exposes safe public placement metadata, and gives trusted server-side renderers active configured embed data |
 | `BAF\Core\Admin\Widget_Placements_Page` | Renders the capability-gated Travelpayouts placement management screen and handles nonce-protected admin-post save/delete actions |
 | `BAF\Core\Admin\Widget_Placement_Form` | Renders escaped placement form controls and sanitizes posted placement payloads before registry writes |
@@ -430,19 +433,25 @@ Request parameters:
 
 - `destination`: required sanitized text, max 120 characters.
 - `origin`: optional sanitized text.
+- `prompt`: optional sanitized textarea, max 1200 characters. The frontend planner requires it before submitting the prompt-to-brief flow.
+- `departure_date`: optional `YYYY-MM-DD` date string.
+- `return_date`: optional `YYYY-MM-DD` date string.
 - `days`: integer from `1` to `21`, default `3`.
+- `travelers`: integer from `1` to `12`, default `2`.
 - `travel_style`: optional sanitized text.
 - `budget`: optional sanitized text.
 - `preferences`: optional sanitized textarea.
 - `source_post_id`: optional non-negative integer.
 - `save`: optional boolean. When true, the validated itinerary is saved as a `draft` `trip_plan`; it is never published automatically.
+- `external_ai_consent`: optional boolean. In live mode this must be true for the request before provider selection can occur.
 
 Response behavior:
 
 - Demo mode (`baf_ai_settings.mode = demo`) generates local deterministic itinerary drafts without external calls or credentials.
-- Live mode requires `baf_ai_settings.provider`, `baf_ai_settings.api_key`, and `baf_consent_settings.allow_external_ai`.
+- Live mode requires `baf_ai_settings.provider`, `baf_ai_settings.api_key`, `baf_consent_settings.allow_external_ai`, and per-request `external_ai_consent`.
 - Current live PHP adapter support is `openai`; unsupported configured providers fail safely without sending data externally.
 - All AI outputs are validated by `BAF\Core\AI\Itinerary_Schema` before response or draft save.
+- Responses include a sanitized `trip_brief` with destination, origin, dates, day count, traveler count, style, budget, mode, and whether data was sent externally. Raw prompt text is not returned in the planner response.
 - Affiliate/provider tool opportunities are recommendations only: `status = not_executed`, `requires_approval = true`; no provider search, link creation, booking, or publishing action is executed by AI.
 - Provider errors return safe WordPress errors and do not expose API keys, raw prompts, raw provider payloads, or secrets.
 - `bf_ai_sessions` records hashed request/output metadata and sanitized summaries/errors only.
@@ -486,13 +495,13 @@ Implemented handles:
 
 - `baf-admin`
 - `baf-frontend`
+- `baf-ai-planner`
 
 Planned handles:
 
 - `baf-admin-settings`
 - `baf-admin-reports`
 - `baf-search`
-- `baf-ai-planner`
 - `baf-travel-cards`
 
 Existing theme/plugin handles beginning with `bookings_and_flights-` must not be renamed without review.
@@ -575,6 +584,7 @@ These are planning labels from the 2026-05-09 architecture review, not final cla
 - Content manager field pipeline: P17.5 adds tracked core editor meta boxes for `destination`, `route`, and `travel_deal` guide-module fields so editors no longer need raw `baf_*` custom-field keys for Phase 17 page families. The legacy local `bookings-and-flights-content-manager` plugin still needs a split along field rendering, field persistence, media portability, schema export/import, and admin notice seams before it becomes the tracked field system for large CPT expansion.
 - Accessibility, SEO, and disclosure gate: P17.6 confirms Phase 17 public content surfaces remain WordPress-owned SEO/editorial pages with visible affiliate/provider boundaries, 44px minimum visible interactive targets on reviewed controls, labelled provider iframes where the wrapper can safely apply labels, and noindex/canonical behavior for transient Flights and Hotels query URLs. This does not create new provider contracts, result storage, booking, payment, or custom inventory ownership.
 - Phase 17 final gate: P17.7 closes the destination, route, deal, taxonomy, and editor field baseline for Phase 18. WordPress owns editable SEO/editorial content and internal links; Travelpayouts or partner providers own live search results, filters, fares, hotel availability, booking, payment, changes, and support.
+- Phase 18 AI planner entry: P18.1 adds the real `/trip-planner/` route and prompt-to-trip-brief flow while keeping AI opportunities recommendation-only and blocking live provider requests without saved plus per-request consent.
 
 ## Provider Interfaces
 

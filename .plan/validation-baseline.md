@@ -1060,3 +1060,32 @@ For documentation-only changes:
 - Confirm required files exist.
 - Confirm phase statuses and architecture contracts are consistent.
 - No PHP/TypeScript runtime validation is required unless code also changes.
+
+## Phase 18 AI Planner Validation
+
+Use this when changing `/trip-planner/`, AI planner assets, or `POST /wp-json/baf/v1/ai/itinerary` prompt-to-brief behavior.
+
+```bash
+php -l plugins/bookings-flights-core/includes/ai/class-demo-ai-provider.php
+php -l plugins/bookings-flights-core/includes/ai/class-openai-provider.php
+php -l plugins/bookings-flights-core/includes/class-activator.php
+php -l plugins/bookings-flights-core/includes/frontend/class-ai-planner-page.php
+php -l plugins/bookings-flights-core/includes/frontend/class-frontend-manager.php
+php -l plugins/bookings-flights-core/includes/rest/class-ai-itinerary-controller.php
+php -l plugins/bookings-flights-core/includes/services/class-ai-itinerary-service.php
+php -l plugins/bookings-flights-core/templates/ai-planner-page.php
+php -l themes/bookings-and-flights-static/functions.php
+php -l themes/bookings-and-flights-static/header.php
+php -l themes/bookings-and-flights-static/page-home.php
+php -l themes/bookings-and-flights-static/single-destination.php
+php -l themes/bookings-and-flights-static/taxonomy.php
+php -l themes/bookings-and-flights-static/template-parts/destination-planning-modules.php
+node --check plugins/bookings-flights-core/assets/js/ai-planner.js
+wc -l changed PHP/CSS/JS files
+wp eval REST registration, unauthenticated permission, demo happy path, and live missing per-request consent smoke for `/baf/v1/ai/itinerary`
+curl -s -o /tmp/one113-trip-planner.html -w '%{http_code} %{url_effective}\n' "http://bookings-and-flights.local/trip-planner/"
+node Playwright Chromium screenshot and keyboard review for `/trip-planner/` desktop, success, and mobile states
+git diff --check
+```
+
+P18.1 local result on 2026-05-13: PHP syntax passed for the changed core AI, frontend, REST, service, template, and static-theme PHP files. `node --check` passed for `plugins/bookings-flights-core/assets/js/ai-planner.js`. Changed source files remained at or below the 600-line guideline; `themes/bookings-and-flights-static/functions.php` stayed exactly 600 lines and should not receive substantial future additions without a split. WP-CLI REST smoke confirmed `/baf/v1/ai/itinerary` is registered, unauthenticated create requests return `401`, demo-mode planner requests return `201` with mode `demo` and a 4-day itinerary, and live mode without per-request consent returns `403:baf_ai_request_consent_required` before provider selection. `bookings-flights-core` deactivate/reactivate passed with known WP-CLI/Travelpayouts PHP 8.5 deprecation noise. `curl` returned `200` for `/trip-planner/`. Playwright Chromium evidence is saved at `/tmp/one113-ai-planner-browser-report.json`; screenshots include `/tmp/one113-ai-planner-empty-desktop.png`, `/tmp/one113-ai-planner-keyboard.png`, `/tmp/one113-ai-planner-success-desktop.png`, and `/tmp/one113-ai-planner-success-mobile.png`. The final runtime pass returned `status=pass` and `findingCount=0`, confirming the page title and URL, meaningful nonblank planner content, no framework overlay, no relevant app-owned console errors or failed responses, no source-secret matches, no sub-40px visible controls, no horizontal overflow on desktop or mobile, keyboard focus on `TEXTAREA#baf_ai_prompt`, successful result status `Trip brief ready. Review every field before using it in public content.`, four rendered itinerary days, two recommendation-only handoff opportunities, header/mobile CTAs pointing to `/trip-planner/`, and no raw prompt echo in the rendered result. The first browser pass found a 22px consent checkbox input and a false positive source-secret regex match on WordPress core's `luminous-dusk` preset name; the checkbox target was enlarged and the scan was narrowed to realistic secret-token shapes before the final pass. The Codex in-app Browser path was attempted first but had no active pane available, so Playwright Chromium was used for the required browser screenshots and keyboard review. The temporary admin user `codex_one113_ai_planner` was deleted after validation.

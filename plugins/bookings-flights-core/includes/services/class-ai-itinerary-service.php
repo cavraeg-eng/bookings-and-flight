@@ -12,6 +12,7 @@ use BAF\Core\AI\Provider_Factory;
 use BAF\Core\Capabilities\Capability_Manager;
 use BAF\Core\Post_Types\Post_Type_Registrar;
 use BAF\Core\Repositories\AI_Session_Repository;
+use BAF\Core\Settings\Settings_Manager;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -26,13 +27,19 @@ final class AI_Itinerary_Service {
 	}
 
 	public function generate( array $request ): array|\WP_Error {
+		$normalized = $this->normalize_request( $request );
+		$settings   = Settings_Manager::get_ai();
+
+		if ( 'live' === sanitize_key( (string) $settings['mode'] ) && true !== $normalized['external_ai_consent'] ) {
+			return new \WP_Error( 'baf_ai_request_consent_required', __( 'Confirm external AI consent before sending planner details to a live provider.', 'bookings-flights-core' ), array( 'status' => 403 ) );
+		}
+
 		$provider = Provider_Factory::make();
 
 		if ( is_wp_error( $provider ) ) {
 			return $provider;
 		}
 
-		$normalized = $this->normalize_request( $request );
 		$session    = $this->sessions->start(
 			array(
 				'provider'       => $provider->provider_id(),
@@ -88,6 +95,7 @@ final class AI_Itinerary_Service {
 			'run_id'       => (string) $session['run_uuid'],
 			'mode'         => $provider->mode(),
 			'provider'     => $provider->provider_id(),
+			'trip_brief'   => $this->trip_brief( $normalized, $provider->mode() ),
 			'itinerary'    => $itinerary,
 			'trip_plan_id' => $saved_post_id,
 			'saved_status' => $saved_post_id > 0 ? 'draft' : '',
@@ -96,14 +104,40 @@ final class AI_Itinerary_Service {
 
 	private function normalize_request( array $request ): array {
 		return array(
-			'destination'    => substr( sanitize_text_field( (string) ( $request['destination'] ?? '' ) ), 0, 120 ),
-			'origin'         => substr( sanitize_text_field( (string) ( $request['origin'] ?? '' ) ), 0, 120 ),
-			'days'           => max( 1, min( 21, absint( $request['days'] ?? 3 ) ) ),
-			'travel_style'   => substr( sanitize_text_field( (string) ( $request['travel_style'] ?? '' ) ), 0, 80 ),
-			'budget'         => substr( sanitize_text_field( (string) ( $request['budget'] ?? '' ) ), 0, 80 ),
-			'preferences'    => substr( sanitize_textarea_field( (string) ( $request['preferences'] ?? '' ) ), 0, 1200 ),
-			'source_post_id' => absint( $request['source_post_id'] ?? 0 ),
-			'save'           => true === (bool) ( $request['save'] ?? false ),
+			'destination'          => substr( sanitize_text_field( (string) ( $request['destination'] ?? '' ) ), 0, 120 ),
+			'origin'               => substr( sanitize_text_field( (string) ( $request['origin'] ?? '' ) ), 0, 120 ),
+			'prompt'               => substr( sanitize_textarea_field( (string) ( $request['prompt'] ?? '' ) ), 0, 1200 ),
+			'departure_date'       => $this->normalize_date( (string) ( $request['departure_date'] ?? '' ) ),
+			'return_date'          => $this->normalize_date( (string) ( $request['return_date'] ?? '' ) ),
+			'days'                 => max( 1, min( 21, absint( $request['days'] ?? 3 ) ) ),
+			'travelers'            => max( 1, min( 12, absint( $request['travelers'] ?? 2 ) ) ),
+			'travel_style'         => substr( sanitize_text_field( (string) ( $request['travel_style'] ?? '' ) ), 0, 80 ),
+			'budget'               => substr( sanitize_text_field( (string) ( $request['budget'] ?? '' ) ), 0, 80 ),
+			'preferences'          => substr( sanitize_textarea_field( (string) ( $request['preferences'] ?? '' ) ), 0, 1200 ),
+			'source_post_id'       => absint( $request['source_post_id'] ?? 0 ),
+			'save'                 => true === (bool) ( $request['save'] ?? false ),
+			'external_ai_consent'  => true === (bool) ( $request['external_ai_consent'] ?? false ),
+		);
+	}
+
+	private function normalize_date( string $value ): string {
+		$value = trim( sanitize_text_field( $value ) );
+
+		return 1 === preg_match( '/^\d{4}-\d{2}-\d{2}$/', $value ) ? $value : '';
+	}
+
+	private function trip_brief( array $request, string $mode ): array {
+		return array(
+			'destination'        => $request['destination'],
+			'origin'             => $request['origin'],
+			'departure_date'     => $request['departure_date'],
+			'return_date'        => $request['return_date'],
+			'days'               => $request['days'],
+			'travelers'          => $request['travelers'],
+			'travel_style'       => $request['travel_style'],
+			'budget'             => $request['budget'],
+			'mode'               => sanitize_key( $mode ),
+			'external_data_sent' => 'live' === sanitize_key( $mode ),
 		);
 	}
 
