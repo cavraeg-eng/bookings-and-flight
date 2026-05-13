@@ -2809,7 +2809,7 @@ Decision: P18.5 completed. PR #53 was reviewed by Codex with no major issues, ha
 
 Date: 2026-05-13
 
-Status: In Review
+Status: Completed
 
 Reviewer: Codex
 
@@ -2848,4 +2848,4 @@ Research consulted:
 - AI SDK Core: Generating Structured Data.
 - OpenAI Chat Completions API reference.
 
-Decision: P18.6 can move through Codex PR review and merge if the thread-aware review check stays clear and final validation remains passing. Keep Phase 18 overall `In Progress` until `ONE-119` completes.
+Decision: P18.6 completed. PR #54 was reviewed by Codex with no major issues, had no unresolved review threads, merged into `main` at `833f013cefafff5c6845774300de1a2386d1edf9`, and the feature branch was deleted/pruned. Keep Phase 18 overall `In Progress` until `ONE-119` completes.

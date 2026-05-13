@@ -4,7 +4,7 @@ Date: 2026-05-13
 
 Linear issue: `ONE-118`
 
-Status: In Review
+Status: Completed
 
 ## Scope
 
@@ -74,6 +74,10 @@ These were kept in the runtime report but classified outside app-owned BAF reque
 
 - The final Phase 18 review and documentation gate remains `ONE-119`.
 - Saved trips, alert follow-up, analytics, and release-readiness work remain Phase 19 scope.
+
+## Merge
+
+PR #54 was reviewed by Codex with no major issues, had no unresolved review threads, and merged into `main` on 2026-05-13 at `833f013cefafff5c6845774300de1a2386d1edf9`.
 
 Research consulted:
 - WordPress Plugin Security Handbook: https://developer.wordpress.org/plugins/security/
