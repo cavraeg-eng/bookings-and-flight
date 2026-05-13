@@ -1104,6 +1104,7 @@ What to check after future changes:
 
 - `/destinations/` renders published destination cards with readable taxonomy labels rather than numeric term IDs.
 - A destination single renders editable post content, taxonomy chips, destination facts, best-time/activity/seasonal modules, related destination links, and related route links or safe empty-state copy.
+- Related destination links require at least one shared `travel_region`, `travel_style`, or `travel_season` term; destinations without those taxonomy terms should show the empty-state copy instead of arbitrary links.
 - Destination-only meta keys `baf_destination_best_time`, `baf_destination_facts`, `baf_destination_activities`, and `baf_destination_seasonal` remain registered with `show_in_rest => false`, sanitization, and edit-meta authorization.
 - Destination guide flight and hotel links route to existing shell surfaces and do not claim live provider results inside WordPress.
 - Embedded hotel placements keep `surface="hotels"` and `channel="destination_single"` until the registry explicitly approves a destination surface.

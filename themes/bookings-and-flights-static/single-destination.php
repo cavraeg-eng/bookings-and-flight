@@ -217,6 +217,8 @@ get_header();
 		);
 		if ( ! empty( $related_destination_tax_query ) ) {
 			$related_destinations_args['tax_query'] = array_merge( array( 'relation' => 'OR' ), $related_destination_tax_query );
+		} else {
+			$related_destinations_args['post__in'] = array( 0 );
 		}
 		$related_destinations = new WP_Query( $related_destinations_args );
 
