@@ -4,7 +4,11 @@ Linear issue: `ONE-114`
 
 Branch: `codex/one-114-day-by-day-trip-plan-draft`
 
-Status: `In Review`
+Status: `Completed`
+
+PR: `https://github.com/cavraeg-eng/bookings-and-flight/pull/50`
+
+Merge commit: `f5c5a6530f5eed1b5645ee6b2fc0405d2f36fd17`
 
 ## Scope
 

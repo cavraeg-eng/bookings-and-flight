@@ -2630,7 +2630,7 @@ Decision: P18.1 can move through Codex PR review and merge if the thread-aware r
 
 Date: 2026-05-13
 
-Status: In Review
+Status: Completed
 
 Reviewer: Codex
 
@@ -2667,4 +2667,4 @@ Research consulted:
 - WordPress Code Reference: `wp_insert_post()`.
 - AI SDK Core: Generating Structured Data.
 
-Decision: P18.2 can move through Codex PR review and merge if final validation and thread-aware review checks stay clear.
+Decision: P18.2 completed. PR #50 was reviewed by Codex with no major issues, merged into `main` at `f5c5a6530f5eed1b5645ee6b2fc0405d2f36fd17`, and the feature branch was deleted/pruned.
