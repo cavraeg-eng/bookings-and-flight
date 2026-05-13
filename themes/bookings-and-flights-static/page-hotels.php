@@ -54,6 +54,16 @@ if ( file_exists( $hotels_css ) ) {
 	);
 }
 
+$hotel_guide_css = get_template_directory() . '/assets/css/hotel-guide.css';
+if ( file_exists( $hotel_guide_css ) ) {
+	wp_enqueue_style(
+		'bookings_and_flights-hotel-guide',
+		get_template_directory_uri() . '/assets/css/hotel-guide.css',
+		array( 'bookings_and_flights-hotels-surface' ),
+		filemtime( $hotel_guide_css )
+	);
+}
+
 $details = array();
 if ( '' !== $destination ) {
 	$details[] = array(
@@ -109,10 +119,25 @@ add_filter(
 	'body_class',
 	static function ( array $classes ): array {
 		$classes[] = 'search-surface-page';
+		$classes[] = 'hotel-guide-page';
 
 		return $classes;
 	}
 );
+
+$city_guides = new WP_Query(
+	array(
+		'post_type'      => 'destination',
+		'post_status'    => 'publish',
+		'posts_per_page' => 3,
+		'no_found_rows'  => true,
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+	)
+);
+
+$destinations_url = get_post_type_archive_link( 'destination' );
+$destinations_url = is_string( $destinations_url ) && '' !== $destinations_url ? $destinations_url : home_url( '/destinations/' );
 
 get_header();
 ?>
@@ -196,6 +221,66 @@ get_header();
 			</div>
 		</section>
 	</div>
+
+	<section class="hotel-guide-teaser" aria-labelledby="hotel-guide-teaser-title">
+		<div class="hotel-guide-teaser__inner">
+			<div class="hotel-guide-teaser__header">
+				<p class="hotel-guide-teaser__eyebrow"><?php esc_html_e( 'City hotel guides', 'bookings_and_flights' ); ?></p>
+				<h2 id="hotel-guide-teaser-title" class="hotel-guide-teaser__title"><?php esc_html_e( 'Editorial stay guides before live search', 'bookings_and_flights' ); ?></h2>
+				<p class="hotel-guide-teaser__copy"><?php esc_html_e( 'Use destination guides for neighborhoods, landmarks, family stays, luxury stays, and budget planning. Provider search handles live rates, map filters, booking, payment, changes, and support.', 'bookings_and_flights' ); ?></p>
+			</div>
+
+			<?php if ( $city_guides->have_posts() ) : ?>
+				<div class="hotel-guide-listing">
+					<?php
+					while ( $city_guides->have_posts() ) :
+						$city_guides->the_post();
+						$guide_id          = get_the_ID();
+						$guide_destination = function_exists( 'bookings_and_flights_destination_label_for_post' ) ? bookings_and_flights_destination_label_for_post( $guide_id ) : wp_strip_all_tags( get_the_title( $guide_id ) );
+						$guide_summary     = sanitize_text_field( (string) get_post_meta( $guide_id, 'baf_hotel_guide_summary', true ) );
+						$guide_hotel_url   = add_query_arg(
+							array(
+								'travel_destination' => $guide_destination,
+								'baf_surface'        => 'hotels_landing',
+							),
+							home_url( '/hotels/' )
+						);
+						?>
+						<article class="hotel-guide-listing-card">
+							<p class="hotel-guide-listing-card__eyebrow"><?php esc_html_e( 'Editable guide', 'bookings_and_flights' ); ?></p>
+							<h3><a href="<?php echo esc_url( get_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h3>
+							<p>
+								<?php
+								echo esc_html(
+									'' !== $guide_summary ? wp_trim_words( $guide_summary, 24, '' ) : sprintf(
+										/* translators: %s: destination name. */
+										__( 'Review %s stay guidance, then continue into the approved hotel partner surface.', 'bookings_and_flights' ),
+										$guide_destination
+									)
+								);
+								?>
+							</p>
+							<div class="hotel-guide-listing-card__actions">
+								<a class="hotel-guide-text-link" href="<?php echo esc_url( get_permalink() ); ?>"><?php esc_html_e( 'Open city guide', 'bookings_and_flights' ); ?></a>
+								<a class="hotel-guide-text-link" href="<?php echo esc_url( $guide_hotel_url ); ?>"><?php esc_html_e( 'Search this city', 'bookings_and_flights' ); ?></a>
+							</div>
+						</article>
+					<?php endwhile; ?>
+				</div>
+				<?php wp_reset_postdata(); ?>
+			<?php else : ?>
+				<div class="hotel-guide-empty" role="status">
+					<h3><?php esc_html_e( 'City guide slots are ready', 'bookings_and_flights' ); ?></h3>
+					<p><?php esc_html_e( 'Published destination posts will appear here as editable hotel guide cards. The hotel search handoff remains available now.', 'bookings_and_flights' ); ?></p>
+					<a class="hotel-guide-button" href="<?php echo esc_url( $destinations_url ); ?>"><?php esc_html_e( 'Browse city guides', 'bookings_and_flights' ); ?></a>
+				</div>
+			<?php endif; ?>
+
+			<div class="hotel-guide-teaser__actions">
+				<a class="hotel-guide-button hotel-guide-button--secondary" href="<?php echo esc_url( $destinations_url ); ?>"><?php esc_html_e( 'View all city guides', 'bookings_and_flights' ); ?></a>
+			</div>
+		</div>
+	</section>
 
 	<div id="hotels-provider-search" class="search-page__content search-page__content--provider">
 		<?php

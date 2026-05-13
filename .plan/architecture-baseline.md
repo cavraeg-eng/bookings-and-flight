@@ -203,6 +203,13 @@ Use the `baf_` prefix for new meta. Phase 1 registers the following post meta ke
 - `baf_budget_min`
 - `baf_budget_max`
 - `baf_travel_style`
+- `baf_hotel_guide_summary`
+- `baf_hotel_neighborhoods`
+- `baf_hotel_best_for`
+- `baf_hotel_family_notes`
+- `baf_hotel_luxury_notes`
+- `baf_hotel_budget_notes`
+- `baf_hotel_landmark_notes`
 - `baf_affiliate_vertical`
 - `baf_provider_ids`
 - `baf_subid_template`

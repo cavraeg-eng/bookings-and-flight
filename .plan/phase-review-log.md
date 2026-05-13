@@ -2090,3 +2090,43 @@ Research consulted:
 - Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
 
 Decision: P16.1 local implementation and review gate passed. Keep Phase 16 overall `In Progress` until the remaining hotel/stays issues pass review and merge.
+
+## Phase 16.2 Review - 2026-05-13
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-101` City hotel guide templates and editorial modules. Reviewed Phase 16 objective, P16.1 Hotels page baseline, destination CPT/meta contracts, route related-link behavior, Phase 13 hotel placement registry constraints, current theme template conventions, source output, desktop/mobile runtime screenshots, and keyboard navigation.
+
+Acceptance criteria result: Passed locally for the PR candidate. Published `destination` posts now render a city hotel guide archive and single template with editable WordPress post content plus registered destination hotel-guide meta fields for summary, neighborhoods, best-fit guidance, family, luxury, budget, and landmark notes. The Hotels page also surfaces published city hotel guide cards. Editorial modules do not claim to filter live results; provider-owned live rates, map filters, booking, payment, changes, and support remain in the partner surface.
+
+Security review: Passed locally. Registered hotel-guide meta uses `baf_` keys, destination-only registration, textarea sanitization, `show_in_rest => false`, and existing edit-meta authorization. Template output sanitizes or escapes meta, post, URL, and query values before render. Source scans found no app-owned PHP warnings, API keys, tokens, authorization headers, bearer strings, postback secrets, passwords, guaranteed-rate claims, direct-checkout claims, auto-booking, unavailable placement state, or WordPress-owned hotel inventory claims.
+
+REST permission review: Passed for scope. P16.2 added no REST endpoints and did not change public REST exposure. Registered hotel-guide meta remains private from REST because it uses `show_in_rest => false`.
+
+Database/migration review: Passed for scope. No custom tables, options, migrations, cron jobs, or destructive data changes were added. The implementation registers additional post meta contracts only. Temporary destination post `313` and route post `314` were used for runtime validation, removed after validation, and confirmed at `temporary_posts_remaining=0`.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Desktop/mobile screenshots confirmed destination guide archive, city guide detail, guide modules, Hotels guide teaser, provider section, and keyboard focus states render without horizontal overflow, duplicate IDs, framework overlays, blank pages, or app-owned console/request failures. The city guide provider placement renders configured Trip.com/Travelpayouts output with visible disclosure and handoff.
+
+Regression review: Existing P16.1 Hotels intent behavior, Phase 13 registry output, Phase 14 Hotels placement shell, Phase 15 provider-owned booking/payment/support language, destination and route CPT contracts, header/footer continuity, and Travelpayouts-controlled backend boundary remain intact. The city guide consumes the existing approved `hotels` placement surface and uses `destination_single` only for channel/SubID context.
+
+Validation performed: PHP syntax for changed PHP files; file-size checks; `git diff --check`; registered post-meta checks; plugin deactivate/reactivate; HTTP/source smoke for temporary destination single, destination archive, Hotels, and Hotels city intent URLs; source scans for SEO metadata, guide modules, related links, disclosure, provider placement output, secrets, warnings, and unsupported claims; attempted Codex in-app Browser validation; Playwright Chromium desktop/mobile screenshots, provider screenshots, console/request health, duplicate-ID and overflow checks, and keyboard navigation.
+
+Bugs found: The first runtime pass showed the destination single template rendering the shared unavailable-placement state because it requested a new `destination` placement surface. The governed `hotels_partner_search` placement is currently approved for `home` and `hotels`, not `destination`.
+
+Bugs fixed: The destination single template now renders the approved hotel placement with `surface="hotels"` while preserving `channel="destination_single"` and the destination slug in SubID context. The browser pass was rerun and confirmed configured provider output plus visible disclosure and handoff. The pre-PR code review also tightened new city-guide title and permalink output to use explicit `esc_html( get_the_title() )` and `esc_url( get_permalink() )` calls.
+
+Bugs deferred: Provider-owned Trip.com console/runtime warnings remain a later-phase watch item when app-owned checks pass. Hotel map/table expansion, hotel-specific SubID strategy, and final Phase 16 review remain later Phase 16 issues.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Files.
+- WordPress Plugin Security Handbook: Securing Input.
+- WordPress Plugin Security Handbook: Securing Output.
+- WordPress Custom Fields and Post Meta registration references.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
+
+Decision: P16.2 local implementation and review gate passed. Keep Phase 16 overall `In Progress` until the remaining hotel/stays issues pass review and merge.
