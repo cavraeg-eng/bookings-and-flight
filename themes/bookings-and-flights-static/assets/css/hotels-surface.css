@@ -1,0 +1,223 @@
+/**
+ * Hotels Search Surface
+ * Bookings and Flights Static Theme
+ */
+
+.search-page--hotels .search-page__title {
+  max-inline-size: 12ch;
+}
+
+.hotel-intent {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.3fr);
+  gap: var(--space-m);
+  align-items: start;
+  padding: var(--space-m);
+  border: 1px solid hsl(198 22% 82%);
+  border-radius: 8px;
+  background: hsl(0 0% 100%);
+  box-shadow: 0 18px 55px hsl(202 35% 16% / 0.1);
+}
+
+.hotel-intent__content,
+.hotel-intent__form,
+.hotel-intent__provider {
+  min-inline-size: 0;
+}
+
+.hotel-intent__content {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.hotel-intent__eyebrow {
+  margin: 0;
+  color: hsl(174 72% 25%);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hotel-intent__title,
+.hotel-intent__provider h3 {
+  margin: 0;
+  color: hsl(202 34% 14%);
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.hotel-intent__title {
+  font-size: clamp(1.65rem, 3.2vw, 2.45rem);
+}
+
+.hotel-intent__copy,
+.hotel-intent__helper,
+.hotel-intent__provider p {
+  margin: 0;
+  color: hsl(205 13% 33%);
+  line-height: 1.58;
+}
+
+.hotel-intent__form {
+  display: grid;
+  gap: 0.95rem;
+}
+
+.hotel-intent__grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.hotel-intent__field {
+  display: grid;
+  grid-column: span 2;
+  gap: 0.38rem;
+  min-inline-size: 0;
+}
+
+.hotel-intent__field--destination,
+.hotel-intent__field--focus {
+  grid-column: span 3;
+}
+
+.hotel-intent__field span {
+  color: hsl(205 14% 28%);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.hotel-intent__field input,
+.hotel-intent__field select {
+  inline-size: 100%;
+  min-block-size: 48px;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid hsl(198 22% 74%);
+  border-radius: 8px;
+  background: hsl(190 38% 97%);
+  color: hsl(205 24% 16%);
+  font: inherit;
+  font-weight: 750;
+}
+
+.hotel-intent__field input::placeholder {
+  color: hsl(205 10% 48%);
+}
+
+.hotel-intent__submit {
+  justify-self: start;
+  min-block-size: 48px;
+  padding: 0.8rem 1rem;
+  border: 0;
+  border-radius: 8px;
+  background: hsl(177 66% 29%);
+  color: hsl(0 0% 100%);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.hotel-intent__helper {
+  padding: 0.8rem 0.9rem;
+  border: 1px solid hsl(43 74% 70%);
+  border-radius: 8px;
+  background: hsl(43 88% 92%);
+  font-size: 0.88rem;
+}
+
+.hotel-intent__provider {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.75rem;
+  padding-block-start: var(--space-s);
+  border-block-start: 1px solid hsl(198 22% 86%);
+}
+
+.hotel-intent__provider h3 {
+  font-size: 1.25rem;
+}
+
+.hotel-intent__provider-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hotel-intent__provider-list li {
+  display: grid;
+  gap: 0.55rem;
+  min-inline-size: 0;
+  padding: 0.85rem 0.9rem;
+  border: 1px dashed hsl(198 22% 70%);
+  border-radius: 8px;
+  background: hsl(190 38% 97%);
+}
+
+.hotel-intent__provider-list span {
+  color: hsl(205 24% 16%);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.hotel-intent__provider-list strong {
+  justify-self: start;
+  padding: 0.3rem 0.45rem;
+  border-radius: 6px;
+  background: hsl(202 42% 12%);
+  color: hsl(0 0% 100%);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hotel-intent a:focus-visible,
+.hotel-intent button:focus-visible,
+.hotel-intent input:focus-visible,
+.hotel-intent select:focus-visible {
+  outline: 3px solid hsl(177 66% 29%);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1100px) {
+  .hotel-intent {
+    grid-template-columns: 1fr;
+  }
+
+  .hotel-intent__provider-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .hotel-intent__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hotel-intent__field,
+  .hotel-intent__field--destination,
+  .hotel-intent__field--focus {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .hotel-intent {
+    padding: var(--space-s);
+  }
+
+  .hotel-intent__grid,
+  .hotel-intent__provider-list {
+    grid-template-columns: 1fr;
+  }
+
+  .hotel-intent__submit {
+    justify-self: stretch;
+  }
+}

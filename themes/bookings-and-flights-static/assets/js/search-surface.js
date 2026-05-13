@@ -19,6 +19,12 @@
     'cabin',
     'travel_mode',
     'travel_focus',
+    'travel_destination',
+    'check_in',
+    'check_out',
+    'guests',
+    'rooms',
+    'stay_focus',
     'baf_surface'
   ];
   const url = new URL(window.location.href);
