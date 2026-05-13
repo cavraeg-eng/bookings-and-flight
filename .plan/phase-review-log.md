@@ -1562,3 +1562,43 @@ Research consulted:
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 
 Decision: P14.2 local implementation and review gate passed. Keep Phase 14 overall `In Progress` for the remaining homepage modules and search-surface follow-ups until their Linear issues pass review and merge.
+
+## Phase 14.3 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-88` trending, explore-anywhere, flexible-month, and hotel city discovery modules. Reviewed Phase 14 objective, P14.1/P14.2 homepage/search contracts, current homepage template/CSS state, published CPT data availability, approved Flights/Hotels handoff routes, WordPress template and escaping guidance, and Travelpayouts widget/SubID/White Label handoff guidance.
+
+Acceptance criteria result: Passed locally for the PR candidate. The homepage now renders four below-hero discovery groups: trending route starters, explore-anywhere prompts, flexible-month planning, and hotel city discovery. Each group uses clearly labeled editorial/static inspiration because no published destination, route, or travel deal posts exist yet. Cards link into the approved Flights or Hotels search pages and do not display static prices, fake deal labels, unsupported live availability claims, or raw provider snippets.
+
+Security review: Passed locally. Homepage module output is built from server-side arrays and escaped at render time with `esc_html()` and `esc_url()`. Links are created with `add_query_arg()` against local `/flights/` and `/hotels/` surfaces. Source scans found no API token, API key, authorization, bearer, access-token, refresh-token, client-secret, postback, or secret terms.
+
+REST permission review: Not applicable. No REST routes or permission callbacks changed in P14.3.
+
+Database/migration review: Not applicable. No custom tables, options, migrations, or data mutations changed in P14.3.
+
+UI review: Passed locally with real runtime screenshots. Desktop `1440x1000`, tablet `900x1024`, and mobile `390x844` screenshots confirmed the homepage first viewport and discovery modules render nonblank, remain scannable, keep card text inside containers, show the sponsored-search disclosure, and avoid horizontal overflow. Keyboard review confirmed route, flexible-month, and hotel discovery cards are reachable.
+
+Regression review: Existing homepage flight and hotel forms still target the P14.2 `/flights/` and `/hotels/` surfaces. The new route cards pass provider-style IATA parameters to `/flights/`, where P14.2 cleanup prevents provider query-string rewrites. Hotel cards use the existing non-conflicting `travel_destination` parameter. No extra frontend JavaScript or provider embed code was added.
+
+Validation performed: PHP syntax check for `page-home.php`; `git diff --check`; file-size check for `page-home.php`, `home.css`, and `functions.php`; WP-CLI CPT content availability check; HTTP 200 homepage smoke; source scans for fake prices, fake deal claims, broad guarantee terms, and secret-token patterns; Playwright desktop/tablet/mobile screenshots; Playwright module count, link, disclosure, no-overflow, console, failed-request, and keyboard reachability checks.
+
+Bugs found: The first copy pass contained broad negation text such as live-price and guarantee language that made source scans noisy even though the copy did not claim live pricing. It also included a flexible-card sentence with the word prices.
+
+Bugs fixed: Reworded module copy so broad source scans find no price, fare, cheap, guarantee, exclusive-deal, limited-time, or secret-token patterns while still telling users that provider pages handle current availability and reservation details.
+
+Bugs deferred: Published destination, route, travel deal, and city editorial content remains absent. The modules intentionally use static inspiration until later content/SEO phases seed or publish real CPT records.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Files.
+- WordPress WP_Query reference.
+- WordPress Common APIs Handbook: Escaping Data.
+- WordPress `esc_url()` and `sanitize_text_field()` references.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: ID and SubID affiliate marker guidance.
+
+Decision: P14.3 local implementation and review gate passed. Keep Phase 14 overall `In Progress` until remaining Phase 14 issues pass review and merge.

@@ -595,6 +595,19 @@ P14.2 local result on 2026-05-12: PHP syntax checks for the changed theme/core P
 
 P14.2 Codex review accessibility follow-up on 2026-05-12: PR #23 review found that the loaded White Label placeholder nodes stayed `aria-hidden` after the provider script loaded and that script `load` was not enough proof of rendered provider content. The renderer now leaves loaded placeholders at `tabindex="-1"` to avoid duplicate sequential keyboard stops, removes `aria-hidden` only after content is rendered, and shows the unavailable fallback plus handoff when the script loads without rendering content. PHP syntax, `git diff --check`, and a Playwright runtime check for `#tpwl-search` unavailable/loaded state passed.
 
+P14.3 homepage discovery module validation:
+
+```bash
+php -l themes/bookings-and-flights-static/page-home.php
+git diff --check
+php -d mysqli.default_socket="/Users/djcavy/Library/Application Support/Local/run/qRHZasMmV/mysql/mysqld.sock" /opt/homebrew/bin/wp --path="/Users/djcavy/Local Sites/bookings-and-flights/app/public" post list --post_type=destination,route,travel_deal --post_status=publish --fields=ID,post_type,post_title --format=csv
+curl -sS -L -o /tmp/one88-home.html -w '%{http_code} %{url_effective}\n' 'http://bookings-and-flights.local/'
+rg -n "\\$[0-9]|price|fare|from only|cheap(est)?|lowest|guarantee(d)?|real-time|\\blive\\b|exclusive deal|limited-time|api[_-]?key|api[_-]?token|authorization|bearer|access[_-]?token|refresh[_-]?token|client[_-]?secret|postback|secret" themes/bookings-and-flights-static/page-home.php themes/bookings-and-flights-static/assets/css/home.css /tmp/one88-home.html
+node Playwright smoke against http://bookings-and-flights.local/
+```
+
+P14.3 local result on 2026-05-12: PHP syntax for `page-home.php` and `git diff --check` passed. File-size checks kept `page-home.php` at 297 lines, `home.css` at 516 lines, and `functions.php` at 600 lines. WP-CLI found no published `destination`, `route`, or `travel_deal` records, so the implementation uses clearly labeled editorial/static inspiration. HTTP homepage smoke returned `200`. Source scans found no broad price, fare, cheap, live, guarantee, exclusive-deal, limited-time, or secret-token matches. Playwright Chromium captured desktop, tablet, and mobile first-viewport and discovery screenshots; all three viewports rendered three route cards, three explore cards, three flexible-month cards, and three hotel cards; disclosure was visible; no horizontal overflow, console warnings, page errors, or failed requests were recorded. Extended keyboard review reached route, flexible-month, and hotel discovery cards. Screenshots: `/tmp/one88-home-desktop.png`, `/tmp/one88-home-tablet.png`, `/tmp/one88-home-mobile.png`, `/tmp/one88-home-discovery-desktop.png`, `/tmp/one88-home-discovery-tablet.png`, and `/tmp/one88-home-discovery-mobile.png`. Runtime evidence: `/tmp/one88-runtime-review.json`.
+
 ## Documentation-Only Changes
 
 For documentation-only changes:
