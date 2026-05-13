@@ -4,7 +4,7 @@ Linear issue: `ONE-117`
 
 Branch: `codex/one-117-ai-guardrails`
 
-Status: `In Review`
+Status: `Completed`
 
 ## Scope
 
@@ -62,4 +62,4 @@ Research consulted:
 - AI SDK Core: Generating Structured Data.
 - OpenAI Chat Completions API reference.
 
-Decision: PR candidate is ready for Codex review. Keep P18.5 and Phase 18 overall `In Progress` until the PR is reviewed, any actionable feedback is patched, the PR is merged, Linear is synced, and the feature branch is cleaned up.
+Decision: Completed through PR #53, reviewed by Codex with no major issues, had no unresolved review threads, merged into `main` at `b1a4f10f0974f8c59de87218233f7b4b5e339013`, and the feature branch was deleted/pruned. Keep Phase 18 overall `In Progress` until later saved-trip, alert, and final release-review issues complete.
