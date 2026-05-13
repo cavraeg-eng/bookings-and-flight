@@ -88,11 +88,13 @@ final class Travelpayouts_Widget_Renderer {
 		}
 
 		return array(
-			'placement' => sanitize_key( $key ),
-			'surface'   => $surface,
-			'channel'   => self::sanitize_segment( (string) ( $attributes['channel'] ?? '' ) ),
-			'slug'      => $slug,
-			'class'     => sanitize_html_class( (string) ( $attributes['class'] ?? '' ) ),
+			'placement'   => sanitize_key( $key ),
+			'surface'     => $surface,
+			'channel'     => self::sanitize_segment( (string) ( $attributes['channel'] ?? '' ) ),
+			'slug'        => $slug,
+			'class'       => sanitize_html_class( (string) ( $attributes['class'] ?? '' ) ),
+			'origin'      => self::sanitize_iata( (string) ( $attributes['origin'] ?? '' ) ),
+			'destination' => self::sanitize_iata( (string) ( $attributes['destination'] ?? '' ) ),
 		);
 	}
 
@@ -157,7 +159,9 @@ final class Travelpayouts_Widget_Renderer {
 		}
 
 		if ( 'official_shortcode' === $mode ) {
-			return self::render_official_shortcode( $placement, $subid );
+			$official_output = self::render_official_shortcode( $placement, $attributes, $subid );
+
+			return '' === $official_output ? '' : $official_output . self::render_noscript( $placement, $subid );
 		}
 
 		return '';
@@ -337,21 +341,8 @@ final class Travelpayouts_Widget_Renderer {
 		);
 	}
 
-	private static function render_official_shortcode( array $placement, string $subid ): string {
-		$embed     = (array) ( $placement['embed'] ?? array() );
-		$reference = sanitize_key( (string) ( $embed['reference'] ?? '' ) );
-
-		if ( '' === $reference || ! str_starts_with( $reference, 'tp_' ) || ! shortcode_exists( $reference ) ) {
-			return '';
-		}
-
-		return do_shortcode(
-			sprintf(
-				'[%1$s subid="%2$s"]',
-				$reference,
-				esc_attr( $subid )
-			)
-		);
+	private static function render_official_shortcode( array $placement, array $attributes, string $subid ): string {
+		return Official_Shortcode_Renderer::render( $placement, $attributes, $subid );
 	}
 
 	private static function render_frame( array $placement, array $attributes, string $body, string $state, string $subid = '' ): string {
@@ -503,6 +494,12 @@ final class Travelpayouts_Widget_Renderer {
 		$value = trim( preg_replace( '/_+/', '_', (string) $value ), '_' );
 
 		return substr( $value, 0, 64 );
+	}
+
+	private static function sanitize_iata( string $value ): string {
+		$value = strtoupper( trim( $value ) );
+
+		return preg_match( '/^[A-Z]{3}$/', $value ) ? $value : '';
 	}
 
 	private static function placement_allows_surface( array $placement, string $surface ): bool {

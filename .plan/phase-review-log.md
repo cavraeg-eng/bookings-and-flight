@@ -1854,3 +1854,42 @@ Research consulted:
 - Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
 
 Decision: P15.2 local implementation and review gate passed. Keep Phase 15 overall `In Progress` until the remaining flights experience issues pass review and merge.
+
+## Phase 15.3 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-95` low-price calendar, popular routes, and route map placements. Reviewed Phase 15 objective, P15.1 Flights intent baseline, P15.2 route surface baseline, Phase 13 Travelpayouts widget-registry contracts, official Travelpayouts plugin shortcode availability, WordPress shortcode rendering behavior, input sanitization, output escaping, and runtime provider widget behavior.
+
+Acceptance criteria result: Passed locally for the PR candidate. The widget registry now seeds approved `flights_low_price_calendar`, `flights_popular_routes`, and `flights_route_map` placements with official Travelpayouts plugin shortcode references. Flights and route pages render the discovery widgets inside responsive Bookings and Flights cards below the primary Travelpayouts White Label handoff, generate unique readable SubIDs per placement, reserve dimensions, and render visible missing-code states when origin or destination context is absent.
+
+Security review: Passed locally. Runtime origin and destination values are scalar-checked, normalized to three-letter IATA codes, and escaped before entering shortcode output. The official-shortcode renderer only executes approved `tp_` references stored in the trusted registry path, keeps private embed metadata out of public projections, and adds no REST route, POST write, custom SQL, database table, alert storage, direct checkout, payment flow, API-token handling, custom inventory API, or auto-publishing path.
+
+REST permission review: Not applicable. P15.3 added no REST routes or permission callbacks.
+
+Database/migration review: Passed for option migration scope. No custom tables or destructive migrations changed. The `baf_travelpayouts_widget_registry` option schema moved to `1.0.2` and adds official shortcode starter placements for the low-price calendar, popular-routes widget, and route map on approved public surfaces. Temporary route post `297` was created for runtime validation and deleted afterward.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Desktop and mobile Flights and route screenshots confirmed the calendar, popular-routes, and map widgets render visibly inside reserved cards with no horizontal overflow, duplicate document IDs, framework overlays, app page errors, or visible fallback states. The missing-code Flights page renders three visible status cards instead of broken widgets. Keyboard navigation reached public navigation, local intent controls, `Update flight intent`, `Open flight search`, route handoffs, and provider-owned widget focus points without trapping the page.
+
+Regression review: Existing P15.1 Flights intent form, P15.2 route templates, Phase 13 registry surface guards, SubID generation, consent/disclosure boundaries, P14 search-surface shell, header/footer continuity, and provider-owned handoff language remain intact. The discovery section keeps Travelpayouts as owner of live widgets/results and does not turn WordPress into a fare, inventory, booking, or payment backend.
+
+Validation performed: PHP syntax checks for changed core/theme PHP files; targeted `git diff --check`; file-size checks; WP-CLI registry migration check; WP-CLI shortcode smoke checks for `tp_calendar_widget`, `tp_popular_routes_widget`, `tp_map_widget`, and the `[baf_travelpayouts_widget]` wrapper; HTTP `200` smoke for configured Flights, missing-code Flights, route detail, and routes archive surfaces; source scans for required discovery placements, SubIDs, no-script states, secrets, and unsupported fare/booking claims; attempted Codex in-app Browser validation; Playwright Chromium desktop/mobile screenshots; missing-code screenshot; keyboard navigation review; horizontal-overflow, duplicate-ID, page-error, fallback-visibility, and widget loaded-state checks. The Codex in-app Browser request timed out in this thread, so Playwright Chromium was used for the required runtime browser screenshots and keyboard navigation review.
+
+Bugs found: Runtime validation found that the first official-widget loaded detector could treat placeholder markup as loaded; after tightening that check, Travelpayouts calendar and popular-route widgets still rendered useful content inside shadow DOM while the wrapper fallback stayed visible; and the route-map iframe could initialize blank when it loaded below the fold. Self-review also found that if an approved official shortcode became unavailable, the renderer could return only no-script copy instead of the normal unavailable state.
+
+Bugs fixed: Updated the official-shortcode renderer to require real provider content before loaded state, recognize provider shadow-root content, and refresh map iframes once when the wrapper enters the viewport. The main widget renderer now lets missing official shortcode output fall through to the normal unavailable wrapper state. The final browser pass confirmed all three discovery widgets rendered without visible fallback states on Flights and route surfaces.
+
+Bugs deferred: Real alert capture/storage and the final Phase 15 White Label continuity/SEO gate remain later Phase 15 scope. Provider-owned Aviasales analytics `400` pixels, a provider image `404`, JSX-source/duplicate GraphQL warnings, and WebGL/map-image warnings remain watchlist-only because the widgets rendered and no app-owned source, layout, page, secret, or handoff failure was found.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Common APIs Handbook: Shortcode API.
+- WordPress Common APIs Handbook: Sanitizing Data.
+- WordPress Common APIs Handbook: Escaping Data.
+- Travelpayouts Help Center: Shortcodes of tables and widgets.
+- Travelpayouts Help Center: Getting started with widgets.
+
+Decision: P15.3 local implementation and review gate passed. Keep Phase 15 overall `In Progress` until alert storage and final flights review issues pass review and merge.

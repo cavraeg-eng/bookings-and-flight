@@ -101,6 +101,10 @@ if ( in_array( $travel_focus, array( 'deal_dates', 'flexible_city', 'price_alert
 	);
 }
 
+if ( '' !== $origin || '' !== $destination ) {
+	add_filter( 'bookings_and_flights_has_official_travelpayouts_output', '__return_true' );
+}
+
 add_filter(
 	'body_class',
 	static function ( array $classes ): array {
@@ -208,6 +212,23 @@ get_header();
 				'description'      => __( 'Continue in the approved White Label search and result module. Adjust route, dates, travelers, cabin, flexible-date, direct-only, and nearby-airport choices inside the provider-owned controls as needed.', 'bookings_and_flights' ),
 				'details'          => $details,
 				'fallback_message' => __( 'Flight search is configured through the Travelpayouts placement registry. If it is unavailable, check provider consent or placement settings.', 'bookings_and_flights' ),
+			)
+		);
+		?>
+	</div>
+
+	<div class="search-page__content search-page__content--discovery">
+		<?php
+		get_template_part(
+			'template-parts/flight-discovery-widgets',
+			null,
+			array(
+				'surface'     => 'flights',
+				'channel'     => 'home' === $surface ? 'homepage' : 'search_page',
+				'slug'        => 'flight_search',
+				'origin'      => $origin,
+				'destination' => $destination,
+				'details'     => $details,
 			)
 		);
 		?>

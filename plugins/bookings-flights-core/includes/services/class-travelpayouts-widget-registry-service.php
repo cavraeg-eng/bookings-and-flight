@@ -8,7 +8,6 @@
 namespace BAF\Core\Services;
 
 use BAF\Core\Capabilities\Capability_Manager;
-use BAF\Core\Settings\Settings_Manager;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -16,7 +15,7 @@ final class Travelpayouts_Widget_Registry_Service {
 
 	public const OPTION_NAME = 'baf_travelpayouts_widget_registry';
 
-	private const SCHEMA_VERSION = '1.0.1';
+	private const SCHEMA_VERSION = Travelpayouts_Widget_Starter_Placements::SCHEMA_VERSION;
 
 	private const DEFAULT_SUBID_PATTERN = '{channel}_{surface}_{vertical}_{slug}_{placement}';
 
@@ -39,7 +38,7 @@ final class Travelpayouts_Widget_Registry_Service {
 		}
 
 		$normalized = self::sanitize_registry( $stored, true );
-		$normalized = self::migrate_registry( $normalized, $stored );
+		$normalized = Travelpayouts_Widget_Starter_Placements::migrate_registry( $normalized, $stored );
 
 		if ( $normalized !== $stored ) {
 			update_option( self::OPTION_NAME, $normalized, false );
@@ -245,43 +244,10 @@ final class Travelpayouts_Widget_Registry_Service {
 		return self::sanitize_registry( false === $stored ? self::default_registry() : $stored );
 	}
 
-	private static function migrate_registry( array $registry, mixed $stored ): array {
-		$stored_version = is_array( $stored ) ? (string) ( $stored['schema_version'] ?? '' ) : '';
-
-		if ( '' === $stored_version || version_compare( $stored_version, '1.0.1', '<' ) ) {
-			$registry = self::migrate_flights_route_surface( $registry );
-		}
-
-		return $registry;
-	}
-
-	private static function migrate_flights_route_surface( array $registry ): array {
-		if ( empty( $registry['placements']['flights_white_label_search'] ) || ! is_array( $registry['placements']['flights_white_label_search'] ) ) {
-			return $registry;
-		}
-
-		$placement = $registry['placements']['flights_white_label_search'];
-		$surfaces  = self::sanitize_key_list( $placement['public_surfaces'] ?? array() );
-
-		if ( in_array( 'route', $surfaces, true ) ) {
-			return $registry;
-		}
-
-		$surfaces[] = 'route';
-
-		$placement['public_surfaces'] = $surfaces;
-		$placement['updated_at']      = self::timestamp();
-		$registry['updated_at']       = self::timestamp();
-
-		$registry['placements']['flights_white_label_search'] = $placement;
-
-		return $registry;
-	}
-
 	private static function default_registry(): array {
 		$placements = array();
 
-		foreach ( self::starter_placements() as $placement ) {
+		foreach ( Travelpayouts_Widget_Starter_Placements::definitions() as $placement ) {
 			$sanitized = self::sanitize_placement( $placement );
 
 			if ( is_wp_error( $sanitized ) ) {
@@ -298,62 +264,16 @@ final class Travelpayouts_Widget_Registry_Service {
 		);
 	}
 
-	private static function starter_placements(): array {
-		$settings         = Settings_Manager::get_travelpayouts();
-		$white_label_id   = sanitize_text_field( (string) $settings['white_label_widget_id'] );
-		$hotel_widget_url = esc_url_raw( (string) $settings['hotel_widget_script_url'] );
-
-		return array(
-			array(
-				'key'             => 'flights_white_label_search',
-				'name'            => 'Flights White Label search',
-				'vertical'        => 'flights',
-				'context'         => 'flights',
-				'widget_family'   => 'white_label_search',
-				'render_mode'     => 'dashboard_script',
-				'embed'           => array(
-					'source'          => 'travelpayouts_white_label',
-					'mode'            => 'dashboard_script',
-					'reference'       => $white_label_id,
-					'approved_hosts'  => array( 'tpwgts.com' ),
-				),
-				'status'          => '' === $white_label_id ? 'draft' : 'active',
-				'public_surfaces' => array( 'home', 'flights', 'route' ),
-				'notes'           => 'Seeded from the existing White Label Widget ID setting.',
-			),
-			array(
-				'key'             => 'hotels_partner_search',
-				'name'            => 'Hotels partner search',
-				'vertical'        => 'hotels',
-				'context'         => 'hotels',
-				'widget_family'   => 'hotel_search',
-				'render_mode'     => self::is_iframe_url( $hotel_widget_url ) ? 'iframe' : 'dashboard_script',
-				'embed'           => array(
-					'source'         => 'partner_program',
-					'mode'           => self::is_iframe_url( $hotel_widget_url ) ? 'iframe' : 'dashboard_script',
-					'url'            => $hotel_widget_url,
-					'approved_hosts' => array( 'tp.media', 'tpwgt.com', 'tpwgts.com', 'travelpayouts.com', 'trip.com' ),
-				),
-				'status'          => '' === $hotel_widget_url ? 'draft' : 'active',
-				'public_surfaces' => array( 'home', 'hotels' ),
-				'fallback'        => array(
-					'url'   => $hotel_widget_url,
-					'label' => 'Open hotel search',
-				),
-				'notes'           => 'Seeded from the existing Hotels & Accommodation widget setting.',
-			),
-		);
-	}
-
 	private static function sanitize_embed( array $embed ): array {
 		$mode = self::sanitize_choice( (string) ( $embed['mode'] ?? '' ), self::RENDER_MODES, 'disabled' );
 
 		return array(
-			'source'         => self::sanitize_choice( (string) ( $embed['source'] ?? '' ), self::EMBED_SOURCES, 'none' ),
-			'mode'           => $mode,
-			'reference'      => self::sanitize_embed_reference( (string) ( $embed['reference'] ?? '' ) ),
-			'url'            => self::sanitize_embed_url( (string) ( $embed['url'] ?? '' ), $mode ),
-			'approved_hosts' => self::sanitize_host_list( $embed['approved_hosts'] ?? array() ),
+			'source'          => self::sanitize_choice( (string) ( $embed['source'] ?? '' ), self::EMBED_SOURCES, 'none' ),
+			'mode'            => $mode,
+			'reference'       => self::sanitize_embed_reference( (string) ( $embed['reference'] ?? '' ) ),
+			'url'             => self::sanitize_embed_url( (string) ( $embed['url'] ?? '' ), $mode ),
+			'approved_hosts'  => self::sanitize_host_list( $embed['approved_hosts'] ?? array() ),
+			'shortcode_attrs' => self::sanitize_shortcode_attrs( $embed['shortcode_attrs'] ?? array() ),
 		);
 	}
 
@@ -402,6 +322,28 @@ final class Travelpayouts_Widget_Registry_Service {
 		}
 
 		return $url;
+	}
+
+	private static function sanitize_shortcode_attrs( mixed $attributes ): array {
+		$attributes = is_array( $attributes ) ? $attributes : array();
+		$allowed    = array( 'origin', 'destination', 'responsive', 'width', 'height', 'limit', 'title' );
+		$sanitized  = array();
+
+		foreach ( $attributes as $key => $value ) {
+			$key = sanitize_key( (string) $key );
+
+			if ( ! in_array( $key, $allowed, true ) || ! is_scalar( $value ) ) {
+				continue;
+			}
+
+			$value = sanitize_text_field( (string) $value );
+
+			if ( '' !== $value ) {
+				$sanitized[ $key ] = substr( $value, 0, 120 );
+			}
+		}
+
+		return $sanitized;
 	}
 
 	private static function sanitize_fallback( array $fallback ): array {

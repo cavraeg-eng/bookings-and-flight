@@ -781,3 +781,38 @@ Related files/routes/settings:
 - `flights_white_label_search`
 - `/routes/`
 - `/flights/`
+
+## Phase 15 Flight Discovery Widgets
+
+Fragile area: official Travelpayouts low-price calendar, popular-routes, and route-map widgets rendered through the placement registry on Flights and route pages.
+
+Why risky: These widgets are provider-owned and can render useful content through scripts, shadow DOM, iframes, external images, and analytics beacons. Future changes could accidentally treat placeholder markup as loaded, leave shadow-DOM widgets stuck behind fallback text, initialize the map while it is offscreen and blank, expose private registry embeds, or imply that WordPress owns live fares/results.
+
+What to check after future changes:
+
+- `baf_travelpayouts_widget_registry` remains at schema `1.0.2` or later with `flights_low_price_calendar`, `flights_popular_routes`, and `flights_route_map` approved only for intended public surfaces.
+- Official-shortcode rendering only accepts approved `tp_` references and passes sanitized IATA `origin`/`destination` plus generated SubIDs.
+- Flights and route discovery sections keep visible loading, fallback, no-script, missing-code, disclosure, and provider-support states.
+- Calendar and popular-routes widgets count provider shadow-root content as loaded, while empty placeholders still become unavailable.
+- Route-map iframes refresh once when they enter the viewport so the map is not blank after offscreen initialization.
+- Desktop and mobile screenshots show no horizontal overflow, duplicate document IDs, card overlap, blank provider frames, or hidden disclosure language.
+- Keyboard review reaches the local intent controls, visible handoff links, route handoffs, and provider focus points without trapping the page.
+- Provider-owned Aviasales analytics `400` pixels, provider image `404`s, JSX-source/duplicate GraphQL warnings, and WebGL/map-image warnings remain non-blocking only when widgets render and no app-owned page errors or layout failures are present.
+
+Related files/routes/settings:
+
+- `plugins/bookings-flights-core/includes/frontend/class-official-shortcode-renderer.php`
+- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-renderer.php`
+- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-shortcode.php`
+- `plugins/bookings-flights-core/includes/services/class-travelpayouts-widget-registry-service.php`
+- `plugins/bookings-flights-core/includes/services/class-travelpayouts-widget-starter-placements.php`
+- `themes/bookings-and-flights-static/template-parts/flight-discovery-widgets.php`
+- `themes/bookings-and-flights-static/template-parts/travel-search-placement.php`
+- `themes/bookings-and-flights-static/page-flights.php`
+- `themes/bookings-and-flights-static/single-route.php`
+- `baf_travelpayouts_widget_registry`
+- `flights_low_price_calendar`
+- `flights_popular_routes`
+- `flights_route_map`
+- `/flights/`
+- `/routes/`

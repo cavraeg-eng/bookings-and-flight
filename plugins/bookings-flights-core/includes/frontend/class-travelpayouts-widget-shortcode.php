@@ -21,6 +21,8 @@ final class Travelpayouts_Widget_Shortcode {
 				'channel'   => '',
 				'slug'      => '',
 				'class'     => '',
+				'origin'      => '',
+				'destination' => '',
 			),
 			(array) $attributes,
 			'baf_travelpayouts_widget'
