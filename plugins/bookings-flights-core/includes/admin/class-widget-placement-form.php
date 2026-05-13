@@ -33,6 +33,7 @@ final class Widget_Placement_Form {
 		'route_map'           => 'Route map',
 		'hotel_search'        => 'Hotel search',
 		'hotel_map'           => 'Hotel map',
+		'hotel_listing'       => 'Hotel listing',
 		'partner_link_card'   => 'Partner link card',
 	);
 
