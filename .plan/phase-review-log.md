@@ -1813,3 +1813,44 @@ Research consulted:
 - Travelpayouts Help Center: Getting started with widgets.
 
 Decision: P15.1 local implementation and review gate passed. Keep Phase 15 overall `In Progress` until the remaining flights experience issues pass review and merge.
+
+## Phase 15.2 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-94` route detail and origin page templates. Reviewed Phase 15 objective, P15.1 Flights baseline, Phase 13 Travelpayouts widget-registry surface guard, current `route` CPT runtime behavior, WordPress custom post type template hierarchy, `WP_Query` usage, input sanitization, output escaping, and Travelpayouts White Label widget/page guidance.
+
+Acceptance criteria result: Passed locally for the PR candidate. The static theme now has route archive and single-route templates plus a reusable route-card template part. `/routes/` lists published route guides, `/routes/?route_origin=JFK` renders an origin-filtered archive with sanitized query input, and single route pages render editable WordPress route meta, editorial content, related route cards, an alert handoff placeholder, and the approved `flights_white_label_search` Travelpayouts placement. Live search/results/booking/payment/support remain provider-owned and no provider inventory is stored as canonical WordPress data.
+
+Security review: Passed locally. Public query input for `route_origin` is scalar-checked, unslashed, sanitized, normalized, and bounded. Route meta output and generated links are escaped. The registry migration only adds the `route` public surface to the existing starter flight placement once and keeps the surface allowlist guard active for disallowed contexts. No provider credentials, API tokens, REST routes, POST writes, custom SQL, database tables, alert storage, payment/checkout flow, custom inventory API, or auto-publishing path was added.
+
+REST permission review: Not applicable. P15.2 added no REST routes or permission callbacks.
+
+Database/migration review: Passed for option migration scope. No custom tables or schema migrations changed. The `baf_travelpayouts_widget_registry` option schema moved to `1.0.1` and one-time migration adds `route` to the starter `flights_white_label_search` public surfaces. Temporary route posts used for runtime validation were deleted after the browser pass.
+
+UI review: Passed locally with real runtime screenshots. Desktop/mobile archive and route detail screenshots confirmed nonblank pages, visible Bookings and Flights header/footer shell, readable route cards, no horizontal overflow, no framework overlays, no duplicate IDs, and no relevant console errors or page errors. The Travelpayouts White Label widget renders on route detail pages, clears its loading state after provider shadow DOM content appears, and keeps the visible sponsored handoff/support copy. Keyboard review reached archive route links, route handoffs, `Browse routes`, provider `Open flight search`, and `Open alert handoff`.
+
+Regression review: Existing P15.1 Flights page, Phase 13 widget registry surface guard, SubID generation, consent/disclosure boundaries, P14.2 search-surface shell, P14.5 footer/legal disclosure, and P14.6 asset scope remain intact. The route surface migration fixes the new route usage without reopening the broader surface allowlist bug that PR #18 previously patched.
+
+Validation performed: PHP syntax checks for changed core/theme PHP files; targeted `git diff --check`; file-size checks; HTTP `200` smoke for route archive, origin-filter archive, and a temporary route detail URL; source scans for required route/disclosure/widget text and negative secret/unsupported-claim terms; WP-CLI route post inventory and cleanup; attempted Codex in-app Browser validation; Playwright Chromium desktop/mobile screenshots; provider-section screenshots; keyboard navigation review; horizontal-overflow, duplicate-ID, blank-page, framework-overlay, console, page-error, and widget loaded-state checks. The Codex in-app Browser path had no active pane in this thread, so Playwright Chromium was used for the required runtime browser screenshots and keyboard navigation review.
+
+Bugs found: Runtime validation found that `flights_white_label_search` was configured but not approved for the new `route` surface, causing a safe `surface-unavailable` state on route pages. The widget wrapper also stayed visually in `is-loading` because Travelpayouts White Label renders usable content inside shadow DOM. The first desktop screenshot showed the related route card squeezed into one narrow grid column and the alert button stretching too tall inside the split panel.
+
+Bugs fixed: Added a versioned registry migration to approve the `route` surface for the starter flight placement once; updated the White Label loaded-state check to recognize shadow-root provider content; tightened route copy away from stored-inventory/fare phrasing; and adjusted route panel/card CSS so related cards and alert buttons render at stable desktop/mobile sizes.
+
+Bugs deferred: Low-price calendar widgets, popular route widgets, real alert capture/storage, final White Label continuity review, and broader Phase 15 SEO/content gate remain later Phase 15 scope.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/architecture-baseline.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Hierarchy.
+- WordPress Developer Resources: `WP_Query`.
+- WordPress Plugin Handbook: Securing Input.
+- WordPress Plugin Handbook: Securing Output.
+- WordPress Plugin Handbook: Custom Post Types.
+- Travelpayouts Help Center: What is White Label Web by Travelpayouts.
+- Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
+
+Decision: P15.2 local implementation and review gate passed. Keep Phase 15 overall `In Progress` until the remaining flights experience issues pass review and merge.

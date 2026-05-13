@@ -72,8 +72,8 @@ Severity: Medium until all Phase 15 child tickets are completed.
 
 Affected area: `/flights/`, future origin and route landing pages, low-price calendar/popular route widgets, and price-alert signup.
 
-Current issue: P15.1 added the dedicated Flights landing page intent module and preserved Travelpayouts-controlled White Label handoff behavior, but it intentionally did not add origin landing pages, route landing pages, low-price calendar widgets, popular route widgets, or alert storage. Direct-only, nearby-airport, flexible-date, airline, baggage, and time filters are clearly marked as provider-controlled because the current local WordPress shell does not apply those filters to Travelpayouts results.
+Current issue: P15.1 added the dedicated Flights landing page intent module and preserved Travelpayouts-controlled White Label handoff behavior. P15.2 added route archive/detail templates, an origin-filtered route archive mode, related route cards, a route alert handoff placeholder, and the approved `flights_white_label_search` route surface through the Travelpayouts placement registry. The remaining Phase 15 scope does not yet include low-price calendar widgets, popular route widgets, alert storage, or a final White Label continuity/SEO gate. Direct-only, nearby-airport, flexible-date, airline, baggage, and time filters are clearly marked as provider-controlled because the current local WordPress shell does not apply those filters to Travelpayouts results.
 
-Workaround: Use `/flights/` for the current Travelpayouts handoff path, keep unsupported filters as provider-controlled labels, and continue route/calendar/alert implementation through later Phase 15 Linear issues.
+Workaround: Use `/flights/` for the current Travelpayouts handoff path and `/routes/` plus route detail pages for indexable editorial route context. Keep unsupported filters as provider-controlled labels, keep alert capture as a handoff placeholder, and continue calendar/widget/alert/final-gate implementation through later Phase 15 Linear issues.
 
-Planned fix phase: Remaining Phase 15 flights issues after `ONE-93`.
+Planned fix phase: Remaining Phase 15 flights issues after `ONE-94`.
