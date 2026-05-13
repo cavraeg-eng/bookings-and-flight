@@ -2804,3 +2804,48 @@ Research consulted:
 - OpenAI Chat Completions API reference.
 
 Decision: P18.5 completed. PR #53 was reviewed by Codex with no major issues, had no unresolved review threads, merged into `main` at `b1a4f10f0974f8c59de87218233f7b4b5e339013`, and the feature branch was deleted/pruned. Keep Phase 18 overall `In Progress` until later saved-trip, alert, and final release-review issues complete.
+
+### P18.6 — AI REST, schema, prompt, and secret review
+
+Date: 2026-05-13
+
+Status: In Review
+
+Reviewer: Codex
+
+Linear issue: `ONE-118`
+
+Scope reviewed: `ONE-118` AI REST, schema, prompt, and secret review. Reviewed itinerary and handoff REST route permissions, request validation, structured itinerary and Travelpayouts opportunity schema validation, OpenAI response parsing, AI settings sanitization, dashboard AI status rendering, AI session logging, frontend output, live-mode consent blocking, and source/runtime secret exposure.
+
+Acceptance criteria result: Passed locally for the PR candidate. REST permission callbacks remain explicit, input/output validation is documented, sensitive prompts/provider secrets are not displayed or stored in the reviewed flows, and all local findings were fixed or recorded.
+
+Security review: Passed locally. Live AI still requires saved External AI consent plus per-request external AI consent. Browser live missing-consent validation sent zero additional itinerary REST requests. A fake live API key was absent from page source and dashboard output. Provider/session error smokes did not expose fake API keys, raw prompt sentinels, bearer tokens, provider payloads, or secrets.
+
+REST permission review: Passed locally. `/baf/v1/ai/itinerary` and `/baf/v1/ai/handoff` are registered with explicit permission callbacks. Existing capability and nonce gates remain unchanged for this slice.
+
+Database/migration review: No schema migration, custom table, cron, or destructive data change. Temporary AI options and temporary browser users were restored/deleted after validation. AI session privacy smoke confirmed fake secrets and raw prompt sentinels were absent from stored session output.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser path was attempted first but reported no active browser pane, so Playwright Chromium was used. The authenticated planner flow confirmed page identity, nonblank content, no framework overlay, keyboard reachability through prompt, destination, and submit controls, desktop/mobile screenshots, demo success, live missing per-request consent, no fake key in source, and no mobile horizontal overflow.
+
+Regression review: Existing P18.1 prompt-to-brief, P18.2 draft save, P18.3 opportunity schema, P18.4 local handoff, and P18.5 live readiness boundaries remain intact. AI cannot publish, book, pay, execute provider searches, create live provider links, send alerts, create public saved-trip records, or store provider-owned live inventory in this slice.
+
+Validation performed: PHP syntax checks for changed schema/provider/service/settings/admin files; `node --check` for `ai-planner.js`; `git diff --check`; file-size checks; `bookings-flights-core` deactivate/reactivate/is-active check; focused backend/privacy smoke for route permissions, malformed schema, malformed settings, dashboard secret absence, provider error safety, and session log privacy; Playwright Chromium desktop/mobile screenshots, keyboard navigation, source-secret check, consent-blocking check, console health, and app-owned request health.
+
+Bugs found: The first runtime request-health pass counted WordPress admin and third-party Travelpayouts asset aborts caused by navigation as blocking failures; the final pass kept them in the report as non-app request noise and gated only app-owned BAF requests. The first keyboard assertion window stopped at the consent checkbox because Chromium date inputs expose multiple focus stops; the traversal window was widened and rerun. Code review found remaining non-scalar casts outside P18.5 request normalization.
+
+Bugs fixed: Structured itinerary validation now scalar-normalizes duration/day/activity fields and opportunity destination fallbacks. OpenAI response content now scalar-normalizes before JSON decoding. Service live-mode checks tolerate malformed AI option state. AI settings sanitization now treats array-valued mode/provider settings as safe defaults. Admin dashboard AI status checks no longer cast malformed option values or expose API keys.
+
+Bugs deferred: Final Phase 18 review remains `ONE-119`; saved trips, alert follow-up, analytics, and release readiness remain Phase 19 scope. No app-owned P18.6 blocker remains after the local gate.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-18-ai-rest-secret-review.md`.
+
+Research consulted:
+- WordPress Plugin Security Handbook.
+- WordPress REST API Handbook: Adding Custom Endpoints.
+- WordPress Settings API documentation.
+- WordPress Nonces documentation.
+- WordPress Roles and Capabilities documentation.
+- AI SDK Core: Generating Structured Data.
+- OpenAI Chat Completions API reference.
+
+Decision: P18.6 can move through Codex PR review and merge if the thread-aware review check stays clear and final validation remains passing. Keep Phase 18 overall `In Progress` until `ONE-119` completes.

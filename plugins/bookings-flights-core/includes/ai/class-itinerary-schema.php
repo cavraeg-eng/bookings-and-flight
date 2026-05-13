@@ -41,14 +41,14 @@ final class Itinerary_Schema {
 			return self::error( 'baf_ai_output_not_object', __( 'The AI itinerary response was not a structured object.', 'bookings-flights-core' ) );
 		}
 
-		$duration_days = max( 1, min( 21, absint( $output['duration_days'] ?? 0 ) ) );
+		$duration_days = max( 1, min( 21, absint( self::string_value( $output['duration_days'] ?? 0 ) ) ) );
 		$days          = self::sanitize_days( $output['days'] ?? array(), $duration_days );
 
-		if ( '' === trim( (string) ( $output['title'] ?? '' ) ) || '' === trim( (string) ( $output['destination'] ?? '' ) ) || 0 === $duration_days || empty( $days ) ) {
+		if ( '' === trim( self::string_value( $output['title'] ?? '' ) ) || '' === trim( self::string_value( $output['destination'] ?? '' ) ) || 0 === $duration_days || empty( $days ) ) {
 			return self::error( 'baf_ai_output_missing_fields', __( 'The AI itinerary response missed required itinerary fields.', 'bookings-flights-core' ) );
 		}
 
-		$opportunities = self::sanitize_opportunities( $output['affiliate_opportunities'] ?? array(), (string) ( $output['destination'] ?? '' ) );
+		$opportunities = self::sanitize_opportunities( $output['affiliate_opportunities'] ?? array(), self::string_value( $output['destination'] ?? '' ) );
 
 		if ( is_wp_error( $opportunities ) ) {
 			return $opportunities;
@@ -86,7 +86,7 @@ final class Itinerary_Schema {
 			}
 
 			$sanitized[] = array(
-				'day'        => max( 1, absint( $day['day'] ?? count( $sanitized ) + 1 ) ),
+				'day'        => max( 1, absint( self::string_value( $day['day'] ?? count( $sanitized ) + 1 ) ) ),
 				'title'      => self::text( $day['title'] ?? '', 140 ),
 				'summary'    => self::textarea( $day['summary'] ?? '', 500 ),
 				'activities' => $activities,
@@ -104,12 +104,12 @@ final class Itinerary_Schema {
 		$sanitized = array();
 
 		foreach ( array_slice( $activities, 0, 6 ) as $activity ) {
-			if ( ! is_array( $activity ) || '' === trim( (string) ( $activity['title'] ?? '' ) ) ) {
+			if ( ! is_array( $activity ) || '' === trim( self::string_value( $activity['title'] ?? '' ) ) ) {
 				continue;
 			}
 
-			$time_of_day = sanitize_key( (string) ( $activity['time_of_day'] ?? 'flexible' ) );
-			$vertical    = sanitize_key( (string) ( $activity['affiliate_vertical'] ?? 'none' ) );
+			$time_of_day = sanitize_key( self::string_value( $activity['time_of_day'] ?? 'flexible' ) );
+			$vertical    = sanitize_key( self::string_value( $activity['affiliate_vertical'] ?? 'none' ) );
 
 			$sanitized[] = array(
 				'time_of_day'        => in_array( $time_of_day, self::TIME_OF_DAY, true ) ? $time_of_day : 'flexible',
