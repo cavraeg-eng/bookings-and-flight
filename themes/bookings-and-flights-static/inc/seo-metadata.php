@@ -10,6 +10,7 @@ defined( 'ABSPATH' ) || exit;
 add_filter( 'document_title_parts', 'bookings_and_flights_filter_document_title_parts' );
 add_action( 'wp_head', 'bookings_and_flights_render_seo_metadata', 2 );
 add_filter( 'wp_robots', 'bookings_and_flights_filter_wp_robots' );
+add_action( 'pre_get_posts', 'bookings_and_flights_filter_taxonomy_archive_query' );
 
 function bookings_and_flights_normalize_route_code( $value ): string {
 	$normalized = preg_replace( '/[^A-Z0-9]/', '', strtoupper( sanitize_text_field( (string) $value ) ) );
@@ -42,6 +43,44 @@ function bookings_and_flights_public_deal_archive_url(): string {
 	$archive_url = get_post_type_archive_link( 'travel_deal' );
 
 	return is_string( $archive_url ) && '' !== $archive_url ? $archive_url : home_url( '/travel-deals/' );
+}
+
+function bookings_and_flights_taxonomy_archive_post_type_map(): array {
+	return array(
+		'travel_region'   => array( 'destination', 'route', 'travel_deal' ),
+		'travel_style'    => array( 'destination', 'route', 'travel_deal' ),
+		'travel_vertical' => array( 'route', 'travel_deal' ),
+		'travel_season'   => array( 'destination', 'route', 'travel_deal' ),
+	);
+}
+
+function bookings_and_flights_taxonomy_archive_post_types( string $taxonomy ): array {
+	$post_type_map = bookings_and_flights_taxonomy_archive_post_type_map();
+
+	return $post_type_map[ $taxonomy ] ?? array( 'destination', 'route', 'travel_deal' );
+}
+
+function bookings_and_flights_filter_taxonomy_archive_query( WP_Query $query ): void {
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+
+	$matched_taxonomy = '';
+	foreach ( array_keys( bookings_and_flights_taxonomy_archive_post_type_map() ) as $taxonomy ) {
+		if ( $query->is_tax( $taxonomy ) ) {
+			$matched_taxonomy = $taxonomy;
+			break;
+		}
+	}
+
+	if ( '' === $matched_taxonomy ) {
+		return;
+	}
+
+	$query->set( 'post_type', bookings_and_flights_taxonomy_archive_post_types( $matched_taxonomy ) );
+	$query->set( 'post_status', 'publish' );
+	$query->set( 'posts_per_page', 12 );
+	$query->set( 'ignore_sticky_posts', true );
 }
 
 function bookings_and_flights_taxonomy_canonical_url( WP_Term $term ): string {

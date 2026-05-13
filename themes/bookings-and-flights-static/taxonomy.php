@@ -43,22 +43,18 @@ if ( ! $term instanceof WP_Term ) {
 $taxonomy_config = array(
 	'travel_region'   => array(
 		'label'       => __( 'Region', 'bookings_and_flights' ),
-		'post_types'  => array( 'destination', 'route', 'travel_deal' ),
 		'description' => __( 'Explore destination guides, route pages, and deal briefs grouped by this region.', 'bookings_and_flights' ),
 	),
 	'travel_style'    => array(
 		'label'       => __( 'Style', 'bookings_and_flights' ),
-		'post_types'  => array( 'destination', 'route', 'travel_deal' ),
 		'description' => __( 'Compare editorial travel ideas for this style while provider search owns live availability and booking.', 'bookings_and_flights' ),
 	),
 	'travel_vertical' => array(
 		'label'       => __( 'Travel vertical', 'bookings_and_flights' ),
-		'post_types'  => array( 'route', 'travel_deal' ),
 		'description' => __( 'Browse public route and deal content for this partner vertical without exposing private partner records.', 'bookings_and_flights' ),
 	),
 	'travel_season'   => array(
 		'label'       => __( 'Season', 'bookings_and_flights' ),
-		'post_types'  => array( 'destination', 'route', 'travel_deal' ),
 		'description' => __( 'Plan seasonal destinations, routes, and deal ideas with cautious editorial context before provider handoff.', 'bookings_and_flights' ),
 	),
 );
@@ -66,7 +62,6 @@ $taxonomy_config = array(
 $taxonomy     = sanitize_key( $term->taxonomy );
 $config       = $taxonomy_config[ $taxonomy ] ?? array(
 	'label'       => __( 'Travel topic', 'bookings_and_flights' ),
-	'post_types'  => array( 'destination', 'route', 'travel_deal' ),
 	'description' => __( 'Browse public travel content assigned to this topic.', 'bookings_and_flights' ),
 );
 $term_name    = sanitize_text_field( $term->name );
@@ -75,24 +70,7 @@ $term_summary = '' !== trim( (string) $term->description ) ? wp_trim_words( wp_s
 $paged        = max( 1, absint( get_query_var( 'paged' ) ) );
 $term_link    = get_term_link( $term );
 $term_link    = is_wp_error( $term_link ) ? home_url( '/' ) : $term_link;
-
-$content_query = new WP_Query(
-	array(
-		'post_type'           => $config['post_types'],
-		'post_status'         => 'publish',
-		'posts_per_page'      => 12,
-		'paged'               => $paged,
-		'ignore_sticky_posts' => true,
-		'no_found_rows'       => false,
-		'tax_query'           => array(
-			array(
-				'taxonomy' => $taxonomy,
-				'field'    => 'term_id',
-				'terms'    => array( absint( $term->term_id ) ),
-			),
-		),
-	)
-);
+$content_query = $GLOBALS['wp_query'] instanceof WP_Query ? $GLOBALS['wp_query'] : null;
 
 $type_labels = array(
 	'destination' => __( 'Destination guide', 'bookings_and_flights' ),
@@ -259,8 +237,8 @@ get_header();
 				<p><?php esc_html_e( 'Results are bounded, paginated, and limited to public WordPress content types that belong on discovery surfaces.', 'bookings_and_flights' ); ?></p>
 			</div>
 
-			<?php if ( $content_query->have_posts() ) : ?>
-				<div class="taxonomy-card-grid">
+				<?php if ( $content_query instanceof WP_Query && $content_query->have_posts() ) : ?>
+					<div class="taxonomy-card-grid">
 					<?php
 					while ( $content_query->have_posts() ) :
 						$content_query->the_post();
