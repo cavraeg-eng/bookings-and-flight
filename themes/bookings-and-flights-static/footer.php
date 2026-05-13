@@ -39,6 +39,24 @@ $contact_address_2  = $baf_footer_clean_option( 'contact_address_2', __( 'Bookin
 $contact_phone      = $baf_footer_clean_option( 'contact_phone' );
 $contact_email      = $baf_footer_clean_option( 'contact_email' );
 $contact_phone_href = preg_replace( '/[^0-9+]/', '', $contact_phone );
+$footer_legal_links = array(
+	'terms'       => array(
+		'label' => __( 'Terms', 'bookings_and_flights' ),
+		'url'   => home_url( '/terms-and-conditions/' ),
+	),
+	'privacy'     => array(
+		'label' => __( 'Privacy', 'bookings_and_flights' ),
+		'url'   => home_url( '/privacy-policy/' ),
+	),
+	'support'     => array(
+		'label' => __( 'Support', 'bookings_and_flights' ),
+		'url'   => home_url( '/contact/' ),
+	),
+	'destinations' => array(
+		'label' => __( 'Destination index', 'bookings_and_flights' ),
+		'url'   => home_url( '/#explore' ),
+	),
+);
 
 $social_links = array(
 	'social_facebook'  => array( 'label' => 'Facebook',  'icon' => '<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>' ),
@@ -136,10 +154,6 @@ $social_links = array(
 			<p class="site-footer__copyright">
 				&copy; <?php echo wp_date( 'Y' ); ?> Bookings and Flights. <?php esc_html_e( 'All rights reserved.', 'bookings_and_flights' ); ?>
 			</p>
-			<nav class="site-footer__legal" aria-label="<?php esc_attr_e( 'Legal links', 'bookings_and_flights' ); ?>">
-				<a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>"><?php esc_html_e( 'Terms of Service', 'bookings_and_flights' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'bookings_and_flights' ); ?></a>
-			</nav>
 		</div>
 
 		<?php elseif ( 'minimal' === $footer_layout ) : ?>
@@ -206,6 +220,17 @@ $social_links = array(
 		</div>
 
 		<?php endif; ?>
+
+		<div class="site-footer__compliance">
+			<p class="site-footer__disclosure">
+				<?php esc_html_e( 'Affiliate disclosure: Bookings and Flights may earn commissions from sponsored Travelpayouts or partner links. Search, availability, booking, payment, changes, and reservation support are handled by the partner provider.', 'bookings_and_flights' ); ?>
+			</p>
+			<nav class="site-footer__legal" aria-label="<?php esc_attr_e( 'Legal, support, and destination links', 'bookings_and_flights' ); ?>">
+				<?php foreach ( $footer_legal_links as $footer_link ) : ?>
+					<a href="<?php echo esc_url( $footer_link['url'] ); ?>"><?php echo esc_html( $footer_link['label'] ); ?></a>
+				<?php endforeach; ?>
+			</nav>
+		</div>
 
 	</div>
 </footer>

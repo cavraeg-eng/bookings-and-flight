@@ -195,6 +195,17 @@
   font-weight: 700;
 }
 
+.search-placement__support {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid hsl(43 74% 70%);
+  border-radius: 8px;
+  background: hsl(43 88% 92%);
+  color: hsl(205 13% 32%);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
 .search-placement a:focus-visible,
 .search-placement button:focus-visible,
 .search-placement iframe:focus-visible,

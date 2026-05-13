@@ -621,6 +621,25 @@ node Playwright smoke against http://bookings-and-flights.local/
 
 P14.4 local result on 2026-05-12: PHP syntax for `page-home.php` and `git diff --check` passed. File-size checks kept `page-home.php` at 322 lines, `home.css` at 588 lines, and `functions.php` at 600 lines. HTTP homepage smoke returned `200`. Source scans found no unsupported live/fake deal/auto-book/auto-publish or secret-token matches. Write-path review found only the existing GET search forms and no new POST/fetch/beacon/nonce path. Playwright Chromium captured desktop and mobile retention screenshots, confirmed two retention cards render, verified the alert CTA opens `/flights/?travel_focus=price_alert`, verified the planner entry routes to `#trip-planner`, confirmed both cards are keyboard reachable, and recorded no horizontal overflow, console warnings, page errors, or failed requests. Screenshots: `/tmp/one89-retention-desktop.png` and `/tmp/one89-retention-mobile.png`. Runtime evidence: `/tmp/one89-runtime-review.json`.
 
+P14.5 trust, disclosure, footer, and legal validation:
+
+```bash
+php -l themes/bookings-and-flights-static/page-home.php
+php -l themes/bookings-and-flights-static/template-parts/travel-search-placement.php
+php -l themes/bookings-and-flights-static/footer.php
+php -l themes/bookings-and-flights-static/page-legal.php
+git diff --check
+php -d mysqli.default_socket="/Users/djcavy/Library/Application Support/Local/run/qRHZasMmV/mysql/mysqld.sock" /opt/homebrew/bin/wp --path="/Users/djcavy/Local Sites/bookings-and-flights/app/public" post list --post_type=page --fields=ID,post_title,post_name,post_status --format=table --skip-plugins --skip-themes
+curl -ksS "http://bookings-and-flights.local/"
+curl -ksS "http://bookings-and-flights.local/flights/"
+curl -ksS "http://bookings-and-flights.local/hotels/"
+curl -ksS "http://bookings-and-flights.local/privacy-policy/"
+curl -ksS "http://bookings-and-flights.local/terms-and-conditions/"
+node Playwright trust/footer/legal smoke against homepage, Flights, Hotels, Privacy, and Terms pages
+```
+
+P14.5 local result on 2026-05-12: PHP syntax checks for changed theme PHP files and `git diff --check` passed. File-size checks kept `functions.php` at 600 lines, `home.css` at 588 lines, and all changed theme/CSS files under 600 lines. WP-CLI with the Local MySQL socket confirmed the active theme and published Home, Flights, Hotels, Contact, Privacy Policy, and Terms & Conditions pages; the plain WP-CLI command without the socket still hits the known Local database socket issue. HTTP smoke returned `200` for `/`, `/flights/`, `/hotels/`, `/contact/`, `/privacy-policy/`, and `/terms-and-conditions/`. Source checks confirmed visible Affiliate disclosure, Partner checkout, Support, Destination index, Terms, Privacy, Travelpayouts/provider handoff copy, and the corrected `/terms-and-conditions/` footer link. Source scans found no API token, API key, authorization, bearer, access token, refresh token, client secret, postback secret, broad direct-booking, checkout-with-Bookings, guaranteed, lowest-price, live-fare, or direct-booking claims. The Codex in-app Browser path was attempted first but had no active pane, so runtime validation used Playwright Chromium. Desktop/mobile screenshots confirmed homepage trust cards and footer compliance render without text overflow, Flights/Hotels render local support notes below the approved provider wrapper, and Privacy/Terms legal sections include affiliate/provider handoff language. Link smoke checks for Terms, Privacy, Support, and Destination index returned `200` or the expected homepage anchor. Keyboard review reached Support, Destination index, Terms, Privacy, `Open flight search`, and `Open hotel search`. Footer legal link contrast is `11.76:1`, and footer disclosure contrast is `5.28:1`. Provider-owned Flights warnings and browser WebGL provider-context warnings were classified as existing watchlist items because there were no page errors or failed requests. Screenshots: `/tmp/one90-home-trust-desktop.png`, `/tmp/one90-home-trust-mobile.png`, `/tmp/one90-footer-compliance-desktop.png`, `/tmp/one90-footer-compliance-mobile.png`, `/tmp/one90-flights-support-desktop.png`, `/tmp/one90-hotels-support-desktop.png`, `/tmp/one90-terms-disclosure-desktop.png`, and `/tmp/one90-privacy-affiliate-desktop.png`. Runtime evidence: `/tmp/one90-runtime-review-final.json`.
+
 ## Documentation-Only Changes
 
 For documentation-only changes:

@@ -214,6 +214,28 @@ get_header();
 		</div>
 	</section>
 
+	<section class="home-entrypoints" aria-labelledby="home-trust-title">
+		<h2 id="home-trust-title" class="sr-only"><?php esc_html_e( 'Travel search trust and disclosure', 'bookings_and_flights' ); ?></h2>
+		<div class="home-entrypoints__container">
+			<div class="home-entrypoint">
+				<span class="home-entrypoint__label"><?php esc_html_e( 'Affiliate disclosure', 'bookings_and_flights' ); ?></span>
+				<span class="home-entrypoint__text"><?php esc_html_e( 'Bookings and Flights may earn a commission when you use sponsored Travelpayouts or partner links.', 'bookings_and_flights' ); ?></span>
+			</div>
+			<div class="home-entrypoint">
+				<span class="home-entrypoint__label"><?php esc_html_e( 'Partner checkout', 'bookings_and_flights' ); ?></span>
+				<span class="home-entrypoint__text"><?php esc_html_e( 'Availability, booking, payment, changes, and reservation support happen on the provider site.', 'bookings_and_flights' ); ?></span>
+			</div>
+			<a class="home-entrypoint" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">
+				<span class="home-entrypoint__label"><?php esc_html_e( 'Support', 'bookings_and_flights' ); ?></span>
+				<span class="home-entrypoint__text"><?php esc_html_e( 'Contact us for site questions. For a completed booking, use the partner confirmation and support channel.', 'bookings_and_flights' ); ?></span>
+			</a>
+			<a class="home-entrypoint" href="<?php echo esc_url( home_url( '/#explore' ) ); ?>">
+				<span class="home-entrypoint__label"><?php esc_html_e( 'Destination index', 'bookings_and_flights' ); ?></span>
+				<span class="home-entrypoint__text"><?php esc_html_e( 'Browse destination and route ideas before opening the provider-owned search surface.', 'bookings_and_flights' ); ?></span>
+			</a>
+		</div>
+	</section>
+
 	<section class="home-discovery" aria-labelledby="home-discovery-title">
 		<div class="home-discovery__container">
 			<div class="home-discovery__intro">
