@@ -1588,7 +1588,7 @@ P15.7 note: `ONE-99` started on 2026-05-13. The final Phase 15 review gate recon
 
 ## Phase 16: Hotels and Stays Experience
 
-Status: `Not Started`
+Status: `In Progress`
 
 Objective: Build a strong hotel discovery experience using Travelpayouts-supported hotel widgets, maps, links, and program tools.
 
@@ -1612,6 +1612,8 @@ Validation checklist:
 - Mobile map/widget layout review.
 - Secret exposure review.
 - Editorial SEO checks.
+
+P16.1 note: `ONE-100` started on 2026-05-13. The Hotels page now has a local hotel-intent module for destination, check-in, check-out, guests, rooms, and stay focus before the approved `hotels_partner_search` placement. The page keeps these fields as WordPress-owned planning intent and clearly states that live rates, room inventory, taxes, policies, map/neighborhood/amenity filters, booking, payment, changes, and support stay with Trip.com, Travelpayouts, or the partner provider. The configured hotel partner placement continues to render through the Phase 13 registry as an iframe with a visible sponsored `Open hotel search` handoff and no-script/missing-configuration states from the shared placement shell. Runtime validation found the shared URL cleanup script was only enqueued on Flights, so hotel intent submissions kept query parameters in the visible URL; `search-surface.js` now handles hotel intent keys and the script is enqueued for both Flights and Hotels. Playwright Chromium desktop/mobile checks confirmed the Hotels page, widget section, updated-intent interaction, clean URL, and keyboard path through local controls to `Open hotel search`, with no app-owned console errors, app-owned failed requests, relevant failed requests, horizontal overflow, duplicate IDs, framework overlays, source-secret leaks, or unsupported inventory claims.
 
 ## Phase 17: Destination, Route, and SEO Content Engine
 

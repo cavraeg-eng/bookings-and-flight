@@ -935,3 +935,31 @@ Related files/routes/settings:
 - `baf_travelpayouts_widget_registry`
 - `/flights/`
 - `/routes/`
+
+## Phase 16 Hotels Landing Search Surface
+
+Fragile area: `/hotels/` local hotel-intent module and the approved `hotels_partner_search` placement shell.
+
+Why risky: The Hotels page sits between local editorial planning and a provider-owned live hotel search surface. Future changes could accidentally imply WordPress owns hotel inventory, weaken disclosure copy, stop rendering the Trip.com/Travelpayouts handoff, expose provider settings, or leave stale hotel query parameters in the visible URL.
+
+What to check after future changes:
+
+- `/hotels/` renders the hotel-intent module and `hotels_partner_search` placement from the registry.
+- Hotel intent fields remain local display state only: destination, check-in, check-out, guests, rooms, and stay focus.
+- `search-surface.js` is enqueued on Hotels and removes hotel intent query keys after the server-rendered summary loads.
+- Live rates, room availability, maps, amenities, policies, booking, payment, changes, and support remain provider-owned in visible copy.
+- The visible `Open hotel search` handoff remains keyboard-reachable after the provider iframe.
+- Missing configuration, disabled consent, and no-script states remain handled by the shared placement shell.
+- Desktop/mobile screenshots show no horizontal overflow, duplicate IDs, hidden disclosure text, or app-owned console/request failures.
+- Source scans continue to find no provider secrets, direct-checkout claims, guaranteed-rate claims, WordPress-owned live inventory claims, or Booking.com White Label inventory promises.
+
+Related files/routes/settings:
+
+- `themes/bookings-and-flights-static/page-hotels.php`
+- `themes/bookings-and-flights-static/assets/css/hotels-surface.css`
+- `themes/bookings-and-flights-static/assets/js/search-surface.js`
+- `themes/bookings-and-flights-static/functions.php`
+- `themes/bookings-and-flights-static/template-parts/travel-search-placement.php`
+- `baf_travelpayouts_widget_registry`
+- `hotels_partner_search`
+- `/hotels/`

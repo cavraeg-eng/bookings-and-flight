@@ -2050,3 +2050,43 @@ Research consulted:
 - Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
 
 Decision: P15.7 local review gate passed. Phase 15 Flights Experience is ready to close after PR review, merge, and Linear sync; Phase 16 hotel/stays work may start after that closeout.
+
+## Phase 16.1 Review - 2026-05-13
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-100` Hotels landing page and search/widget module. Reviewed Phase 16 objective, Phase 11 hotel/Trip.com constraints, Phase 13 widget registry contracts, Phase 14 Hotels baseline, Phase 15 handoff/disclosure patterns, current Hotels template, shared placement shell, provider consent boundary, hotel widget registry placement, source output, desktop/mobile runtime screenshots, and keyboard navigation.
+
+Acceptance criteria result: Passed locally for the PR candidate. The Hotels page now renders a local hotel-intent module for destination, check-in, check-out, guests, rooms, and stay focus before the approved `hotels_partner_search` placement. The partner iframe and visible `Open hotel search` handoff continue to render through the governed registry shell, with visible disclosure, no-script/missing-configuration behavior, and provider-owned live availability/booking copy.
+
+Security review: Passed locally. Input reads check scalar query values, unslash and sanitize text, bound guests/rooms, validate dates, and escape rendered output. Source scans found no app-owned PHP warnings, API keys, tokens, authorization headers, bearer strings, postback secrets, passwords, guaranteed-rate claims, direct-checkout claims, auto-booking, stored-inventory claims, WordPress-owned hotel inventory claims, or Booking.com White Label inventory promises. No provider secret, REST route, POST write, custom SQL, option, table, cron job, direct checkout, payment path, booking backend, or auto-publishing path was added.
+
+REST permission review: Not applicable. P16.1 added no REST routes or changed public REST exposure.
+
+Database/migration review: Not applicable. P16.1 added no custom tables, options, registry schema migration, cron jobs, or persistent records. The existing `hotels_partner_search` placement remained active, approved for `home` and `hotels`, and rendered in `iframe` mode.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Desktop, widget-section, mobile, updated-intent, and keyboard-handoff screenshots confirmed the page renders nonblank, the hotel CSS loads, the provider placement is configured, the handoff is visible, and there is no horizontal overflow, duplicate ID, framework overlay, app-owned console error, app-owned failed request, or relevant failed request. Keyboard review reached local hotel controls, `Update hotel intent`, the provider iframe, and `Open hotel search`.
+
+Regression review: Existing Phase 13 registry output, Phase 14 Hotels placement shell, P15 provider-owned booking/payment/support language, shared header/footer shell, Flights query noindex behavior, and Travelpayouts-controlled backend boundary remain intact. The hotel-specific CSS is split from `search-surface.css` to keep the shared stylesheet stable, and `search-surface.js` now cleans hotel intent query keys without changing the Flights cleanup behavior.
+
+Validation performed: PHP syntax for changed PHP files; JavaScript syntax for `search-surface.js`; file-size checks; HTTP/source smoke for Hotels default, Hotels intent, and Flights query regression URLs; widget-registry smoke for `hotels_partner_search`; source scans for required hotel UI/disclosure/handoff text and negative secret/unsupported-claim terms; attempted Codex in-app Browser validation; Playwright Chromium desktop/mobile screenshots, updated-intent interaction, clean URL check, console/request health, duplicate-ID and overflow checks, and keyboard navigation; `git diff --check`.
+
+Bugs found: Runtime interaction review found that the shared search-surface cleanup script was only enqueued on Flights, so Hotels intent submissions rendered the correct summary but left hotel query parameters in the visible URL. The first keyboard assertion was also too broad and matched the header Hotels link; a focused inspection confirmed the actual tab path was correct.
+
+Bugs fixed: Enqueued `search-surface.js` for both Flights and Hotels, added hotel intent query keys to the cleanup list, and reran the browser interaction so updated hotel intent now renders the summary while cleaning the visible URL back to `/hotels/`. The keyboard test was tightened to the visible `Open hotel search` handoff and passed.
+
+Bugs deferred: Provider-owned Trip.com iframe behavior and content-blocking fallback remain a later-phase watch item. City hotel guide templates, hotel maps/tables, hotel-specific SubID expansion, and final Phase 16 review remain later Phase 16 issues.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Files.
+- WordPress Plugin Security Handbook: Securing Input.
+- WordPress Plugin Security Handbook: Securing Output.
+- WordPress Common APIs Handbook: Sanitizing Data.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
+
+Decision: P16.1 local implementation and review gate passed. Keep Phase 16 overall `In Progress` until the remaining hotel/stays issues pass review and merge.
