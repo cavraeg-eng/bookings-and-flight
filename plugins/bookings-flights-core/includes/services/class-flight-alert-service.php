@@ -16,6 +16,7 @@ final class Flight_Alert_Service {
 	public const STATUS_REQUESTED    = 'requested';
 	public const STATUS_ACTIVE       = 'active';
 	public const STATUS_EMAIL_FAILED = 'email_failed';
+	public const STATUS_DUPLICATE    = 'duplicate';
 
 	public const EMAIL_STATUS_PENDING = 'pending';
 	public const EMAIL_STATUS_SENT    = 'sent';
@@ -129,8 +130,21 @@ final class Flight_Alert_Service {
 		$sent    = 0;
 		$failed  = 0;
 		$skipped = 0;
+		$seen    = array();
 
 		foreach ( $ids as $alert_id ) {
+			$dedupe_key = $this->dedupe_key( (int) $alert_id );
+
+			if ( '' !== $dedupe_key && isset( $seen[ $dedupe_key ] ) ) {
+				$this->mark_duplicate( (int) $alert_id );
+				++$skipped;
+				continue;
+			}
+
+			if ( '' !== $dedupe_key ) {
+				$seen[ $dedupe_key ] = true;
+			}
+
 			$result = $this->send_followup_email( (int) $alert_id );
 
 			if ( true === $result ) {
@@ -221,6 +235,23 @@ final class Flight_Alert_Service {
 		update_post_meta( $alert_id, 'baf_alert_email_sent_at', wp_date( DATE_ATOM ) );
 
 		return true;
+	}
+
+	private function dedupe_key( int $alert_id ): string {
+		$email     = sanitize_email( (string) get_post_meta( $alert_id, 'baf_alert_email', true ) );
+		$route_key = strtoupper( sanitize_text_field( (string) get_post_meta( $alert_id, 'baf_alert_route', true ) ) );
+
+		if ( '' === $email || ! is_email( $email ) || '' === $route_key ) {
+			return '';
+		}
+
+		return strtolower( $email ) . '|' . $route_key;
+	}
+
+	private function mark_duplicate( int $alert_id ): void {
+		update_post_meta( $alert_id, 'baf_alert_status', self::STATUS_DUPLICATE );
+		update_post_meta( $alert_id, 'baf_alert_email_status', self::EMAIL_STATUS_SKIPPED );
+		update_post_meta( $alert_id, 'baf_alert_updated_at', wp_date( DATE_ATOM ) );
 	}
 
 	private function email_message( int $alert_id, string $origin, string $destination, string $route_key ): string {

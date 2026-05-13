@@ -55,11 +55,12 @@ What to check after future changes:
 - Alert records remain private `travel_alert` posts with minimized local route/watch metadata only.
 - Alert form writes keep nonce, consent, email validation, route-code validation, safe redirects, and short per-client/email/route throttling.
 - Duplicate alert submissions for the same email/route update the existing record rather than creating unbounded duplicates.
+- Existing duplicate requested alert rows for the same email/route do not send duplicate follow-up emails; later queued duplicates are marked skipped/duplicate during cron processing.
 - Per-email active/pending alert limits remain enforced before creating a new route alert.
 - Failed email sends move alerts to `email_failed` and do not permanently consume the ten-alert active/pending limit; same-email/same-route submissions can revive the local intent for another queued attempt.
 - `baf_process_travel_alerts` remains idempotent: already-sent/active alerts are not emailed repeatedly.
 - Alert emails and frontend copy keep provider-owned live fare, booking, payment, changes, and support language visible.
-- Signed alert delete links open a confirmation page, require a nonce-protected POST to permanently delete the private alert record, do not rely on plaintext stored tokens, and treat `wp_delete_post()` `false`/`null` returns as failures.
+- Signed alert delete links open a confirmation page, require an alert-specific nonce-protected POST to permanently delete the private alert record, do not rely on plaintext stored tokens, and treat `wp_delete_post()` `false`/`null` returns as failures.
 - Alert and saved-trip cleanup checks confirm temporary validation records are removed.
 - P19.3 personal-data export/erase work must cover both saved trips and alerts without exposing unrelated users' records.
 

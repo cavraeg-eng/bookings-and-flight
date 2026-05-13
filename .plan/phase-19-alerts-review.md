@@ -8,7 +8,7 @@ Status: In Review
 
 ## Summary
 
-P19.2 finalizes the local price-alert lifecycle without turning WordPress into a live fare monitor. Alert capture still stores private `travel_alert` intent records only. The new alert service deduplicates email/route submissions, limits each email to ten active or pending alerts, records email follow-up state, sends confirmation/manage emails from the hourly alert cron job, moves failed email sends to a non-counted `email_failed` state, and gives users a signed delete-confirmation link that requires nonce-protected POST confirmation before permanently removing the private alert record.
+P19.2 finalizes the local price-alert lifecycle without turning WordPress into a live fare monitor. Alert capture still stores private `travel_alert` intent records only. The new alert service deduplicates email/route submissions, limits each email to ten active or pending alerts, records email follow-up state, sends one confirmation/manage email per queued email/route pair from the hourly alert cron job, marks later legacy duplicates skipped, moves failed email sends to a non-counted `email_failed` state, and gives users a signed delete-confirmation link that requires alert-specific nonce-protected POST confirmation before permanently removing the private alert record.
 
 No Travelpayouts provider call, custom inventory API, live fare storage, booking, payment, provider payload logging, raw prompt storage, or public alert REST exposure was added.
 
@@ -17,8 +17,8 @@ No Travelpayouts provider call, custom inventory API, live fare storage, booking
 - Scope review: Passed. The implementation matches P19.2: alert intent, limits, email/cron hooks, opt-out/delete, and provider-boundary copy.
 - Functional happy path: Passed. Browser form submission creates a local alert and redirects to the saved state.
 - Error/limits: Passed. Duplicate email/route submissions update the existing alert, short throttling remains, the eleventh active/pending route for one email is rejected, and failed email sends do not permanently consume the active/pending quota.
-- Cron/email: Passed. Pending alerts are processed through `baf_process_travel_alerts`; successful emails mark alerts active and sent, while failed sends move to `email_failed` for safe retry through a later same-route save.
-- Delete/opt-out: Passed. Email delete links use signed tokens, open a frontend confirmation form, permanently delete the private alert post only after a valid nonce-protected POST, and report `wp_delete_post()` `false`/`null` returns as failures.
+- Cron/email: Passed. Pending alerts are processed through `baf_process_travel_alerts`; successful emails mark alerts active and sent, legacy duplicate requested rows are skipped after the first email/route pair, while failed sends move to `email_failed` for safe retry through a later same-route save.
+- Delete/opt-out: Passed. Email delete links use signed tokens, open a frontend confirmation form, permanently delete the private alert post only after a valid alert-specific nonce-protected POST, and report `wp_delete_post()` `false`/`null` returns as failures.
 - Security/data review: Passed. Nonces, consent, validation, sanitization, safe redirects, token verification, private meta, and source-secret checks passed.
 - UI review: Passed with Playwright Chromium screenshots and keyboard review after the Codex in-app Browser pane was unavailable.
 
@@ -33,7 +33,7 @@ No Travelpayouts provider call, custom inventory API, live fare storage, booking
   - `plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php`
   - `themes/bookings-and-flights-static/page-home.php`
 - Plugin activation: `bookings-flights-core` deactivate/reactivate/is-active passed.
-- WP-CLI smoke: `/tmp/one121-alert-smoke.php` passed 65 assertions after adding failed-email quota, same-route retry, query-cache freshness, and `wp_delete_post()` failure regressions.
+- WP-CLI smoke: `/tmp/one121-alert-smoke.php` passed 77 assertions after adding failed-email quota, same-route retry, duplicate queued-alert dedupe, scoped delete nonce, query-cache freshness, and `wp_delete_post()` failure regressions.
 - Permission/meta checks: missing alert nonce returned `403` and created zero records; new alert follow-up meta keys are registered for `travel_alert` and stay private.
 - Runtime browser review: `/tmp/one121-runtime-review-report.json` and `/tmp/one121-delete-runtime-review-report.json` returned `status=pass`, `findingCount=0`.
 - Screenshots:
@@ -52,6 +52,8 @@ Found:
 - Codex PR review found that the first alert delete link allowed a destructive GET request from email.
 - Codex PR review found that `delete_by_token()` treated a `false` return from `wp_delete_post()` as success.
 - Codex PR review found that failed `wp_mail()` sends kept alerts in `requested`, causing failed sends to consume the per-email limit without sending a manage/delete link.
+- Codex PR review found that legacy duplicate `requested` rows for the same email/route could still send multiple follow-up emails in one cron cycle.
+- Codex PR review found that the delete confirmation nonce used one static action instead of being scoped to the alert/token target.
 
 Fixed:
 
@@ -61,6 +63,8 @@ Fixed:
 - Styled the confirmation warning and delete/keep controls for the runtime page.
 - Required a deleted `WP_Post` object before treating token deletion as successful.
 - Moved failed `wp_mail()` sends to `email_failed`, excluded that status from the active/pending quota, and verified a same-route save can queue another attempt.
+- Collapsed queued duplicate email/route rows by sending one follow-up and marking later duplicates as skipped.
+- Scoped the delete nonce action to the specific alert ID and token hash.
 
 Deferred:
 

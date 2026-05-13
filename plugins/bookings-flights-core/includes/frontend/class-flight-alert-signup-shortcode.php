@@ -244,7 +244,7 @@ final class Flight_Alert_Signup_Shortcode {
 			<input type="hidden" name="baf_alert_id" value="<?php echo esc_attr( (string) absint( $confirmation['id'] ) ); ?>">
 			<input type="hidden" name="baf_alert_token" value="<?php echo esc_attr( (string) $confirmation['token'] ); ?>">
 			<input type="hidden" name="baf_alert_redirect" value="<?php echo esc_url( home_url( '/flights/' ) ); ?>">
-			<?php wp_nonce_field( Flight_Alert_Intent_Handler::DELETE_NONCE_ACTION, Flight_Alert_Intent_Handler::DELETE_NONCE_FIELD ); ?>
+			<?php wp_nonce_field( Flight_Alert_Intent_Handler::delete_nonce_action( absint( $confirmation['id'] ), (string) $confirmation['token'] ), Flight_Alert_Intent_Handler::DELETE_NONCE_FIELD ); ?>
 			<button class="baf-flight-alert__submit" type="submit"><?php esc_html_e( 'Delete alert intent', 'bookings-flights-core' ); ?></button>
 			<a class="baf-flight-alert__keep" href="<?php echo esc_url( home_url( '/flights/' ) ); ?>"><?php esc_html_e( 'Keep alert', 'bookings-flights-core' ); ?></a>
 		</form>

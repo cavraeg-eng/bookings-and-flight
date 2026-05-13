@@ -137,13 +137,21 @@ final class Flight_Alert_Intent_Handler {
 			self::redirect_with_status( $redirect_url, self::STATUS_DELETE_INVALID );
 		}
 
-		check_admin_referer( self::DELETE_NONCE_ACTION, self::DELETE_NONCE_FIELD );
-
 		$alert_id     = absint( self::field( $data, 'baf_alert_id' ) );
 		$token        = self::field( $data, 'baf_alert_token' );
+
+		check_admin_referer( self::delete_nonce_action( $alert_id, $token ), self::DELETE_NONCE_FIELD );
+
 		$result       = ( new Flight_Alert_Service() )->delete_by_token( $alert_id, $token );
 
 		self::redirect_with_status( $redirect_url, is_wp_error( $result ) ? self::STATUS_DELETE_INVALID : self::STATUS_DELETED );
+	}
+
+	public static function delete_nonce_action( int $alert_id, string $token ): string {
+		$token = preg_replace( '/[^a-f0-9]/', '', strtolower( $token ) );
+		$token = is_string( $token ) ? $token : '';
+
+		return self::DELETE_NONCE_ACTION . '_' . absint( $alert_id ) . '_' . substr( hash( 'sha256', $token ), 0, 16 );
 	}
 
 	public static function normalize_iata( string $value ): string {
