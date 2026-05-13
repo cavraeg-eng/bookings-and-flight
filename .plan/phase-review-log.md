@@ -2368,7 +2368,7 @@ Decision: P17.2 local implementation and review gate passed. Keep Phase 17 overa
 
 ## Phase 17.3 Review - 2026-05-13
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
