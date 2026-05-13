@@ -1546,7 +1546,7 @@ P14.7 note: `ONE-92` started on 2026-05-12. The final Phase 14 review gate recon
 
 ## Phase 15: Flights Experience
 
-Status: `Not Started`
+Status: `In Progress`
 
 Objective: Build a flight-first WordPress experience using Travelpayouts for search/results/handoff.
 
@@ -1571,6 +1571,8 @@ Validation checklist:
 - Alert permission/nonce checks if implemented.
 - SEO source review.
 - Mobile layout review.
+
+P15.1 note: `ONE-93` started on 2026-05-12. The dedicated Flights page now includes a local flight-intent module for origin, destination, depart date, return date, travelers, and cabin selection, while direct-only, nearby-airport, flexible-date, airline, baggage, and time filters are clearly marked as provider-controlled options to set inside the Travelpayouts White Label module. Submitted intent details are sanitized, rendered on the page, and cleaned from the visible URL before the provider widget can reinterpret them. No alert capture, route landing page, low-price calendar, popular-route widget, custom inventory API, or WordPress-owned booking path was added in P15.1. Runtime Playwright review covered desktop and mobile screenshots, the update-intent interaction, keyboard reachability through the local form and `Open flight search` handoff, source-secret/unsupported-claim scans, and the existing provider-owned Travelpayouts console-warning watch item. The Codex in-app Browser path was attempted first but had no active pane in this thread, so Playwright Chromium was used for required browser screenshots and keyboard navigation review.
 
 ## Phase 16: Hotels and Stays Experience
 

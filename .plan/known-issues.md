@@ -65,3 +65,15 @@ Current issue: Phase 12 completed the information architecture, design-system, C
 Workaround: Treat `.plan/phase-12-completion-gate.md`, `.plan/phase-12-page-level-wireframes.md`, `.plan/phase-12-widget-frame-layout-rules.md`, and `.plan/phase-12-design-system-component-inventory.md` as the source of truth for later public UI implementation. Do not judge Phase 14+ visual work against the current generic runtime layout.
 
 Planned fix phase: Continue with Phase 15 flights experience, Phase 16 hotels experience, Phase 17 SEO content surfaces, Phase 18 AI planner, and Phase 19 saved trips/alerts/release readiness.
+
+## Phase 15 Flights Experience Remaining Scope
+
+Severity: Medium until all Phase 15 child tickets are completed.
+
+Affected area: `/flights/`, future origin and route landing pages, low-price calendar/popular route widgets, and price-alert signup.
+
+Current issue: P15.1 added the dedicated Flights landing page intent module and preserved Travelpayouts-controlled White Label handoff behavior, but it intentionally did not add origin landing pages, route landing pages, low-price calendar widgets, popular route widgets, or alert storage. Direct-only, nearby-airport, flexible-date, airline, baggage, and time filters are clearly marked as provider-controlled because the current local WordPress shell does not apply those filters to Travelpayouts results.
+
+Workaround: Use `/flights/` for the current Travelpayouts handoff path, keep unsupported filters as provider-controlled labels, and continue route/calendar/alert implementation through later Phase 15 Linear issues.
+
+Planned fix phase: Remaining Phase 15 flights issues after `ONE-93`.
