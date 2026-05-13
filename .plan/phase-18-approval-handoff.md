@@ -4,7 +4,7 @@ Linear issue: `ONE-116`
 
 Branch: `codex/one-116-approval-handoff`
 
-Status: `In Review`
+Status: `Completed`
 
 ## Scope
 
@@ -66,4 +66,4 @@ Research consulted:
 - Travelpayouts Help Center: Affiliate programs tools.
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
-Decision: In review. Keep Phase 18 overall `In Progress` until this PR is reviewed by Codex, merged, Linear is synced, and later saved-trip/alert/final review issues complete.
+Decision: Completed through PR #52, reviewed by Codex with no major issues, merged into `main` at `04124dbd5bc32d9fb86e3cfb4b44ea29847e45f2`, with the feature branch deleted/pruned. Keep Phase 18 overall `In Progress` until later saved-trip/alert/final review issues complete.

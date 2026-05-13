@@ -2718,7 +2718,7 @@ Decision: P18.3 completed. PR #51 was reviewed by Codex, Codex follow-up bugs we
 
 Date: 2026-05-13
 
-Status: In Review
+Status: Completed
 
 Reviewer: Codex
 
@@ -2758,4 +2758,4 @@ Research consulted:
 - Travelpayouts Help Center: Affiliate programs tools.
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
-Decision: P18.4 is in review. Keep Phase 18 and Linear `ONE-116` in progress until this PR is reviewed by Codex, any review bugs are patched, the PR is merged, and Linear is synced to Done.
+Decision: P18.4 completed. PR #52 was reviewed by Codex with no major issues, had no unresolved review threads, merged into `main` at `04124dbd5bc32d9fb86e3cfb4b44ea29847e45f2`, and the feature branch was deleted/pruned.
