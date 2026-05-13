@@ -2411,7 +2411,7 @@ Decision: P17.3 local implementation and review gate passed. Keep Phase 17 overa
 
 ## Phase 17.4 Review - 2026-05-13
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
@@ -2449,4 +2449,4 @@ Research consulted:
 - WordPress Developer Resources: `user_trailingslashit`.
 - WordPress Common APIs Handbook: Escaping Data.
 
-Decision: P17.4 local implementation and review gate passed. Keep Phase 17 overall `In Progress` until the remaining editor-workflow/accessibility/SEO/final-review issues pass review and merge.
+Decision: P17.4 completed after PR #45 merged on 2026-05-13 with merge commit `226d154a1612f623e8fb95c985686b0ba355c992`. Keep Phase 17 overall `In Progress` until the remaining editor-workflow/accessibility/SEO/final-review issues pass review and merge.
