@@ -263,14 +263,29 @@ get_header();
 				?>
 			</div>
 
-			<section class="route-content route-content--after-search" aria-labelledby="route-after-search-title">
+			<section class="route-content route-content--after-search" aria-label="<?php esc_attr_e( 'Route alerts and related routes', 'bookings_and_flights' ); ?>">
 				<div class="route-content__inner route-content__inner--split">
-					<div class="route-panel route-panel--alert">
-						<p class="route-panel__eyebrow"><?php esc_html_e( 'Alerts', 'bookings_and_flights' ); ?></p>
-						<h2 id="route-after-search-title"><?php esc_html_e( 'Watch this route later', 'bookings_and_flights' ); ?></h2>
-						<p><?php esc_html_e( 'Alert capture is planned for a later Phase 15 issue. For now, this link keeps your route intent visible and opens the approved flight handoff without claiming fare ownership.', 'bookings_and_flights' ); ?></p>
-						<a class="route-button" href="<?php echo esc_url( $alert_url ); ?>"><?php esc_html_e( 'Open alert handoff', 'bookings_and_flights' ); ?></a>
-					</div>
+					<?php if ( shortcode_exists( 'baf_flight_alert_signup' ) ) : ?>
+						<?php
+						echo do_shortcode(
+							sprintf(
+								'[baf_flight_alert_signup origin="%1$s" destination="%2$s" depart_date="%3$s" return_date="%4$s" travelers="1" cabin="economy" surface="route_single" route_id="%5$d" context="route"]',
+								esc_attr( $origin_airport ),
+								esc_attr( $destination_airport ),
+								esc_attr( $departure_window ),
+								esc_attr( $return_window ),
+								$post_id
+							)
+						);
+						?>
+					<?php else : ?>
+						<div class="route-panel route-panel--alert" aria-labelledby="route-after-search-title">
+							<p class="route-panel__eyebrow"><?php esc_html_e( 'Alerts', 'bookings_and_flights' ); ?></p>
+							<h2 id="route-after-search-title"><?php esc_html_e( 'Watch this route later', 'bookings_and_flights' ); ?></h2>
+							<p><?php esc_html_e( 'Alert capture is unavailable until the Bookings and Flights Core alert workflow is active. Use the approved flight handoff without treating WordPress as the live fare owner.', 'bookings_and_flights' ); ?></p>
+							<a class="route-button" href="<?php echo esc_url( $alert_url ); ?>"><?php esc_html_e( 'Open alert handoff', 'bookings_and_flights' ); ?></a>
+						</div>
+					<?php endif; ?>
 
 					<div class="route-panel route-panel--related">
 						<h2><?php esc_html_e( 'Related routes', 'bookings_and_flights' ); ?></h2>

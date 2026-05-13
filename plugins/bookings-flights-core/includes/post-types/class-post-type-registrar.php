@@ -198,6 +198,15 @@ final class Post_Type_Registrar {
 			'baf_itinerary_json'         => self::meta_definition( __( 'Stored itinerary JSON payload.', 'bookings-flights-core' ), array( self::TRIP_PLAN ), array( __CLASS__, 'sanitize_json_text' ) ),
 			'baf_alert_route'            => self::meta_definition( __( 'Alert route identifier.', 'bookings-flights-core' ), array( self::TRAVEL_ALERT ) ),
 			'baf_alert_frequency'        => self::meta_definition( __( 'Alert frequency.', 'bookings-flights-core' ), array( self::TRAVEL_ALERT ) ),
+			'baf_alert_email'            => self::meta_definition( __( 'Alert contact email.', 'bookings-flights-core' ), array( self::TRAVEL_ALERT ), 'sanitize_email' ),
+			'baf_alert_user_id'          => self::meta_definition( __( 'Alert requester user ID when logged in.', 'bookings-flights-core' ), array( self::TRAVEL_ALERT ), array( __CLASS__, 'sanitize_non_negative_integer' ), 'integer' ),
+			'baf_alert_route_post_id'    => self::meta_definition( __( 'Source route post ID.', 'bookings-flights-core' ), array( self::TRAVEL_ALERT ), array( __CLASS__, 'sanitize_non_negative_integer' ), 'integer' ),
+			'baf_alert_travelers'        => self::meta_definition( __( 'Requested traveler count.', 'bookings-flights-core' ), array( self::TRAVEL_ALERT ), array( __CLASS__, 'sanitize_non_negative_integer' ), 'integer' ),
+			'baf_alert_cabin'            => self::meta_definition( __( 'Requested cabin class.', 'bookings-flights-core' ), array( self::TRAVEL_ALERT ), 'sanitize_key' ),
+			'baf_alert_surface'          => self::meta_definition( __( 'Alert source surface.', 'bookings-flights-core' ), array( self::TRAVEL_ALERT ), 'sanitize_key' ),
+			'baf_alert_source_url'       => self::meta_definition( __( 'Alert source URL.', 'bookings-flights-core' ), array( self::TRAVEL_ALERT ), 'esc_url_raw' ),
+			'baf_alert_consent_at'       => self::meta_definition( __( 'Alert consent timestamp.', 'bookings-flights-core' ), array( self::TRAVEL_ALERT ) ),
+			'baf_alert_status'           => self::meta_definition( __( 'Local alert workflow status.', 'bookings-flights-core' ), array( self::TRAVEL_ALERT ), 'sanitize_key' ),
 			'baf_partner_apply_url'      => self::meta_definition( __( 'Partner application URL.', 'bookings-flights-core' ), array( self::TRAVEL_PARTNER ), 'esc_url_raw' ),
 			'baf_partner_status'         => self::meta_definition( __( 'Partner approval or integration status.', 'bookings-flights-core' ), array( self::TRAVEL_PARTNER ) ),
 		);
@@ -226,6 +235,10 @@ final class Post_Type_Registrar {
 
 	public static function sanitize_non_negative_number( mixed $value ): float {
 		return max( 0, (float) $value );
+	}
+
+	public static function sanitize_non_negative_integer( mixed $value ): int {
+		return max( 0, absint( $value ) );
 	}
 
 	public static function sanitize_text_list( mixed $value ): array {

@@ -210,8 +210,19 @@ Use the `baf_` prefix for new meta. Phase 1 registers the following post meta ke
 - `baf_itinerary_json`
 - `baf_alert_route`
 - `baf_alert_frequency`
+- `baf_alert_email`
+- `baf_alert_user_id`
+- `baf_alert_route_post_id`
+- `baf_alert_travelers`
+- `baf_alert_cabin`
+- `baf_alert_surface`
+- `baf_alert_source_url`
+- `baf_alert_consent_at`
+- `baf_alert_status`
 - `baf_partner_apply_url`
 - `baf_partner_status`
+
+Phase 15.5 adds local flight alert intent capture through the `[baf_flight_alert_signup]` shortcode and `admin-post.php` actions `baf_save_flight_alert` / `admin_post_nopriv_baf_save_flight_alert`. Alert signup stores private `travel_alert` posts with route codes, optional date/traveler/cabin context, contact email, source surface, consent timestamp, and local status only. It does not store provider fare inventory, partner booking records, payment data, reservation state, or supplier result payloads. Public writes require a WordPress nonce, explicit consent, email validation, bounded route-code input, and a short per-client/email/route transient throttle; alert administration remains capability-gated by `manage_baf_alerts`.
 
 ## User Meta Keys
 

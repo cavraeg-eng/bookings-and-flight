@@ -844,3 +844,34 @@ Related files/routes/settings:
 - `flights_white_label_search`
 - `/flights/`
 - `/routes/`
+
+## Phase 15 Price Alert Intent Capture
+
+Fragile area: local price alert signup on Flights and route detail pages.
+
+Why risky: The alert form is an anonymous-capable write path that stores contact and route intent. Future changes could weaken nonce/consent checks, expose alert email metadata through public REST/source output, imply live fare monitoring, or accidentally store provider inventory/booking data in WordPress.
+
+What to check after future changes:
+
+- `[baf_flight_alert_signup]` still renders only a local intent form with email, route, frequency, nonce, and explicit consent.
+- `baf_save_flight_alert` and `admin_post_nopriv_baf_save_flight_alert` keep nonce validation, scalar input checks, route-code allowlists, email validation, per-client/email/route transient throttling, and safe redirects.
+- Lowercase route-code submissions continue to normalize to uppercase before the three-letter allowlist check.
+- Form redirect/source URLs continue to rebuild the current page URL from the request path without duplicating the WordPress home path on subdirectory installs.
+- `travel_alert` remains non-public, alert meta remains `show_in_rest => false`, and alert administration remains gated by `manage_baf_alerts`.
+- Stored alert records remain minimized to contact, route/watch intent, source surface, consent timestamp, and local workflow status.
+- Public copy continues to state that Travelpayouts or the partner provider controls live fares, filters, booking, payment, changes, and support.
+- Missing nonce, invalid email, missing consent, missing route, immediate duplicate submission, and missing alert CPT prerequisites fail closed or show safe form states without creating records.
+- Desktop/mobile screenshots show no overlap, clipping, horizontal overflow, duplicate IDs, or hidden consent text.
+- Keyboard review reaches email, origin, destination, frequency, consent, and `Save alert intent` on Flights and route pages.
+
+Related files/routes/settings:
+
+- `plugins/bookings-flights-core/includes/frontend/class-flight-alert-intent-handler.php`
+- `plugins/bookings-flights-core/includes/frontend/class-flight-alert-signup-shortcode.php`
+- `plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php`
+- `plugins/bookings-flights-core/assets/css/frontend.css`
+- `themes/bookings-and-flights-static/page-flights.php`
+- `themes/bookings-and-flights-static/single-route.php`
+- `travel_alert`
+- `/flights/`
+- `/routes/`
