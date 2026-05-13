@@ -1137,6 +1137,38 @@ Related files/routes/settings:
 - `/travel-deals/`
 - `/travel-deals/{deal}/`
 
+## Phase 17 Taxonomy Archive Templates
+
+Fragile area: shared taxonomy archive template, taxonomy-aware SEO metadata, internal-linking rule cards, public-only archive query, pagination, shell-surface handoff links, and mobile navigation target sizing.
+
+Why risky: Taxonomy archives can easily become broad public listing pages that expose non-public planning or partner records, list arbitrary private content, or imply provider-owned live search/booking behavior. The archive also reuses the global mobile nav, so future surface CSS can accidentally shrink tap targets.
+
+What to check after future changes:
+
+- `travel_region`, `travel_style`, `travel_vertical`, and `travel_season` archives render term names/descriptions, internal-linking rules, public content cards, and safe empty states.
+- Public taxonomy archive queries stay bounded and paginated, with `post_status=publish`; standard taxonomy archives include only `destination`, `route`, and `travel_deal`, while `travel_vertical` archives include only `route` and `travel_deal`.
+- Non-public `trip_plan`, `travel_alert`, and `travel_partner` records, private posts, provider keys, direct checkout, auto-booking, fake scarcity, and local live-inventory claims do not appear in source.
+- Taxonomy SEO metadata uses the term archive title/description/canonical URL and does not index transient provider search states.
+- Internal-linking cards continue to point to existing shell surfaces for Flights, Hotels, Destinations, Routes, Deals, and Trip Planner without creating provider-result pages in WordPress.
+- Desktop/mobile/320px screenshots show no horizontal overflow, clipped handoff controls, hidden text, blank pages, framework overlays, app-owned console/request failures, or fixed-header overlap.
+- Keyboard navigation reaches the flight and hotel handoffs, internal-linking cards, content-card links, and pagination with visible focus.
+- Mobile nav links keep at least a 44px target height on taxonomy pages and other public theme surfaces.
+
+Related files/routes/settings:
+
+- `themes/bookings-and-flights-static/taxonomy.php`
+- `themes/bookings-and-flights-static/assets/css/taxonomy-surface.css`
+- `themes/bookings-and-flights-static/assets/css/mobile-nav.css`
+- `themes/bookings-and-flights-static/inc/seo-metadata.php`
+- `travel_region`
+- `travel_style`
+- `travel_vertical`
+- `travel_season`
+- `/travel-regions/{term}/`
+- `/travel-styles/{term}/`
+- `/travel-verticals/{term}/`
+- `/travel-seasons/{term}/`
+
 ## Phase 16 Mobile Hotel Layout And Touch Targets
 
 Fragile area: Header navigation, hotel guide card title links, hotel companion placement cards, and embedded/handoff widget frames across mobile, tablet, desktop, and 320px narrow widths.
