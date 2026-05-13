@@ -2,7 +2,7 @@
 
 Linear issue: `ONE-110`
 
-Status: `In Review`
+Status: `Completed`
 
 ## Scope
 

@@ -2453,7 +2453,7 @@ Decision: P17.4 completed after PR #45 merged on 2026-05-13 with merge commit `2
 
 ## Phase 17.5 Review - 2026-05-13
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
@@ -2491,4 +2491,4 @@ Research consulted:
 - WordPress Developer Resources: `admin_url()`.
 - WordPress Developer Resources: `admin_notices`.
 
-Decision: P17.5 local implementation and review gate passed. Keep Phase 17.5 `In Review` until the PR is reviewed, merged, and Linear is synced; keep Phase 17 overall `In Progress` until the remaining accessibility/SEO/disclosure and final-review issues pass review and merge.
+Decision: P17.5 completed after PR #46 merged on 2026-05-13 with merge commit `ebad31731f8f3c4f7667833b9cb3d601fa34dffb`. Keep Phase 17 overall `In Progress` until the remaining accessibility/SEO/disclosure and final-review issues pass review and merge.
