@@ -750,3 +750,34 @@ Related files/routes/settings:
 - `themes/bookings-and-flights-static/template-parts/travel-search-placement.php`
 - `flights_white_label_search`
 - `/flights/`
+
+## Phase 15 Route And Origin Templates
+
+Fragile area: route archive/detail templates, origin-filtered route pages, route-card handoff links, and the route-approved Travelpayouts White Label placement.
+
+Why risky: Route pages are indexable WordPress SEO surfaces, but search/results/booking must remain Travelpayouts-controlled. The `flights_white_label_search` starter placement now has a versioned `route` surface migration; future registry edits, route template changes, or widget-wrapper changes could accidentally return the safe unavailable state, expose raw provider settings, store provider inventory as WordPress data, or leave the White Label wrapper stuck in loading when provider content renders in shadow DOM.
+
+What to check after future changes:
+
+- `/routes/`, `/routes/?route_origin={code}`, and single route pages return `200` with the active theme and route CPT rewrite rules.
+- Route archive cards and related-route cards keep readable widths on desktop and one-column mobile layout without horizontal overflow.
+- The route-origin filter sanitizes public query input and does not create unbounded queries.
+- Single route pages render editable WordPress route meta, editorial content, related route links, and no canonical fare/provider inventory.
+- The `flights_white_label_search` placement remains approved for the `route` public surface after the registry migration, and disallowed surfaces still return the safe unavailable state.
+- The Travelpayouts White Label wrapper reaches `is-loaded` when provider shadow DOM content appears and keeps loading/fallback states honest when provider content does not appear.
+- Source scans remain free of API secrets, direct-checkout claims, guaranteed-lowest-price claims, real-time fare claims, stored-inventory claims, auto-booking, and auto-publishing language.
+- Keyboard order reaches route guide links, flight handoff links, `Browse routes`, provider `Open flight search`, and `Open alert handoff` without traps.
+
+Related files/routes/settings:
+
+- `plugins/bookings-flights-core/includes/services/class-travelpayouts-widget-registry-service.php`
+- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-renderer.php`
+- `themes/bookings-and-flights-static/archive-route.php`
+- `themes/bookings-and-flights-static/single-route.php`
+- `themes/bookings-and-flights-static/template-parts/route-card.php`
+- `themes/bookings-and-flights-static/assets/css/route-surface.css`
+- `themes/bookings-and-flights-static/template-parts/travel-search-placement.php`
+- `baf_travelpayouts_widget_registry`
+- `flights_white_label_search`
+- `/routes/`
+- `/flights/`

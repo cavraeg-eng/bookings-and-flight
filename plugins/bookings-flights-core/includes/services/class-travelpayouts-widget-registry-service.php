@@ -16,7 +16,7 @@ final class Travelpayouts_Widget_Registry_Service {
 
 	public const OPTION_NAME = 'baf_travelpayouts_widget_registry';
 
-	private const SCHEMA_VERSION = '1.0.0';
+	private const SCHEMA_VERSION = '1.0.1';
 
 	private const DEFAULT_SUBID_PATTERN = '{channel}_{surface}_{vertical}_{slug}_{placement}';
 
@@ -39,6 +39,7 @@ final class Travelpayouts_Widget_Registry_Service {
 		}
 
 		$normalized = self::sanitize_registry( $stored, true );
+		$normalized = self::migrate_registry( $normalized, $stored );
 
 		if ( $normalized !== $stored ) {
 			update_option( self::OPTION_NAME, $normalized, false );
@@ -244,6 +245,39 @@ final class Travelpayouts_Widget_Registry_Service {
 		return self::sanitize_registry( false === $stored ? self::default_registry() : $stored );
 	}
 
+	private static function migrate_registry( array $registry, mixed $stored ): array {
+		$stored_version = is_array( $stored ) ? (string) ( $stored['schema_version'] ?? '' ) : '';
+
+		if ( '' === $stored_version || version_compare( $stored_version, '1.0.1', '<' ) ) {
+			$registry = self::migrate_flights_route_surface( $registry );
+		}
+
+		return $registry;
+	}
+
+	private static function migrate_flights_route_surface( array $registry ): array {
+		if ( empty( $registry['placements']['flights_white_label_search'] ) || ! is_array( $registry['placements']['flights_white_label_search'] ) ) {
+			return $registry;
+		}
+
+		$placement = $registry['placements']['flights_white_label_search'];
+		$surfaces  = self::sanitize_key_list( $placement['public_surfaces'] ?? array() );
+
+		if ( in_array( 'route', $surfaces, true ) ) {
+			return $registry;
+		}
+
+		$surfaces[] = 'route';
+
+		$placement['public_surfaces'] = $surfaces;
+		$placement['updated_at']      = self::timestamp();
+		$registry['updated_at']       = self::timestamp();
+
+		$registry['placements']['flights_white_label_search'] = $placement;
+
+		return $registry;
+	}
+
 	private static function default_registry(): array {
 		$placements = array();
 
@@ -284,7 +318,7 @@ final class Travelpayouts_Widget_Registry_Service {
 					'approved_hosts'  => array( 'tpwgts.com' ),
 				),
 				'status'          => '' === $white_label_id ? 'draft' : 'active',
-				'public_surfaces' => array( 'home', 'flights' ),
+				'public_surfaces' => array( 'home', 'flights', 'route' ),
 				'notes'           => 'Seeded from the existing White Label Widget ID setting.',
 			),
 			array(
