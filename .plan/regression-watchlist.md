@@ -1063,6 +1063,44 @@ Related files/routes/settings:
 - `/destinations/`
 - `/destinations/{destination}/`
 
+## Phase 17 Route Guide Templates
+
+Fragile area: route archive/single templates, route-specific meta modules, Travelpayouts flight widget anchors, related route links, matching destination guide links, and destination hotel/activity follow-up modules.
+
+Why risky: Route pages combine indexable SEO content, approved provider widgets, local alert intent capture, and internal links. Future changes could accidentally imply live fare ownership, expose provider settings, break origin filtering, show arbitrary related cards, or create transient search pages that should not be indexed.
+
+What to check after future changes:
+
+- `/routes/` renders published route cards and the route SEO module section without horizontal overflow.
+- `/routes/?route_origin=nyc` normalizes the origin filter to `NYC`, keeps canonical/indexing behavior from Phase 15, and lists only matching route cards.
+- A route single renders editable post content, route facts, travel-time/airport/flexible-date/destination modules, White Label search, low-price calendar, popular-route, route-map, alert intent, related routes, destination guide links, and visible affiliate disclosures.
+- Related route links require shared origin/destination airport meta or shared route taxonomy terms; routes without those inputs should show empty-state copy instead of arbitrary route cards.
+- Route-only meta keys `baf_route_travel_time`, `baf_route_airport_notes`, `baf_route_flexible_dates`, and `baf_route_destination_notes` remain registered with `show_in_rest => false`, sanitization, and edit-meta authorization.
+- Route hotel/activity links route to existing shell surfaces and do not claim live provider results inside WordPress.
+- Source scans find no API keys, authorization/bearer strings, postback secrets, private keys, direct checkout, auto-booking, guaranteed availability, stored/local fare inventory claims, fake prices, or fake scarcity.
+- Desktop/mobile/320px screenshots show no horizontal overflow, clipped handoff controls, hidden disclosures, blank pages, framework overlays, or app-owned console/request failures.
+- Keyboard navigation reaches `Open flight handoff`, `Watch route`, `Review low-price calendar module`, `Open destination hotel handoff`, `Explore destination activity prompts`, related route links, and matching destination guide links with visible focus.
+- Provider-owned Travelpayouts/Aviasales `@babel/plugin-transform-react-jsx-source` and `sentry.avs.io` warnings remain separated from app-owned console or request failures.
+
+Related files/routes/settings:
+
+- `plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php`
+- `themes/bookings-and-flights-static/archive-route.php`
+- `themes/bookings-and-flights-static/single-route.php`
+- `themes/bookings-and-flights-static/template-parts/route-card.php`
+- `themes/bookings-and-flights-static/template-parts/route-planning-modules.php`
+- `themes/bookings-and-flights-static/template-parts/flight-discovery-widgets.php`
+- `themes/bookings-and-flights-static/template-parts/travel-search-placement.php`
+- `themes/bookings-and-flights-static/assets/css/route-surface.css`
+- `themes/bookings-and-flights-static/inc/seo-metadata.php`
+- `baf_route_travel_time`
+- `baf_route_airport_notes`
+- `baf_route_flexible_dates`
+- `baf_route_destination_notes`
+- `/routes/`
+- `/routes/?route_origin={code}`
+- `/routes/{route}/`
+
 ## Phase 16 Mobile Hotel Layout And Touch Targets
 
 Fragile area: Header navigation, hotel guide card title links, hotel companion placement cards, and embedded/handoff widget frames across mobile, tablet, desktop, and 320px narrow widths.

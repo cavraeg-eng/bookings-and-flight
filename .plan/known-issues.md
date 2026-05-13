@@ -102,14 +102,14 @@ Workaround: Use `/hotels/` and destination hotel guide pages for the current Wor
 
 Planned fix phase: No remaining Phase 16 implementation issue after `ONE-105`; continue monitoring provider-owned Trip.com iframe/content-blocking and Chromium WebGL warnings during later phases.
 
-## Phase 17 Destination Content Engine Watch
+## Phase 17 Content Engine Watch
 
 Severity: Low while P17 remains in progress.
 
-Affected area: `/destinations/`, destination single pages, taxonomy labels, destination planning modules, related destination links, related route links, and monetized hotel handoffs embedded on destination guides.
+Affected area: `/destinations/`, `/routes/`, destination single pages, route single pages, taxonomy labels, destination planning modules, route planning modules, related destination links, related route links, matching destination guide links, and monetized/provider handoffs embedded on content guides.
 
-Current issue: P17.1 now broadens destination pages from hotel-only city guides into editable SEO destination guides. No app-owned P17.1 runtime blocker remains after the local Playwright pass. The current templates still depend on published destination/route content and editor-entered metadata for rich production coverage, and later Phase 17 issues still need route/deal/taxonomy template work and final SEO review.
+Current issue: P17.1 broadened destination pages from hotel-only city guides into editable SEO destination guides. P17.2 deepened route archive/single pages with editable travel-time, airport, flexible-date, destination hotel/activity, related-route, and matching destination-guide modules. No app-owned P17.1 or P17.2 runtime blocker remains after the local Playwright passes. The current templates still depend on published destination/route content and editor-entered metadata for rich production coverage, and later Phase 17 issues still need deal templates, taxonomy archives, internal-linking rules, editor workflow review, and final SEO review.
 
-Workaround: Use `/destinations/` and destination singles for the current editable destination guide shell. Keep live provider availability, search results, booking, payment, changes, support, and supplier inventory with Travelpayouts, Trip.com, or the partner provider.
+Workaround: Use `/destinations/`, destination singles, `/routes/`, origin-filtered route archives, and route singles for the current editable SEO guide shell. Keep live provider availability, fares, search results, booking, payment, changes, support, and supplier inventory with Travelpayouts, Trip.com, or the partner provider.
 
-Planned fix phase: Continue Phase 17 route templates, deal/taxonomy templates, internal-linking modules, and final SEO content review issues after `ONE-106`.
+Planned fix phase: Continue Phase 17 deal/taxonomy templates, internal-linking modules, editor workflow review, and final SEO content review issues after `ONE-107`.

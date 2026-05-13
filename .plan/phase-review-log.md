@@ -2324,3 +2324,44 @@ Research consulted:
 - Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
 
 Decision: P17.1 local implementation and review gate passed. Keep Phase 17 overall `In Progress` until the remaining route/deal/taxonomy/internal-linking/SEO review issues pass review and merge.
+
+## Phase 17.2 Review - 2026-05-13
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Linear issue: `ONE-107`
+
+Scope reviewed: `ONE-107` route single and archive templates. Reviewed Phase 17 objective, Phase 15 route/template/SEO/widget baseline, route CPT and meta contracts, Travelpayouts-owned result boundary, current route archive/single behavior, source output, real runtime screenshots, keyboard navigation, and documentation alignment.
+
+Acceptance criteria result: Passed locally for the PR candidate. `/routes/` now includes route SEO module context, route singles render editable travel-time, airport, flexible-date, and destination hotel/activity modules, and route pages keep White Label search, low-price calendar, popular-route, route-map, alert intent, related routes, and matching destination-guide links inside the established provider handoff boundary.
+
+Security review: Passed locally. P17.2 added no public REST endpoints, provider API calls, custom SQL, options, custom tables, cron jobs, private-data writes, checkout, payment path, auto-booking, or auto-publishing behavior. New route meta keys are sanitized textarea fields, private from REST by default, and protected by existing edit-meta authorization. Template output escapes copy, URLs, attributes, route facts, destination links, and metadata.
+
+REST permission review: Not applicable. P17.2 added no REST endpoints and did not change public REST exposure.
+
+Database/migration review: Passed for scope. No custom tables, destructive migrations, cron jobs, or option migrations were added. The implementation registers route-only post meta contracts only. Temporary route posts `329`, `330`, `331`, and destination post `332` were used for runtime validation, removed after validation, and confirmed at zero remaining.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Playwright Chromium screenshots covered route archive, origin-filter archive, route single, and no-context route states across desktop/mobile/320px where applicable. Keyboard navigation reached `Open flight handoff`, `Watch route`, `Review low-price calendar module`, `Open destination hotel handoff`, `Explore destination activity prompts`, a related route link, and a matching destination guide link with visible focus.
+
+Regression review: Existing P15 route archive/detail behavior, P15 route SEO metadata, P15 discovery widgets, P15 alert signup, P16 hotel handoff language, P17.1 destination guides, Phase 13 registry output, SubID/disclosure boundaries, header/footer continuity, and provider-owned booking/payment/support language remain intact.
+
+Validation performed: PHP syntax checks for changed PHP files; file-size checks; `git diff --check`; plugin active check; WP-CLI route meta registration smoke; Node source smoke for `/routes/`, `/routes/?route_origin=nyc`, a temporary route guide, and a no-context route; source scans for route modules, destination guide links, hotel/activity handoffs, no-context empty states, secrets, direct checkout, auto-booking, unsupported inventory claims, fake prices, and fake scarcity; Playwright Chromium responsive screenshots; keyboard navigation review; visual screenshot review; temporary route/destination cleanup.
+
+Bugs found: Pre-implementation review found the existing related-route query could become unconstrained when a route had no origin/destination airport context. Codex PR review found taxonomy-based related-route matching was unreachable whenever the current route had origin or destination airport meta, so long-tail routes with no airport-overlap peers could miss valid taxonomy peers. The first runtime browser classifier also treated provider-owned Travelpayouts/Aviasales `@babel/plugin-transform-react-jsx-source` and `sentry.avs.io` noise as app-owned findings.
+
+Bugs fixed: Related routes now require shared origin/destination airport meta or shared route taxonomy terms before rendering; airport-meta matches are collected first and then taxonomy matches fill remaining related slots. Context-free route posts show empty-state copy rather than arbitrary cards. The runtime classifier now documents and filters the known provider-owned warning/abort noise while keeping app-owned console and request checks active.
+
+Bugs deferred: No app-owned P17.2 blocker remains after the local gate. Later Phase 17 work still needs deal templates, taxonomy archives, internal-linking/monetized module rules, editor workflow review, and final SEO content review.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: custom post type template files and template hierarchy.
+- WordPress Developer Resources: `WP_Query`.
+- WordPress Common APIs Handbook: Escaping Data.
+- Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
+- Travelpayouts Help Center: Getting started with widgets.
+
+Decision: P17.2 local implementation and review gate passed. Keep Phase 17 overall `In Progress` until the remaining deal/taxonomy/internal-linking/editor-workflow/final-review issues pass review and merge.

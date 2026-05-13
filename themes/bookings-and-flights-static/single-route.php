@@ -56,35 +56,41 @@ get_header();
 		the_post();
 
 		$post_id = get_the_ID();
-		$get_meta = static function ( string $key ) use ( $post_id ): string {
+		$get_text_meta = static function ( string $key ) use ( $post_id ): string {
 			return sanitize_text_field( (string) get_post_meta( $post_id, $key, true ) );
+		};
+		$get_textarea_meta = static function ( string $key ) use ( $post_id ): string {
+			return sanitize_textarea_field( (string) get_post_meta( $post_id, $key, true ) );
 		};
 		$normalize_code = static function ( string $value ): string {
 			return bookings_and_flights_normalize_route_code( $value );
 		};
 
-		$origin              = $get_meta( 'baf_origin' );
-		$destination         = $get_meta( 'baf_destination' );
-		$origin_airport      = $normalize_code( $get_meta( 'baf_origin_airport' ) );
-		$destination_airport = $normalize_code( $get_meta( 'baf_destination_airport' ) );
-		$departure_window    = $get_meta( 'baf_departure_window' );
-		$return_window       = $get_meta( 'baf_return_window' );
-		$route_label_parts   = array_filter(
+		$origin                  = $get_text_meta( 'baf_origin' );
+		$destination             = $get_text_meta( 'baf_destination' );
+		$origin_airport          = $normalize_code( $get_text_meta( 'baf_origin_airport' ) );
+		$destination_airport     = $normalize_code( $get_text_meta( 'baf_destination_airport' ) );
+		$departure_window        = $get_text_meta( 'baf_departure_window' );
+		$return_window           = $get_text_meta( 'baf_return_window' );
+		$route_travel_time       = $get_textarea_meta( 'baf_route_travel_time' );
+		$route_airport_notes     = $get_textarea_meta( 'baf_route_airport_notes' );
+		$route_flexible_dates    = $get_textarea_meta( 'baf_route_flexible_dates' );
+		$route_destination_notes = $get_textarea_meta( 'baf_route_destination_notes' );
+		$route_label_parts       = array_filter(
 			array(
 				'' !== $origin_airport ? $origin_airport : $origin,
 				'' !== $destination_airport ? $destination_airport : $destination,
 			)
 		);
-		$route_label = 2 === count( $route_label_parts ) ? implode( ' to ', $route_label_parts ) : get_the_title();
+		$route_label             = 2 === count( $route_label_parts ) ? implode( ' to ', $route_label_parts ) : get_the_title();
+		$destination_label       = '' !== $destination ? $destination : $destination_airport;
 
 		$flight_url_args = array(
 			'baf_surface' => 'route_single',
 		);
-
 		if ( '' !== $origin_airport ) {
 			$flight_url_args['origin'] = $origin_airport;
 		}
-
 		if ( '' !== $destination_airport ) {
 			$flight_url_args['destination'] = $destination_airport;
 		}
@@ -98,6 +104,25 @@ get_header();
 				)
 			),
 			home_url( '/flights/' )
+		);
+		$hotel_url  = add_query_arg(
+			array_filter(
+				array(
+					'travel_destination' => $destination_label,
+					'stay_focus'         => 'route_destination',
+					'baf_surface'        => 'route_single',
+				)
+			),
+			home_url( '/hotels/' )
+		);
+		$activity_url = add_query_arg(
+			array_filter(
+				array(
+					'travel_destination' => $destination_label,
+					'baf_surface'        => 'route_single',
+				)
+			),
+			home_url( '/#explore' )
 		);
 		$route_archive_url = get_post_type_archive_link( 'route' );
 		if ( ! is_string( $route_archive_url ) || '' === $route_archive_url ) {
@@ -131,6 +156,109 @@ get_header();
 				return '' !== (string) $detail['value'];
 			}
 		);
+
+		$related_meta_query = array();
+		if ( '' !== $origin_airport ) {
+			$related_meta_query[] = array(
+				'key'   => 'baf_origin_airport',
+				'value' => $origin_airport,
+			);
+		}
+		if ( '' !== $destination_airport ) {
+			$related_meta_query[] = array(
+				'key'   => 'baf_destination_airport',
+				'value' => $destination_airport,
+			);
+		}
+
+		$related_route_tax_query = array();
+		foreach ( array( 'travel_region', 'travel_style', 'travel_season', 'travel_vertical' ) as $related_taxonomy ) {
+			$term_ids = wp_get_post_terms( $post_id, $related_taxonomy, array( 'fields' => 'ids' ) );
+			if ( is_wp_error( $term_ids ) || empty( $term_ids ) ) {
+				continue;
+			}
+
+			$related_route_tax_query[] = array(
+				'taxonomy' => $related_taxonomy,
+				'field'    => 'term_id',
+				'terms'    => array_map( 'absint', $term_ids ),
+			);
+		}
+
+		$related_base_args = array(
+			'post_type'      => 'route',
+			'post_status'    => 'publish',
+			'posts_per_page' => 3,
+			'post__not_in'   => array( $post_id ),
+			'no_found_rows'  => true,
+			'fields'         => 'ids',
+		);
+		$related_route_ids  = array();
+
+		if ( ! empty( $related_meta_query ) ) {
+			$related_route_ids = get_posts(
+				array_merge(
+					$related_base_args,
+					array(
+						'meta_query' => array_merge( array( 'relation' => 'OR' ), $related_meta_query ),
+					)
+				)
+			);
+		}
+
+		if ( ! empty( $related_route_tax_query ) && count( $related_route_ids ) < 3 ) {
+			$related_route_ids = array_merge(
+				$related_route_ids,
+				get_posts(
+					array_merge(
+						$related_base_args,
+						array(
+							'posts_per_page' => 3 - count( $related_route_ids ),
+							'post__not_in'   => array_merge( array( $post_id ), array_map( 'absint', $related_route_ids ) ),
+							'tax_query'      => array_merge( array( 'relation' => 'OR' ), $related_route_tax_query ),
+						)
+					)
+				)
+			);
+		}
+
+		$related_route_ids = array_slice( array_values( array_unique( array_map( 'absint', $related_route_ids ) ) ), 0, 3 );
+		$related_args      = array(
+			'post_type'      => 'route',
+			'post_status'    => 'publish',
+			'posts_per_page' => 3,
+			'post__in'       => ! empty( $related_route_ids ) ? $related_route_ids : array( 0 ),
+			'orderby'        => 'post__in',
+			'no_found_rows'  => true,
+		);
+		$related_routes = new WP_Query( $related_args );
+
+		$destination_meta_query = array();
+		if ( '' !== $destination_airport ) {
+			$destination_meta_query[] = array(
+				'key'   => 'baf_destination_airport',
+				'value' => $destination_airport,
+			);
+		}
+		if ( '' !== $destination ) {
+			$destination_meta_query[] = array(
+				'key'   => 'baf_destination',
+				'value' => $destination,
+			);
+		}
+
+		$destination_args = array(
+			'post_type'      => 'destination',
+			'post_status'    => 'publish',
+			'posts_per_page' => 2,
+			'no_found_rows'  => true,
+		);
+		if ( ! empty( $destination_meta_query ) ) {
+			$destination_args['meta_query'] = array_merge( array( 'relation' => 'OR' ), $destination_meta_query );
+		} else {
+			$destination_args['post__in'] = array( 0 );
+		}
+		$destination_guides = new WP_Query( $destination_args );
 		?>
 
 		<article id="post-<?php the_ID(); ?>" <?php post_class( 'route-single__article' ); ?>>
@@ -151,6 +279,7 @@ get_header();
 					</p>
 					<div class="route-hero__actions">
 						<a class="route-button" href="<?php echo esc_url( $flight_url ); ?>"><?php esc_html_e( 'Open flight handoff', 'bookings_and_flights' ); ?></a>
+						<a class="route-button route-button--secondary" href="#route-alerts"><?php esc_html_e( 'Watch route', 'bookings_and_flights' ); ?></a>
 						<a class="route-button route-button--secondary" href="<?php echo esc_url( $route_archive_url ); ?>"><?php esc_html_e( 'Browse routes', 'bookings_and_flights' ); ?></a>
 					</div>
 				</div>
@@ -188,6 +317,28 @@ get_header();
 				</div>
 			</section>
 
+			<?php
+			get_template_part(
+				'template-parts/route-planning-modules',
+				null,
+				array(
+					'route_label'         => $route_label,
+					'origin_airport'      => $origin_airport,
+					'destination_airport' => $destination_airport,
+					'destination_label'   => $destination_label,
+					'travel_time'         => $route_travel_time,
+					'airport_notes'       => $route_airport_notes,
+					'flexible_dates'      => $route_flexible_dates,
+					'destination_notes'   => $route_destination_notes,
+					'flight_url'          => $flight_url,
+					'hotel_url'           => $hotel_url,
+					'activity_url'        => $activity_url,
+					'calendar_url'        => '#route-discovery-widgets',
+					'alert_url'           => '#route-alerts',
+				)
+			);
+			?>
+
 			<div id="route-provider-search" class="route-search">
 				<?php
 				get_template_part(
@@ -220,9 +371,7 @@ get_header();
 						),
 					)
 				);
-				?>
 
-				<?php
 				get_template_part(
 					'template-parts/travel-search-placement',
 					null,
@@ -244,7 +393,7 @@ get_header();
 				?>
 			</div>
 
-			<div class="route-search route-search--discovery">
+			<div id="route-discovery-widgets" class="route-search route-search--discovery">
 				<?php
 				get_template_part(
 					'template-parts/flight-discovery-widgets',
@@ -261,7 +410,7 @@ get_header();
 				?>
 			</div>
 
-			<section class="route-content route-content--after-search" aria-label="<?php esc_attr_e( 'Route alerts and related routes', 'bookings_and_flights' ); ?>">
+			<section id="route-alerts" class="route-content route-content--after-search" aria-label="<?php esc_attr_e( 'Route alerts and related routes', 'bookings_and_flights' ); ?>">
 				<div class="route-content__inner route-content__inner--split">
 					<?php if ( shortcode_exists( 'baf_flight_alert_signup' ) ) : ?>
 						<?php
@@ -287,35 +436,6 @@ get_header();
 
 					<div class="route-panel route-panel--related">
 						<h2><?php esc_html_e( 'Related routes', 'bookings_and_flights' ); ?></h2>
-						<?php
-						$meta_query = array();
-						if ( '' !== $origin_airport ) {
-							$meta_query[] = array(
-								'key'   => 'baf_origin_airport',
-								'value' => $origin_airport,
-							);
-						}
-						if ( '' !== $destination_airport ) {
-							$meta_query[] = array(
-								'key'   => 'baf_destination_airport',
-								'value' => $destination_airport,
-							);
-						}
-
-						$related_args = array(
-							'post_type'      => 'route',
-							'post_status'    => 'publish',
-							'posts_per_page' => 3,
-							'post__not_in'   => array( $post_id ),
-							'no_found_rows'  => true,
-						);
-
-						if ( ! empty( $meta_query ) ) {
-							$related_args['meta_query'] = array_merge( array( 'relation' => 'OR' ), $meta_query );
-						}
-
-						$related_routes = new WP_Query( $related_args );
-						?>
 						<?php if ( $related_routes->have_posts() ) : ?>
 							<div class="route-related-list">
 								<?php
@@ -336,6 +456,44 @@ get_header();
 							<p><?php esc_html_e( 'Publish more route posts with shared origin, destination, region, or travel-style metadata to populate related route links.', 'bookings_and_flights' ); ?></p>
 							<a class="route-button route-button--secondary" href="<?php echo esc_url( $route_archive_url ); ?>"><?php esc_html_e( 'Browse all routes', 'bookings_and_flights' ); ?></a>
 						<?php endif; ?>
+					</div>
+
+					<div class="route-panel route-panel--destination">
+						<h2><?php esc_html_e( 'Destination hotels and activities', 'bookings_and_flights' ); ?></h2>
+						<p>
+							<?php
+							echo esc_html(
+								sprintf(
+									/* translators: %s: destination label. */
+									__( 'Use %s as the arrival context for hotels and activities, then continue into approved handoff surfaces for current availability and terms.', 'bookings_and_flights' ),
+									'' !== $destination_label ? $destination_label : __( 'the destination', 'bookings_and_flights' )
+								)
+							);
+							?>
+						</p>
+						<?php if ( $destination_guides->have_posts() ) : ?>
+							<div class="route-related-list">
+								<?php
+								while ( $destination_guides->have_posts() ) :
+									$destination_guides->the_post();
+									?>
+									<a class="route-related-link" href="<?php echo esc_url( get_permalink() ); ?>">
+										<?php echo esc_html( get_the_title() ); ?>
+										<span><?php esc_html_e( 'Open destination guide', 'bookings_and_flights' ); ?></span>
+									</a>
+									<?php
+								endwhile;
+								?>
+							</div>
+							<?php wp_reset_postdata(); ?>
+						<?php else : ?>
+							<p><?php esc_html_e( 'Destination guide links will appear here when matching destination posts are published.', 'bookings_and_flights' ); ?></p>
+						<?php endif; ?>
+
+						<div class="route-panel__actions">
+							<a class="route-button" href="<?php echo esc_url( $hotel_url ); ?>"><?php esc_html_e( 'Open hotel handoff', 'bookings_and_flights' ); ?></a>
+							<a class="route-button route-button--secondary" href="<?php echo esc_url( $activity_url ); ?>"><?php esc_html_e( 'Explore activities', 'bookings_and_flights' ); ?></a>
+						</div>
 					</div>
 				</div>
 			</section>

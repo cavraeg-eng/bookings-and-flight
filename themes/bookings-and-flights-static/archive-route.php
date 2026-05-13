@@ -86,6 +86,39 @@ get_header();
 		</div>
 	</section>
 
+	<section class="route-content route-content--archive-modules" aria-labelledby="route-archive-modules-title">
+		<div class="route-content__inner route-content__inner--stack">
+			<div class="route-section-heading">
+				<p class="route-section-heading__eyebrow"><?php esc_html_e( 'SEO route modules', 'bookings_and_flights' ); ?></p>
+				<h2 id="route-archive-modules-title"><?php esc_html_e( 'Flight pages that hand off at the right moment', 'bookings_and_flights' ); ?></h2>
+				<p><?php esc_html_e( 'Route archives stay indexable and editorial. Live fares, low-price calendars, result filters, booking, payment, changes, and support remain inside Travelpayouts or the partner provider.', 'bookings_and_flights' ); ?></p>
+			</div>
+
+			<div class="route-module-grid route-module-grid--archive">
+				<article class="route-module">
+					<span class="route-module__label"><?php esc_html_e( 'Search', 'bookings_and_flights' ); ?></span>
+					<h3><?php esc_html_e( 'White Label flight entry', 'bookings_and_flights' ); ?></h3>
+					<p><?php esc_html_e( 'Route guides link into the approved provider search surface instead of storing or replaying fare results in WordPress.', 'bookings_and_flights' ); ?></p>
+				</article>
+				<article class="route-module">
+					<span class="route-module__label"><?php esc_html_e( 'Calendar', 'bookings_and_flights' ); ?></span>
+					<h3><?php esc_html_e( 'Flexible-date discovery', 'bookings_and_flights' ); ?></h3>
+					<p><?php esc_html_e( 'Low-price calendar modules belong on route detail pages with clear disclosure and provider-owned availability.', 'bookings_and_flights' ); ?></p>
+				</article>
+				<article class="route-module">
+					<span class="route-module__label"><?php esc_html_e( 'Destination', 'bookings_and_flights' ); ?></span>
+					<h3><?php esc_html_e( 'Hotels and activity follow-up', 'bookings_and_flights' ); ?></h3>
+					<p><?php esc_html_e( 'Route pages connect flights to destination guides, hotel handoffs, and activity planning prompts without claiming local supplier inventory.', 'bookings_and_flights' ); ?></p>
+				</article>
+				<article class="route-module">
+					<span class="route-module__label"><?php esc_html_e( 'Alerts', 'bookings_and_flights' ); ?></span>
+					<h3><?php esc_html_e( 'Price alert intent', 'bookings_and_flights' ); ?></h3>
+					<p><?php esc_html_e( 'Alert signup captures local traveler intent only; provider fare monitoring and booking execution stay outside WordPress.', 'bookings_and_flights' ); ?></p>
+				</article>
+			</div>
+		</div>
+	</section>
+
 	<section class="route-index" aria-labelledby="route-index-title">
 		<div class="route-index__inner">
 			<div class="route-section-heading">
