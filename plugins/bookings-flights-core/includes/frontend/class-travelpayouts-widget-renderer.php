@@ -112,6 +112,15 @@ final class Travelpayouts_Widget_Renderer {
 		$public = (array) $public;
 		$status = sanitize_key( (string) ( $public['status'] ?? 'missing' ) );
 
+		if ( 'baf_widget_placement_not_configured' === $error->get_error_code() ) {
+			return self::render_state(
+				'missing-config',
+				__( 'Travel search placement is not configured yet.', 'bookings-flights-core' ),
+				$attributes,
+				$public
+			);
+		}
+
 		if ( 'disabled' === $status || 'archived' === $status ) {
 			return self::render_state(
 				'disabled',

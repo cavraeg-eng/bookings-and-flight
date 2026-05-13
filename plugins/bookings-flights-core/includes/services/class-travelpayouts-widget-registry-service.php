@@ -90,6 +90,10 @@ final class Travelpayouts_Widget_Registry_Service {
 			return new \WP_Error( 'baf_widget_placement_not_renderable', __( 'Travelpayouts widget placement is not configured for rendering.', 'bookings-flights-core' ), array( 'status' => 409 ) );
 		}
 
+		if ( self::official_shortcode_is_unavailable( (array) $placements[ $key ]['embed'] ) ) {
+			return new \WP_Error( 'baf_widget_placement_not_configured', __( 'Travelpayouts widget placement is not configured for rendering.', 'bookings-flights-core' ), array( 'status' => 409 ) );
+		}
+
 		return $placements[ $key ];
 	}
 
@@ -194,10 +198,6 @@ final class Travelpayouts_Widget_Registry_Service {
 
 		$embed  = self::sanitize_embed( $embed_input );
 		$status = self::sanitize_choice( (string) ( $placement['status'] ?? $existing['status'] ?? 'draft' ), self::STATUSES, 'draft' );
-
-		if ( 'active' === $status && 'official_shortcode' === (string) ( $embed['mode'] ?? '' ) && ! self::embed_is_configured( $embed ) ) {
-			$status = 'draft';
-		}
 
 		if ( 'active' === $status && ! self::embed_is_configured( $embed ) ) {
 			return new \WP_Error( 'baf_widget_placement_embed_required', __( 'Active Travelpayouts widget placements require an approved embed reference or URL.', 'bookings-flights-core' ), array( 'status' => 400 ) );
@@ -416,19 +416,21 @@ final class Travelpayouts_Widget_Registry_Service {
 	}
 
 	private static function embed_is_configured( array $embed ): bool {
-		$mode = (string) ( $embed['mode'] ?? '' );
-
-		if ( in_array( $mode, array( 'disabled', '' ), true ) ) {
+		if ( in_array( (string) ( $embed['mode'] ?? '' ), array( 'disabled', '' ), true ) ) {
 			return false;
 		}
 
-		if ( 'official_shortcode' === $mode ) {
-			$reference = sanitize_key( (string) ( $embed['reference'] ?? '' ) );
+		return '' !== (string) ( $embed['reference'] ?? '' ) || '' !== (string) ( $embed['url'] ?? '' );
+	}
 
-			return '' !== $reference && shortcode_exists( $reference );
+	private static function official_shortcode_is_unavailable( array $embed ): bool {
+		if ( 'official_shortcode' !== (string) ( $embed['mode'] ?? '' ) ) {
+			return false;
 		}
 
-		return '' !== (string) ( $embed['reference'] ?? '' ) || '' !== (string) ( $embed['url'] ?? '' );
+		$reference = sanitize_key( (string) ( $embed['reference'] ?? '' ) );
+
+		return '' === $reference || ! str_starts_with( $reference, 'tp_' ) || ! shortcode_exists( $reference );
 	}
 
 	private static function is_allowed_embed_host( string $host ): bool {

@@ -53,7 +53,7 @@ final class Travelpayouts_Widget_Starter_Placements {
 						'responsive' => 'true',
 					),
 				),
-				'status'          => self::official_shortcode_status( 'tp_calendar_widget' ),
+				'status'          => 'active',
 				'public_surfaces' => array( 'flights', 'route' ),
 				'frame'           => array(
 					'desktop_min_height' => 460,
@@ -77,7 +77,7 @@ final class Travelpayouts_Widget_Starter_Placements {
 						'responsive' => 'true',
 					),
 				),
-				'status'          => self::official_shortcode_status( 'tp_popular_routes_widget' ),
+				'status'          => 'active',
 				'public_surfaces' => array( 'flights', 'route' ),
 				'frame'           => array(
 					'desktop_min_height' => 380,
@@ -102,7 +102,7 @@ final class Travelpayouts_Widget_Starter_Placements {
 						'height' => '420',
 					),
 				),
-				'status'          => self::official_shortcode_status( 'tp_map_widget' ),
+				'status'          => 'active',
 				'public_surfaces' => array( 'flights', 'route' ),
 				'frame'           => array(
 					'desktop_min_height' => 460,
@@ -219,10 +219,6 @@ final class Travelpayouts_Widget_Starter_Placements {
 		$host = strtolower( (string) wp_parse_url( $value, PHP_URL_HOST ) );
 
 		return ( 'trip.com' === $host || str_ends_with( $host, '.trip.com' ) ) && str_starts_with( $path, '/partners/ad/' );
-	}
-
-	private static function official_shortcode_status( string $shortcode ): string {
-		return shortcode_exists( $shortcode ) ? 'active' : 'draft';
 	}
 
 	private static function timestamp(): string {
