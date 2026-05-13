@@ -297,7 +297,7 @@ Why risky: The homepage now owns the first public search entry point for Flights
 
 What to check after future changes:
 
-- Header output still includes Home, Flights, Hotels, Explore, Deals, Trip Planner, and Saved Trips when the stored WordPress menu is stale.
+- Header output still includes Home, Flights, Hotels, Explore, Deals, Trip Planner, and Saved Trips when the stored WordPress menu is stale, nested, or pointed at old URLs.
 - Homepage search forms keep `data-baf-placement-key="flights_white_label_search"` and `data-baf-placement-key="hotels_partner_search"` metadata and do not copy raw provider snippets into the theme.
 - Search fields use non-conflicting query names such as `travel_destination`, not the reserved `destination` query var.
 - Affiliate disclosure remains visible near the search shell at desktop, tablet, and mobile widths.

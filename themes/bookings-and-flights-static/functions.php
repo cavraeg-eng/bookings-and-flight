@@ -86,10 +86,36 @@ function bookings_and_flights_product_nav_items() {
 	);
 }
 
-function bookings_and_flights_required_product_nav_labels() {
-	return array_map(
-		'sanitize_title',
-		array( 'Home', 'Flights', 'Hotels', 'Explore', 'Deals', 'Trip Planner', 'Saved Trips' )
+function bookings_and_flights_required_product_nav_targets() {
+	return array(
+		'home'         => array(
+			'label'   => sanitize_title( __( 'Home', 'bookings_and_flights' ) ),
+			'targets' => array( '/' ),
+		),
+		'flights'      => array(
+			'label'   => sanitize_title( __( 'Flights', 'bookings_and_flights' ) ),
+			'targets' => array( '/flights/' ),
+		),
+		'hotels'       => array(
+			'label'   => sanitize_title( __( 'Hotels', 'bookings_and_flights' ) ),
+			'targets' => array( '/hotels/' ),
+		),
+		'explore'      => array(
+			'label'   => sanitize_title( __( 'Explore', 'bookings_and_flights' ) ),
+			'targets' => array( '/#explore', '/explore/' ),
+		),
+		'deals'        => array(
+			'label'   => sanitize_title( __( 'Deals', 'bookings_and_flights' ) ),
+			'targets' => array( '/#deals', '/deals/' ),
+		),
+		'trip-planner' => array(
+			'label'   => sanitize_title( __( 'Trip Planner', 'bookings_and_flights' ) ),
+			'targets' => array( '/#trip-planner', '/trip-planner/' ),
+		),
+		'saved-trips'  => array(
+			'label'   => sanitize_title( __( 'Saved Trips', 'bookings_and_flights' ) ),
+			'targets' => array( '/#saved-trips', '/saved-trips/' ),
+		),
 	);
 }
 
@@ -102,6 +128,17 @@ function bookings_and_flights_normalize_nav_path( $url ) {
 	}
 
 	return trailingslashit( $path );
+}
+
+function bookings_and_flights_normalize_nav_target( $url ) {
+	$path     = bookings_and_flights_normalize_nav_path( $url );
+	$fragment = wp_parse_url( (string) $url, PHP_URL_FRAGMENT );
+
+	if ( ! is_string( $fragment ) || '' === $fragment ) {
+		return $path;
+	}
+
+	return '/' === $path ? '/#' . sanitize_title( $fragment ) : $path . '#' . sanitize_title( $fragment );
 }
 
 function bookings_and_flights_current_nav_path() {
@@ -139,20 +176,33 @@ function bookings_and_flights_primary_menu_has_product_core() {
 		return $has_product_core;
 	}
 
-	$labels = array();
+	$required_targets = bookings_and_flights_required_product_nav_targets();
+	$matched_targets  = array_fill_keys( array_keys( $required_targets ), false );
 
 	foreach ( $items as $item ) {
-		$labels[] = sanitize_title( (string) $item->title );
-	}
+		if ( 0 !== (int) $item->menu_item_parent ) {
+			continue;
+		}
 
-	foreach ( bookings_and_flights_required_product_nav_labels() as $required_label ) {
-		if ( ! in_array( $required_label, $labels, true ) ) {
-			$has_product_core = false;
-			return $has_product_core;
+		$item_label  = sanitize_title( (string) $item->title );
+		$item_target = bookings_and_flights_normalize_nav_target( (string) $item->url );
+
+		foreach ( $required_targets as $target_key => $target_config ) {
+			if ( true === $matched_targets[ $target_key ] ) {
+				continue;
+			}
+
+			if ( $target_config['label'] !== $item_label ) {
+				continue;
+			}
+
+			if ( in_array( $item_target, $target_config['targets'], true ) ) {
+				$matched_targets[ $target_key ] = true;
+			}
 		}
 	}
 
-	$has_product_core = true;
+	$has_product_core = ! in_array( false, $matched_targets, true );
 	return $has_product_core;
 }
 
