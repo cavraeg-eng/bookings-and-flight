@@ -81,7 +81,7 @@ final class OpenAI_Provider implements AI_Provider_Interface {
 	}
 
 	private function system_prompt(): string {
-		return 'Return only JSON for an editable travel itinerary. Do not publish content, execute bookings, call providers, create links, or claim availability. Use affiliate_opportunities only as not_executed recommendations that require approval. Required keys: title, summary, destination, duration_days, days, affiliate_opportunities, booking_notes, disclaimer. Each day requires day, title, summary, activities. Each activity requires time_of_day, title, description, location, affiliate_vertical.';
+		return 'Return only JSON for an editable travel itinerary. Do not publish content, execute bookings, call providers, create links, or claim availability. Do not invent prices, live rates, booking IDs, confirmation numbers, provider links, or availability. Use affiliate_opportunities only as Travelpayouts recommendation-only objects with status not_executed, requires_approval true, disclosure_required true, and no provider action. Required itinerary keys: title, summary, destination, duration_days, days, affiliate_opportunities, booking_notes, disclaimer. Each day requires day, title, summary, activities. Each activity requires time_of_day, title, description, location, affiliate_vertical. Each affiliate opportunity requires provider, vertical, recommendation_type, label, placement_context, destination, route, suggested_subid, confidence, limitations, status, requires_approval, disclosure_required.';
 	}
 
 	private function prompt_payload( array $request ): array {

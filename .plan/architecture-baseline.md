@@ -455,7 +455,7 @@ Response behavior:
 - All AI outputs are validated by `BAF\Core\AI\Itinerary_Schema` before response or draft save.
 - Responses include a sanitized `trip_brief` with destination, origin, dates, day count, traveler count, style, budget, mode, and whether data was sent externally. Raw prompt text is not returned in the planner response.
 - When `save=true` succeeds, responses include `trip_plan_id`, `saved_status=draft`, and a `trip_plan` object with the draft ID, draft status, and an edit URL for users who can edit the post.
-- Affiliate/provider tool opportunities are recommendations only: `status = not_executed`, `requires_approval = true`; no provider search, link creation, booking, or publishing action is executed by AI.
+- Affiliate/provider tool opportunities use `opportunity_schema = travelpayouts_opportunity_v1` and are recommendations only: `status = not_executed`, `requires_approval = true`, `disclosure_required = true`, and `approval_state = requires_editor_approval`. Each opportunity may include `provider`, `vertical`, `recommendation_type`, `label`, `placement_context`, `destination`, `route`, `suggested_subid`, `confidence`, `limitations`, and fixed `blocked_actions`. The schema rejects unsupported provider IDs plus provider-owned booking, payment, price, availability, confirmation, link, and published-action claims; no provider search, link creation, booking, payment, or publishing action is executed by AI.
 - Provider errors return safe WordPress errors and do not expose API keys, raw prompts, raw provider payloads, or secrets.
 - `bf_ai_sessions` records hashed request/output metadata and sanitized summaries/errors only.
 

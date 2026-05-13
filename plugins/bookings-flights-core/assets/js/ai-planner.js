@@ -147,7 +147,26 @@
 
 		items.forEach((item) => {
 			const entry = document.createElement('li');
-			entry.textContent = `${text(item.label, 'Travelpayouts opportunity')} - ${text(item.vertical, 'travel')} - ${text(item.status, 'not_executed')}`;
+			const label = document.createElement('strong');
+			const meta = document.createElement('span');
+			const limitations = document.createElement('p');
+			const metaParts = [
+				text(item.vertical, 'travel'),
+				text(item.recommendation_type, 'partner_handoff'),
+				text(item.status, 'not_executed'),
+				item.suggested_subid ? `SubID: ${text(item.suggested_subid)}` : '',
+				item.confidence ? `Confidence: ${text(item.confidence)}` : '',
+			].filter(Boolean);
+
+			label.textContent = text(item.label, 'Travelpayouts opportunity');
+			meta.textContent = metaParts.join(' - ');
+			entry.append(label, meta);
+
+			if (item.limitations) {
+				limitations.textContent = text(item.limitations);
+				entry.appendChild(limitations);
+			}
+
 			list.appendChild(entry);
 		});
 
