@@ -2854,7 +2854,7 @@ Decision: P18.6 completed. PR #54 was reviewed by Codex with no major issues, ha
 
 Date: 2026-05-13
 
-Status: In Review
+Status: Completed
 
 Reviewer: Codex
 
@@ -2862,7 +2862,7 @@ Linear issue: `ONE-119`
 
 Scope reviewed: `ONE-119` final Phase 18 review gate. Reviewed P18.1 through P18.6 implementation and docs, `/trip-planner/`, AI itinerary and handoff REST routes, demo/live provider behavior, consent/capability gates, structured opportunity schema, editable draft save, local Travelpayouts handoff intent storage, session privacy, frontend output, and Phase 19 readiness.
 
-Acceptance criteria result: Passed locally for the PR candidate. Phase 18 can move through Codex PR review and merge before Phase 19 starts.
+Acceptance criteria result: Passed. Phase 18 can now serve as the baseline for Phase 19.
 
 Security review: Passed locally. Live AI still requires saved External AI consent and per-request consent. Handoff preparation still requires edit capability, REST nonce, source draft edit permission, explicit approval, per-request provider consent, and saved provider-request consent. Fake API keys, raw prompt sentinels, provider links, live inventory, booking/payment data, and provider payloads were absent from rendered output, saved draft content, handoff meta, and reviewed session fields.
 
@@ -2893,4 +2893,4 @@ Research consulted:
 - AI SDK Core: Generating Structured Data.
 - OpenAI Chat Completions API reference.
 
-Decision: P18.7 passed locally and is ready for Codex PR review. Keep Phase 18 overall `In Review` until the PR is reviewed, merged, Linear is synced, and the feature branch is cleaned up.
+Decision: P18.7 completed. PR #55 was reviewed by Codex with no major issues, had no unresolved review threads, merged into `main` at `ac6e2669e4d7c64c7911884e5b1defe0d47f0fe3`, and Phase 18 is complete after Linear sync and branch cleanup.

@@ -128,4 +128,4 @@ Current issue: P18.1 through P18.7 completed the app-owned AI planner baseline u
 
 Workaround: Use `/trip-planner/` for editable AI-assisted trip briefs only. Keep live availability, prices, booking, payment, provider links, provider search execution, changes, and support with Travelpayouts or partner providers. Treat `baf_ai_handoff_intents` as local approved metadata until a later phase explicitly consumes it with new consent, capability, validation, and documentation gates.
 
-Planned fix phase: Phase 18 is ready for Codex PR review and merge. Continue with Phase 19 saved trips, alerts, analytics, and release readiness only after the review-gate PR is merged and Linear is synced.
+Planned fix phase: Phase 18 is closed after PR #55 merged. Continue with Phase 19 saved trips, alerts, analytics, and release readiness.
