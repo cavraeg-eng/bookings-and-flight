@@ -160,7 +160,13 @@ final class AI_Itinerary_Controller extends Base_Controller {
 			return true;
 		}
 
-		return is_scalar( $value ) && 1 === preg_match( '/^\d{4}-\d{2}-\d{2}$/', (string) $value );
+		if ( ! is_scalar( $value ) || 1 !== preg_match( '/^\d{4}-\d{2}-\d{2}$/', (string) $value ) ) {
+			return false;
+		}
+
+		$parts = array_map( 'absint', explode( '-', (string) $value ) );
+
+		return 3 === count( $parts ) && checkdate( $parts[1], $parts[2], $parts[0] );
 	}
 
 	public function validate_non_negative_integer( mixed $value ): bool {

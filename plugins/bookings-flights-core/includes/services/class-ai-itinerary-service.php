@@ -123,7 +123,13 @@ final class AI_Itinerary_Service {
 	private function normalize_date( string $value ): string {
 		$value = trim( sanitize_text_field( $value ) );
 
-		return 1 === preg_match( '/^\d{4}-\d{2}-\d{2}$/', $value ) ? $value : '';
+		if ( 1 !== preg_match( '/^\d{4}-\d{2}-\d{2}$/', $value ) ) {
+			return '';
+		}
+
+		$parts = array_map( 'absint', explode( '-', $value ) );
+
+		return 3 === count( $parts ) && checkdate( $parts[1], $parts[2], $parts[0] ) ? $value : '';
 	}
 
 	private function trip_brief( array $request, string $mode ): array {

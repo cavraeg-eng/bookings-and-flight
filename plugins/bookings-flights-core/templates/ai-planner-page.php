@@ -5,6 +5,7 @@
  * @package BAF\Core
  */
 
+use BAF\Core\AI\Provider_Factory;
 use BAF\Core\Capabilities\Capability_Manager;
 use BAF\Core\Settings\Settings_Manager;
 
@@ -14,7 +15,7 @@ $ai_settings      = Settings_Manager::get_ai();
 $consent_settings = Settings_Manager::get_consent();
 $can_run_ai       = current_user_can( Capability_Manager::RUN_AI );
 $mode             = sanitize_key( (string) $ai_settings['mode'] );
-$live_ready       = 'live' === $mode && '' !== (string) $ai_settings['provider'] && '' !== (string) $ai_settings['api_key'] && true === (bool) $consent_settings['allow_external_ai'];
+$live_ready       = 'live' === $mode && Provider_Factory::supports_live_provider( (string) $ai_settings['provider'] ) && '' !== (string) $ai_settings['api_key'] && true === (bool) $consent_settings['allow_external_ai'];
 
 get_header();
 ?>

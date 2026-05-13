@@ -64,6 +64,8 @@ Local validation passed on 2026-05-13:
 - Playwright Chromium screenshots and keyboard review after the Codex in-app Browser path had no active pane.
 - Source/runtime checks for no app-owned console failures, no relevant failed responses, no raw prompt echo, and no exposed secrets.
 - First browser pass found the checkbox visual target below threshold and a false source-secret match on WordPress core's `luminous-dusk` preset name; the checkbox was enlarged and the source scan was narrowed before the final report returned `findingCount=0`.
+- Codex PR review found impossible date strings and unsupported live-provider readiness; follow-up fixes use `checkdate()` and `Provider_Factory::supports_live_provider()`.
+- Post-review runtime validation reused Playwright Chromium after the Codex in-app Browser pane remained unavailable; the authenticated planner flow generated a four-day demo brief, keyboard focus reached the form controls through submit, and screenshots were saved at `/tmp/one113-after-codex-authenticated-result.png` and `/tmp/one113-after-codex-keyboard-auth.png`.
 - Temporary admin user cleanup.
 - `git diff --check`.
 

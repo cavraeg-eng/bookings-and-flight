@@ -395,7 +395,7 @@ Dedicated primitive capabilities are mapped directly by `BAF\Core\Capabilities\C
 | `BAF\Core\AI\AI_Provider_Interface` | AI provider contract for itinerary generation adapters |
 | `BAF\Core\AI\Demo_AI_Provider` | Offline demo itinerary provider that requires no live credentials |
 | `BAF\Core\AI\OpenAI_Provider` | Live OpenAI Chat Completions adapter gated by configuration and consent |
-| `BAF\Core\AI\Provider_Factory` | Selects demo/live provider based on `baf_ai_settings` and `baf_consent_settings` |
+| `BAF\Core\AI\Provider_Factory` | Selects demo/live provider based on `baf_ai_settings` and `baf_consent_settings`; exposes supported live-provider checks for UI readiness |
 | `BAF\Core\AI\Itinerary_Schema` | Validates and sanitizes structured itinerary output before save/response |
 | `BAF\Core\Repositories\Repository_Interface` | Base interface for WordPress-backed travel entity repositories |
 | `BAF\Core\Repositories\Travel_Entity_Repository` | Bounded CPT-backed data access helper for Phase 1 travel entities |
