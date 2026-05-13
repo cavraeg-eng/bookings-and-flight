@@ -183,6 +183,9 @@
 
 /* Nav links */
 .header__nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
   font-size: 0.875rem;
   font-weight: 500;
   color: hsl(0 0% 100% / 0.95);
@@ -386,11 +389,13 @@
 /* Menu Toggle - Dark variant for light backgrounds */
 .header__menu-toggle-dark {
   display: none;
+  flex: 0 0 44px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 5px;
   inline-size: 44px;
+  min-inline-size: 44px;
   block-size: 44px;
   padding: 0;
   background: none;
@@ -407,11 +412,13 @@
 /* Menu Toggle - Light variant for dark backgrounds */
 .header__menu-toggle-light {
   display: flex;
+  flex: 0 0 44px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 5px;
   inline-size: 44px;
+  min-inline-size: 44px;
   block-size: 44px;
   padding: 0;
   background: none;

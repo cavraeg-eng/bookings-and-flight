@@ -2208,3 +2208,41 @@ Research consulted:
 - Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
 
 Decision: P16.4 local implementation and review gate passed. Keep Phase 16 overall `In Progress` until the remaining mobile/source review and final Phase 16 review issues pass and merge.
+
+## Phase 16.5 Review - 2026-05-13
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-104` Mobile widget/map layout and source review. Reviewed Phase 16 objective, P16.1-P16.4 hotel page and guide surfaces, current Travelpayouts/Trip.com placement boundaries, hotel companion placements, disclosure behavior, source output, responsive screenshots, and keyboard navigation.
+
+Acceptance criteria result: Passed locally for the PR candidate. Hotels, hotel-intent, destination archive, and destination guide surfaces render across desktop, tablet, mobile, and 320px narrow widths with readable widget/map/listing handoff layouts, no app-owned runtime findings, and no local hotel inventory or booking-owner overreach.
+
+Security review: Passed locally. P16.5 added no REST routes, provider calls, custom SQL, options, tables, cron jobs, private-data writes, direct checkout, or payment paths. Source scans found no API key, authorization, bearer, postback secret, private key, unsupported Booking.com White Label promise, direct checkout, auto-booking, or live-rate claim in app-owned output.
+
+REST permission review: Not applicable. P16.5 added no REST endpoints and did not change public REST exposure.
+
+Database/migration review: Not applicable. No schema, option, custom table, cron, or destructive data changes were added. Temporary destination post `320` was used for runtime validation, removed after validation, and confirmed at `temporary_posts_remaining=0`.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Playwright Chromium captured desktop, tablet, mobile, and 320px narrow screenshots for `/hotels/`, a hotel-intent URL, `/destinations/`, and the temporary destination guide. The final report found no horizontal overflow, duplicate IDs, clipping problems, missing disclosures, app-owned console errors, app-owned failed requests, unsupported copy, sensitive source terms, or small touch targets. Keyboard navigation reached `Update hotel intent`, `Open hotel map`, `Open hotel listings`, and `Open partner search`.
+
+Regression review: Existing P16.1 hotel intent behavior, P16.2 city guide templates, P16.3 companion placement/SubID behavior, P16.4 disclosure/copy guardrails, Phase 13 widget registry states, and the Travelpayouts-controlled backend boundary remain intact. The CSS touch-target fixes are limited to static theme header navigation, menu toggles, and hotel guide title links.
+
+Validation performed: file-size checks; attempted Codex in-app Browser validation; Playwright Chromium responsive/source review across four route states and four viewport sizes; Playwright keyboard review for hotel intent, map, listing, and partner handoff links; visual screenshot review; `git diff --check`; temporary destination cleanup.
+
+Bugs found: The strict runtime pass found that the header menu toggle could shrink below 44px at 320px width. A second stricter pass also surfaced sub-44px hit areas on desktop header nav links and hotel guide card title links.
+
+Bugs fixed: `header.css` now prevents menu-toggle flex shrink and gives header nav links a 44px minimum block target. `hotel-guide.css` now gives hotel guide card title links a 44px minimum block target. The final Playwright report returned zero findings.
+
+Bugs deferred: Provider-owned/Chromium WebGL performance warnings can still appear around embedded partner widgets. They remain watchlist-only when app-owned checks pass and visible handoffs/disclosures work.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Common APIs Handbook: Escaping Data.
+- WordPress Plugin Security Handbook: Securing Output.
+- Travelpayouts Help Center: How to use Travelpayouts Quick Start Guide.
+- Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
+
+Decision: P16.5 local implementation and review gate passed. Keep Phase 16 overall `In Progress` until the final Phase 16 review issue passes review and merge.

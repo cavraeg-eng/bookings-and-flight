@@ -1062,3 +1062,32 @@ Related files/routes/settings:
 - `/hotels/`
 - `/destinations/`
 - `/destinations/{destination}/`
+
+## Phase 16 Mobile Hotel Layout And Touch Targets
+
+Fragile area: Header navigation, hotel guide card title links, hotel companion placement cards, and embedded/handoff widget frames across mobile, tablet, desktop, and 320px narrow widths.
+
+Why risky: The hotel experience stacks local intent controls, editorial city-guide cards, companion map/listing handoffs, embedded partner frames, affiliate disclosure bands, and the fixed header. Small CSS changes can reintroduce horizontal overflow, clipped buttons, hidden disclosures, or sub-44px interactive targets.
+
+What to check after future changes:
+
+- `/hotels/`, hotel-intent URLs, `/destinations/`, and destination guide pages render without horizontal overflow at desktop, tablet, mobile, and 320px narrow widths.
+- Header menu toggles, header nav links, hotel guide card title links, partner handoff buttons, and text links keep at least 44px interactive targets where they appear as touch/click controls.
+- Companion map/listing cards and the main hotel partner surface keep visible buttons and disclosure bands without overlap or clipping.
+- Source scans still find no API keys, authorization/bearer strings, postback secrets, Booking.com White Label promises, direct checkout, auto-booking, live-rate claims, or WordPress-owned hotel inventory claims.
+- Keyboard navigation reaches `Update hotel intent`, `Open hotel map`, `Open hotel listings`, and `Open partner search` with visible focus.
+- Provider-owned WebGL/runtime warnings remain separated from app-owned console or request failures.
+
+Related files/routes/settings:
+
+- `themes/bookings-and-flights-static/assets/css/header.css`
+- `themes/bookings-and-flights-static/assets/css/hotel-guide.css`
+- `themes/bookings-and-flights-static/assets/css/search-surface.css`
+- `themes/bookings-and-flights-static/page-hotels.php`
+- `themes/bookings-and-flights-static/archive-destination.php`
+- `themes/bookings-and-flights-static/single-destination.php`
+- `themes/bookings-and-flights-static/template-parts/hotel-discovery-placements.php`
+- `themes/bookings-and-flights-static/template-parts/travel-search-placement.php`
+- `/hotels/`
+- `/destinations/`
+- `/destinations/{destination}/`

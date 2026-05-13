@@ -42,6 +42,8 @@ P16.3 update: hotel map/listing companion placements now exist as governed `hand
 
 P16.4 update: no new app-owned hotel handoff or disclosure blocker remains after the local gate. Provider-owned Chromium WebGL performance warnings can still appear around embedded partner widgets; keep treating them as watchlist-only when the page renders, disclosures are visible, handoffs work, and app-owned console/request checks pass.
 
+P16.5 update: the mobile/source review found and fixed app-owned touch-target regressions in the static header and hotel guide cards. No new app-owned hotel mobile layout, source-exposure, disclosure, console, request, clipping, or keyboard blocker remains after the final Playwright pass. Continue treating provider-owned Chromium WebGL warnings as watchlist-only when app-owned checks pass.
+
 Security watch item: GitHub push protection identified an embedded Airtable personal access token in the official plugin package during PR publication. The staged local package now redacts the hard-coded token and disables the Airtable distribution script unless a token is supplied outside Git through `TRAVELPAYOUTS_AIRTABLE_TOKEN`. Do not commit provider, analytics, or distribution tokens into the repository.
 
 Compatibility watch item: Direct PHP syntax scanning of the official plugin passed with no syntax errors, but PHP `8.5.4` emitted deprecation warnings from bundled Redux/PHP-DI/Parsedown/Opis/Travelpayouts classes. A P11.6 browser pass found the PHP-DI `ReflectionProperty::setAccessible()` deprecation printing into the Flights page when local PHP displayed deprecations; the bundled PHP-DI resolver now skips `setAccessible()` on PHP 8.1+ and uses an explicit nullable type for the injected class name.
