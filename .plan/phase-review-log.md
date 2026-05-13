@@ -2668,3 +2668,48 @@ Research consulted:
 - AI SDK Core: Generating Structured Data.
 
 Decision: P18.2 completed. PR #50 was reviewed by Codex with no major issues, merged into `main` at `f5c5a6530f5eed1b5645ee6b2fc0405d2f36fd17`, and the feature branch was deleted/pruned.
+
+### P18.3 — Travelpayouts opportunity recommendation schema
+
+Date: 2026-05-13
+
+Status: In Review
+
+Reviewer: Codex
+
+Linear issue: `ONE-115`
+
+Scope reviewed: `ONE-115` Travelpayouts opportunity schema. Reviewed current Phase 18 planner output, `Itinerary_Schema`, demo and live provider prompts, draft-save behavior, frontend opportunity rendering, Travelpayouts SubID guidance, and the no-provider-execution boundary.
+
+Acceptance criteria result: Passed locally for the PR candidate. The opportunity contract is versioned as `travelpayouts_opportunity_v1`, includes downstream handoff fields, and remains recommendation-only.
+
+Security review: Passed locally. Schema validation rejects unsupported provider IDs plus provider-owned booking, payment, price, availability, confirmation, provider-link, live-inventory, published, and executed-action claims. Suggested SubIDs are normalized to lowercase Latin characters, numbers, and underscores before response or draft save.
+
+REST permission review: No REST route permission change in this slice. The existing AI itinerary endpoint remains protected by `run_baf_ai`, and draft save remains separately gated by `edit_baf_content`.
+
+Database/migration review: No schema migration or custom table change. Draft saves now also store `baf_ai_opportunity_schema` post meta alongside the existing itinerary JSON.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The planner renders recommendation label, vertical, recommendation type, status, suggested SubID, confidence, and limitations without provider links or execution controls. Playwright Chromium was used after the Codex in-app Browser pane was unavailable.
+
+Regression review: Existing P18.1 and P18.2 boundaries remain intact: demo mode can run without live credentials, live mode still requires consent, AI cannot publish/book/pay, draft saving remains editor-only, and opportunities remain `not_executed`.
+
+Validation performed: PHP syntax checks for changed AI/service files; `node --check` for `ai-planner.js`; focused WP-CLI schema validation for valid opportunity output and malformed provider-like claims; runtime browser planner/save/editor-link screenshots and keyboard review; saved draft schema-meta check; temporary draft/user cleanup.
+
+Bugs found: String `"false"` values for `requires_approval` and `disclosure_required` needed explicit boolean parsing so model output cannot bypass approval or disclosure by using strings.
+
+Bugs fixed: Schema validation now uses `rest_sanitize_boolean()` for approval and disclosure gates and returns dedicated errors for approval/disclosure bypasses.
+
+Bugs deferred: Approval workflow that converts opportunities into Travelpayouts placement drafts, saved-trip CTAs, alert CTAs, and final Phase 18 review remain later Phase 18 scope.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-18-opportunity-schema.md`.
+
+Research consulted:
+- WordPress REST API Handbook: Adding Custom Endpoints.
+- WordPress Plugin Security Handbook.
+- WordPress Common APIs Handbook: Sanitizing Data.
+- WordPress Common APIs Handbook: Escaping Data.
+- AI SDK Core: Generating Structured Data.
+- Travelpayouts Help Center: Affiliate programs tools.
+- Travelpayouts Help Center: ID and SubID affiliate marker guidance.
+
+Decision: P18.3 can move through browser validation, Codex PR review, and merge if final runtime checks and thread-aware review checks stay clear.

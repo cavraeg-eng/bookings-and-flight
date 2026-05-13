@@ -291,6 +291,24 @@
 	line-height: 1.5;
 }
 
+.baf-ai-planner__opportunities li {
+	padding-block: 0.2rem;
+}
+
+.baf-ai-planner__opportunities strong,
+.baf-ai-planner__opportunities span {
+	display: block;
+}
+
+.baf-ai-planner__opportunities strong {
+	color: hsl(205 24% 16%);
+}
+
+.baf-ai-planner__opportunities p {
+	margin: 0.15rem 0 0;
+	font-size: 0.92rem;
+}
+
 .baf-ai-planner__disclaimer {
 	margin-block-start: 1rem;
 	padding: 0.75rem 0.85rem;

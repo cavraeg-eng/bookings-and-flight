@@ -179,6 +179,7 @@ final class AI_Itinerary_Service {
 		update_post_meta( $post_id, 'baf_return_window', $request['return_date'] );
 		update_post_meta( $post_id, 'baf_travel_style', $request['travel_style'] );
 		update_post_meta( $post_id, 'baf_ai_source_session_id', $run_uuid );
+		update_post_meta( $post_id, 'baf_ai_opportunity_schema', $itinerary['opportunity_schema'] );
 		update_post_meta( $post_id, 'baf_itinerary_json', wp_json_encode( $itinerary ) );
 
 		return (int) $post_id;
@@ -234,7 +235,16 @@ final class AI_Itinerary_Service {
 			$items    = array();
 
 			foreach ( $itinerary['affiliate_opportunities'] as $opportunity ) {
-				$items[] = '<li>' . esc_html( sprintf( '%s - %s - %s', (string) $opportunity['label'], (string) $opportunity['vertical'], (string) $opportunity['status'] ) ) . '</li>';
+				$items[] = '<li>' . esc_html(
+					sprintf(
+						'%1$s - %2$s - %3$s - SubID: %4$s - %5$s',
+						(string) $opportunity['label'],
+						(string) $opportunity['vertical'],
+						(string) $opportunity['status'],
+						(string) $opportunity['suggested_subid'],
+						(string) $opportunity['limitations']
+					)
+				) . '</li>';
 			}
 
 			$blocks[] = '<ul>' . implode( '', $items ) . '</ul>';

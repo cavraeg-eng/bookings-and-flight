@@ -1314,7 +1314,8 @@ What to check after future changes:
 - Live mode requires saved external AI consent, provider configuration, and per-request `external_ai_consent` before provider selection.
 - Rendered results do not echo raw prompt text, API keys, bearer tokens, postback secrets, provider payloads, or private customer data.
 - Draft saving remains editor-only, requires `edit_baf_content`, creates `draft` `trip_plan` records only, and does not publish or store raw prompt text in post content.
-- AI opportunities remain `not_executed` and `requires_approval` until an authorized later workflow explicitly approves a handoff or placement draft.
+- AI opportunities remain `travelpayouts_opportunity_v1`, `not_executed`, `requires_approval`, `disclosure_required`, and `requires_editor_approval` until an authorized later workflow explicitly approves a handoff or placement draft.
+- Schema validation continues to reject AI opportunity output that uses unsupported provider IDs or claims booking, payment, published content, live price/rate, availability, provider links, confirmation numbers, or other provider-owned execution data.
 - Planner CTAs in header, mobile nav, homepage, destination, taxonomy, and related content surfaces point to `/trip-planner/`.
 - Desktop/mobile screenshots show no horizontal overflow, clipped controls, unreadable text, missing disclosure/boundary copy, or fixed-header overlap.
 - Keyboard navigation reaches the prompt field, form controls, consent checkbox, submit button, result area, and navigation handoffs with visible focus.
