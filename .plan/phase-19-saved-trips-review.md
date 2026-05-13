@@ -26,7 +26,9 @@ Validation performed:
 - `git diff --check`.
 - File-size review for changed PHP, JS, CSS, and theme files.
 - WP-CLI saved-trip REST smoke with 25 assertions.
+- WP-CLI flight handoff smoke for free-form saved route labels and valid IATA-code preservation.
 - Playwright Chromium runtime screenshots and keyboard review after Browser fallback.
+- Playwright Chromium flight handoff check for visible `Miami to Lisbon` intent without invalid code-field prefill.
 - Cleanup check for temporary users and active saved-trip records.
 
 Bugs found:
@@ -35,12 +37,14 @@ Bugs found:
 - Login initially passed through the WordPress profile page and captured an unrelated admin page JavaScript error; the login flow was redirected directly to `/saved-trips/` and rerun.
 - The first screenshot pass exposed low-contrast public header text on the new pale saved-trips route and a mobile admin-bar/header overlap for logged-in users.
 - Code review found that the item update route advertised editable methods while the service treated updates as full replacements, which could make partial update clients fail or clear omitted fields.
+- Codex PR review found that the saved-trip flight handoff passed free-form city names into the flights route fields, where only three-letter airport/city codes are accepted.
 
 Bugs fixed:
 - Added a route-specific body class and scoped header styles for `/saved-trips/`.
 - Added admin-bar-aware header offsets on the saved-trips route.
 - Added the AI planner resume link to saved-trip cards.
 - Added owner-scoped merge behavior for saved-trip updates so partial update payloads preserve omitted fields while still requiring local-storage consent.
+- Normalized saved-trip flight handoff links so valid three-letter codes populate `origin`/`destination`, while free-form saved origin/destination labels are preserved as visible intent through `travel_origin`/`travel_destination` without being sent as provider route codes.
 
 Bugs deferred:
 - WordPress personal-data exporter/eraser hooks are deferred to `ONE-122` / P19.3, where export/delete behavior is the explicit child issue. P19.1 provides immediate user deletion through the saved-trip board and REST delete endpoint.

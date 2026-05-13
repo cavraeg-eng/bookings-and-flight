@@ -520,6 +520,7 @@ Saved-trip response and storage behavior:
 - Item reads, updates, and deletes return `404` for other users instead of exposing record existence.
 - Deletes permanently remove the saved-trip `trip_plan` record.
 - Placement context stores public registry metadata and a suggested SubID only; private embed URLs/references and admin notes remain stripped by the registry public projection.
+- Flight handoff links only pass `origin` and `destination` query values when saved-trip entries are valid three-letter airport/city codes. Free-form saved origin/destination text is preserved as visible `travel_origin`/`travel_destination` intent on the flights page, not as provider/widget route codes.
 - Manual saved trips do not write `baf_itinerary_json` or `baf_ai_handoff_intents`.
 
 ## Admin Page Slugs

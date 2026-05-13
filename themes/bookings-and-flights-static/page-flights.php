@@ -19,6 +19,10 @@ $normalize_iata = static function ( string $value ): string {
 	return preg_match( '/^[A-Z]{3}$/', $value ) ? $value : '';
 };
 
+$normalize_label = static function ( string $value ): string {
+	return substr( sanitize_text_field( $value ), 0, 120 );
+};
+
 $normalize_date = static function ( string $value ): string {
 	$value = trim( $value );
 
@@ -32,20 +36,23 @@ $cabin_options = array(
 	'first'           => __( 'First', 'bookings_and_flights' ),
 );
 
-$origin      = $normalize_iata( $get_text( 'origin' ) );
-$destination = $normalize_iata( $get_text( 'destination' ) );
-$depart_date = $normalize_date( $get_text( 'depart_date' ) );
-$return_date = $normalize_date( $get_text( 'return_date' ) );
-$surface     = sanitize_key( $get_text( 'baf_surface' ) );
-$travelers   = isset( $_GET['travelers'] ) && is_scalar( $_GET['travelers'] ) ? absint( wp_unslash( $_GET['travelers'] ) ) : 1;
-$travelers   = min( 9, max( 1, $travelers ) );
-$cabin       = sanitize_key( $get_text( 'cabin' ) );
-$cabin       = isset( $cabin_options[ $cabin ] ) ? $cabin : 'economy';
-$travel_mode  = sanitize_key( $get_text( 'travel_mode' ) );
-$travel_focus = sanitize_key( $get_text( 'travel_focus' ) );
+$origin            = $normalize_iata( $get_text( 'origin' ) );
+$destination       = $normalize_iata( $get_text( 'destination' ) );
+$origin_label      = $normalize_label( $get_text( 'travel_origin' ) );
+$destination_label = $normalize_label( $get_text( 'travel_destination' ) );
+$depart_date       = $normalize_date( $get_text( 'depart_date' ) );
+$return_date       = $normalize_date( $get_text( 'return_date' ) );
+$surface           = sanitize_key( $get_text( 'baf_surface' ) );
+$travelers         = isset( $_GET['travelers'] ) && is_scalar( $_GET['travelers'] ) ? absint( wp_unslash( $_GET['travelers'] ) ) : 1;
+$travelers         = min( 9, max( 1, $travelers ) );
+$cabin             = sanitize_key( $get_text( 'cabin' ) );
+$cabin             = isset( $cabin_options[ $cabin ] ) ? $cabin : 'economy';
+$travel_mode       = sanitize_key( $get_text( 'travel_mode' ) );
+$travel_focus      = sanitize_key( $get_text( 'travel_focus' ) );
 
 $has_traveler_intent = isset( $_GET['travelers'] ) || isset( $_GET['cabin'] );
-$has_intent          = '' !== $origin || '' !== $destination || '' !== $depart_date || '' !== $return_date || $has_traveler_intent || '' !== $travel_mode || '' !== $travel_focus;
+$has_intent          = '' !== $origin || '' !== $destination || '' !== $origin_label || '' !== $destination_label
+	|| '' !== $depart_date || '' !== $return_date || $has_traveler_intent || '' !== $travel_mode || '' !== $travel_focus;
 
 $continuity_css = get_template_directory() . '/assets/css/white-label-continuity.css';
 if ( file_exists( $continuity_css ) ) {
@@ -58,8 +65,10 @@ if ( file_exists( $continuity_css ) ) {
 }
 
 $details = array();
-if ( '' !== $origin || '' !== $destination ) {
-	$route = trim( $origin . ( '' !== $origin && '' !== $destination ? ' to ' : '' ) . $destination );
+if ( '' !== $origin || '' !== $destination || '' !== $origin_label || '' !== $destination_label ) {
+	$route_origin      = '' !== $origin ? $origin : $origin_label;
+	$route_destination = '' !== $destination ? $destination : $destination_label;
+	$route             = trim( $route_origin . ( '' !== $route_origin && '' !== $route_destination ? ' to ' : '' ) . $route_destination );
 	$details[] = array(
 		'label' => __( 'Route', 'bookings_and_flights' ),
 		'value' => $route,

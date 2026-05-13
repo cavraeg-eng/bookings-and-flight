@@ -367,16 +367,21 @@ final class Saved_Trip_Service {
 	}
 
 	private function resume_links( int $post_id, string $origin, string $destination, string $depart_date, string $return_date ): array {
+		$origin_code      = preg_match( '/^[A-Z]{3}$/', strtoupper( trim( $origin ) ) ) ? strtoupper( trim( $origin ) ) : '';
+		$destination_code = preg_match( '/^[A-Z]{3}$/', strtoupper( trim( $destination ) ) ) ? strtoupper( trim( $destination ) ) : '';
+
 		return array(
 			'flights' => esc_url_raw(
 				add_query_arg(
 					array_filter(
 						array(
-							'baf_surface' => 'saved_trips',
-							'depart_date' => $depart_date,
-							'destination' => $destination,
-							'origin'      => $origin,
-							'return_date' => $return_date,
+							'baf_surface'        => 'saved_trips',
+							'depart_date'        => $depart_date,
+							'destination'        => $destination_code,
+							'origin'             => $origin_code,
+							'return_date'        => $return_date,
+							'travel_destination' => '' === $destination_code ? $destination : '',
+							'travel_origin'      => '' === $origin_code ? $origin : '',
 						)
 					),
 					home_url( '/flights/' )
