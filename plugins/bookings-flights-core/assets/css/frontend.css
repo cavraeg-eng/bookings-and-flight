@@ -511,9 +511,12 @@
 	gap: 0.65rem;
 	grid-template-columns: auto minmax(0, 1fr);
 	line-height: 1.55;
+	min-block-size: 44px;
 }
 
 .baf-flight-alert__consent input {
+	block-size: 1.35rem;
+	inline-size: 1.35rem;
 	margin-block-start: 0.25rem;
 }
 
