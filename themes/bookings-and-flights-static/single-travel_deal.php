@@ -219,7 +219,7 @@ get_header();
 			'no_found_rows'  => true,
 		);
 		if ( ! empty( $route_meta_query ) ) {
-			$route_args['meta_query'] = array_merge( array( 'relation' => 'AND' ), $route_meta_query );
+			$route_args['meta_query'] = array_merge( array( 'relation' => 'OR' ), $route_meta_query );
 		} else {
 			$route_args['post__in'] = array( 0 );
 		}
