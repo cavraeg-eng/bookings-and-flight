@@ -30,12 +30,12 @@ final class AI_Itinerary_Service {
 		$normalized = $this->normalize_request( $request );
 		$settings   = Settings_Manager::get_ai();
 
-		if ( 'live' === sanitize_key( (string) $settings['mode'] ) && true !== $normalized['external_ai_consent'] ) {
-			return new \WP_Error( 'baf_ai_request_consent_required', __( 'Confirm external AI consent before sending planner details to a live provider.', 'bookings-flights-core' ), array( 'status' => 403 ) );
-		}
-
 		if ( true === $normalized['save'] && ! current_user_can( Capability_Manager::EDIT_CONTENT ) ) {
 			return $this->save_forbidden_error();
+		}
+
+		if ( 'live' === sanitize_key( (string) $settings['mode'] ) && true !== $normalized['external_ai_consent'] ) {
+			return new \WP_Error( 'baf_ai_request_consent_required', __( 'Confirm external AI consent before sending planner details to a live provider.', 'bookings-flights-core' ), array( 'status' => 403 ) );
 		}
 
 		$provider = Provider_Factory::make();
@@ -109,19 +109,19 @@ final class AI_Itinerary_Service {
 
 	private function normalize_request( array $request ): array {
 		return array(
-			'destination'          => substr( sanitize_text_field( (string) ( $request['destination'] ?? '' ) ), 0, 120 ),
-			'origin'               => substr( sanitize_text_field( (string) ( $request['origin'] ?? '' ) ), 0, 120 ),
-			'prompt'               => substr( sanitize_textarea_field( (string) ( $request['prompt'] ?? '' ) ), 0, 1200 ),
-			'departure_date'       => $this->normalize_date( (string) ( $request['departure_date'] ?? '' ) ),
-			'return_date'          => $this->normalize_date( (string) ( $request['return_date'] ?? '' ) ),
-			'days'                 => max( 1, min( 21, absint( $request['days'] ?? 3 ) ) ),
-			'travelers'            => max( 1, min( 12, absint( $request['travelers'] ?? 2 ) ) ),
-			'travel_style'         => substr( sanitize_text_field( (string) ( $request['travel_style'] ?? '' ) ), 0, 80 ),
-			'budget'               => substr( sanitize_text_field( (string) ( $request['budget'] ?? '' ) ), 0, 80 ),
-			'preferences'          => substr( sanitize_textarea_field( (string) ( $request['preferences'] ?? '' ) ), 0, 1200 ),
-			'source_post_id'       => absint( $request['source_post_id'] ?? 0 ),
-			'save'                 => true === (bool) ( $request['save'] ?? false ),
-			'external_ai_consent'  => true === (bool) ( $request['external_ai_consent'] ?? false ),
+			'destination'         => substr( sanitize_text_field( $this->string_value( $request['destination'] ?? '' ) ), 0, 120 ),
+			'origin'              => substr( sanitize_text_field( $this->string_value( $request['origin'] ?? '' ) ), 0, 120 ),
+			'prompt'              => substr( sanitize_textarea_field( $this->string_value( $request['prompt'] ?? '' ) ), 0, 1200 ),
+			'departure_date'      => $this->normalize_date( $this->string_value( $request['departure_date'] ?? '' ) ),
+			'return_date'         => $this->normalize_date( $this->string_value( $request['return_date'] ?? '' ) ),
+			'days'                => max( 1, min( 21, absint( $this->string_value( $request['days'] ?? 3 ) ) ) ),
+			'travelers'           => max( 1, min( 12, absint( $this->string_value( $request['travelers'] ?? 2 ) ) ) ),
+			'travel_style'        => substr( sanitize_text_field( $this->string_value( $request['travel_style'] ?? '' ) ), 0, 80 ),
+			'budget'              => substr( sanitize_text_field( $this->string_value( $request['budget'] ?? '' ) ), 0, 80 ),
+			'preferences'         => substr( sanitize_textarea_field( $this->string_value( $request['preferences'] ?? '' ) ), 0, 1200 ),
+			'source_post_id'      => absint( $this->string_value( $request['source_post_id'] ?? 0 ) ),
+			'save'                => $this->boolean_value( $request['save'] ?? false ),
+			'external_ai_consent' => $this->boolean_value( $request['external_ai_consent'] ?? false ),
 		);
 	}
 
@@ -278,6 +278,30 @@ final class AI_Itinerary_Service {
 
 	private function save_forbidden_error(): \WP_Error {
 		return new \WP_Error( 'baf_ai_save_forbidden', __( 'You are not allowed to save AI-generated trip plans.', 'bookings-flights-core' ), array( 'status' => rest_authorization_required_code() ) );
+	}
+
+	private function boolean_value( mixed $value ): bool {
+		if ( is_bool( $value ) || is_scalar( $value ) ) {
+			return rest_sanitize_boolean( $value );
+		}
+
+		return false;
+	}
+
+	private function string_value( mixed $value ): string {
+		if ( is_string( $value ) ) {
+			return $value;
+		}
+
+		if ( is_int( $value ) || is_float( $value ) || is_bool( $value ) ) {
+			return (string) $value;
+		}
+
+		if ( is_object( $value ) && method_exists( $value, '__toString' ) ) {
+			return (string) $value;
+		}
+
+		return '';
 	}
 
 	private function finish_error( int $session_id, \WP_Error $error ): void {

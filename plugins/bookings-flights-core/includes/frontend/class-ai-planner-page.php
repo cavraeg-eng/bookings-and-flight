@@ -7,6 +7,7 @@
 
 namespace BAF\Core\Frontend;
 
+use BAF\Core\AI\Provider_Factory;
 use BAF\Core\Capabilities\Capability_Manager;
 use BAF\Core\Settings\Settings_Manager;
 
@@ -113,6 +114,8 @@ final class AI_Planner_Page {
 	private static function script_data(): array {
 		$ai      = Settings_Manager::get_ai();
 		$consent = Settings_Manager::get_consent();
+		$mode    = sanitize_key( is_scalar( $ai['mode'] ?? '' ) ? (string) $ai['mode'] : '' );
+		$live    = Provider_Factory::live_readiness( $ai, $consent );
 
 		return array(
 			'endpoint'                => esc_url_raw( rest_url( 'baf/v1/ai/itinerary' ) ),
@@ -120,7 +123,9 @@ final class AI_Planner_Page {
 			'nonce'                   => wp_create_nonce( 'wp_rest' ),
 			'canRunAi'                => current_user_can( Capability_Manager::RUN_AI ),
 			'canEditContent'          => current_user_can( Capability_Manager::EDIT_CONTENT ),
-			'mode'                    => sanitize_key( (string) $ai['mode'] ),
+			'mode'                    => $mode,
+			'liveReady'               => 'live' === $mode && true === (bool) $live['ready'],
+			'liveReadinessReason'     => sanitize_key( (string) $live['reason'] ),
 			'externalAiAllowed'       => (bool) $consent['allow_external_ai'],
 			'providerRequestsAllowed' => (bool) $consent['allow_provider_requests'],
 			'strings'                 => array(
@@ -130,6 +135,7 @@ final class AI_Planner_Page {
 				'genericError'       => __( 'The planner could not create a trip brief. Review the fields and try again.', 'bookings-flights-core' ),
 				'handoffReady'       => __( 'Local Travelpayouts handoff intent prepared for editorial review.', 'bookings-flights-core' ),
 				'handoffConsent'     => __( 'Provider request consent must be enabled before preparing handoff intents.', 'bookings-flights-core' ),
+				'liveNotReady'       => (string) $live['message'],
 				'loading'            => __( 'Preparing a structured trip brief...', 'bookings-flights-core' ),
 			),
 		);

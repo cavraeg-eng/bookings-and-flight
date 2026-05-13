@@ -112,6 +112,8 @@ Phase 18.3 defines the AI opportunity contract as `travelpayouts_opportunity_v1`
 
 Phase 18.4 adds local approval-oriented handoff preparation from saved `trip_plan` drafts. Editors can prepare `ai_handoff_intent_v1` records only after capability, nonce, source-post, global provider-consent, and per-request handoff-consent checks pass. The stored intent remains local with `provider_action=not_executed`, `provider_action_executed=false`, and `external_request_sent=false`; it does not call Travelpayouts, create provider links, publish posts, book, pay, or expose raw prompts.
 
+Phase 18.5 hardens live-provider readiness and malformed-input handling. `BAF\Core\AI\Provider_Factory::live_readiness()` is the shared contract for live-mode UI messaging and backend provider selection. The planner blocks known-misconfigured live states before sending prompt data to the itinerary REST endpoint, while backend provider selection still rejects missing providers, unsupported providers, missing API keys, missing saved External AI consent, and missing per-request consent. Demo mode remains available without live credentials or external provider calls.
+
 ## REST Namespace
 
 | Contract | Value |
@@ -404,7 +406,7 @@ Dedicated primitive capabilities are mapped directly by `BAF\Core\Capabilities\C
 | `BAF\Core\AI\AI_Provider_Interface` | AI provider contract for itinerary generation adapters |
 | `BAF\Core\AI\Demo_AI_Provider` | Offline demo itinerary provider that requires no live credentials |
 | `BAF\Core\AI\OpenAI_Provider` | Live OpenAI Chat Completions adapter gated by configuration and consent |
-| `BAF\Core\AI\Provider_Factory` | Selects demo/live provider based on `baf_ai_settings` and `baf_consent_settings`; exposes supported live-provider checks for UI readiness |
+| `BAF\Core\AI\Provider_Factory` | Selects demo/live provider based on `baf_ai_settings` and `baf_consent_settings`; exposes `live_readiness()` and supported live-provider checks for UI readiness and backend guardrail alignment |
 | `BAF\Core\AI\Itinerary_Schema` | Validates and sanitizes structured itinerary output before save/response |
 | `BAF\Core\Repositories\Repository_Interface` | Base interface for WordPress-backed travel entity repositories |
 | `BAF\Core\Repositories\Travel_Entity_Repository` | Bounded CPT-backed data access helper for Phase 1 travel entities |
@@ -461,6 +463,7 @@ Response behavior:
 - Demo mode (`baf_ai_settings.mode = demo`) generates local deterministic itinerary drafts without external calls or credentials.
 - Live mode requires `baf_ai_settings.provider`, `baf_ai_settings.api_key`, `baf_consent_settings.allow_external_ai`, and per-request `external_ai_consent`.
 - Current live PHP adapter support is `openai`; unsupported configured providers fail safely without sending data externally.
+- Planner UI readiness and backend provider selection share `Provider_Factory::live_readiness()`, so missing provider, unsupported provider, missing API key, and missing saved External AI consent states expose the same safe status message and do not send known-misconfigured live requests from the browser.
 - All AI outputs are validated by `BAF\Core\AI\Itinerary_Schema` before response or draft save.
 - Responses include a sanitized `trip_brief` with destination, origin, dates, day count, traveler count, style, budget, mode, and whether data was sent externally. Raw prompt text is not returned in the planner response.
 - When `save=true` succeeds, responses include `trip_plan_id`, `saved_status=draft`, and a `trip_plan` object with the draft ID, draft status, and an edit URL for users who can edit the post.
@@ -617,7 +620,7 @@ These are planning labels from the 2026-05-09 architecture review, not final cla
 - Content manager field pipeline: P17.5 adds tracked core editor meta boxes for `destination`, `route`, and `travel_deal` guide-module fields so editors no longer need raw `baf_*` custom-field keys for Phase 17 page families. The legacy local `bookings-and-flights-content-manager` plugin still needs a split along field rendering, field persistence, media portability, schema export/import, and admin notice seams before it becomes the tracked field system for large CPT expansion.
 - Accessibility, SEO, and disclosure gate: P17.6 confirms Phase 17 public content surfaces remain WordPress-owned SEO/editorial pages with visible affiliate/provider boundaries, 44px minimum visible interactive targets on reviewed controls, labelled provider iframes where the wrapper can safely apply labels, and noindex/canonical behavior for transient Flights and Hotels query URLs. This does not create new provider contracts, result storage, booking, payment, or custom inventory ownership.
 - Phase 17 final gate: P17.7 closes the destination, route, deal, taxonomy, and editor field baseline for Phase 18. WordPress owns editable SEO/editorial content and internal links; Travelpayouts or partner providers own live search results, filters, fares, hotel availability, booking, payment, changes, and support.
-- Phase 18 AI planner entry: P18.1 adds the real `/trip-planner/` route and prompt-to-trip-brief flow while keeping AI opportunities recommendation-only and blocking live provider requests without saved plus per-request consent.
+- Phase 18 AI planner entry: P18.1 adds the real `/trip-planner/` route and prompt-to-trip-brief flow while keeping AI opportunities recommendation-only and blocking live provider requests without saved plus per-request consent. P18.5 aligns frontend live readiness and backend provider selection through `Provider_Factory::live_readiness()` so known-misconfigured live states do not send prompt data from the browser.
 
 ## Provider Interfaces
 

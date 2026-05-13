@@ -15,8 +15,9 @@ $ai_settings      = Settings_Manager::get_ai();
 $consent_settings = Settings_Manager::get_consent();
 $can_run_ai       = current_user_can( Capability_Manager::RUN_AI );
 $can_edit_content = current_user_can( Capability_Manager::EDIT_CONTENT );
-$mode             = sanitize_key( (string) $ai_settings['mode'] );
-$live_ready       = 'live' === $mode && Provider_Factory::supports_live_provider( (string) $ai_settings['provider'] ) && '' !== (string) $ai_settings['api_key'] && true === (bool) $consent_settings['allow_external_ai'];
+$mode             = sanitize_key( is_scalar( $ai_settings['mode'] ?? '' ) ? (string) $ai_settings['mode'] : '' );
+$live_readiness   = Provider_Factory::live_readiness( $ai_settings, $consent_settings );
+$mode_message     = 'live' === $mode ? (string) $live_readiness['message'] : __( 'Demo mode is available without live credentials or external provider calls.', 'bookings-flights-core' );
 
 get_header();
 ?>
@@ -102,11 +103,7 @@ get_header();
 						<button class="baf-ai-planner__submit" type="submit" <?php disabled( ! $can_run_ai ); ?>><?php esc_html_e( 'Create trip brief', 'bookings-flights-core' ); ?></button>
 						<p class="baf-ai-planner__mode">
 							<?php
-							echo esc_html(
-								$live_ready
-									? __( 'Live mode is configured; this request still needs the consent checkbox.', 'bookings-flights-core' )
-									: __( 'Demo mode is available without live credentials or external provider calls.', 'bookings-flights-core' )
-							);
+							echo esc_html( $mode_message );
 							?>
 						</p>
 					</div>
