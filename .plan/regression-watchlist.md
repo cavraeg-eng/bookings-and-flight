@@ -1075,6 +1075,7 @@ What to check after future changes:
 - Header menu toggles, header nav links, hotel guide card title links, partner handoff buttons, and text links keep at least 44px interactive targets where they appear as touch/click controls.
 - Companion map/listing cards and the main hotel partner surface keep visible buttons and disclosure bands without overlap or clipping.
 - Source scans still find no API keys, authorization/bearer strings, postback secrets, Booking.com White Label promises, direct checkout, auto-booking, live-rate claims, or WordPress-owned hotel inventory claims.
+- Hotel-intent query URLs canonicalize to `/hotels/` and render `noindex, follow`; `/hotels/` without transient query state remains indexable, and subdirectory installs such as `/blog/hotels/` preserve the same transient-query robots behavior.
 - Keyboard navigation reaches `Update hotel intent`, `Open hotel map`, `Open hotel listings`, and `Open partner search` with visible focus.
 - Provider-owned WebGL/runtime warnings remain separated from app-owned console or request failures.
 
@@ -1084,6 +1085,7 @@ Related files/routes/settings:
 - `themes/bookings-and-flights-static/assets/css/hotel-guide.css`
 - `themes/bookings-and-flights-static/assets/css/search-surface.css`
 - `themes/bookings-and-flights-static/page-hotels.php`
+- `themes/bookings-and-flights-static/inc/seo-metadata.php`
 - `themes/bookings-and-flights-static/archive-destination.php`
 - `themes/bookings-and-flights-static/single-destination.php`
 - `themes/bookings-and-flights-static/template-parts/hotel-discovery-placements.php`

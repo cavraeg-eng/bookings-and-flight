@@ -44,6 +44,8 @@ P16.4 update: no new app-owned hotel handoff or disclosure blocker remains after
 
 P16.5 update: the mobile/source review found and fixed app-owned touch-target regressions in the static header and hotel guide cards. No new app-owned hotel mobile layout, source-exposure, disclosure, console, request, clipping, or keyboard blocker remains after the final Playwright pass. Continue treating provider-owned Chromium WebGL warnings as watchlist-only when app-owned checks pass.
 
+P16.6 update: the final Phase 16 gate found and fixed one app-owned SEO bug where transient hotel-intent query URLs canonicalized to `/hotels/` but were still indexable, and Codex PR review found the initial fix missed WordPress subdirectory installs. Hotel-intent query URLs now render `noindex, follow`, including subdirectory paths such as `/blog/hotels/`; no remaining app-owned hotel discovery, source-exposure, disclosure, runtime, keyboard, or SEO blocker remains after the final Playwright/source pass.
+
 Security watch item: GitHub push protection identified an embedded Airtable personal access token in the official plugin package during PR publication. The staged local package now redacts the hard-coded token and disables the Airtable distribution script unless a token is supplied outside Git through `TRAVELPAYOUTS_AIRTABLE_TOKEN`. Do not commit provider, analytics, or distribution tokens into the repository.
 
 Compatibility watch item: Direct PHP syntax scanning of the official plugin passed with no syntax errors, but PHP `8.5.4` emitted deprecation warnings from bundled Redux/PHP-DI/Parsedown/Opis/Travelpayouts classes. A P11.6 browser pass found the PHP-DI `ReflectionProperty::setAccessible()` deprecation printing into the Flights page when local PHP displayed deprecations; the bundled PHP-DI resolver now skips `setAccessible()` on PHP 8.1+ and uses an explicit nullable type for the injected class name.
@@ -87,3 +89,15 @@ Current issue: P15.1 added the dedicated Flights landing page intent module and 
 Workaround: Use `/flights/` for the current Travelpayouts handoff path and `/routes/` plus route detail pages for indexable editorial route context. Keep unsupported filters as provider-controlled labels and treat alert signup as local intent capture rather than live fare monitoring.
 
 Planned fix phase: No remaining Phase 15 implementation issue after `ONE-99`; continue monitoring provider-owned Travelpayouts runtime warnings during later phases.
+
+## Phase 16 Hotels and Stays Experience Closeout Watch
+
+Severity: Resolved for Phase 16 after the P16.6 local review gate; keep provider runtime and content-blocking behavior on the later-phase watchlist.
+
+Affected area: `/hotels/`, hotel-intent query URLs, destination hotel guide archive/detail pages, hotel companion handoffs, Travelpayouts/Trip.com placement shells, disclosures, and hotel SEO metadata.
+
+Current issue: P16.1 through P16.6 completed the app-owned hotel experience using WordPress-owned editorial intent, city guide content, governed partner placements, visible affiliate disclosure, responsive layouts, keyboard-reachable handoffs, SubID-aware map/listing companion links, and transient hotel-query noindex behavior. No app-owned Phase 16 blocker remains after the final gate.
+
+Workaround: Use `/hotels/` and destination hotel guide pages for the current WordPress-owned hotel discovery shell. Keep live rates, room inventory, maps, filters, booking, payment, changes, support, and supplier availability with Travelpayouts, Trip.com, or the partner provider.
+
+Planned fix phase: No remaining Phase 16 implementation issue after `ONE-105`; continue monitoring provider-owned Trip.com iframe/content-blocking and Chromium WebGL warnings during later phases.
