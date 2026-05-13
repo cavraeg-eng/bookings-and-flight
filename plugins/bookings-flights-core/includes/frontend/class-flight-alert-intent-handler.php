@@ -24,6 +24,8 @@ final class Flight_Alert_Intent_Handler {
 	private const STATUS_CONSENT         = 'consent_required';
 	private const STATUS_UNAVAILABLE     = 'unavailable';
 	private const STATUS_INVALID_REQUEST = 'invalid_request';
+	private const STATUS_RATE_LIMITED    = 'rate_limited';
+	private const THROTTLE_SECONDS       = 60;
 
 	public static function bootstrap(): void {
 		add_action( 'admin_post_' . self::ACTION, array( self::class, 'handle_submit' ) );
@@ -34,7 +36,7 @@ final class Flight_Alert_Intent_Handler {
 		check_admin_referer( self::NONCE_ACTION, self::NONCE_FIELD );
 
 		$posted       = self::posted_data();
-			$redirect_url = self::redirect_url( self::url_field( $posted, 'baf_alert_redirect' ) );
+		$redirect_url = self::redirect_url( self::url_field( $posted, 'baf_alert_redirect' ) );
 
 		if ( ! post_type_exists( Post_Type_Registrar::TRAVEL_ALERT ) ) {
 			self::redirect_with_status( $redirect_url, self::STATUS_UNAVAILABLE );
@@ -84,6 +86,12 @@ final class Flight_Alert_Intent_Handler {
 		$surface     = sanitize_key( self::field( $posted, 'baf_alert_surface' ) );
 		$source_url  = self::url_field( $posted, 'baf_alert_source_url' );
 		$route_key   = $origin . '-' . $destination;
+
+		if ( self::is_rate_limited( $email, $route_key ) ) {
+			self::redirect_with_status( $redirect_url, self::STATUS_RATE_LIMITED );
+		}
+
+		self::mark_rate_limited( $email, $route_key );
 
 		$alert_id = wp_insert_post(
 			array(
@@ -195,6 +203,34 @@ final class Flight_Alert_Intent_Handler {
 			'origin'      => self::normalize_iata( (string) get_post_meta( $route_id, 'baf_origin_airport', true ) ),
 			'destination' => self::normalize_iata( (string) get_post_meta( $route_id, 'baf_destination_airport', true ) ),
 		);
+	}
+
+	private static function is_rate_limited( string $email, string $route_key ): bool {
+		return false !== get_transient( self::rate_limit_key( $email, $route_key ) );
+	}
+
+	private static function mark_rate_limited( string $email, string $route_key ): void {
+		set_transient( self::rate_limit_key( $email, $route_key ), '1', self::THROTTLE_SECONDS );
+	}
+
+	private static function rate_limit_key( string $email, string $route_key ): string {
+		$user_id    = get_current_user_id();
+		$remote     = isset( $_SERVER['REMOTE_ADDR'] ) && is_scalar( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		$user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) && is_scalar( $_SERVER['HTTP_USER_AGENT'] ) ? substr( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 0, 160 ) : '';
+		$fingerprint = wp_hash(
+			implode(
+				'|',
+				array(
+					(string) $user_id,
+					$remote,
+					$user_agent,
+					strtolower( $email ),
+					$route_key,
+				)
+			)
+		);
+
+		return 'baf_alert_rate_' . substr( md5( $fingerprint ), 0, 24 );
 	}
 
 	private static function redirect_url( string $url ): string {

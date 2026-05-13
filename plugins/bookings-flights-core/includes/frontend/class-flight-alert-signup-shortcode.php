@@ -123,13 +123,6 @@ final class Flight_Alert_Signup_Shortcode {
 		return (string) ob_get_clean();
 	}
 
-	private static function current_url(): string {
-		$request_uri = isset( $_SERVER['REQUEST_URI'] ) && is_scalar( $_SERVER['REQUEST_URI'] ) ? (string) wp_unslash( $_SERVER['REQUEST_URI'] ) : '/';
-		$request_uri = '/' . ltrim( $request_uri, '/' );
-
-		return esc_url_raw( remove_query_arg( Flight_Alert_Intent_Handler::STATUS_QUERY_ARG, home_url( $request_uri ) ) );
-	}
-
 	private static function status_message(): ?array {
 		if ( ! isset( $_GET[ Flight_Alert_Intent_Handler::STATUS_QUERY_ARG ] ) || ! is_scalar( $_GET[ Flight_Alert_Intent_Handler::STATUS_QUERY_ARG ] ) ) {
 			return null;
@@ -167,8 +160,37 @@ final class Flight_Alert_Signup_Shortcode {
 				'tone' => 'error',
 				'role' => 'alert',
 			),
+			'rate_limited'    => array(
+				'text' => __( 'Please wait a minute before saving another alert for this route.', 'bookings-flights-core' ),
+				'tone' => 'error',
+				'role' => 'alert',
+			),
 		);
 
 		return $map[ $status ] ?? null;
+	}
+
+	private static function current_url(): string {
+		$request_uri   = isset( $_SERVER['REQUEST_URI'] ) && is_scalar( $_SERVER['REQUEST_URI'] ) ? (string) wp_unslash( $_SERVER['REQUEST_URI'] ) : '/';
+		$home_path     = wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+		$home_path     = is_string( $home_path ) ? '/' . trim( $home_path, '/' ) : '';
+		$request_path  = wp_parse_url( $request_uri, PHP_URL_PATH );
+		$request_path  = is_string( $request_path ) && '' !== $request_path ? $request_path : '/';
+		$request_query = wp_parse_url( $request_uri, PHP_URL_QUERY );
+
+		if ( '' !== $home_path && '/' !== $home_path ) {
+			if ( $home_path === $request_path ) {
+				$request_path = '/';
+			} elseif ( 0 === strpos( $request_path, trailingslashit( $home_path ) ) ) {
+				$request_path = substr( $request_path, strlen( $home_path ) );
+			}
+		}
+
+		$request_uri = '/' . ltrim( $request_path, '/' );
+		if ( is_string( $request_query ) && '' !== $request_query ) {
+			$request_uri .= '?' . $request_query;
+		}
+
+		return esc_url_raw( remove_query_arg( Flight_Alert_Intent_Handler::STATUS_QUERY_ARG, home_url( $request_uri ) ) );
 	}
 }

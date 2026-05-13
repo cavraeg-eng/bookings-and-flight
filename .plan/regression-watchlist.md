@@ -854,11 +854,12 @@ Why risky: The alert form is an anonymous-capable write path that stores contact
 What to check after future changes:
 
 - `[baf_flight_alert_signup]` still renders only a local intent form with email, route, frequency, nonce, and explicit consent.
-- `baf_save_flight_alert` and `admin_post_nopriv_baf_save_flight_alert` keep nonce validation, scalar input checks, route-code allowlists, email validation, and safe redirects.
+- `baf_save_flight_alert` and `admin_post_nopriv_baf_save_flight_alert` keep nonce validation, scalar input checks, route-code allowlists, email validation, per-client/email/route transient throttling, and safe redirects.
+- Form redirect/source URLs continue to rebuild the current page URL from the request path without duplicating the WordPress home path on subdirectory installs.
 - `travel_alert` remains non-public, alert meta remains `show_in_rest => false`, and alert administration remains gated by `manage_baf_alerts`.
 - Stored alert records remain minimized to contact, route/watch intent, source surface, consent timestamp, and local workflow status.
 - Public copy continues to state that Travelpayouts or the partner provider controls live fares, filters, booking, payment, changes, and support.
-- Missing nonce, invalid email, missing consent, missing route, and missing alert CPT prerequisites fail closed or show safe form states without creating records.
+- Missing nonce, invalid email, missing consent, missing route, immediate duplicate submission, and missing alert CPT prerequisites fail closed or show safe form states without creating records.
 - Desktop/mobile screenshots show no overlap, clipping, horizontal overflow, duplicate IDs, or hidden consent text.
 - Keyboard review reaches email, origin, destination, frequency, consent, and `Save alert intent` on Flights and route pages.
 
