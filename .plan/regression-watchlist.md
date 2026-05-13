@@ -1299,3 +1299,39 @@ Related files/routes/settings:
 - `/travel-regions/{term}/`
 - `/flights/?origin={code}&destination={code}`
 - `/hotels/?travel_destination={destination}`
+
+## Phase 17 Final Review Gate
+
+Fragile area: The combined Phase 17 content engine across destination, route, deal, taxonomy, editor metadata, SEO metadata, disclosure, and provider handoff boundaries.
+
+Why risky: Phase 18 AI planner work will consume the SEO/editorial content baseline. Future AI or provider work could accidentally bypass the editor field pipeline, index transient provider query URLs, leak private workflow records into taxonomy archives, blur provider-owned booking boundaries, or treat provider-owned widget warnings as app-owned failures.
+
+What to check after future changes:
+
+- Destination, route, deal, and taxonomy surfaces still render from WordPress-owned CPTs/taxonomies with escaped editorial output and visible affiliate disclosure boundaries.
+- Structured editor meta keys for `destination`, `route`, and `travel_deal` stay registered with `show_in_rest=false`, sanitization callbacks, and edit-meta authorization callbacks unless a documented phase changes that contract.
+- Taxonomy archives remain bounded, paginated, and public-only; private destinations, `trip_plan`, `travel_alert`, and `travel_partner` records stay hidden.
+- Transient Flights/Hotels query URLs remain `noindex, follow` and canonicalize to the base shell pages.
+- AI planner work links into these content surfaces without auto-publishing, direct checkout, provider inventory storage, or raw Travelpayouts script entry in normal post content.
+- Runtime screenshots and keyboard checks cover at least one destination, route, deal, taxonomy archive, transient flight query, and transient hotel query before starting broad Phase 18 UI changes.
+- Provider-owned Travelpayouts/Aviasales WebGL, Babel, GraphQL, `tp.media`, and `avsplow.com` warnings remain separated from app-owned console or request failures.
+
+Related files/routes/settings:
+
+- `.plan/phase-17-final-review.md`
+- `plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php`
+- `plugins/bookings-flights-core/includes/post-types/class-editor-meta-boxes.php`
+- `themes/bookings-and-flights-static/inc/seo-metadata.php`
+- `themes/bookings-and-flights-static/archive-destination.php`
+- `themes/bookings-and-flights-static/single-destination.php`
+- `themes/bookings-and-flights-static/archive-route.php`
+- `themes/bookings-and-flights-static/single-route.php`
+- `themes/bookings-and-flights-static/archive-travel_deal.php`
+- `themes/bookings-and-flights-static/single-travel_deal.php`
+- `themes/bookings-and-flights-static/taxonomy.php`
+- `/destinations/`
+- `/routes/`
+- `/travel-deals/`
+- `/travel-regions/{term}/`
+- `/flights/?origin={code}&destination={code}`
+- `/hotels/?travel_destination={destination}`

@@ -1030,6 +1030,29 @@ git diff --check
 
 P17.6 local result on 2026-05-13: PHP syntax passed for changed PHP files. The changed source files remained under the 600-line guideline, with `frontend.css` at 590 lines and now documented for future splitting before substantial expansion. Playwright Chromium evidence is saved at `/tmp/one111-accessibility-seo-report.json`; screenshots include `/tmp/one111-destination-desktop.png`, `/tmp/one111-route-desktop.png`, `/tmp/one111-deal-desktop.png`, `/tmp/one111-taxonomy-desktop.png`, `/tmp/one111-destinations-archive-desktop.png`, `/tmp/one111-routes-archive-desktop.png`, `/tmp/one111-deals-archive-desktop.png`, `/tmp/one111-destination-mobile.png`, `/tmp/one111-route-narrow.png`, `/tmp/one111-deal-mobile.png`, `/tmp/one111-taxonomy-narrow.png`, `/tmp/one111-keyboard-destination.png`, `/tmp/one111-keyboard-route.png`, `/tmp/one111-keyboard-deal.png`, `/tmp/one111-keyboard-taxonomy.png`, and focused follow-up `/tmp/one111-destination-copy-followup-mobile.png`. The first strict pass found and the follow-up fixes resolved a route alert consent target below 44px, an unnamed provider route-map iframe, sub-44px deal/taxonomy card title links, and default destination copy that still referenced guaranteed availability. The final report returned `status=pass` and `findingCount=0` with no app-owned console errors, blocking failed requests, horizontal overflow, unnamed links, missing image alt findings, hidden disclosures, blank pages, framework overlays, or small visible interactive targets. A focused mobile runtime follow-up after the final copy tightening confirmed the destination fallback text renders "availability commitments", does not render "guaranteed availability" or "confirmed availability", keeps affiliate disclosure visible, has no horizontal overflow, and has no app-owned console errors. SEO source checks confirmed transient Flights and Hotels query URLs render `noindex, follow` and canonicalize to `/flights/` and `/hotels/`, while public taxonomy archives remain indexable. Provider-owned WebGL, Babel, and GraphQL warnings remained non-blocking after app-owned checks passed. WP-CLI emitted the known local PHP 8.5 deprecation noise from WP-CLI internals and the third-party Travelpayouts plugin during activation and cleanup, but commands completed and temporary posts/terms were confirmed absent.
 
+P17.7 final Phase 17 review validation:
+
+```bash
+php -l plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php
+php -l plugins/bookings-flights-core/includes/post-types/class-editor-meta-boxes.php
+php -l themes/bookings-and-flights-static/archive-destination.php
+php -l themes/bookings-and-flights-static/single-destination.php
+php -l themes/bookings-and-flights-static/archive-route.php
+php -l themes/bookings-and-flights-static/single-route.php
+php -l themes/bookings-and-flights-static/archive-travel_deal.php
+php -l themes/bookings-and-flights-static/single-travel_deal.php
+php -l themes/bookings-and-flights-static/taxonomy.php
+php -l themes/bookings-and-flights-static/inc/seo-metadata.php
+wc -l P17 PHP/CSS files
+wp eval CPT and registered post-meta smoke for public/private CPT boundaries, `show_in_rest=false`, sanitization callbacks, and auth callbacks
+node Playwright Chromium runtime/source/SEO/disclosure/console/request review for destination, route, deal, taxonomy, transient Flights query, and transient Hotels query states
+node Playwright Chromium keyboard review for destination, route, deal, and taxonomy pages
+wp eval temporary ONE-112 fixture cleanup for public/private posts and travel taxonomy terms
+git diff --check
+```
+
+P17.7 local result on 2026-05-13: PHP syntax passed for P17 CPT/editor/template/SEO files, and reviewed P17 source files remain under the 600-line guideline. `frontend.css` is still 590 lines and remains documented for future splitting before substantial expansion. WP-CLI smoke confirmed `bookings-flights-core` is active; `destination`, `route`, and `travel_deal` are public with expected archives; `trip_plan`, `travel_alert`, and `travel_partner` remain private; and destination, route, and travel-deal editor meta keys are registered with `show_in_rest=false`, sanitization callbacks, and edit-meta authorization callbacks. Playwright Chromium evidence is saved at `/tmp/one112-phase17-final-report.json`; screenshots include `/tmp/one112-destinations_archive-desktop.png`, `/tmp/one112-destination_single-desktop.png`, `/tmp/one112-routes_archive-desktop.png`, `/tmp/one112-route_single-desktop.png`, `/tmp/one112-deals_archive-desktop.png`, `/tmp/one112-deal_single-desktop.png`, `/tmp/one112-taxonomy_region-desktop.png`, `/tmp/one112-flights_query-desktop.png`, `/tmp/one112-hotels_query-desktop.png`, `/tmp/one112-keyboard-destination_single.png`, `/tmp/one112-keyboard-route_single.png`, `/tmp/one112-keyboard-deal_single.png`, and `/tmp/one112-keyboard-taxonomy_region.png`. The final report returned `status=pass` and `findingCount=0`, with no app-owned console errors, app-owned failed requests, horizontal overflow, hidden disclosures, unnamed visible links, forbidden source terms, leaked private/non-public taxonomy content, or unexpected index/canonical behavior. The first report flagged the route alert checkbox visual size and an `avsplow.com` provider analytics-pixel `400`; follow-up inspection confirmed the checkbox is inside a large label hit area and the `400` belongs to provider-owned widget telemetry. Temporary posts `488` through `492` and temporary terms `one112-region`, `one112-style`, `one112-vertical`, and `one112-season` were deleted and confirmed absent. WP-CLI emitted the known local PHP 8.5 deprecation noise from WP-CLI internals and the third-party Travelpayouts plugin, but commands completed.
+
 ## Documentation-Only Changes
 
 For documentation-only changes:
