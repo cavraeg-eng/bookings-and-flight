@@ -68,6 +68,37 @@ function bookings_and_flights_has_flight_search_query(): bool {
 	return false;
 }
 
+function bookings_and_flights_is_hotels_request_path(): bool {
+	$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( (string) $_SERVER['REQUEST_URI'] ) ) : '';
+	$request_path = wp_parse_url( $request_uri, PHP_URL_PATH );
+
+	if ( ! is_string( $request_path ) ) {
+		return false;
+	}
+
+	return '/hotels/' === trailingslashit( '/' . trim( $request_path, '/' ) );
+}
+
+function bookings_and_flights_has_hotel_search_query(): bool {
+	$search_keys = array(
+		'travel_destination',
+		'check_in',
+		'check_out',
+		'guests',
+		'rooms',
+		'stay_focus',
+		'baf_surface',
+	);
+
+	foreach ( $search_keys as $key ) {
+		if ( isset( $_GET[ $key ] ) && is_scalar( $_GET[ $key ] ) && '' !== trim( (string) wp_unslash( (string) $_GET[ $key ] ) ) ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 function bookings_and_flights_route_label_for_post( int $post_id ): string {
 	$origin              = sanitize_text_field( (string) get_post_meta( $post_id, 'baf_origin', true ) );
 	$destination         = sanitize_text_field( (string) get_post_meta( $post_id, 'baf_destination', true ) );
@@ -221,7 +252,10 @@ function bookings_and_flights_render_seo_metadata(): void {
 }
 
 function bookings_and_flights_filter_wp_robots( array $robots ): array {
-	if ( function_exists( 'bookings_and_flights_is_flights_request_path' ) && bookings_and_flights_is_flights_request_path() && bookings_and_flights_has_flight_search_query() ) {
+	$is_flight_search = function_exists( 'bookings_and_flights_is_flights_request_path' ) && bookings_and_flights_is_flights_request_path() && bookings_and_flights_has_flight_search_query();
+	$is_hotel_search  = bookings_and_flights_is_hotels_request_path() && bookings_and_flights_has_hotel_search_query();
+
+	if ( $is_flight_search || $is_hotel_search ) {
 		unset( $robots['index'] );
 		$robots['noindex'] = true;
 		$robots['follow']  = true;

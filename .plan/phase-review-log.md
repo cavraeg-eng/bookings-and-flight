@@ -2246,3 +2246,42 @@ Research consulted:
 - Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
 
 Decision: P16.5 local implementation and review gate passed. Keep Phase 16 overall `In Progress` until the final Phase 16 review issue passes review and merge.
+
+## Phase 16.6 Review - 2026-05-13
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-105` final Phase 16 review and documentation gate. Reviewed P16.1 through P16.5 implementation notes, Hotels landing intent behavior, city hotel guide templates, companion hotel placement/SubID strategy, disclosure and handoff language, mobile/source review findings, widget registry state, SEO metadata behavior, source output, real runtime screenshots, keyboard navigation, and documentation alignment before Phase 17 starts.
+
+Acceptance criteria result: Passed locally for the PR candidate. Phase 16 now provides a Hotels landing page, city hotel guides, governed hotel search/map/listing partner handoffs, editorial stay-type context, and hotel SubID placement strategy without creating a custom hotel inventory, live-search, checkout, or supplier-result backend.
+
+Security review: Passed locally. P16.6 added no REST routes, provider calls, custom SQL, options, tables, cron jobs, private-data writes, direct checkout, payment paths, or new public data exposure. The SEO fix reads bounded scalar query parameters, unslashes the request data, and keeps output handled by WordPress `wp_robots` and existing escaped metadata rendering.
+
+REST permission review: Not applicable. P16.6 added no REST endpoints and did not change public REST exposure.
+
+Database/migration review: Not applicable. No schema, option, custom table, cron, or destructive data changes were added. Temporary destination post `321` was used for runtime validation, removed after validation, and confirmed at `temporary_posts_remaining=0`.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Playwright Chromium captured `/hotels/`, a hotel-intent URL, `/destinations/`, and the temporary destination guide across desktop, tablet, mobile, and 320px narrow widths. The final report found no app-owned console errors, app-owned failed requests, horizontal overflow, duplicate IDs, unsupported hotel copy, sensitive source terms, missing affiliate disclosures, clipping problems, small touch targets, missing canonical URLs, or missing hotel-intent noindex output. Keyboard navigation reached `Update hotel intent`, `Open hotel map`, `Open hotel listings`, and `Open partner search`.
+
+Regression review: Existing P16.1 hotel intent behavior, P16.2 city guide templates, P16.3 companion placement/SubID behavior, P16.4 disclosure/copy guardrails, P16.5 touch-target fixes, Phase 13 widget registry states, Phase 15 flight-query noindex behavior, and the Travelpayouts-controlled backend boundary remain intact. The robots change is scoped to `/hotels/` requests that include hotel intent query parameters.
+
+Validation performed: PHP syntax for changed PHP file; file-size checks; HTTP/source smoke for Hotels, hotel-intent, destination archive, and temporary guide pages; registry smoke for hotel placements; plugin status check; source checks for canonical/robots/disclosure/provider-boundary markers; Playwright Chromium responsive/source review across four route states and four viewport sizes; Playwright keyboard review for hotel intent, map, listing, and partner handoff links; visual screenshot review; `git diff --check`; temporary destination cleanup.
+
+Bugs found: The first final-gate Playwright/source pass found that transient hotel-intent query URLs canonicalized to `/hotels/` but still rendered indexable robots output instead of `noindex, follow`.
+
+Bugs fixed: `seo-metadata.php` now detects `/hotels/` requests with hotel intent query parameters and applies `noindex, follow` through the existing `wp_robots` filter. Follow-up source smoke confirmed hotel-intent URLs render noindex/follow while keeping canonical `/hotels/`.
+
+Bugs deferred: No app-owned Phase 16 blocker remains after the final gate. Provider-owned Trip.com iframe behavior, content-blocking, and Chromium WebGL performance warnings remain watchlist-only when app-owned rendering, disclosures, keyboard navigation, and source checks pass.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Code Reference: `wp_robots`.
+- WordPress Common APIs Handbook: Escaping Data.
+- WordPress Plugin Security Handbook: Plugin Security.
+- Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+
+Decision: P16.6 local review gate passed. Phase 16 Hotels and Stays Experience is ready to close after PR review, merge, and Linear sync; Phase 17 may start after that closeout.
