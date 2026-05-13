@@ -246,6 +246,25 @@ get_header();
 				</div>
 			</section>
 
+			<?php
+			get_template_part(
+				'template-parts/hotel-discovery-placements',
+				null,
+				array(
+					'title'       => sprintf(
+						/* translators: %s: destination name. */
+						__( '%s hotel map and listing handoffs', 'bookings_and_flights' ),
+						$destination_label
+					),
+					'description' => __( 'Use the editorial guide to frame the stay, then open provider-owned map and listing tools for live hotel comparison and booking details.', 'bookings_and_flights' ),
+					'channel'     => 'destination_single',
+					'slug_prefix' => 'destination_' . $post_id,
+					'class'       => 'hotel-partner-placements--destination',
+					'details'     => $details,
+				)
+			);
+			?>
+
 			<div id="destination-hotel-search" class="hotel-guide-provider">
 				<?php
 				get_template_part(

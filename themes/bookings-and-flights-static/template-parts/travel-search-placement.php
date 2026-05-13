@@ -28,7 +28,15 @@ $placement = sanitize_key( (string) $args['placement'] );
 $surface   = sanitize_key( (string) $args['surface'] );
 $channel   = sanitize_key( (string) $args['channel'] );
 $slug      = sanitize_key( (string) $args['slug'] );
-$class     = sanitize_html_class( (string) $args['class'] );
+$class     = implode(
+	' ',
+	array_filter(
+		array_map(
+			'sanitize_html_class',
+			preg_split( '/\s+/', (string) $args['class'] ) ?: array()
+		)
+	)
+);
 $details   = is_array( $args['details'] ) ? $args['details'] : array();
 $origin      = strtoupper( trim( (string) $args['origin'] ) );
 $origin      = preg_match( '/^[A-Z]{3}$/', $origin ) ? $origin : '';

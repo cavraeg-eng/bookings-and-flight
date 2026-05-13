@@ -259,6 +259,50 @@
   scroll-margin-block-start: 110px;
 }
 
+.hotel-partner-placements {
+  padding-block: var(--space-l);
+  background: hsl(190 28% 96%);
+}
+
+.hotel-partner-placements__inner {
+  display: grid;
+  gap: var(--space-m);
+  inline-size: min(100%, var(--container-max));
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.hotel-partner-placements__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-s);
+  align-items: stretch;
+}
+
+.hotel-partner-placements .search-placement {
+  height: 100%;
+  margin: 0;
+}
+
+.hotel-partner-placements .search-placement__widget,
+.hotel-partner-placements .baf-travelpayouts-widget,
+.hotel-partner-placements .baf-travelpayouts-widget__body {
+  height: 100%;
+}
+
+.hotel-partner-placements .baf-travelpayouts-widget__body {
+  display: grid;
+  align-items: center;
+}
+
+.hotel-partner-placements .baf-travelpayouts-widget--handoff_link {
+  min-height: 0;
+}
+
+.hotel-partner-placements .baf-travelpayouts-widget--handoff_link .baf-travelpayouts-widget__body {
+  min-block-size: 9rem;
+}
+
 .hotel-guide-provider .search-placement {
   margin-inline: 0;
 }
@@ -367,7 +411,8 @@
   .hotel-guide-module-grid,
   .hotel-guide-card-grid,
   .hotel-guide-listing,
-  .hotel-guide-teaser .hotel-guide-listing {
+  .hotel-guide-teaser .hotel-guide-listing,
+  .hotel-partner-placements__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -377,6 +422,7 @@
   .hotel-guide-card-grid,
   .hotel-guide-listing,
   .hotel-guide-teaser .hotel-guide-listing,
+  .hotel-partner-placements__grid,
   .hotel-guide-listing-card__facts {
     grid-template-columns: 1fr;
   }

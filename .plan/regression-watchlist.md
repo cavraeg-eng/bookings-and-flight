@@ -1000,3 +1000,37 @@ Related files/routes/settings:
 - `hotels_partner_search`
 - `/destinations/`
 - `/hotels/`
+
+## Phase 16 Hotel Companion Placements And SubIDs
+
+Fragile area: `hotels_map_handoff`, `hotels_listing_handoff`, companion placement layouts, and hotel placement SubID generation on `/hotels/` and destination guide pages.
+
+Why risky: These companion placements are link-card handoffs until a dedicated Travelpayouts hotel map/listing/table embed is supplied through the registry. Future changes could overstate live map/listing behavior, clip a future provider iframe with the compact Trip.com search-bar crop, break readable SubIDs, or expose the private registry URL outside trusted rendering.
+
+What to check after future changes:
+
+- The registry schema remains at least `1.0.3` and preserves `hotels_map_handoff` and `hotels_listing_handoff`.
+- Companion placements render through `template-parts/hotel-discovery-placements.php`, not copied raw provider snippets.
+- `data-baf-subid` values remain lowercase, readable, and unique per channel, surface, slug, and placement.
+- Handoff URLs include the same generated SubID value and keep provider markers intact.
+- The compact iframe crop remains scoped to `baf-travelpayouts-widget--placement-hotels_partner_search`; map/listing placements and future iframes must not inherit that crop.
+- Desktop/mobile screenshots show the map/listing handoff cards without horizontal overflow, clipped buttons, duplicate IDs, hidden disclosure text, or app-owned console/request failures.
+- Keyboard navigation reaches `Open hotel map` and `Open hotel listings` with visible focus.
+- Visible copy keeps live maps, listings, rates, taxes, policies, booking, payment, changes, and support provider-owned.
+
+Related files/routes/settings:
+
+- `plugins/bookings-flights-core/includes/services/class-travelpayouts-widget-starter-placements.php`
+- `plugins/bookings-flights-core/includes/services/class-travelpayouts-widget-registry-service.php`
+- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-renderer.php`
+- `plugins/bookings-flights-core/assets/css/frontend.css`
+- `themes/bookings-and-flights-static/template-parts/hotel-discovery-placements.php`
+- `themes/bookings-and-flights-static/template-parts/travel-search-placement.php`
+- `themes/bookings-and-flights-static/assets/css/hotel-guide.css`
+- `themes/bookings-and-flights-static/page-hotels.php`
+- `themes/bookings-and-flights-static/single-destination.php`
+- `baf_travelpayouts_widget_registry`
+- `hotels_map_handoff`
+- `hotels_listing_handoff`
+- `/hotels/`
+- `/destinations/{destination}/`

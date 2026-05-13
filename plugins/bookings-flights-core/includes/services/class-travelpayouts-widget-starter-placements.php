@@ -13,12 +13,13 @@ defined( 'ABSPATH' ) || exit;
 
 final class Travelpayouts_Widget_Starter_Placements {
 
-	public const SCHEMA_VERSION = '1.0.2';
+	public const SCHEMA_VERSION = '1.0.3';
 
 	public static function definitions(): array {
-		$settings         = Settings_Manager::get_travelpayouts();
-		$white_label_id   = sanitize_text_field( (string) $settings['white_label_widget_id'] );
-		$hotel_widget_url = esc_url_raw( (string) $settings['hotel_widget_script_url'] );
+		$settings          = Settings_Manager::get_travelpayouts();
+		$white_label_id    = sanitize_text_field( (string) $settings['white_label_widget_id'] );
+		$hotel_widget_url  = esc_url_raw( (string) $settings['hotel_widget_script_url'] );
+		$hotel_handoff_url = self::is_handoff_url( $hotel_widget_url ) ? $hotel_widget_url : '';
 
 		return array(
 			array(
@@ -132,6 +133,58 @@ final class Travelpayouts_Widget_Starter_Placements {
 				),
 				'notes'           => 'Seeded from the existing Hotels & Accommodation widget setting.',
 			),
+			array(
+				'key'             => 'hotels_map_handoff',
+				'name'            => 'Hotels map handoff',
+				'vertical'        => 'hotels',
+				'context'         => 'hotels_discovery',
+				'widget_family'   => 'hotel_map',
+				'render_mode'     => 'handoff_link',
+				'embed'           => array(
+					'source'         => 'partner_program',
+					'mode'           => 'handoff_link',
+					'url'            => $hotel_handoff_url,
+					'approved_hosts' => array( 'tp.media', 'tpwgt.com', 'tpwgts.com', 'travelpayouts.com', 'trip.com' ),
+				),
+				'status'          => '' === $hotel_handoff_url ? 'draft' : 'active',
+				'public_surfaces' => array( 'hotels' ),
+				'frame'           => array(
+					'desktop_min_height' => 180,
+					'tablet_min_height'  => 180,
+					'mobile_min_height'  => 180,
+				),
+				'fallback'        => array(
+					'url'   => $hotel_handoff_url,
+					'label' => 'Open hotel map',
+				),
+				'notes'           => 'Companion hotel map placement that routes to the approved partner hotel surface until a dedicated Travelpayouts hotel map embed is configured.',
+			),
+			array(
+				'key'             => 'hotels_listing_handoff',
+				'name'            => 'Hotels listing handoff',
+				'vertical'        => 'hotels',
+				'context'         => 'hotels_discovery',
+				'widget_family'   => 'hotel_listing',
+				'render_mode'     => 'handoff_link',
+				'embed'           => array(
+					'source'         => 'partner_program',
+					'mode'           => 'handoff_link',
+					'url'            => $hotel_handoff_url,
+					'approved_hosts' => array( 'tp.media', 'tpwgt.com', 'tpwgts.com', 'travelpayouts.com', 'trip.com' ),
+				),
+				'status'          => '' === $hotel_handoff_url ? 'draft' : 'active',
+				'public_surfaces' => array( 'hotels' ),
+				'frame'           => array(
+					'desktop_min_height' => 180,
+					'tablet_min_height'  => 180,
+					'mobile_min_height'  => 180,
+				),
+				'fallback'        => array(
+					'url'   => $hotel_handoff_url,
+					'label' => 'Open hotel listings',
+				),
+				'notes'           => 'Companion hotel listing placement that routes to the approved partner hotel surface until a dedicated Travelpayouts hotel listing/table embed is configured.',
+			),
 		);
 	}
 
@@ -144,6 +197,10 @@ final class Travelpayouts_Widget_Starter_Placements {
 
 		if ( '' === $stored_version || version_compare( $stored_version, '1.0.2', '<' ) ) {
 			$registry = self::migrate_discovery_placements( $registry );
+		}
+
+		if ( '' === $stored_version || version_compare( $stored_version, '1.0.3', '<' ) ) {
+			$registry = self::migrate_hotel_discovery_placements( $registry );
 		}
 
 		return $registry;
@@ -170,6 +227,34 @@ final class Travelpayouts_Widget_Starter_Placements {
 		$registry['updated_at']       = $now;
 
 		$registry['placements']['flights_white_label_search'] = $placement;
+
+		return $registry;
+	}
+
+	private static function migrate_hotel_discovery_placements( array $registry ): array {
+		$changed    = false;
+		$hotel_keys = array( 'hotels_map_handoff', 'hotels_listing_handoff' );
+
+		foreach ( self::definitions() as $placement ) {
+			$key = (string) ( $placement['key'] ?? '' );
+
+			if ( ! in_array( $key, $hotel_keys, true ) || isset( $registry['placements'][ $key ] ) ) {
+				continue;
+			}
+
+			$sanitized = Travelpayouts_Widget_Registry_Service::sanitize_placement( $placement, array(), false );
+
+			if ( is_wp_error( $sanitized ) ) {
+				continue;
+			}
+
+			$registry['placements'][ $key ] = $sanitized;
+			$changed                       = true;
+		}
+
+		if ( true === $changed ) {
+			$registry['updated_at'] = self::timestamp();
+		}
 
 		return $registry;
 	}
@@ -219,6 +304,12 @@ final class Travelpayouts_Widget_Starter_Placements {
 		$host = strtolower( (string) wp_parse_url( $value, PHP_URL_HOST ) );
 
 		return ( 'trip.com' === $host || str_ends_with( $host, '.trip.com' ) ) && str_starts_with( $path, '/partners/ad/' );
+	}
+
+	private static function is_handoff_url( string $value ): bool {
+		$path = strtolower( (string) wp_parse_url( $value, PHP_URL_PATH ) );
+
+		return '' !== $value && ! str_ends_with( $path, '.js' ) && ! str_starts_with( $path, '/content' ) && ! str_starts_with( $path, '/wl_web/' );
 	}
 
 	private static function timestamp(): string {

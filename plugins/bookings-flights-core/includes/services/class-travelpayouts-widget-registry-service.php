@@ -21,7 +21,7 @@ final class Travelpayouts_Widget_Registry_Service {
 
 	private const VERTICALS = array( 'flights', 'hotels', 'cars', 'activities', 'packages', 'route', 'destination', 'deal', 'ai', 'saved_trip' );
 
-	private const WIDGET_FAMILIES = array( 'white_label_search', 'white_label_results', 'flight_form', 'popular_routes', 'low_price_calendar', 'route_map', 'hotel_search', 'hotel_map', 'partner_link_card' );
+	private const WIDGET_FAMILIES = array( 'white_label_search', 'white_label_results', 'flight_form', 'popular_routes', 'low_price_calendar', 'route_map', 'hotel_search', 'hotel_map', 'hotel_listing', 'partner_link_card' );
 
 	private const RENDER_MODES = array( 'official_shortcode', 'dashboard_script', 'iframe', 'handoff_link', 'disabled' );
 
