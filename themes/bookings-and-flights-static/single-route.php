@@ -35,6 +35,8 @@ add_filter(
 	}
 );
 
+add_filter( 'bookings_and_flights_has_official_travelpayouts_output', '__return_true' );
+
 get_header();
 ?>
 
@@ -190,6 +192,23 @@ get_header();
 						'description'      => __( 'Open the approved White Label search module for provider-owned flight results. Booking, payment, changes, support, and result filters stay with Travelpayouts or the partner provider.', 'bookings_and_flights' ),
 						'details'          => $details,
 						'fallback_message' => __( 'Route flight search is configured through the Travelpayouts placement registry. If it is unavailable, use the flight handoff link or check provider settings.', 'bookings_and_flights' ),
+					)
+				);
+				?>
+			</div>
+
+			<div class="route-search route-search--discovery">
+				<?php
+				get_template_part(
+					'template-parts/flight-discovery-widgets',
+					null,
+					array(
+						'surface'     => 'route',
+						'channel'     => 'route_single',
+						'slug'        => 'route_' . $post_id,
+						'origin'      => $origin_airport,
+						'destination' => $destination_airport,
+						'details'     => $details,
 					)
 				);
 				?>

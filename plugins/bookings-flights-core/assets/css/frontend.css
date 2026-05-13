@@ -147,6 +147,15 @@
 	min-height: 0;
 }
 
+.baf-travelpayouts-widget__provider--official {
+	min-height: inherit;
+}
+
+.baf-travelpayouts-widget__official-output {
+	min-height: 180px;
+	overflow-x: auto;
+}
+
 .baf-travelpayouts-widget__iframe-frame {
 	border-radius: 6px;
 	min-height: min(420px, var(--baf-widget-desktop-min-height, 520px));
