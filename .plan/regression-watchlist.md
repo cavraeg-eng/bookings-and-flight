@@ -1101,6 +1101,42 @@ Related files/routes/settings:
 - `/routes/?route_origin={code}`
 - `/routes/{route}/`
 
+## Phase 17 Deal Guide Templates
+
+Fragile area: travel deal archive/single templates, deal-only meta modules, deal-surface Travelpayouts White Label placement output, sponsored partner cards, related deal links, matching route links, and matching destination guide links.
+
+Why risky: Deal pages are easy places to accidentally imply fake urgency, verified current prices, live supplier availability, package inventory, or WordPress-owned booking. They also reuse an existing approved White Label placement on a new `deal` surface, so registry surface migration and SubID output must stay intact.
+
+What to check after future changes:
+
+- `/travel-deals/` renders published travel deal cards with readable taxonomy labels and no fake scarcity or unverified price claims.
+- A travel deal single renders editable post content, taxonomy chips, budget/date context, seasonal/weekend/style/activity/source modules, sponsored partner cards, approved White Label search output, related deal links, matching route links, matching destination links, and visible affiliate disclosures.
+- Deal-only meta keys `baf_deal_seasonal_context`, `baf_deal_weekend_ideas`, `baf_deal_theme_notes`, `baf_deal_activity_notes`, `baf_deal_partner_notes`, and `baf_deal_source_note` remain registered with `show_in_rest => false`, sanitization, and edit-meta authorization.
+- `flights_white_label_search` keeps `deal` in `public_surfaces`, and deal single source keeps `data-baf-placement="flights_white_label_search"`, `data-baf-surface="deal"`, and a SubID beginning with `deal_single_deal_flights_`.
+- Related deal links require shared `travel_region`, `travel_style`, `travel_vertical`, or `travel_season` terms; no-context deal posts should show empty-state copy instead of arbitrary deal links.
+- Matching route and destination links require shared airport or destination metadata; no-context deal posts should show empty-state copy instead of arbitrary route or destination links.
+- Source scans find no API keys, authorization/bearer strings, postback secrets, private keys, direct checkout, auto-booking, guaranteed availability, stored/local fare inventory claims, fake prices, or fake scarcity.
+- Desktop/mobile/320px screenshots show no horizontal overflow, clipped handoff controls, hidden disclosures, blank pages, framework overlays, app-owned console/request failures, or fixed-header overlap on the deal hero.
+- Keyboard navigation reaches `Open flight handoff`, `Review partner cards`, `Browse deal ideas`, `Open hotel handoff`, `Explore activity prompts`, related deal links, matching route links, and destination guide links with visible focus.
+
+Related files/routes/settings:
+
+- `plugins/bookings-flights-core/includes/post-types/class-post-type-registrar.php`
+- `plugins/bookings-flights-core/includes/services/class-travelpayouts-widget-starter-placements.php`
+- `themes/bookings-and-flights-static/archive-travel_deal.php`
+- `themes/bookings-and-flights-static/single-travel_deal.php`
+- `themes/bookings-and-flights-static/template-parts/deal-editorial-modules.php`
+- `themes/bookings-and-flights-static/assets/css/deal-surface.css`
+- `themes/bookings-and-flights-static/inc/seo-metadata.php`
+- `baf_deal_seasonal_context`
+- `baf_deal_weekend_ideas`
+- `baf_deal_theme_notes`
+- `baf_deal_activity_notes`
+- `baf_deal_partner_notes`
+- `baf_deal_source_note`
+- `/travel-deals/`
+- `/travel-deals/{deal}/`
+
 ## Phase 16 Mobile Hotel Layout And Touch Targets
 
 Fragile area: Header navigation, hotel guide card title links, hotel companion placement cards, and embedded/handoff widget frames across mobile, tablet, desktop, and 320px narrow widths.

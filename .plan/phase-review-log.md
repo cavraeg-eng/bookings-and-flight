@@ -2327,7 +2327,7 @@ Decision: P17.1 local implementation and review gate passed. Keep Phase 17 overa
 
 ## Phase 17.2 Review - 2026-05-13
 
-Status: `In Review`
+Status: `Completed`
 
 Reviewer: Codex
 
@@ -2365,3 +2365,46 @@ Research consulted:
 - Travelpayouts Help Center: Getting started with widgets.
 
 Decision: P17.2 local implementation and review gate passed. Keep Phase 17 overall `In Progress` until the remaining deal/taxonomy/internal-linking/editor-workflow/final-review issues pass review and merge.
+
+## Phase 17.3 Review - 2026-05-13
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Linear issue: `ONE-108`
+
+Scope reviewed: `ONE-108` deal templates and seasonal/editorial modules. Reviewed Phase 17 objective, `travel_deal` CPT and taxonomy contracts, Phase 15/16 Travelpayouts-owned handoff boundary, current widget registry behavior, deal archive/single source output, real runtime screenshots, keyboard navigation, and documentation alignment.
+
+Acceptance criteria result: Passed locally for the PR candidate. `/travel-deals/` now renders editable deal cards, and travel deal singles render post content, taxonomy labels, budget/date context, seasonal/weekend/style/activity/source modules, sponsored partner cards, an approved `flights_white_label_search` deal-surface placement with SubID output, related deal links, matching route links, matching destination links, and visible affiliate disclosure boundaries.
+
+Security review: Passed locally. P17.3 added no public REST endpoints, provider API calls, custom SQL, options, custom tables, cron jobs, private-data writes, checkout, payment path, auto-booking, or auto-publishing behavior. New deal meta keys are sanitized textarea fields, private from REST by default, and protected by existing edit-meta authorization. Template output escapes copy, URLs, attributes, taxonomy names, metadata, and query-derived handoff values.
+
+REST permission review: Not applicable. P17.3 added no REST endpoints and did not change public REST exposure.
+
+Database/migration review: Passed for scope. No custom tables, destructive migrations, cron jobs, or option migrations were added. The implementation registers deal-only post meta contracts and migrates the existing widget registry schema to allow the already-approved White Label search placement on the `deal` surface.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Playwright Chromium screenshots covered deal archive, deal single, and no-context deal states across desktop/mobile/320px where applicable. Keyboard navigation reached `Open flight handoff`, `Review partner cards`, `Browse deal ideas`, `Open hotel handoff`, `Explore activity prompts`, a related deal link, a matching route link, and a matching destination guide link with visible focus.
+
+Regression review: Existing Phase 15 flight handoff, Phase 16 hotel handoff language, P17.1 destination guides, P17.2 route guides, registry SubID generation, disclosure rendering, header/footer continuity, and provider-owned booking/payment/support language remain intact.
+
+Validation performed: PHP syntax checks for changed PHP files; file-size checks; `git diff --check`; plugin active check; WP-CLI deal meta registration smoke; widget registry deal-surface smoke; Node source smoke for `/travel-deals/`, a temporary deal brief, and a no-context deal brief; source scans for deal modules, SubID-bearing placement output, disclosures, secrets, direct checkout, auto-booking, unsupported inventory claims, fake prices, and fake scarcity; Playwright Chromium responsive screenshots; keyboard navigation review; visual screenshot review; Codex review follow-up Playwright smoke proving a route sharing destination airport only appears on a deal single; temporary deal/route/destination cleanup confirmed at zero remaining.
+
+Bugs found: Visual review found the new deal hero could tuck under the fixed header on mobile and 320px narrow widths. The first browser assertion also used labels that did not match rendered text after CSS text transforms, so the evidence script was tightened to assert visible page content instead of implementation labels. Code review found the deal single hero title used raw theme title output instead of an explicit escaped title. Codex PR review found matching route links required both origin and destination airport metadata instead of matching either shared airport.
+
+Bugs fixed: `deal-surface.css` now adds fixed-header clearance before the first deal hero text on desktop, mobile, and 320px narrow widths. `single-travel_deal.php` now renders the hero title with `esc_html( get_the_title() )`, and related route matching now uses an `OR` relation across origin/destination airport metadata so one shared airport can populate internal links. The final Playwright report at `/tmp/one108-deal-report.json` returned `findingCount=0`, including no hero/header overlap.
+
+Bugs deferred: No app-owned P17.3 blocker remains after the local gate. Later Phase 17 work still needs taxonomy archives/internal-linking rules, editor workflow review, accessibility/SEO/disclosure pass, and final review.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: custom post type template files and template hierarchy.
+- WordPress Developer Resources: `WP_Query`.
+- WordPress Plugin Handbook: Custom Meta Boxes.
+- WordPress Common APIs Handbook: Escaping Data.
+- Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: ID and SubID affiliate marker and additional marker.
+
+Decision: P17.3 local implementation and review gate passed. Keep Phase 17 overall `In Progress` until the remaining taxonomy/internal-linking/editor-workflow/accessibility/SEO/final-review issues pass review and merge.
