@@ -2713,3 +2713,49 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
 Decision: P18.3 completed. PR #51 was reviewed by Codex, Codex follow-up bugs were patched, the final Codex pass on `69d1dee` reported no major issues, and the PR merged into `main` at `0c00b842a3661d762261a9cac4971bc61c24ed91`; the feature branch was deleted/pruned.
+
+### P18.4 — Approval-oriented AI opportunity handoff
+
+Date: 2026-05-13
+
+Status: In Review
+
+Reviewer: Codex
+
+Linear issue: `ONE-116`
+
+Scope reviewed: `ONE-116` approval-oriented AI handoff to placement/cards/saved-trip CTAs. Reviewed current Phase 18 planner route, saved `trip_plan` draft flow, `travelpayouts_opportunity_v1` schema, consent settings, capability model, REST nonce requirements, and Travelpayouts-owned execution boundary.
+
+Acceptance criteria result: Passed locally for the PR candidate. Saved Trip Plan opportunities can now be turned into local `ai_handoff_intent_v1` records only after explicit approval and consent gates pass. The stored record remains local and non-executing.
+
+Security review: Passed locally. The handoff endpoint requires `edit_baf_content`, a valid `X-WP-Nonce`, source `trip_plan` edit permission, global provider-request consent, per-request provider handoff consent, and explicit approval. Malformed non-scalar request values are normalized before service use. Stored intents do not contain raw prompt text, provider links, API keys, booking IDs, live prices, availability, payment data, or provider payloads.
+
+REST permission review: Passed locally. Missing nonce returns `403:baf_ai_handoff_nonce_required`; a limited user returns `403:baf_rest_forbidden`; missing approval returns `400:baf_ai_handoff_approval_required`; missing per-request provider consent returns `403:baf_ai_handoff_request_consent_required`; missing global provider consent returns `403:baf_ai_handoff_consent_required`; the happy path returns `201`.
+
+Database/migration review: No schema migration, custom table, or destructive change. `baf_ai_opportunity_schema` and `baf_ai_handoff_intents` are registered private `trip_plan` meta keys. The handoff service stores JSON in `baf_ai_handoff_intents`, replacing an existing deterministic local intent for the same trip-plan opportunity/action combination instead of duplicating it.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser path was attempted first but reported no active pane, so Playwright Chromium was used. The authenticated planner flow confirmed draft save, handoff type select, approval checkbox, prepare button, `Provider action: not_executed` status, desktop/mobile screenshots, and keyboard focus through the new controls.
+
+Regression review: Existing P18.1 prompt-to-brief, P18.2 draft save, and P18.3 opportunity-schema boundaries remain intact. AI cannot publish, book, pay, execute provider searches, create live provider links, send alerts, or create public saved-trip records in this slice.
+
+Validation performed: PHP syntax checks for changed handoff/REST/post-type/frontend files; `node --check` for `ai-planner.js`; `git diff --check`; file-size checks; `bookings-flights-core` deactivate/reactivate/is-active check; `/trip-planner/` HTTP `200 OK` check; focused WP-CLI REST/service permission, consent, approval, malformed-argument, happy-path, and storage smoke; Playwright Chromium desktop/mobile screenshots and keyboard review; temporary draft/user cleanup.
+
+Bugs found: The Codex in-app Browser pane was unavailable in this thread, so the required runtime review used Playwright Chromium fallback evidence. The pre-review hardening pass also tightened REST argument sanitizers so malformed non-scalar request values cannot create noisy PHP warnings before validation.
+
+Bugs fixed: Handoff storage now records local approval intent with `provider_action=not_executed`, `provider_action_executed=false`, and `external_request_sent=false`; the REST controller safely sanitizes malformed scalar arguments before validation; browser validation confirmed no raw prompt sentinel or provider link leaked into stored handoff meta.
+
+Bugs deferred: Consuming local handoff intents into actual placement drafts, saved-trip CTAs, alert CTAs, and final Phase 18 release review remain later Phase 18/19 scope. No app-owned P18.4 blocker remains after the local gate.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-18-approval-handoff.md`.
+
+Research consulted:
+- WordPress Plugin Security Handbook.
+- WordPress REST API Handbook: Adding Custom Endpoints.
+- WordPress Nonces documentation.
+- WordPress Roles and Capabilities documentation.
+- WordPress Post Meta registration documentation.
+- AI SDK Core: Generating Structured Data.
+- Travelpayouts Help Center: Affiliate programs tools.
+- Travelpayouts Help Center: ID and SubID affiliate marker guidance.
+
+Decision: P18.4 is in review. Keep Phase 18 and Linear `ONE-116` in progress until this PR is reviewed by Codex, any review bugs are patched, the PR is merged, and Linear is synced to Done.

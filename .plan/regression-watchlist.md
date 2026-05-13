@@ -1302,9 +1302,9 @@ Related files/routes/settings:
 
 ## Phase 18 AI Planner Prompt-To-Brief Gate
 
-Fragile area: `/trip-planner/`, `POST /wp-json/baf/v1/ai/itinerary`, AI provider consent gates, planner CTAs, and rendered trip-brief output.
+Fragile area: `/trip-planner/`, `POST /wp-json/baf/v1/ai/itinerary`, `POST /wp-json/baf/v1/ai/handoff`, AI provider consent gates, planner CTAs, local handoff intents, and rendered trip-brief output.
 
-Why risky: Phase 18 connects natural-language user intent to AI provider abstractions and monetized handoff recommendations. Small changes can accidentally send data to a live provider without per-request consent, leak raw prompts in rendered output, imply live pricing or availability, execute provider searches before approval, or leave stale placeholder links in public navigation.
+Why risky: Phase 18 connects natural-language user intent to AI provider abstractions and monetized handoff recommendations. Small changes can accidentally send data to a live provider without per-request consent, leak raw prompts in rendered output or local handoff meta, imply live pricing or availability, execute provider searches before approval, or leave stale placeholder links in public navigation.
 
 What to check after future changes:
 
@@ -1316,9 +1316,12 @@ What to check after future changes:
 - Draft saving remains editor-only, requires `edit_baf_content`, creates `draft` `trip_plan` records only, and does not publish or store raw prompt text in post content.
 - AI opportunities remain `travelpayouts_opportunity_v1`, `not_executed`, `requires_approval`, `disclosure_required`, and `requires_editor_approval` until an authorized later workflow explicitly approves a handoff or placement draft.
 - Schema validation continues to reject AI opportunity output that uses unsupported provider IDs or claims booking, payment, published content, live price/rate, availability, provider links, confirmation numbers, or other provider-owned execution data.
+- AI handoff preparation remains editor-only, requires a valid REST nonce, requires source `trip_plan` edit permission, and fails safely without explicit approval, per-request provider consent, and saved provider-request consent.
+- `baf_ai_handoff_intents` records remain local `ai_handoff_intent_v1` payloads with `provider_action=not_executed`, `provider_action_executed=false`, and `external_request_sent=false`.
+- Handoff storage must not contain raw prompt text, provider links, API keys, booking IDs, payment data, live prices, room/fare availability, or provider payloads.
 - Planner CTAs in header, mobile nav, homepage, destination, taxonomy, and related content surfaces point to `/trip-planner/`.
 - Desktop/mobile screenshots show no horizontal overflow, clipped controls, unreadable text, missing disclosure/boundary copy, or fixed-header overlap.
-- Keyboard navigation reaches the prompt field, form controls, consent checkbox, submit button, result area, and navigation handoffs with visible focus.
+- Keyboard navigation reaches the prompt field, form controls, consent checkbox, submit button, handoff type select, approval checkbox, prepare button, result area, and navigation handoffs with visible focus.
 
 Related files/routes/settings:
 
@@ -1327,7 +1330,9 @@ Related files/routes/settings:
 - `plugins/bookings-flights-core/assets/js/ai-planner.js`
 - `plugins/bookings-flights-core/assets/css/ai-planner.css`
 - `plugins/bookings-flights-core/includes/rest/class-ai-itinerary-controller.php`
+- `plugins/bookings-flights-core/includes/rest/class-ai-handoff-controller.php`
 - `plugins/bookings-flights-core/includes/services/class-ai-itinerary-service.php`
+- `plugins/bookings-flights-core/includes/services/class-ai-opportunity-handoff-service.php`
 - `plugins/bookings-flights-core/includes/ai/class-demo-ai-provider.php`
 - `plugins/bookings-flights-core/includes/ai/class-openai-provider.php`
 - `themes/bookings-and-flights-static/header.php`
@@ -1336,6 +1341,7 @@ Related files/routes/settings:
 - `themes/bookings-and-flights-static/taxonomy.php`
 - `/trip-planner/`
 - `/wp-json/baf/v1/ai/itinerary`
+- `/wp-json/baf/v1/ai/handoff`
 - `baf_ai_settings`
 - `baf_consent_settings`
 
