@@ -44,6 +44,18 @@ function bookings_and_flights_public_deal_archive_url(): string {
 	return is_string( $archive_url ) && '' !== $archive_url ? $archive_url : home_url( '/travel-deals/' );
 }
 
+function bookings_and_flights_taxonomy_canonical_url( WP_Term $term ): string {
+	$paged = max( 1, absint( get_query_var( 'paged' ) ) );
+
+	if ( $paged > 1 ) {
+		return get_pagenum_link( $paged, false );
+	}
+
+	$term_link = get_term_link( $term );
+
+	return is_wp_error( $term_link ) ? '' : $term_link;
+}
+
 function bookings_and_flights_get_flight_query_code( string $key ): string {
 	if ( ! isset( $_GET[ $key ] ) || ! is_scalar( $_GET[ $key ] ) ) {
 		return '';
@@ -260,8 +272,7 @@ function bookings_and_flights_get_seo_context(): array {
 
 		if ( $term instanceof WP_Term ) {
 			$term_name       = sanitize_text_field( $term->name );
-			$term_link       = get_term_link( $term );
-			$term_link       = is_wp_error( $term_link ) ? '' : $term_link;
+			$canonical       = bookings_and_flights_taxonomy_canonical_url( $term );
 			$taxonomy_labels = array(
 				'travel_region'   => __( 'region', 'bookings_and_flights' ),
 				'travel_style'    => __( 'travel style', 'bookings_and_flights' ),
@@ -283,7 +294,7 @@ function bookings_and_flights_get_seo_context(): array {
 					$term_name
 				),
 				'description' => $description,
-				'canonical'   => $term_link,
+				'canonical'   => $canonical,
 			);
 		}
 	}
