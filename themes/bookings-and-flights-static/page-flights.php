@@ -47,6 +47,16 @@ $travel_focus = sanitize_key( $get_text( 'travel_focus' ) );
 $has_traveler_intent = isset( $_GET['travelers'] ) || isset( $_GET['cabin'] );
 $has_intent          = '' !== $origin || '' !== $destination || '' !== $depart_date || '' !== $return_date || $has_traveler_intent || '' !== $travel_mode || '' !== $travel_focus;
 
+$continuity_css = get_template_directory() . '/assets/css/white-label-continuity.css';
+if ( file_exists( $continuity_css ) ) {
+	wp_enqueue_style(
+		'bookings_and_flights-white-label-continuity',
+		get_template_directory_uri() . '/assets/css/white-label-continuity.css',
+		array( 'bookings_and_flights-search-surface' ),
+		filemtime( $continuity_css )
+	);
+}
+
 $details = array();
 if ( '' !== $origin || '' !== $destination ) {
 	$route = trim( $origin . ( '' !== $origin && '' !== $destination ? ' to ' : '' ) . $destination );
@@ -199,6 +209,31 @@ get_header();
 	<div id="flights-provider-search" class="search-page__content search-page__content--provider">
 		<?php
 		get_template_part(
+			'template-parts/white-label-continuity',
+			null,
+			array(
+				'title' => __( 'Provider search stays in the Bookings and Flights shell', 'bookings_and_flights' ),
+				'copy'  => __( 'The embedded Travelpayouts Widget-type White Label keeps the site header, navigation, footer, and affiliate disclosure visible while Travelpayouts controls live results, filters, booking, payment, changes, and support.', 'bookings_and_flights' ),
+				'links' => array(
+					array(
+						'label' => __( 'Home', 'bookings_and_flights' ),
+						'url'   => home_url( '/' ),
+					),
+					array(
+						'label' => __( 'Flights', 'bookings_and_flights' ),
+						'url'   => home_url( '/flights/' ),
+					),
+					array(
+						'label' => __( 'Route guides', 'bookings_and_flights' ),
+						'url'   => get_post_type_archive_link( 'route' ) ?: home_url( '/routes/' ),
+					),
+				),
+			)
+		);
+		?>
+
+		<?php
+		get_template_part(
 			'template-parts/travel-search-placement',
 			null,
 			array(
@@ -210,6 +245,8 @@ get_header();
 				'eyebrow'          => __( 'Travelpayouts White Label', 'bookings_and_flights' ),
 				'title'            => __( 'Search flights', 'bookings_and_flights' ),
 				'description'      => __( 'Continue in the approved White Label search and result module. Adjust route, dates, travelers, cabin, flexible-date, direct-only, and nearby-airport choices inside the provider-owned controls as needed.', 'bookings_and_flights' ),
+				'origin'           => $origin,
+				'destination'      => $destination,
 				'details'          => $details,
 				'fallback_message' => __( 'Flight search is configured through the Travelpayouts placement registry. If it is unavailable, check provider consent or placement settings.', 'bookings_and_flights' ),
 			)

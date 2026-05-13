@@ -25,6 +25,16 @@ if ( file_exists( $route_css ) ) {
 	);
 }
 
+$continuity_css = get_template_directory() . '/assets/css/white-label-continuity.css';
+if ( file_exists( $continuity_css ) ) {
+	wp_enqueue_style(
+		'bookings_and_flights-white-label-continuity',
+		get_template_directory_uri() . '/assets/css/white-label-continuity.css',
+		array( 'bookings_and_flights-route-surface' ),
+		filemtime( $continuity_css )
+	);
+}
+
 add_filter(
 	'body_class',
 	static function ( array $classes ): array {
@@ -91,6 +101,10 @@ get_header();
 			),
 			home_url( '/flights/' )
 		);
+		$route_archive_url = get_post_type_archive_link( 'route' );
+		if ( ! is_string( $route_archive_url ) || '' === $route_archive_url ) {
+			$route_archive_url = home_url( '/routes/' );
+		}
 
 		$details = array_filter(
 			array(
@@ -139,7 +153,7 @@ get_header();
 					</p>
 					<div class="route-hero__actions">
 						<a class="route-button" href="<?php echo esc_url( $flight_url ); ?>"><?php esc_html_e( 'Open flight handoff', 'bookings_and_flights' ); ?></a>
-						<a class="route-button route-button--secondary" href="<?php echo esc_url( get_post_type_archive_link( 'route' ) ); ?>"><?php esc_html_e( 'Browse routes', 'bookings_and_flights' ); ?></a>
+						<a class="route-button route-button--secondary" href="<?php echo esc_url( $route_archive_url ); ?>"><?php esc_html_e( 'Browse routes', 'bookings_and_flights' ); ?></a>
 					</div>
 				</div>
 			</section>
@@ -176,7 +190,40 @@ get_header();
 				</div>
 			</section>
 
-			<div class="route-search">
+			<div id="route-provider-search" class="route-search">
+				<?php
+				get_template_part(
+					'template-parts/white-label-continuity',
+					null,
+					array(
+						'title' => __( 'Route search stays connected to this guide', 'bookings_and_flights' ),
+						'copy'  => sprintf(
+							/* translators: %s: route label. */
+							__( 'This %s guide remains a WordPress-owned SEO and planning page. The White Label module below is Travelpayouts-controlled for live search, provider filters, booking, payment, changes, and support.', 'bookings_and_flights' ),
+							$route_label
+						),
+						'links' => array(
+							array(
+								'label' => __( 'Route guide', 'bookings_and_flights' ),
+								'url'   => '#route-title',
+							),
+							array(
+								'label' => __( 'Flights', 'bookings_and_flights' ),
+								'url'   => $flight_url,
+							),
+							array(
+								'label' => __( 'All routes', 'bookings_and_flights' ),
+								'url'   => $route_archive_url,
+							),
+							array(
+								'label' => __( 'Home', 'bookings_and_flights' ),
+								'url'   => home_url( '/' ),
+							),
+						),
+					)
+				);
+				?>
+
 				<?php
 				get_template_part(
 					'template-parts/travel-search-placement',
@@ -190,6 +237,8 @@ get_header();
 						'eyebrow'          => __( 'Travelpayouts White Label', 'bookings_and_flights' ),
 						'title'            => __( 'Search this route', 'bookings_and_flights' ),
 						'description'      => __( 'Open the approved White Label search module for provider-owned flight results. Booking, payment, changes, support, and result filters stay with Travelpayouts or the partner provider.', 'bookings_and_flights' ),
+						'origin'           => $origin_airport,
+						'destination'      => $destination_airport,
 						'details'          => $details,
 						'fallback_message' => __( 'Route flight search is configured through the Travelpayouts placement registry. If it is unavailable, use the flight handoff link or check provider settings.', 'bookings_and_flights' ),
 					)
@@ -272,7 +321,7 @@ get_header();
 							<?php wp_reset_postdata(); ?>
 						<?php else : ?>
 							<p><?php esc_html_e( 'Publish more route posts with shared origin, destination, region, or travel-style metadata to populate related route links.', 'bookings_and_flights' ); ?></p>
-							<a class="route-button route-button--secondary" href="<?php echo esc_url( get_post_type_archive_link( 'route' ) ); ?>"><?php esc_html_e( 'Browse all routes', 'bookings_and_flights' ); ?></a>
+							<a class="route-button route-button--secondary" href="<?php echo esc_url( $route_archive_url ); ?>"><?php esc_html_e( 'Browse all routes', 'bookings_and_flights' ); ?></a>
 						<?php endif; ?>
 					</div>
 				</div>

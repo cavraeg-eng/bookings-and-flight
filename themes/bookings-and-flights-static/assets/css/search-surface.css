@@ -113,6 +113,7 @@
 
 .search-page__content--provider {
   padding-block-start: 0;
+  scroll-margin-block-start: 110px;
 }
 
 .search-page__content--discovery {

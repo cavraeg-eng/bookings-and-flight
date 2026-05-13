@@ -1893,3 +1893,41 @@ Research consulted:
 - Travelpayouts Help Center: Getting started with widgets.
 
 Decision: P15.3 local implementation and review gate passed. Keep Phase 15 overall `In Progress` until alert storage and final flights review issues pass review and merge.
+
+## Phase 15.4 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-96` White Label result flow and header continuity. Reviewed Phase 15 objective, P15.1-P15.3 implementation notes, Phase 11 White Label Widget/Page decision, Phase 13 registry contracts, current Flights and route templates, WordPress template part and escaping guidance, and Travelpayouts White Label Web Widget/Page setup guidance.
+
+Acceptance criteria result: Passed locally for the PR candidate. Flights and route detail pages now place a reusable White Label continuity band immediately before the approved `flights_white_label_search` module. The band preserves visible routes back to Home, Flights, route guides, and the current route guide; keeps WordPress as owner of SEO/editorial pages and the branded shell; and states that Travelpayouts or the partner provider owns live search, result filters, booking, payment, changes, and support. SEO landing pages remain WordPress-owned and no custom search/result backend was added.
+
+Security review: Passed locally. The new template part escapes all labels, copy, URLs, and generated IDs. Runtime origin/destination values remain scalar-checked and normalized before being passed through the existing placement shell. No REST route, POST write, custom SQL, database migration, provider secret handling, direct checkout, payment flow, alert storage, auto-booking, or auto-publishing path was added. Public source scans found no API token, API key, access token, authorization, bearer, client secret, postback secret, password, or secret text.
+
+REST permission review: Not applicable. P15.4 added no REST routes or permission callbacks.
+
+Database/migration review: Not applicable. P15.4 added no custom tables, options, migrations, cron jobs, or persistent alert storage.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Desktop and mobile screenshots covered Home, Flights, route detail, and the Flights/route provider sections. Header continuity checks confirmed Flights and route detail use the same Bookings and Flights logo text and primary navigation labels as Home. The embedded White Label provider modules reached `is-loaded`, continuity links stayed visible, and the final pass found no horizontal overflow, duplicate IDs, framework overlays, app page errors, secret terms, or keyboard misses. Keyboard review reached Home, Flights, Route guides/Route guide, All routes where present, and `Open flight search`.
+
+Regression review: Existing P15.1 Flights intent details, P15.2 route archive/detail behavior, P15.3 discovery widgets, Phase 13 registry rendering, SubID output, consent/disclosure boundaries, header/footer continuity, and provider-owned handoff language remain intact. Provider-section scroll margin was added after visual review found the fixed header could cover the top of the continuity band when jumping directly to the provider area.
+
+Validation performed: PHP syntax checks for changed theme PHP files; targeted `git diff --check`; file-size checks; HTTP `200` smoke for Home, Flights, Routes, and temporary route detail URLs; source scans for continuity copy, route-back links, secrets, and unsupported checkout/fare/payment claims; Playwright Chromium desktop/mobile screenshots; header-continuity comparison; keyboard navigation review; horizontal-overflow, duplicate-ID, page-error, provider-loaded-state, continuity-style-loaded, and secret-term checks. File-size review moved the continuity styles into a dedicated `white-label-continuity.css` asset instead of leaving `search-surface.css` at the 600-line ceiling. Temporary route posts were created for validation and deleted afterward.
+
+Bugs found: The first runtime screenshot pass showed that anchored/jump navigation to the provider section could leave the continuity band partially hidden behind the fixed header.
+
+Bugs fixed: Added provider-section scroll margin on Flights and route detail surfaces, split continuity styles into a focused CSS asset, patched the reusable template's optional-title ARIA fallback, then reran the browser screenshots and keyboard review.
+
+Bugs deferred: Real alert capture/storage and the final Phase 15 flights release/SEO review remain later issues. Provider-owned Sentry/API aborts and Travelpayouts React/GraphQL warnings remain watchlist-only because the White Label modules loaded and no app-owned page, layout, handoff, secret, or keyboard failure was found.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Files.
+- WordPress Common APIs Handbook: Escaping Data.
+- Travelpayouts Help Center: What is White Label Web by Travelpayouts.
+- Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
+
+Decision: P15.4 local implementation and review gate passed. Keep Phase 15 overall `In Progress` until alert storage and final flights review issues pass review and merge.
