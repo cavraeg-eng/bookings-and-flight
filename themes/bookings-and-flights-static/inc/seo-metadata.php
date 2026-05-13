@@ -76,6 +76,12 @@ function bookings_and_flights_is_hotels_request_path(): bool {
 		return false;
 	}
 
+	$home_path = wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+	$home_path = is_string( $home_path ) ? untrailingslashit( $home_path ) : '';
+	if ( '' !== $home_path && '/' !== $home_path && 0 === strpos( $request_path, $home_path . '/' ) ) {
+		$request_path = substr( $request_path, strlen( $home_path ) );
+	}
+
 	return '/hotels/' === trailingslashit( '/' . trim( $request_path, '/' ) );
 }
 
