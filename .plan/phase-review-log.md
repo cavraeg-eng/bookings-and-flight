@@ -2408,3 +2408,43 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID affiliate marker and additional marker.
 
 Decision: P17.3 local implementation and review gate passed. Keep Phase 17 overall `In Progress` until the remaining taxonomy/internal-linking/editor-workflow/accessibility/SEO/final-review issues pass review and merge.
+
+## Phase 17.4 Review - 2026-05-13
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Linear issue: `ONE-109`
+
+Scope reviewed: `ONE-109` taxonomy archives and internal-linking rules. Reviewed Phase 17 objective, custom taxonomy contracts, destination/route/deal template boundaries, public-only WordPress archive behavior, SEO metadata output, source smoke, real runtime screenshots, keyboard navigation, and documentation alignment.
+
+Acceptance criteria result: Passed locally for the PR candidate. `travel_region`, `travel_style`, `travel_vertical`, and `travel_season` archives now render term-specific guide pages with term descriptions, internal-linking rule cards, Flights/Hotels/Destinations/Routes/Deals/Trip Planner handoffs, paginated public content cards, empty states, and taxonomy-aware SEO metadata.
+
+Security review: Passed locally. P17.4 added no public REST endpoints, provider API calls, custom SQL, options, custom tables, cron jobs, private-data writes, checkout, payment path, auto-booking, or auto-publishing behavior. Template output escapes term names, descriptions, post titles, excerpts, URLs, attributes, and query-derived links. The archive query is bounded, paginated, and public-only.
+
+REST permission review: Not applicable. P17.4 added no REST endpoints and did not change public REST exposure.
+
+Database/migration review: Passed for scope. No schema migration, custom table, option migration, or destructive data change was added. Temporary validation posts `344` through `358` and temporary term `41` were removed after runtime validation and confirmed absent.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Playwright Chromium screenshots covered the taxonomy archive across desktop, mobile, and 320px narrow widths. Keyboard navigation reached `Open flight handoff`, `Open hotel handoff`, `Destinations`, `Routes`, `Deals`, `Trip planner`, a destination guide link, and pagination `Next` with visible focus.
+
+Regression review: Existing P17.1 destination guides, P17.2 route guides, P17.3 travel deal guides, Phase 15 Flights shell links, Phase 16 Hotels shell links, header/footer continuity, taxonomy label rendering, and provider-owned booking/payment/support language remain intact. Non-public `trip_plan`, `travel_alert`, and `travel_partner` content stays out of public taxonomy archive queries.
+
+Validation performed: PHP syntax checks for changed PHP files; file-size checks; `git diff --check`; Node source smoke for temporary taxonomy archive page one and page two; source scans for internal-linking rules, public destination/route/deal cards, pagination, private/non-public content exclusion, secrets, direct checkout, auto-booking, and fake scarcity; Playwright Chromium responsive screenshots; keyboard navigation review; visual screenshot review; temporary taxonomy content cleanup.
+
+Bugs found: The first runtime touch-target pass found mobile nav links could render below the 44px interactive target height when the taxonomy page loaded at mobile and 320px widths.
+
+Bugs fixed: `mobile-nav.css` now renders mobile nav links as centered inline-flex controls with a 44px minimum block size. Follow-up Playwright validation returned `findingCount=0`.
+
+Bugs deferred: No app-owned P17.4 blocker remains after the local gate. Later Phase 17 work still needs editor workflow review, accessibility/SEO/disclosure pass, and final review.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Taxonomy Templates.
+- WordPress Developer Resources: `WP_Query`.
+- WordPress Developer Resources: `paginate_links`.
+- WordPress Common APIs Handbook: Escaping Data.
+
+Decision: P17.4 local implementation and review gate passed. Keep Phase 17 overall `In Progress` until the remaining editor-workflow/accessibility/SEO/final-review issues pass review and merge.

@@ -255,6 +255,39 @@ function bookings_and_flights_get_seo_context(): array {
 		);
 	}
 
+	if ( is_tax( array( 'travel_region', 'travel_style', 'travel_vertical', 'travel_season' ) ) ) {
+		$term = get_queried_object();
+
+		if ( $term instanceof WP_Term ) {
+			$term_name       = sanitize_text_field( $term->name );
+			$term_link       = get_term_link( $term );
+			$term_link       = is_wp_error( $term_link ) ? '' : $term_link;
+			$taxonomy_labels = array(
+				'travel_region'   => __( 'region', 'bookings_and_flights' ),
+				'travel_style'    => __( 'travel style', 'bookings_and_flights' ),
+				'travel_vertical' => __( 'travel vertical', 'bookings_and_flights' ),
+				'travel_season'   => __( 'season', 'bookings_and_flights' ),
+			);
+			$taxonomy_label  = $taxonomy_labels[ $term->taxonomy ] ?? __( 'travel topic', 'bookings_and_flights' );
+			$description     = '' !== trim( (string) $term->description ) ? wp_trim_words( wp_strip_all_tags( $term->description ), 28, '' ) : sprintf(
+				/* translators: 1: taxonomy term, 2: taxonomy label. */
+				__( 'Browse public destination, route, and deal content for %1$s, grouped by %2$s with approved provider handoff links.', 'bookings_and_flights' ),
+				$term_name,
+				$taxonomy_label
+			);
+
+			return array(
+				'title'       => sprintf(
+					/* translators: %s: taxonomy term. */
+					__( '%s travel ideas', 'bookings_and_flights' ),
+					$term_name
+				),
+				'description' => $description,
+				'canonical'   => $term_link,
+			);
+		}
+	}
+
 	if ( function_exists( 'bookings_and_flights_is_flights_request_path' ) && bookings_and_flights_is_flights_request_path() ) {
 		$origin      = bookings_and_flights_get_flight_query_code( 'origin' );
 		$destination = bookings_and_flights_get_flight_query_code( 'destination' );
