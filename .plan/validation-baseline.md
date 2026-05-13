@@ -574,6 +574,25 @@ P14.1 local result on 2026-05-12: PHP syntax checks for the changed theme templa
 
 P14.1 Codex review patch result on 2026-05-12: WP-CLI confirmed the stale stored menu returns `has_product_core=false`, renders all seven fallback labels, keeps the Trip Planner homepage anchor, rejects external-host product URLs before a stored menu can bypass the fallback, and permits customized menu labels when top-level current-site targets match. The `/flights/` request guard allows provider-style flight URL parameters without triggering the destination CPT query-var 404. Playwright rerun confirmed desktop navigation labels, zero horizontal overflow, desktop tab order through the product links/CTA/theme/search controls, mobile menu visibility for all seven product links, mobile menu keyboard loop, and no console warnings/errors or failed requests. A flight-submit browser smoke confirmed the homepage form submits `origin`, `destination`, `depart_date`, and `return_date`, lands on the Flights page without a 404, and then lets the provider script normalize the URL into its own `flightSearch` state. Screenshots: `/tmp/one-86-final-review-desktop.png`, `/tmp/one-86-final-review-mobile-menu.png`, `/tmp/one-86-provider-flight-submit.png`. Runtime evidence: `/tmp/one-86-final-review-runtime.json`, `/tmp/one-86-provider-flight-submit.json`.
 
+P14.2 Travelpayouts search placement validation:
+
+```bash
+php -l themes/bookings-and-flights-static/functions.php
+php -l themes/bookings-and-flights-static/page-flights.php
+php -l themes/bookings-and-flights-static/page-hotels.php
+php -l themes/bookings-and-flights-static/template-parts/travel-search-placement.php
+php -l plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-renderer.php
+node --check themes/bookings-and-flights-static/assets/js/search-surface.js
+git diff --check
+php -d mysqli.default_socket="/Users/djcavy/Library/Application Support/Local/run/qRHZasMmV/mysql/mysqld.sock" /opt/homebrew/bin/wp --path="/Users/djcavy/Local Sites/bookings-and-flights/app/public" plugin is-active bookings-flights-core
+php -d mysqli.default_socket="/Users/djcavy/Library/Application Support/Local/run/qRHZasMmV/mysql/mysqld.sock" /opt/homebrew/bin/wp --path="/Users/djcavy/Local Sites/bookings-and-flights/app/public" eval '/* theme/page/shortcode placement smoke checks */'
+curl -sS "http://bookings-and-flights.local/flights/?origin=NYC&destination=TYO&depart_date=2026-06-10&return_date=2026-06-20&baf_surface=home"
+curl -sS "http://bookings-and-flights.local/hotels/?travel_destination=Lisbon&check_in=2026-06-10&check_out=2026-06-20&guests=2&baf_surface=home"
+node Playwright smoke against /flights/ and /hotels/ desktop/mobile surfaces
+```
+
+P14.2 local result on 2026-05-12: PHP syntax checks for the changed theme/core PHP files, JavaScript syntax check for `search-surface.js`, and `git diff --check` passed. File-size checks kept changed source files at or under 600 lines. WP-CLI confirmed the active theme, active `bookings-flights-core` plugin, published Flights/Hotels pages, registered wrapper shortcode, configured flight White Label state with handoff/marker/SubID output, configured hotel partner state with handoff output, and safe missing-placement state. `bookings-flights-core` deactivate/reactivate passed; WP-CLI emitted the known PHP 8.5 bundled tooling deprecation noise but returned the plugin to active. HTTP checks returned `200` for homepage-originated Flights and Hotels query URLs, and rendered source scans found no API token, API key, authorization, bearer, access-token, refresh-token, client-secret, secret, checkout, payment, or refund terms. The Codex in-app Browser was attempted first but had no active pane, so runtime validation used Playwright Chromium. Desktop `1440x960` and mobile `390x844` screenshots confirmed configured Flights and Hotels surfaces, readable fixed header, no horizontal overflow, visible handoff links, and no provider overlay/fallback false positive. Keyboard review confirmed Flights reaches `Open flight search` after the header controls and Hotels reaches the Trip.com iframe followed by `Open hotel search`. Console capture showed only provider-owned Travelpayouts React source-map/duplicate-fragment warnings on Flights and Chromium WebGL performance warnings from provider context on Hotels; no page errors or failed requests were recorded. Screenshots: `/tmp/one87-flights-desktop-final.png`, `/tmp/one87-flights-mobile-final.png`, `/tmp/one87-hotels-desktop-final.png`, `/tmp/one87-hotels-mobile-final.png`, `/tmp/one87-flights-widget-desktop-final.png`, `/tmp/one87-flights-widget-mobile-final.png`, `/tmp/one87-hotels-widget-desktop-final.png`, and `/tmp/one87-hotels-widget-mobile-final.png`. Runtime evidence: `/tmp/one87-runtime-review-final.json`.
+
 ## Documentation-Only Changes
 
 For documentation-only changes:

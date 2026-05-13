@@ -185,6 +185,8 @@ final class Travelpayouts_Widget_Renderer {
 
 		$configuration_json = wp_json_encode( $configuration );
 		$script_src_json    = wp_json_encode( esc_url_raw( $script_src ) );
+		$fallback_placement = self::with_white_label_fallback( $placement );
+		$support_markup     = self::render_handoff( $fallback_placement, $subid ) . self::render_noscript( $fallback_placement, $subid );
 
 		if ( false === $configuration_json || false === $script_src_json ) {
 			return '';
@@ -204,13 +206,13 @@ final class Travelpayouts_Widget_Renderer {
 		}
 
 		return sprintf(
-			'<div class="baf-travelpayouts-widget__provider baf-travelpayouts-widget__provider--white-label is-loading" id="%1$s"><p class="baf-travelpayouts-widget__loading" role="status">%2$s</p><div id="%3$s" class="baf-travelpayouts-widget__white-label-node" tabindex="-1" aria-hidden="true"></div><div id="%4$s" class="baf-travelpayouts-widget__white-label-node" tabindex="-1" aria-hidden="true"></div><div class="baf-travelpayouts-widget__fallback" role="status">%5$s</div>%6$s</div><script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">(function(){var wrapper=document.getElementById(%7$s);var search=document.getElementById(%8$s);var results=document.getElementById(%9$s);if(!wrapper||!search||!results){return;}function focusPlaceholders(enabled){var value=enabled?"0":"-1";search.setAttribute("tabindex",value);results.setAttribute("tabindex",value);if(enabled){search.removeAttribute("aria-hidden");results.removeAttribute("aria-hidden");}else{search.setAttribute("aria-hidden","true");results.setAttribute("aria-hidden","true");}}function markUnavailable(){wrapper.classList.remove("is-loading");wrapper.classList.remove("is-loaded");wrapper.classList.add("is-unavailable");focusPlaceholders(false);}if(document.getElementById(%10$s)||document.getElementById(%11$s)){markUnavailable();return;}search.id=%10$s;results.id=%11$s;window.TPWL_CONFIGURATION=Object.assign({},window.TPWL_CONFIGURATION||{},%12$s);var observer=null;function hasProviderContent(){return search.children.length>0||results.children.length>0||search.textContent.trim()!==""||results.textContent.trim()!=="";}function update(forceUnavailable){if(hasProviderContent()){wrapper.classList.remove("is-loading");wrapper.classList.remove("is-unavailable");wrapper.classList.add("is-loaded");focusPlaceholders(true);if(observer){observer.disconnect();}return true;}if(forceUnavailable){markUnavailable();if(observer){observer.disconnect();}}return false;}if("MutationObserver" in window){observer=new MutationObserver(function(){update(false);});observer.observe(search,{childList:true,subtree:true});observer.observe(results,{childList:true,subtree:true});}var checks=0;var maxChecks=24;var timer=window.setInterval(function(){checks+=1;var loaded=update(checks>=maxChecks);if(loaded||checks>=maxChecks){window.clearInterval(timer);}},500);var script=document.createElement("script");script.async=true;script.type="module";script.src=%13$s;script.addEventListener("load",function(){window.setTimeout(function(){update(false);},0);});script.addEventListener("error",function(){window.clearInterval(timer);markUnavailable();if(observer){observer.disconnect();}});document.head.appendChild(script);update(false);}());</script>',
+			'<div class="baf-travelpayouts-widget__provider baf-travelpayouts-widget__provider--white-label is-loading" id="%1$s"><p class="baf-travelpayouts-widget__loading" role="status">%2$s</p><div id="%3$s" class="baf-travelpayouts-widget__white-label-node" tabindex="-1" aria-hidden="true"></div><div id="%4$s" class="baf-travelpayouts-widget__white-label-node" tabindex="-1" aria-hidden="true"></div><div class="baf-travelpayouts-widget__fallback" role="status">%5$s</div>%6$s</div><script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">(function(){var wrapper=document.getElementById(%7$s);var search=document.getElementById(%8$s);var results=document.getElementById(%9$s);if(!wrapper||!search||!results){return;}if(wrapper.getAttribute("data-baf-tpwl-initialized")==="1"){return;}wrapper.setAttribute("data-baf-tpwl-initialized","1");function focusPlaceholders(enabled){var value=enabled?"0":"-1";search.setAttribute("tabindex",value);results.setAttribute("tabindex",value);if(enabled){search.removeAttribute("aria-hidden");results.removeAttribute("aria-hidden");}else{search.setAttribute("aria-hidden","true");results.setAttribute("aria-hidden","true");}}function markUnavailable(){wrapper.classList.remove("is-loading");wrapper.classList.remove("is-loaded");wrapper.classList.add("is-unavailable");focusPlaceholders(false);}if(document.getElementById(%10$s)||document.getElementById(%11$s)){markUnavailable();return;}search.id=%10$s;results.id=%11$s;window.TPWL_CONFIGURATION=Object.assign({},window.TPWL_CONFIGURATION||{},%12$s);var observer=null;var scriptLoaded=false;function hasProviderContent(){return search.children.length>0||results.children.length>0||search.textContent.trim()!==""||results.textContent.trim()!=="";}function markLoaded(){wrapper.classList.remove("is-loading");wrapper.classList.remove("is-unavailable");wrapper.classList.add("is-loaded");focusPlaceholders(false);}function update(forceUnavailable){if(scriptLoaded||hasProviderContent()){markLoaded();if(observer){observer.disconnect();}return true;}if(forceUnavailable){markUnavailable();if(observer){observer.disconnect();}}return false;}if("MutationObserver" in window){observer=new MutationObserver(function(){update(false);});observer.observe(search,{childList:true,subtree:true});observer.observe(results,{childList:true,subtree:true});}var checks=0;var maxChecks=24;var timer=window.setInterval(function(){checks+=1;var loaded=update(checks>=maxChecks);if(loaded||checks>=maxChecks){window.clearInterval(timer);}},500);var script=document.createElement("script");script.async=true;script.type="module";script.src=%13$s;script.addEventListener("load",function(){scriptLoaded=true;window.setTimeout(function(){update(false);},0);});script.addEventListener("error",function(){window.clearInterval(timer);markUnavailable();if(observer){observer.disconnect();}});document.head.appendChild(script);update(false);}());</script>',
 			esc_attr( $instance_id ),
 			esc_html__( 'Loading partner travel search...', 'bookings-flights-core' ),
 			esc_attr( $search_id ),
 			esc_attr( $results_id ),
 			esc_html__( 'Travel search could not load because another White Label search is already active on this page.', 'bookings-flights-core' ),
-			self::render_noscript( $placement, $subid ),
+			$support_markup,
 			$instance_id_json,
 			$search_id_json,
 			$results_id_json,
@@ -219,6 +221,32 @@ final class Travelpayouts_Widget_Renderer {
 			$configuration_json,
 			$script_src_json
 		);
+	}
+
+	private static function with_white_label_fallback( array $placement ): array {
+		$fallback = (array) ( $placement['fallback'] ?? array() );
+
+		if ( '' !== (string) ( $fallback['url'] ?? '' ) ) {
+			return $placement;
+		}
+
+		$settings = Settings_Manager::get_travelpayouts();
+		$url      = (string) $settings['white_label_results_url'];
+
+		if ( '' === $url ) {
+			return $placement;
+		}
+
+		if ( '' !== (string) $settings['marker'] ) {
+			$url = add_query_arg( 'marker', (string) $settings['marker'], $url );
+		}
+
+		$placement['fallback'] = array(
+			'url'   => $url,
+			'label' => __( 'Open flight search', 'bookings-flights-core' ),
+		);
+
+		return $placement;
 	}
 
 	private static function render_dashboard_script( array $placement, array $attributes, string $subid ): string {

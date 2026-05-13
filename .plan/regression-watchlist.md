@@ -320,6 +320,37 @@ Related files/routes/tables/settings:
 - `[baf_travel_cards]`
 - `[baf_affiliate_disclosure]`
 
+## Phase 14 Search Placement Pages
+
+Fragile area: `page-flights.php`, `page-hotels.php`, `template-parts/travel-search-placement.php`, `search-surface.css`, and `Travelpayouts_Widget_Renderer` White Label/handoff behavior.
+
+Why risky: These pages bridge homepage intent into provider-owned search surfaces while preserving the WordPress header shell. Future edits can let provider query strings trigger White Label URL rewrites, show false unavailable states, reintroduce oversized provider chrome, hide sponsored handoff links, trap keyboard focus on invisible provider placeholders, or make the fixed header unreadable on light search pages.
+
+What to check after future changes:
+
+- Flights continues to render `flights_white_label_search` through `[baf_travelpayouts_widget]`, not through copied raw Travelpayouts snippets or custom inventory APIs.
+- Hotels continues to render `hotels_partner_search` through `[baf_travelpayouts_widget]`, with the Trip.com iframe and visible sponsored handoff.
+- Homepage-originated query details are sanitized before render; flight provider query parameters are removed from the browser URL before the White Label script initializes.
+- White Label placeholder nodes stay out of sequential keyboard order, while the visible `Open flight search` handoff remains keyboard reachable.
+- Missing configuration, disabled placement, no-script, consent-disabled, loading, unavailable, and configured states remain visible and accessible.
+- Fixed search-page header colors remain readable before and after scroll on desktop and mobile.
+- Frontend source does not expose API tokens, API keys, authorization headers, bearer tokens, access tokens, refresh tokens, client secrets, raw registry embed URLs, private registry notes, checkout, payment, or refund terms.
+
+Related files/routes/tables/settings:
+
+- `themes/bookings-and-flights-static/page-flights.php`
+- `themes/bookings-and-flights-static/page-hotels.php`
+- `themes/bookings-and-flights-static/template-parts/travel-search-placement.php`
+- `themes/bookings-and-flights-static/assets/css/search-surface.css`
+- `themes/bookings-and-flights-static/functions.php`
+- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-renderer.php`
+- `baf_travelpayouts_widget_registry`
+- `baf_travelpayouts_settings.white_label_results_url`
+- `baf_travelpayouts_settings.marker`
+- `/flights/`
+- `/hotels/`
+- `[baf_travelpayouts_widget]`
+
 ## Existing Theme Security Hardening
 
 Fragile area: Static WordPress theme hardening and rendering.
