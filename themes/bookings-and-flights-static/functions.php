@@ -10,7 +10,7 @@ define('HEADER_LAYOUT', 'logo-left-nav-center');
 
 // Footer layout: 'columns-3' | 'minimal' | 'centered'
 define('FOOTER_LAYOUT', 'columns-3');
-
+require_once get_template_directory() . '/inc/travelpayouts-assets.php';
 // Theme support
 function bookings_and_flights_setup() {
     load_theme_textdomain( 'bookings_and_flights', get_template_directory() . '/languages' );

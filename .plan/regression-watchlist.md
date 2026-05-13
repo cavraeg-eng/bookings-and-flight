@@ -667,3 +667,34 @@ Related files/routes/settings:
 - `/hotels/`
 - `/privacy-policy/`
 - `/terms-and-conditions/`
+
+## Phase 14 Responsive, Accessibility, And Asset Scope Gate
+
+Fragile area: public header/menu controls, mobile navigation timing, footer links, Travelpayouts script/style scope, and widget-page keyboard order.
+
+Why risky: Small visual controls can regress below usable touch sizes, delayed mobile-menu animations can ignore reduced-motion preferences, and the official Travelpayouts WordPress plugin can enqueue global assets on pages that do not need them. Future page-template changes can also break the intended keyboard path through the local header, provider iframe, and sponsored handoff links.
+
+What to check after future changes:
+
+- Header logo, theme toggle, and mobile menu toggle stay at stable touch sizes on mobile.
+- Footer social, quick-link, legal, support, and destination links remain reachable and do not shrink below the reviewed target sizes.
+- `prefers-reduced-motion: reduce` keeps mobile-menu link and CTA transition delays at `0s`.
+- Homepage does not load official `travelpayouts-assets-*`, `search-surface.js`, or White Label scripts.
+- Official Travelpayouts shortcodes in post content, active widgets, non-singular templates, or template-level opt-in filters keep official plugin assets available.
+- Flights loads the local search-surface behavior and approved White Label wrapper, but not official Travelpayouts plugin runtime assets.
+- Hotels keeps the approved Trip.com/widget output and handoff link without loading the Flight search-surface script or official plugin runtime assets.
+- Keyboard order still reaches homepage nav/search controls, the mobile menu entries, `Open flight search`, the Trip.com iframe, and `Open hotel search` without traps.
+- Provider-owned console warnings remain non-blocking only when there are no page errors, failed requests, overlays, broken handoffs, or keyboard traps.
+
+Related files/routes/settings:
+
+- `themes/bookings-and-flights-static/functions.php`
+- `themes/bookings-and-flights-static/inc/travelpayouts-assets.php`
+- `themes/bookings-and-flights-static/assets/css/header.css`
+- `themes/bookings-and-flights-static/assets/css/mobile-nav.css`
+- `themes/bookings-and-flights-static/assets/css/footer.css`
+- `themes/bookings-and-flights-static/assets/js/search-surface.js`
+- `bookings_and_flights_has_official_travelpayouts_output`
+- `/`
+- `/flights/`
+- `/hotels/`

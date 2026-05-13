@@ -1682,3 +1682,49 @@ Research consulted:
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 
 Decision: P14.5 local implementation and review gate passed. Keep Phase 14 overall `In Progress` until remaining Phase 14 issues pass review and merge.
+
+## Phase 14.6 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-91` responsive, accessibility, performance/script-scope, screenshot, and keyboard-navigation pass. Reviewed Phase 14 objective, P14.1-P14.5 homepage/search/footer contracts, current theme CSS and asset enqueue behavior, official Travelpayouts plugin asset handles, approved Phase 13 widget-registry surfaces, WordPress enqueue/dequeue guidance, Travelpayouts widget/White Label guidance, and WCAG keyboard, target-size, and reduced-motion guidance.
+
+Acceptance criteria result: Passed locally for the PR candidate. The public theme now has stable touch targets for the mobile header controls and footer navigation/legal links; reduced-motion users no longer get delayed mobile-menu item reveal timing; and official Travelpayouts plugin runtime assets are removed from public pages that do not contain official Travelpayouts shortcodes. The approved Phase 13/14 wrapper surfaces remain intact: Flights still loads the local search-surface behavior and White Label script, and Hotels still renders the Trip.com/widget handoff output without the Flight search-surface script.
+
+Security review: Passed locally. No provider credentials, API tokens, POST writes, REST routes, database migrations, custom SQL, external AI calls, or new storage paths were added. The new asset-scope helper only dequeues/deregisters public official-plugin asset handles beginning with `travelpayouts-assets-` when the queried post does not contain an official Travelpayouts shortcode pattern. Rendered source checks confirmed no unexpected official plugin runtime assets on Home, Flights, or Hotels.
+
+REST permission review: Not applicable. No REST routes or permission callbacks changed in P14.6.
+
+Database/migration review: Not applicable. No custom tables, options, migrations, or data mutations changed in P14.6.
+
+UI review: Passed locally with real runtime screenshots. Desktop `1440x1000`, tablet `900x1024`, and mobile `390x844` screenshots covered Home, mobile menu, reduced-motion mobile menu, Flights, and Hotels. Runtime checks found no horizontal overflow, blank pages, framework overlays, page errors, failed requests, unexpected official Travelpayouts plugin assets, or broken widget/handoff states. Keyboard review reached homepage header/search controls, mobile product links, the Flight handoff link, the Trip.com hotel iframe, and the Hotel handoff link.
+
+Regression review: Existing homepage search modules, trust/disclosure copy, footer compliance links, P14.2 Flights/Hotels placement templates, Phase 13 widget-registry rendering, SubID/handoff behavior, and support notes remain intact. Provider-owned Flights React JSX-source warnings remain an existing Travelpayouts White Label watch item because they did not create page errors, failed requests, overlays, or broken keyboard behavior.
+
+Validation performed: PHP syntax checks for changed PHP files; targeted `git diff --check`; file-size checks; Local-socket WP-CLI active-theme check; HTTP `200` smoke checks for Home, Flights, and Hotels; Playwright desktop/tablet/mobile screenshots; Playwright mobile-menu and reduced-motion screenshots; Playwright keyboard review; Playwright touch-target measurements; Playwright script-scope checks for official plugin assets, search-surface assets, White Label output, and Hotels widget output; console/failure capture. The Codex Browser surface was unavailable in the current tool set, so Playwright Chromium was used for the required runtime browser screenshots and keyboard navigation review.
+
+Bugs found: The first runtime pass found delayed mobile-menu link transitions under reduced-motion, undersized mobile header/footer targets, and globally loaded official Travelpayouts plugin assets on public pages that did not need them.
+
+Bugs fixed: Added a reduced-motion override for mobile nav link/CTA transition delays; raised header logo, theme toggle, mobile menu toggle, footer social, footer legal, and footer navigation target sizing; and added a scoped theme helper that removes official Travelpayouts plugin public asset handles from pages without official Travelpayouts shortcodes while preserving approved wrapper-owned Flights/Hotels output.
+
+Bugs deferred: Provider-owned Travelpayouts White Label React JSX-source warnings remain a watch item. Standalone Explore, Deals, Trip Planner, and Saved Trips pages remain later Phase 14+ scope.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Developer Resources: `wp_enqueue_scripts()`.
+- WordPress Developer Resources: `wp_enqueue_script()`.
+- WordPress Developer Resources: `wp_dequeue_script()`.
+- WordPress Developer Resources: `wp_dequeue_style()`.
+- W3C WAI WCAG 2.2: Focus Visible.
+- W3C WAI WCAG 2.2: Target Size (Minimum).
+- W3C WAI WCAG technique C39 for `prefers-reduced-motion`.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+- Travelpayouts Help Center: ID and SubID affiliate marker guidance.
+
+Decision: P14.6 local implementation and review gate passed. Keep Phase 14 overall `In Progress` until remaining Phase 14 issues pass review and merge.
+
+P14.6 Codex review follow-up on 2026-05-12: PR #27 review found that the original asset-pruning guard only inspected queried singular post content, so official Travelpayouts shortcodes rendered from widget areas, non-singular templates, or template-level `do_shortcode()` calls could lose their required `travelpayouts-assets-*` runtime. The guard now preserves official assets in non-singular contexts by default, scans active widget instance content for official Travelpayouts shortcode/block patterns, and exposes the `bookings_and_flights_has_official_travelpayouts_output` filter so template-level official output can opt in before pruning. PHP syntax, targeted diff checks, Local-socket WP-CLI smoke checks for content/widget/non-singular/filter detection, and the Playwright responsive/script-scope pass passed after the patch.
