@@ -2673,7 +2673,7 @@ Decision: P18.2 completed. PR #50 was reviewed by Codex with no major issues, me
 
 Date: 2026-05-13
 
-Status: In Review
+Status: Completed
 
 Reviewer: Codex
 
@@ -2712,4 +2712,4 @@ Research consulted:
 - Travelpayouts Help Center: Affiliate programs tools.
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
-Decision: P18.3 can move through browser validation, Codex PR review, and merge if final runtime checks and thread-aware review checks stay clear.
+Decision: P18.3 completed. PR #51 was reviewed by Codex, Codex follow-up bugs were patched, the final Codex pass on `69d1dee` reported no major issues, and the PR merged into `main` at `0c00b842a3661d762261a9cac4971bc61c24ed91`; the feature branch was deleted/pruned.

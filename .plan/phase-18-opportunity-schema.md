@@ -4,7 +4,7 @@ Linear issue: `ONE-115`
 
 Branch: `codex/one-115-travelpayouts-opportunity-schema`
 
-Status: `In Review`
+Status: `Completed`
 
 ## Scope
 
@@ -37,6 +37,7 @@ Local validation passed on 2026-05-13:
 - Runtime browser validation attempted the Codex in-app Browser first through the existing workspace path, then used Playwright Chromium because no active browser pane was available.
 - Playwright authenticated planner flow confirmed page identity, keyboard focus through prompt, save option, and submit, `POST /wp-json/baf/v1/ai/itinerary` returning `201`, rendered `flight_search` and `hotel_search` opportunities with safe suggested SubIDs and limitation copy, saved draft message, edit-link handoff, and no raw prompt echo.
 - Saved draft meta included `baf_ai_opportunity_schema = travelpayouts_opportunity_v1`; the temporary draft/user were deleted.
+- Codex PR review found and the implementation patched non-scalar opportunity-field warning paths; the final Codex review pass on commit `69d1dee` reported no major issues.
 
 Evidence files:
 
@@ -54,3 +55,5 @@ Research consulted:
 - AI SDK Core: Generating Structured Data.
 - Travelpayouts Help Center: Affiliate programs tools.
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
+
+Decision: Completed through PR #51, merged into `main` at `0c00b842a3661d762261a9cac4971bc61c24ed91`, with the feature branch deleted/pruned.
