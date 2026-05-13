@@ -301,6 +301,8 @@ What to check after future changes:
 - Homepage search forms keep `data-baf-placement-key="flights_white_label_search"` and `data-baf-placement-key="hotels_partner_search"` metadata and do not copy raw provider snippets into the theme.
 - Homepage discovery modules remain editorial/static unless backed by published CPT records or approved Travelpayouts widgets.
 - Discovery modules do not display static prices, fake deal labels, unsupported live availability claims, or raw provider snippets.
+- Price-alert and AI-planner homepage entries remain honest placeholders until the later alert and AI planner phases add nonce/capability-gated capture and provider execution.
+- Homepage CTA entries must not auto-book, auto-publish, submit prompts to AI providers, or write local intent data without a documented permission/nonce path.
 - Hotel search fields use non-conflicting query names such as `travel_destination`, and the flight form's provider-style `destination` query parameter remains protected by the `/flights/` request guard so it does not trigger a destination CPT lookup.
 - Affiliate disclosure remains visible near the search shell at desktop, tablet, and mobile widths.
 - Desktop and mobile keyboard order reaches the menu, CTA, search fields, search buttons, entry cards, and mobile menu links without escaping the open mobile menu.

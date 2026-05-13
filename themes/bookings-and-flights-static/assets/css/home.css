@@ -445,6 +445,77 @@
   line-height: 1.5;
 }
 
+.home-retention {
+  display: grid;
+  gap: var(--space-s);
+}
+
+.home-retention__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-s);
+}
+
+.home-retention-card {
+  display: grid;
+  align-content: start;
+  gap: 0.65rem;
+  min-inline-size: 0;
+  min-block-size: 16rem;
+  padding: clamp(1rem, 2vw, 1.3rem);
+  border: 1px solid hsl(198 22% 82%);
+  border-radius: 8px;
+  background: hsl(202 45% 12%);
+  color: var(--light);
+  box-shadow: 0 14px 36px hsl(205 30% 18% / 0.16);
+  transition:
+    transform var(--duration-fast) var(--ease-out-expo),
+    border-color var(--duration-fast) var(--ease-out-expo);
+}
+
+.home-retention-card:hover {
+  border-color: hsl(174 72% 78%);
+  transform: translateY(-2px);
+}
+
+.home-retention-card__label {
+  color: hsl(174 72% 78%);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-retention-card__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.home-retention-card__text,
+.home-retention-card__prompt {
+  color: hsl(0 0% 100% / 0.82);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.home-retention-card__prompt {
+  padding: 0.75rem 0.85rem;
+  border: 1px solid hsl(0 0% 100% / 0.24);
+  border-radius: 8px;
+  background: hsl(0 0% 100% / 0.08);
+}
+
+.home-retention-card__action {
+  align-self: end;
+  margin-block-start: auto;
+  color: hsl(174 72% 78%);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
 @media (max-width: 78em) {
   .home-hero {
     min-block-size: auto;
@@ -469,7 +540,8 @@
   .home-search__forms,
   .home-entrypoints__container,
   .home-module--split,
-  .home-card-grid--three {
+  .home-card-grid--three,
+  .home-retention__grid {
     grid-template-columns: 1fr;
   }
 

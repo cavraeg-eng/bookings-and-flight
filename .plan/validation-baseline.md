@@ -608,6 +608,19 @@ node Playwright smoke against http://bookings-and-flights.local/
 
 P14.3 local result on 2026-05-12: PHP syntax for `page-home.php` and `git diff --check` passed. File-size checks kept `page-home.php` at 297 lines, `home.css` at 516 lines, and `functions.php` at 600 lines. WP-CLI found no published `destination`, `route`, or `travel_deal` records, so the implementation uses clearly labeled editorial/static inspiration. HTTP homepage smoke returned `200`. Source scans found no broad price, fare, cheap, live, guarantee, exclusive-deal, limited-time, or secret-token matches. Playwright Chromium captured desktop, tablet, and mobile first-viewport and discovery screenshots; all three viewports rendered three route cards, three explore cards, three flexible-month cards, and three hotel cards; disclosure was visible; no horizontal overflow, console warnings, page errors, or failed requests were recorded. Extended keyboard review reached route, flexible-month, and hotel discovery cards. Screenshots: `/tmp/one88-home-desktop.png`, `/tmp/one88-home-tablet.png`, `/tmp/one88-home-mobile.png`, `/tmp/one88-home-discovery-desktop.png`, `/tmp/one88-home-discovery-tablet.png`, and `/tmp/one88-home-discovery-mobile.png`. Runtime evidence: `/tmp/one88-runtime-review.json`.
 
+P14.4 price-alert and AI-planner entry validation:
+
+```bash
+php -l themes/bookings-and-flights-static/page-home.php
+git diff --check
+curl -sS -L -o /tmp/one89-home.html -w '%{http_code} %{url_effective}\n' 'http://bookings-and-flights.local/'
+rg -n "\\$[0-9]|from only|cheap(est)?|lowest|guarantee(d)?|real-time|\\blive\\b|exclusive deal|limited-time|auto[- ]?book|auto[- ]?publish|api[_-]?key|api[_-]?token|authorization|bearer|access[_-]?token|refresh[_-]?token|client[_-]?secret|postback|secret" themes/bookings-and-flights-static/page-home.php themes/bookings-and-flights-static/assets/css/home.css /tmp/one89-home.html
+rg -n "<form|method=\"post\"|wp_nonce|check_admin_referer|admin-post|fetch\\(|XMLHttpRequest|navigator\\.sendBeacon" themes/bookings-and-flights-static/page-home.php themes/bookings-and-flights-static/assets/css/home.css
+node Playwright smoke against http://bookings-and-flights.local/
+```
+
+P14.4 local result on 2026-05-12: PHP syntax for `page-home.php` and `git diff --check` passed. File-size checks kept `page-home.php` at 322 lines, `home.css` at 588 lines, and `functions.php` at 600 lines. HTTP homepage smoke returned `200`. Source scans found no unsupported live/fake deal/auto-book/auto-publish or secret-token matches. Write-path review found only the existing GET search forms and no new POST/fetch/beacon/nonce path. Playwright Chromium captured desktop and mobile retention screenshots, confirmed two retention cards render, verified the alert CTA opens `/flights/?travel_focus=price_alert`, verified the planner entry routes to `#trip-planner`, confirmed both cards are keyboard reachable, and recorded no horizontal overflow, console warnings, page errors, or failed requests. Screenshots: `/tmp/one89-retention-desktop.png` and `/tmp/one89-retention-mobile.png`. Runtime evidence: `/tmp/one89-runtime-review.json`.
+
 ## Documentation-Only Changes
 
 For documentation-only changes:

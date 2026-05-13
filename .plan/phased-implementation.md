@@ -1536,6 +1536,8 @@ P14.2 note: `ONE-87` started on 2026-05-12. Flights and Hotels now have dedicate
 
 P14.3 note: `ONE-88` started on 2026-05-12. The homepage now includes below-hero discovery modules for trending route starters, explore-anywhere prompts, flexible-month planning, and hotel city discovery. Because there are no published `destination`, `route`, or `travel_deal` posts yet, the modules are explicitly editorial/static inspiration and route users into the approved Flights or Hotels handoff pages without static prices, fake deal claims, unsupported live availability claims, or raw provider snippets. Runtime Playwright review captured desktop, tablet, and mobile first-viewport and discovery screenshots, verified all four module groups render three cards each, confirmed keyboard reachability through route/flexible/hotel cards, and found no horizontal overflow, page errors, failed requests, or broad fake-claim/source-secret matches.
 
+P14.4 note: `ONE-89` started on 2026-05-12. The homepage now includes a price-alert preview CTA and AI-planner placeholder entry below the discovery modules. The price-alert CTA routes to the existing Flights handoff surface and clearly states that alert capture is not active yet. The AI planner entry routes to the documented local `#trip-planner` placeholder, does not submit prompts, and does not call AI providers. No POST form, nonce-requiring write, auto-booking, auto-publishing, provider execution, or local intent capture was added. Runtime Playwright checks confirmed desktop/mobile rendering, link smoke behavior, keyboard reachability, no horizontal overflow, no browser errors, and no broad unsupported-claim/source-secret matches.
+
 ## Phase 15: Flights Experience
 
 Status: `Not Started`
