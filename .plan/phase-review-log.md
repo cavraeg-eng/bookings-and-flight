@@ -1522,3 +1522,43 @@ Research consulted:
 - Travelpayouts Help Center: Setting up a White Label with Widget type.
 
 Decision: P14.1 local implementation and review gate passed. Keep Phase 14 overall `In Progress` for the remaining homepage modules and search-surface follow-ups.
+
+## Phase 14.2 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-87` Travelpayouts-powered Flights and Hotels search placements. Reviewed Phase 14 objective, P14.1 homepage form contracts, Phase 13 placement registry/wrapper contracts, current theme routing/template behavior, active WordPress runtime pages, Travelpayouts White Label setup guidance, and Trip.com partner widget/handoff behavior.
+
+Acceptance criteria result: Passed for P14.2 scope. `/flights/` and `/hotels/` now render dedicated WordPress page templates that preserve the Bookings and Flights shell and call the approved `[baf_travelpayouts_widget]` placement seam. Flights use `flights_white_label_search`; Hotels use `hotels_partner_search`. Both pages render sanitized submitted intent details, configured/missing fallback states, disclosures from the renderer, no-script support, and visible partner handoff links without claiming WordPress owns live inventory.
+
+Security review: Passed locally. Theme templates sanitize query parameters before rendering, escape output through the shared template part, and do not copy raw provider snippets into theme files. Frontend HTTP source scans found no API tokens, API keys, authorization headers, bearer strings, access tokens, refresh tokens, client secrets, secret terms, checkout, payment, or refund terms on the rendered Flights and Hotels pages.
+
+REST permission review: Not applicable. No REST routes or permission callbacks changed in P14.2.
+
+Database/migration review: Not applicable. No custom tables, options, migrations, or data mutations changed in P14.2.
+
+UI review: Passed locally with real runtime screenshots. Desktop `1440x960` and mobile `390x844` screenshots confirmed the Flights and Hotels first viewports and scrolled widget sections render nonblank, keep the dark header legible over light search pages, avoid horizontal overflow, expose configured widget state, and keep visible handoff links. Keyboard review confirmed Flights reaches the visible `Open flight search` handoff instead of trapping on the White Label placeholder, and Hotels reaches the Trip.com iframe followed by `Open hotel search`.
+
+Regression review: The flight page preserves provider-style homepage query parameters only long enough to show sanitized intent details, then removes them from the browser URL before the Travelpayouts White Label script runs. This prevents the provider script from consuming the homepage query string, rewriting into its own `flightSearch` state, and showing the provider connection-lost overlay. Existing Phase 13 registry state, SubID mutation, disclosure output, consent-disabled/missing placement behavior, and partner handoff behavior remain delegated to the renderer.
+
+Validation performed: PHP syntax checks for changed PHP files; JavaScript syntax check for `search-surface.js`; `git diff --check`; file-size checks; WP-CLI active theme/plugin and page existence checks; WP-CLI shortcode smoke checks for flight configured state, flight marker/SubID handoff, hotel configured state, and missing placement state; `bookings-flights-core` deactivate/reactivate; HTTP 200/source scans for Flights and Hotels; Playwright desktop/mobile screenshots, scrolled-widget screenshots, keyboard review, console/failure capture, header contrast checks, widget state checks, iframe/handoff checks, and horizontal-overflow checks. The Codex in-app Browser surface had no active pane, so Playwright Chromium was used for the required runtime browser screenshots and keyboard navigation review.
+
+Bugs found: The initial flight page left homepage provider query parameters in the URL, allowing the Travelpayouts script to rewrite the page and display a provider-owned connection-lost overlay. The White Label script also marked the loaded provider state too narrowly, causing a false unavailable message after the provider script loaded, and the placeholder nodes were reachable repeatedly in keyboard order. Search page header styling also became unreadable after scrolling onto light content. Codex PR review found that the loaded White Label placeholders stayed under `aria-hidden` ancestors and that script `load` was not enough proof of rendered provider content.
+
+Bugs fixed: Added a narrow flight intent cleanup script before the provider wrapper runs, marked White Label output loaded only after rendered provider content appears, kept White Label placeholder nodes out of sequential keyboard order, removed `aria-hidden` from loaded White Label placeholders so injected provider content remains exposed to assistive tech, added a visible White Label fallback/handoff from saved settings, hardened the shared template-part argument defaults, and added search-surface header styles for readable fixed navigation on light pages.
+
+Bugs deferred: Provider-owned Travelpayouts scripts still emit React JSX source-map and duplicate GraphQL fragment warnings on the Flights page, and Chromium may emit WebGL performance warnings from the Trip.com provider context. These warnings are provider-owned and did not create page errors, failed requests, overlays, or broken keyboard behavior in the P14.2 runtime pass. Standalone Explore, Deals, Trip Planner, and Saved Trips pages remain later Phase 14+ scope.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/known-issues.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Files.
+- WordPress Theme Handbook: Page Templates.
+- WordPress Shortcode API and `do_shortcode()` reference.
+- WordPress Common APIs Handbook: Sanitizing Data.
+- WordPress Common APIs Handbook: Escaping Data.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+
+Decision: P14.2 local implementation and review gate passed. Keep Phase 14 overall `In Progress` for the remaining homepage modules and search-surface follow-ups until their Linear issues pass review and merge.

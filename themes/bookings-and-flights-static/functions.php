@@ -370,6 +370,15 @@ function bookings_and_flights_enqueue_assets() {
         filemtime( get_template_directory() . '/assets/css/footer.css' )
     );
 
+    if ( is_page( array( 'flights', 'hotels' ) ) ) {
+        wp_enqueue_style(
+            'bookings_and_flights-search-surface',
+            get_template_directory_uri() . '/assets/css/search-surface.css',
+            array( 'bookings_and_flights-footer' ),
+            filemtime( get_template_directory() . '/assets/css/search-surface.css' )
+        );
+    }
+
     // 404 page assets (not template-based, must check before $template early return)
     if ( is_404() ) {
         $css_404 = get_template_directory() . '/assets/css/404.css';
@@ -436,6 +445,16 @@ function bookings_and_flights_enqueue_scripts() {
         true
     );
 
+    if ( is_page( 'flights' ) ) {
+        wp_enqueue_script(
+            'bookings_and_flights-search-surface',
+            get_template_directory_uri() . '/assets/js/search-surface.js',
+            array(),
+            filemtime( get_template_directory() . '/assets/js/search-surface.js' ),
+            false
+        );
+    }
+
     // 404 page script (not template-based, must check before $template early return)
     if ( is_404() ) {
         $js_404 = get_template_directory() . '/assets/js/404.js';
@@ -474,7 +493,6 @@ function bookings_and_flights_enqueue_scripts() {
     }
 }
 add_action( 'wp_enqueue_scripts', 'bookings_and_flights_enqueue_scripts' );
-
 
 // ── Dark Mode — FOUC Prevention ──────────────────────────────────────────────
 // Inline script reads localStorage before any CSS renders to prevent flash.
