@@ -385,6 +385,10 @@
   line-height: 1.5;
 }
 
+.search-placement__support-label {
+  color: hsl(204 58% 21%);
+}
+
 .flight-discovery {
   display: grid;
   gap: var(--space-s);

@@ -2169,3 +2169,42 @@ Research consulted:
 - Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
 
 Decision: P16.3 local implementation and review gate passed. Keep Phase 16 overall `In Progress` until handoff-language guardrails, mobile/source review, and final Phase 16 review issues pass and merge.
+
+## Phase 16.4 Review - 2026-05-13
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-103` Handoff language, disclosure, and unsupported-filter guardrails. Reviewed Phase 16 objective, current P16.1-P16.3 hotel pages and placement templates, Travelpayouts affiliate tool/White Label boundaries, source output, visible disclosure behavior, desktop/mobile runtime screenshots, and keyboard navigation.
+
+Acceptance criteria result: Passed locally for the PR candidate. Hotel pages now use clearer sponsored partner handoff language, avoid vague local-search CTA labels, and keep current availability, room inventory, filters, map controls, rates, taxes, policies, booking terms, payment, changes, and support with Travelpayouts, Trip.com, or the partner provider. Unsupported filters are described as editorial context or provider-result controls, and no Booking.com White Label inventory is promised.
+
+Security review: Passed locally. No REST routes, provider calls, custom SQL, options, tables, cron jobs, private-data writes, direct checkout, or payment paths were added. Template output continues to escape copy, URLs, attributes, classes, and intent details. The shared placement shell now renders visible `Affiliate disclosure:` copy and links each monetized placement section to that disclosure with `aria-describedby`.
+
+REST permission review: Not applicable. P16.4 added no REST endpoints and did not change public REST exposure.
+
+Database/migration review: Not applicable. No custom tables, migrations, options, or destructive data changes were added. Temporary destination posts `318` and `319` were used for runtime validation and removed after validation.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Desktop/mobile screenshots confirmed Hotels, hotel-intent, destination archive, and destination guide surfaces render nonblank pages without horizontal overflow, duplicate IDs, missing labelled disclosures, hidden disclosure text, or app-owned console/request failures. Keyboard navigation reached `Open partner search`, `Open hotel map`, and `Open hotel listings`.
+
+Regression review: Existing P16.1 hotel intent behavior, P16.2 city guide templates, P16.3 companion placements/SubIDs, Phase 13 registry missing/consent states, and the Travelpayouts-controlled backend boundary remain intact. Disclosure labelling is shared through `template-parts/travel-search-placement.php`, so Flights and route placements also get clearer visible disclosure labels without changing provider behavior.
+
+Validation performed: PHP syntax for changed PHP files; file-size checks; `git diff --check`; source scans for Booking.com/White Label promises, direct checkout, auto-booking, guarantees, unsupported local filters, vague hotel CTA text, and disclosure language; Playwright Chromium desktop/mobile screenshots, labelled-disclosure checks, console/request health, duplicate-ID and overflow checks, bad-claim checks, companion-disclosure visual check, and keyboard navigation; temporary destination cleanup.
+
+Bugs found: Visual review found that the companion placement card height rules partially overlapped the new yellow disclosure band after disclosure labelling was added.
+
+Bugs fixed: `hotel-guide.css` now keeps companion placement widget wrappers at auto height while preserving compact handoff frames, so the disclosure band sits below each widget body. Follow-up DOM and screenshot checks confirmed the disclosure starts with `Affiliate disclosure:` and is visible below map/listing handoffs.
+
+Bugs deferred: Provider-owned Chromium WebGL performance warnings may still appear around embedded hotel widgets. They remain watchlist-only when app-owned checks pass and visible handoffs/disclosures work.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Common APIs Handbook: Escaping Data.
+- WordPress Plugin Security Handbook: Securing Output.
+- Travelpayouts: Affiliate Partnership Platform overview.
+- Travelpayouts Help Center: How to use Travelpayouts Quick Start Guide.
+- Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
+
+Decision: P16.4 local implementation and review gate passed. Keep Phase 16 overall `In Progress` until the remaining mobile/source review and final Phase 16 review issues pass and merge.

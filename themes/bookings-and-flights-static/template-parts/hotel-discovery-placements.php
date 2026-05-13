@@ -9,7 +9,7 @@ $args = wp_parse_args(
 	isset( $args ) && is_array( $args ) ? $args : array(),
 	array(
 		'title'       => __( 'Provider hotel map and listing handoffs', 'bookings_and_flights' ),
-		'description' => __( 'Use these sponsored companion placements to continue into provider-owned map controls, hotel listings, rates, taxes, booking, payment, changes, and support.', 'bookings_and_flights' ),
+		'description' => __( 'Use these sponsored companion placements to continue into provider-owned map controls, hotel listings, rates, taxes, booking terms, payment, changes, and support.', 'bookings_and_flights' ),
 		'channel'     => 'search_page',
 		'slug_prefix' => 'hotels',
 		'class'       => '',
@@ -30,9 +30,9 @@ $placements = array(
 		'class'       => 'search-placement--hotel-companion search-placement--hotel-map',
 		'eyebrow'     => __( 'Partner map', 'bookings_and_flights' ),
 		'title'       => __( 'Open provider hotel map', 'bookings_and_flights' ),
-		'description' => __( 'Map position, neighborhood filters, amenities, live rates, taxes, and room policies remain inside the partner hotel surface.', 'bookings_and_flights' ),
+		'description' => __( 'Map position, neighborhood filters, amenities, current rates, taxes, and room policies remain inside the partner hotel surface.', 'bookings_and_flights' ),
 		'fallback'    => __( 'Hotel map handoff is being configured through the Travelpayouts placement registry.', 'bookings_and_flights' ),
-		'support'     => __( 'Sponsored hotel map handoff may earn a commission. Bookings and Flights does not store live map inventory or complete reservations.', 'bookings_and_flights' ),
+		'support'     => __( 'Sponsored hotel map handoff may earn a commission. Bookings and Flights does not store provider map inventory or complete reservations.', 'bookings_and_flights' ),
 	),
 	array(
 		'placement'   => 'hotels_listing_handoff',
@@ -40,9 +40,9 @@ $placements = array(
 		'class'       => 'search-placement--hotel-companion search-placement--hotel-listings',
 		'eyebrow'     => __( 'Partner listings', 'bookings_and_flights' ),
 		'title'       => __( 'Open provider hotel listings', 'bookings_and_flights' ),
-		'description' => __( 'Use provider-owned listings to compare current hotels, prices, rooms, taxes, policies, and final booking details.', 'bookings_and_flights' ),
+		'description' => __( 'Use provider-owned listings to compare current hotel options, room details, taxes, policies, and final booking terms.', 'bookings_and_flights' ),
 		'fallback'    => __( 'Hotel listing handoff is being configured through the Travelpayouts placement registry.', 'bookings_and_flights' ),
-		'support'     => __( 'Sponsored hotel listing handoff may earn a commission. Live hotel data, checkout, payment, changes, and support stay with the partner provider.', 'bookings_and_flights' ),
+		'support'     => __( 'Sponsored hotel listing handoff may earn a commission. Current hotel data, checkout, payment, changes, and support stay with the partner provider.', 'bookings_and_flights' ),
 	),
 );
 ?>

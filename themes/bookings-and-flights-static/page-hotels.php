@@ -148,7 +148,7 @@ get_header();
 		<div class="search-page__hero-inner">
 			<p class="search-page__eyebrow"><?php esc_html_e( 'Hotels', 'bookings_and_flights' ); ?></p>
 			<h1 id="hotel-search-title" class="search-page__title"><?php esc_html_e( 'Hotel search with partner handoff', 'bookings_and_flights' ); ?></h1>
-			<p class="search-page__lede"><?php esc_html_e( 'Shape the city, dates, rooms, and stay style inside the Bookings and Flights shell, then continue into the configured Trip.com or Travelpayouts Hotels partner surface for live availability and booking.', 'bookings_and_flights' ); ?></p>
+			<p class="search-page__lede"><?php esc_html_e( 'Shape the city, dates, rooms, and stay style inside the Bookings and Flights shell, then use the sponsored Trip.com or Travelpayouts Hotels partner handoff to confirm current availability and booking terms.', 'bookings_and_flights' ); ?></p>
 		</div>
 	</section>
 
@@ -157,7 +157,7 @@ get_header();
 			<div class="hotel-intent__content">
 				<p class="hotel-intent__eyebrow"><?php esc_html_e( 'Hotel intent', 'bookings_and_flights' ); ?></p>
 				<h2 id="hotel-intent-title" class="hotel-intent__title"><?php esc_html_e( 'Set the stay shape before opening provider search', 'bookings_and_flights' ); ?></h2>
-				<p class="hotel-intent__copy"><?php esc_html_e( 'These fields keep your hotel search intent visible on this page. Final live availability, taxes, fees, policies, room choices, payment, changes, and support are confirmed with the partner provider.', 'bookings_and_flights' ); ?></p>
+				<p class="hotel-intent__copy"><?php esc_html_e( 'These fields keep your hotel search intent visible on this page. Current availability, taxes, fees, policies, room choices, payment, changes, and support are confirmed with the partner provider.', 'bookings_and_flights' ); ?></p>
 			</div>
 
 			<form class="hotel-intent__form" action="<?php echo esc_url( home_url( '/hotels/' ) ); ?>" method="get" data-baf-placement-key="hotels_partner_search">
@@ -195,15 +195,15 @@ get_header();
 
 				<input type="hidden" name="baf_surface" value="hotels_landing">
 				<button class="hotel-intent__submit" type="submit"><?php esc_html_e( 'Update hotel intent', 'bookings_and_flights' ); ?></button>
-				<p class="hotel-intent__helper"><?php esc_html_e( 'Intent only: use the embedded partner search or sponsored handoff to confirm live rates, room availability, taxes, policies, booking, payment, changes, and support.', 'bookings_and_flights' ); ?></p>
+				<p class="hotel-intent__helper"><?php esc_html_e( 'Intent only: use the embedded partner search or sponsored handoff to confirm current rates, room availability, taxes, policies, booking terms, payment, changes, and support.', 'bookings_and_flights' ); ?></p>
 			</form>
 
 			<div class="hotel-intent__provider" aria-labelledby="hotel-provider-options-title">
 				<h3 id="hotel-provider-options-title"><?php esc_html_e( 'Provider-controlled hotel choices', 'bookings_and_flights' ); ?></h3>
-				<p><?php esc_html_e( 'WordPress keeps the editorial shell and your intent summary. Set live filters inside the partner surface when those controls are available there.', 'bookings_and_flights' ); ?></p>
+				<p><?php esc_html_e( 'WordPress keeps the editorial shell and your intent summary. Set map, neighborhood, amenity, and room controls inside the partner surface when those controls are available there.', 'bookings_and_flights' ); ?></p>
 				<ul class="hotel-intent__provider-list">
 					<li>
-						<span><?php esc_html_e( 'Live rates and taxes', 'bookings_and_flights' ); ?></span>
+						<span><?php esc_html_e( 'Current rates and taxes', 'bookings_and_flights' ); ?></span>
 						<strong><?php esc_html_e( 'Provider', 'bookings_and_flights' ); ?></strong>
 					</li>
 					<li>
@@ -227,8 +227,8 @@ get_header();
 		<div class="hotel-guide-teaser__inner">
 			<div class="hotel-guide-teaser__header">
 				<p class="hotel-guide-teaser__eyebrow"><?php esc_html_e( 'City hotel guides', 'bookings_and_flights' ); ?></p>
-				<h2 id="hotel-guide-teaser-title" class="hotel-guide-teaser__title"><?php esc_html_e( 'Editorial stay guides before live search', 'bookings_and_flights' ); ?></h2>
-				<p class="hotel-guide-teaser__copy"><?php esc_html_e( 'Use destination guides for neighborhoods, landmarks, family stays, luxury stays, and budget planning. Provider search handles live rates, map filters, booking, payment, changes, and support.', 'bookings_and_flights' ); ?></p>
+				<h2 id="hotel-guide-teaser-title" class="hotel-guide-teaser__title"><?php esc_html_e( 'Editorial stay guides before partner search', 'bookings_and_flights' ); ?></h2>
+				<p class="hotel-guide-teaser__copy"><?php esc_html_e( 'Use destination guides for neighborhoods, landmarks, family stays, luxury stays, and budget planning. Provider search handles current rates, map filters, booking terms, payment, changes, and support.', 'bookings_and_flights' ); ?></p>
 			</div>
 
 			<?php if ( $city_guides->have_posts() ) : ?>
@@ -263,7 +263,7 @@ get_header();
 							</p>
 							<div class="hotel-guide-listing-card__actions">
 								<a class="hotel-guide-text-link" href="<?php echo esc_url( get_permalink() ); ?>"><?php esc_html_e( 'Open city guide', 'bookings_and_flights' ); ?></a>
-								<a class="hotel-guide-text-link" href="<?php echo esc_url( $guide_hotel_url ); ?>"><?php esc_html_e( 'Search this city', 'bookings_and_flights' ); ?></a>
+								<a class="hotel-guide-text-link" href="<?php echo esc_url( $guide_hotel_url ); ?>"><?php esc_html_e( 'Open partner search', 'bookings_and_flights' ); ?></a>
 							</div>
 						</article>
 					<?php endwhile; ?>
@@ -288,8 +288,8 @@ get_header();
 		'template-parts/hotel-discovery-placements',
 		null,
 		array(
-			'title'       => __( 'Map and listing handoffs for live comparison', 'bookings_and_flights' ),
-			'description' => __( 'Keep planning context in WordPress, then open the partner-owned map and listing surfaces for live hotel comparison and booking details.', 'bookings_and_flights' ),
+			'title'       => __( 'Map and listing handoffs for partner comparison', 'bookings_and_flights' ),
+			'description' => __( 'Keep planning context in WordPress, then open the partner-owned map and listing surfaces to confirm current hotel options and booking terms.', 'bookings_and_flights' ),
 			'channel'     => $placement_channel,
 			'slug_prefix' => 'hotels_landing',
 			'details'     => $details,
@@ -309,11 +309,11 @@ get_header();
 				'slug'             => 'hotel_search',
 				'class'            => 'search-placement--hotels',
 				'eyebrow'          => __( 'Hotels partner surface', 'bookings_and_flights' ),
-				'title'            => __( 'Open live hotel search', 'bookings_and_flights' ),
-				'description'      => $has_intent ? __( 'Your hotel intent is summarized below. Use the embedded partner controls or open the sponsored handoff to confirm live availability and booking details.', 'bookings_and_flights' ) : __( 'Use the embedded partner controls or open the sponsored handoff to search live hotel availability. WordPress does not store or rank live room inventory.', 'bookings_and_flights' ),
+				'title'            => __( 'Open partner hotel search', 'bookings_and_flights' ),
+				'description'      => $has_intent ? __( 'Your hotel intent is summarized below. Use the embedded partner controls or open the sponsored handoff to confirm availability, policies, and booking terms.', 'bookings_and_flights' ) : __( 'Use the embedded partner controls or open the sponsored handoff to continue to provider-owned hotel search. WordPress does not store, rank, or filter provider room inventory.', 'bookings_and_flights' ),
 				'details'          => $details,
 				'fallback_message' => __( 'Hotel search is configured through the Travelpayouts placement registry. If it is unavailable, check provider consent or placement settings.', 'bookings_and_flights' ),
-				'support_note'     => __( 'Sponsored hotel search may earn a commission. Bookings and Flights keeps the planning shell visible; live rooms, rates, taxes, booking, payment, changes, and support stay with Trip.com, Travelpayouts, or the partner provider.', 'bookings_and_flights' ),
+				'support_note'     => __( 'Sponsored hotel search may earn a commission. Bookings and Flights keeps the planning shell visible; current rooms, rates, taxes, booking terms, payment, changes, and support stay with Trip.com, Travelpayouts, or the partner provider.', 'bookings_and_flights' ),
 			)
 		);
 		?>

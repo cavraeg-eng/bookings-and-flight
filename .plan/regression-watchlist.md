@@ -1034,3 +1034,31 @@ Related files/routes/settings:
 - `hotels_listing_handoff`
 - `/hotels/`
 - `/destinations/{destination}/`
+
+## Phase 16 Hotel Handoff Language And Disclosure Guardrails
+
+Fragile area: Hotel/stays copy, affiliate disclosures, unsupported-filter wording, and handoff labels on `/hotels/`, `/destinations/`, and destination guide pages.
+
+Why risky: Small copy changes can make the WordPress shell sound like it owns live hotel inventory, Booking.com White Label inventory, direct checkout, final rates, or result filtering. Shared disclosure changes can also become visually hidden or disconnected from placement sections if card-height rules are touched.
+
+What to check after future changes:
+
+- Hotel CTAs distinguish local editorial/intent work from sponsored partner handoff.
+- Search/filter wording says WordPress fields are intent or editorial context unless the partner surface owns the actual filtering.
+- Every monetized hotel placement rendered through `template-parts/travel-search-placement.php` has visible `Affiliate disclosure:` copy and an `aria-describedby` link from the placement section to that disclosure.
+- Source scans find no hotel-surface Booking.com White Label promise, direct checkout, auto-booking, guaranteed-rate, WordPress-owned inventory, or unsupported local-filter claim.
+- Desktop/mobile screenshots show the disclosure band visible below each widget or handoff card without overlap.
+- Keyboard navigation reaches the partner search/map/listing handoff links with visible focus.
+
+Related files/routes/settings:
+
+- `themes/bookings-and-flights-static/template-parts/travel-search-placement.php`
+- `themes/bookings-and-flights-static/template-parts/hotel-discovery-placements.php`
+- `themes/bookings-and-flights-static/page-hotels.php`
+- `themes/bookings-and-flights-static/single-destination.php`
+- `themes/bookings-and-flights-static/archive-destination.php`
+- `themes/bookings-and-flights-static/assets/css/search-surface.css`
+- `themes/bookings-and-flights-static/assets/css/hotel-guide.css`
+- `/hotels/`
+- `/destinations/`
+- `/destinations/{destination}/`
