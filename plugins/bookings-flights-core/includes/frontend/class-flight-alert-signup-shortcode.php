@@ -8,6 +8,7 @@
 namespace BAF\Core\Frontend;
 
 use BAF\Core\Post_Types\Post_Type_Registrar;
+use BAF\Core\Services\Flight_Alert_Service;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -15,6 +16,7 @@ final class Flight_Alert_Signup_Shortcode {
 
 	public static function render( array|string $atts = array() ): string {
 		wp_enqueue_style( Frontend_Manager::ASSET_HANDLE );
+		wp_enqueue_style( Frontend_Manager::ALERT_ASSET_HANDLE );
 
 		$attributes = shortcode_atts(
 			array(
@@ -57,6 +59,7 @@ final class Flight_Alert_Signup_Shortcode {
 
 		$title_id = wp_unique_id( 'baf-flight-alert-title-' );
 		$message  = self::status_message();
+		$delete_confirmation = self::delete_confirmation();
 
 		ob_start();
 		?>
@@ -64,7 +67,7 @@ final class Flight_Alert_Signup_Shortcode {
 			<div class="baf-flight-alert__content">
 				<p class="baf-flight-alert__eyebrow"><?php esc_html_e( 'Price alerts', 'bookings-flights-core' ); ?></p>
 				<h2 id="<?php echo esc_attr( $title_id ); ?>" class="baf-flight-alert__title"><?php esc_html_e( 'Save this route as a local watch intent', 'bookings-flights-core' ); ?></h2>
-				<p class="baf-flight-alert__copy"><?php esc_html_e( 'Bookings and Flights stores the alert request locally. Travelpayouts or the partner provider still controls live fares, result filters, booking, payment, changes, and support.', 'bookings-flights-core' ); ?></p>
+				<p class="baf-flight-alert__copy"><?php esc_html_e( 'Bookings and Flights stores the alert request locally and can send a delete link after the queue processes it. Travelpayouts or the partner provider still controls live fares, result filters, booking, payment, changes, and support.', 'bookings-flights-core' ); ?></p>
 			</div>
 
 			<?php if ( ! post_type_exists( Post_Type_Registrar::TRAVEL_ALERT ) ) : ?>
@@ -74,48 +77,52 @@ final class Flight_Alert_Signup_Shortcode {
 					<p class="<?php echo esc_attr( 'baf-flight-alert__notice baf-flight-alert__notice--' . $message['tone'] ); ?>" role="<?php echo esc_attr( $message['role'] ); ?>"><?php echo esc_html( $message['text'] ); ?></p>
 				<?php endif; ?>
 
-				<form class="baf-flight-alert__form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
-					<input type="hidden" name="action" value="<?php echo esc_attr( Flight_Alert_Intent_Handler::ACTION ); ?>">
-					<input type="hidden" name="baf_alert_redirect" value="<?php echo esc_url( $redirect ); ?>">
-					<input type="hidden" name="baf_alert_source_url" value="<?php echo esc_url( $source_url ); ?>">
-					<input type="hidden" name="baf_alert_surface" value="<?php echo esc_attr( $surface ); ?>">
-					<input type="hidden" name="baf_alert_depart_date" value="<?php echo esc_attr( $depart_date ); ?>">
-					<input type="hidden" name="baf_alert_return_date" value="<?php echo esc_attr( $return_date ); ?>">
-					<input type="hidden" name="baf_alert_travelers" value="<?php echo esc_attr( (string) $travelers ); ?>">
-					<input type="hidden" name="baf_alert_cabin" value="<?php echo esc_attr( $cabin ); ?>">
-					<input type="hidden" name="baf_alert_route_post_id" value="<?php echo esc_attr( (string) $route_id ); ?>">
-					<?php wp_nonce_field( Flight_Alert_Intent_Handler::NONCE_ACTION, Flight_Alert_Intent_Handler::NONCE_FIELD ); ?>
+				<?php if ( null !== $delete_confirmation ) : ?>
+					<?php self::render_delete_confirmation( $delete_confirmation ); ?>
+				<?php else : ?>
+					<form class="baf-flight-alert__form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+						<input type="hidden" name="action" value="<?php echo esc_attr( Flight_Alert_Intent_Handler::ACTION ); ?>">
+						<input type="hidden" name="baf_alert_redirect" value="<?php echo esc_url( $redirect ); ?>">
+						<input type="hidden" name="baf_alert_source_url" value="<?php echo esc_url( $source_url ); ?>">
+						<input type="hidden" name="baf_alert_surface" value="<?php echo esc_attr( $surface ); ?>">
+						<input type="hidden" name="baf_alert_depart_date" value="<?php echo esc_attr( $depart_date ); ?>">
+						<input type="hidden" name="baf_alert_return_date" value="<?php echo esc_attr( $return_date ); ?>">
+						<input type="hidden" name="baf_alert_travelers" value="<?php echo esc_attr( (string) $travelers ); ?>">
+						<input type="hidden" name="baf_alert_cabin" value="<?php echo esc_attr( $cabin ); ?>">
+						<input type="hidden" name="baf_alert_route_post_id" value="<?php echo esc_attr( (string) $route_id ); ?>">
+						<?php wp_nonce_field( Flight_Alert_Intent_Handler::NONCE_ACTION, Flight_Alert_Intent_Handler::NONCE_FIELD ); ?>
 
-					<div class="baf-flight-alert__grid">
-						<label class="baf-flight-alert__field">
-							<span><?php esc_html_e( 'Email', 'bookings-flights-core' ); ?></span>
-							<input type="email" name="baf_alert_email" value="<?php echo esc_attr( $email ); ?>" autocomplete="email" required>
-						</label>
-						<label class="baf-flight-alert__field">
-							<span><?php esc_html_e( 'From', 'bookings-flights-core' ); ?></span>
-							<input type="text" name="baf_alert_origin" value="<?php echo esc_attr( $origin ); ?>" maxlength="3" pattern="[A-Za-z]{3}" autocapitalize="characters" autocomplete="off" required>
-						</label>
-						<label class="baf-flight-alert__field">
-							<span><?php esc_html_e( 'To', 'bookings-flights-core' ); ?></span>
-							<input type="text" name="baf_alert_destination" value="<?php echo esc_attr( $destination ); ?>" maxlength="3" pattern="[A-Za-z]{3}" autocapitalize="characters" autocomplete="off" required>
-						</label>
-						<label class="baf-flight-alert__field">
-							<span><?php esc_html_e( 'Frequency', 'bookings-flights-core' ); ?></span>
-							<select name="baf_alert_frequency">
-								<option value="daily" <?php selected( $frequency, 'daily' ); ?>><?php esc_html_e( 'Daily', 'bookings-flights-core' ); ?></option>
-								<option value="weekly" <?php selected( $frequency, 'weekly' ); ?>><?php esc_html_e( 'Weekly', 'bookings-flights-core' ); ?></option>
-								<option value="monthly" <?php selected( $frequency, 'monthly' ); ?>><?php esc_html_e( 'Monthly', 'bookings-flights-core' ); ?></option>
-							</select>
-						</label>
-					</div>
+						<div class="baf-flight-alert__grid">
+							<label class="baf-flight-alert__field">
+								<span><?php esc_html_e( 'Email', 'bookings-flights-core' ); ?></span>
+								<input type="email" name="baf_alert_email" value="<?php echo esc_attr( $email ); ?>" autocomplete="email" required>
+							</label>
+							<label class="baf-flight-alert__field">
+								<span><?php esc_html_e( 'From', 'bookings-flights-core' ); ?></span>
+								<input type="text" name="baf_alert_origin" value="<?php echo esc_attr( $origin ); ?>" maxlength="3" pattern="[A-Za-z]{3}" autocapitalize="characters" autocomplete="off" required>
+							</label>
+							<label class="baf-flight-alert__field">
+								<span><?php esc_html_e( 'To', 'bookings-flights-core' ); ?></span>
+								<input type="text" name="baf_alert_destination" value="<?php echo esc_attr( $destination ); ?>" maxlength="3" pattern="[A-Za-z]{3}" autocapitalize="characters" autocomplete="off" required>
+							</label>
+							<label class="baf-flight-alert__field">
+								<span><?php esc_html_e( 'Frequency', 'bookings-flights-core' ); ?></span>
+								<select name="baf_alert_frequency">
+									<option value="daily" <?php selected( $frequency, 'daily' ); ?>><?php esc_html_e( 'Daily', 'bookings-flights-core' ); ?></option>
+									<option value="weekly" <?php selected( $frequency, 'weekly' ); ?>><?php esc_html_e( 'Weekly', 'bookings-flights-core' ); ?></option>
+									<option value="monthly" <?php selected( $frequency, 'monthly' ); ?>><?php esc_html_e( 'Monthly', 'bookings-flights-core' ); ?></option>
+								</select>
+							</label>
+						</div>
 
-					<label class="baf-flight-alert__consent">
-						<input type="checkbox" name="baf_alert_consent" value="1" required>
-						<span><?php esc_html_e( 'Store my email and route watch intent locally so Bookings and Flights can manage this alert request. I understand live fares and booking support remain with the provider.', 'bookings-flights-core' ); ?></span>
-					</label>
+						<label class="baf-flight-alert__consent">
+							<input type="checkbox" name="baf_alert_consent" value="1" required>
+							<span><?php esc_html_e( 'Store my email and route watch intent locally and send me alert-management email. I understand live fares and booking support remain with the provider.', 'bookings-flights-core' ); ?></span>
+						</label>
 
-					<button class="baf-flight-alert__submit" type="submit"><?php esc_html_e( 'Save alert intent', 'bookings-flights-core' ); ?></button>
-				</form>
+						<button class="baf-flight-alert__submit" type="submit"><?php esc_html_e( 'Save alert intent', 'bookings-flights-core' ); ?></button>
+					</form>
+				<?php endif; ?>
 			<?php endif; ?>
 		</section>
 		<?php
@@ -131,8 +138,23 @@ final class Flight_Alert_Signup_Shortcode {
 		$status = sanitize_key( wp_unslash( $_GET[ Flight_Alert_Intent_Handler::STATUS_QUERY_ARG ] ) );
 		$map    = array(
 			'saved'           => array(
-				'text' => __( 'Your alert intent was saved locally. Confirm live prices and booking details inside the provider search before buying.', 'bookings-flights-core' ),
+				'text' => __( 'Your alert intent was saved locally. The alert queue will try to send a confirmation email with a delete link. Confirm live prices and booking details inside the provider search before buying.', 'bookings-flights-core' ),
 				'tone' => 'success',
+				'role' => 'status',
+			),
+			'updated'         => array(
+				'text' => __( 'Your existing alert intent was updated locally. Confirm live prices and booking details inside the provider search before buying.', 'bookings-flights-core' ),
+				'tone' => 'success',
+				'role' => 'status',
+			),
+			'deleted'         => array(
+				'text' => __( 'Your local alert intent was deleted.', 'bookings-flights-core' ),
+				'tone' => 'success',
+				'role' => 'status',
+			),
+			'confirm_delete'  => array(
+				'text' => __( 'Confirm that you want to delete this local alert intent.', 'bookings-flights-core' ),
+				'tone' => 'warning',
 				'role' => 'status',
 			),
 			'invalid_email'   => array(
@@ -165,9 +187,68 @@ final class Flight_Alert_Signup_Shortcode {
 				'tone' => 'error',
 				'role' => 'alert',
 			),
+			'limit_reached'   => array(
+				'text' => __( 'This email has reached the active alert limit. Delete an existing alert before adding another route.', 'bookings-flights-core' ),
+				'tone' => 'error',
+				'role' => 'alert',
+			),
+			'delete_invalid'  => array(
+				'text' => __( 'The alert delete link is invalid or the alert was already deleted.', 'bookings-flights-core' ),
+				'tone' => 'error',
+				'role' => 'alert',
+			),
 		);
 
 		return $map[ $status ] ?? null;
+	}
+
+	private static function delete_confirmation(): ?array {
+		$status = '';
+		if ( isset( $_GET[ Flight_Alert_Intent_Handler::STATUS_QUERY_ARG ] ) && is_scalar( $_GET[ Flight_Alert_Intent_Handler::STATUS_QUERY_ARG ] ) ) {
+			$status = sanitize_key( wp_unslash( $_GET[ Flight_Alert_Intent_Handler::STATUS_QUERY_ARG ] ) );
+		}
+
+		if ( 'confirm_delete' !== $status ) {
+			return null;
+		}
+
+		$alert_id = 0;
+		if ( isset( $_GET['baf_alert_id'] ) && is_scalar( $_GET['baf_alert_id'] ) ) {
+			$alert_id = absint( wp_unslash( $_GET['baf_alert_id'] ) );
+		}
+
+		$token = '';
+		if ( isset( $_GET['baf_alert_token'] ) && is_scalar( $_GET['baf_alert_token'] ) ) {
+			$token = sanitize_text_field( wp_unslash( $_GET['baf_alert_token'] ) );
+		}
+
+		$valid = ( new Flight_Alert_Service() )->is_valid_delete_token( $alert_id, $token );
+
+		return array(
+			'id'    => $alert_id,
+			'token' => $token,
+			'valid' => $valid,
+		);
+	}
+
+	private static function render_delete_confirmation( array $confirmation ): void {
+		if ( true !== (bool) $confirmation['valid'] ) {
+			?>
+			<p class="baf-flight-alert__notice baf-flight-alert__notice--error" role="alert"><?php esc_html_e( 'This alert delete link is invalid or the alert was already deleted.', 'bookings-flights-core' ); ?></p>
+			<?php
+			return;
+		}
+		?>
+		<form class="baf-flight-alert__delete-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+			<input type="hidden" name="action" value="<?php echo esc_attr( Flight_Alert_Intent_Handler::DELETE_ACTION ); ?>">
+			<input type="hidden" name="baf_alert_id" value="<?php echo esc_attr( (string) absint( $confirmation['id'] ) ); ?>">
+			<input type="hidden" name="baf_alert_token" value="<?php echo esc_attr( (string) $confirmation['token'] ); ?>">
+			<input type="hidden" name="baf_alert_redirect" value="<?php echo esc_url( home_url( '/flights/' ) ); ?>">
+			<?php wp_nonce_field( Flight_Alert_Intent_Handler::delete_nonce_action( absint( $confirmation['id'] ), (string) $confirmation['token'] ), Flight_Alert_Intent_Handler::DELETE_NONCE_FIELD ); ?>
+			<button class="baf-flight-alert__submit" type="submit"><?php esc_html_e( 'Delete alert intent', 'bookings-flights-core' ); ?></button>
+			<a class="baf-flight-alert__keep" href="<?php echo esc_url( home_url( '/flights/' ) ); ?>"><?php esc_html_e( 'Keep alert', 'bookings-flights-core' ); ?></a>
+		</form>
+		<?php
 	}
 
 	private static function current_url(): string {

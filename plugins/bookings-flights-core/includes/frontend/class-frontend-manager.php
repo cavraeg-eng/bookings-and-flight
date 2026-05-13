@@ -11,7 +11,8 @@ defined( 'ABSPATH' ) || exit;
 
 final class Frontend_Manager {
 
-	public const ASSET_HANDLE = 'baf-frontend';
+	public const ASSET_HANDLE               = 'baf-frontend';
+	public const ALERT_ASSET_HANDLE         = 'baf-flight-alert';
 	public const WIDGET_BLOCK_SCRIPT_HANDLE = 'baf-travelpayouts-widget-block';
 
 	public static function bootstrap(): void {
@@ -37,6 +38,16 @@ final class Frontend_Manager {
 			BAF_CORE_URL . 'assets/css/frontend.css',
 			array(),
 			$frontend_version
+		);
+
+		$alert_asset_path = BAF_CORE_DIR . 'assets/css/flight-alert.css';
+		$alert_version    = is_readable( $alert_asset_path ) ? (string) filemtime( $alert_asset_path ) : BAF_CORE_VERSION;
+
+		wp_register_style(
+			self::ALERT_ASSET_HANDLE,
+			BAF_CORE_URL . 'assets/css/flight-alert.css',
+			array( self::ASSET_HANDLE ),
+			$alert_version
 		);
 	}
 

@@ -2936,3 +2936,48 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID.
 
 Decision: P19.1 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
+
+### P19.2 — Price alert intent, limits, and email/cron hooks
+
+Date: 2026-05-13
+
+Status: In Review
+
+Reviewer: Codex
+
+Linear issue: `ONE-121`
+
+Scope reviewed: Price alert intent lifecycle. Reviewed Phase 19 objective, existing P15.5 alert capture, private `travel_alert` CPT/meta, `admin-post.php` form actions, consent copy, cron/job runner behavior, `wp_mail()` follow-up, Travelpayouts handoff language, and privacy/delete requirements.
+
+Acceptance criteria result: Passed locally for the PR candidate. Alert intent capture now stores bounded local watch intent, deduplicates existing email/route records, caps each email at ten active or pending route alerts, records email follow-up state, moves failed email sends to a non-counted retryable state, processes one pending confirmation/manage email per email/route pair through the hourly alert cron job, marks later legacy duplicate queued rows skipped, and gives users a signed email delete-confirmation link that requires alert-specific nonce-protected POST confirmation before permanently removing the private alert record.
+
+Security review: Passed locally. Alert submission still requires a WordPress nonce, explicit consent, email validation, route-code validation, safe redirects, and a short per-client/email/route throttle. The delete confirmation link uses a signed token derived from private alert metadata plus WordPress salts, does not store plaintext delete tokens, and GET requests cannot delete records; the final delete requires an alert-specific nonce-protected POST and treats `wp_delete_post()` `false`/`null` returns as failures. Email and frontend copy keep Travelpayouts/provider ownership of live fares, filters, booking, payment, changes, and support explicit. No provider credentials, API tokens, raw prompts, provider payloads, booking IDs, payment data, live prices, or private AI/session data are exposed or logged by this workflow.
+
+REST permission review: Passed for scope. P19.2 adds no REST endpoint and does not expose `travel_alert` meta through REST. Form actions remain routed through `admin-post.php`; alert administration remains capability-gated through the private CPT capability mapping.
+
+Database/migration review: No custom table, migration, or destructive schema change. New registered private alert meta keys are `baf_alert_email_status`, `baf_alert_email_sent_at`, `baf_alert_email_last_attempt_at`, and `baf_alert_updated_at`.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser path was attempted first, but no active browser pane was available, so Playwright Chromium was used. Evidence includes desktop form, desktop saved state, mobile form, and delete-confirmation screenshots at `/tmp/one121-alert-*.png`; the final form report is `/tmp/one121-runtime-review-report.json` with `status=pass` and `findingCount=0`, and the delete-confirmation report is `/tmp/one121-delete-runtime-review-report.json` with `status=pass` and `findingCount=0`.
+
+Regression review: Existing P15.5 alert validation, P15 flight handoff boundaries, P18 AI planner restrictions, and P19.1 saved-trip deletion remain intact. The alert cron job sends local alert-management email only; it does not call Travelpayouts, execute provider searches, create live provider links beyond the existing `/flights/` handoff, book, pay, or store live inventory. Failed email sends move to `email_failed` and no longer consume the active/pending alert quota, while same-email/same-route submissions can revive the intent for another local email attempt.
+
+Validation performed: PHP syntax checks for changed PHP files; CSS file-size checks; `git diff --check`; `bookings-flights-core` deactivate/reactivate/is-active checks; focused WP-CLI alert service/cron/email/delete smoke with 77 assertions covering active/pending quota, failed-email quota, same-route retry, duplicate queued-alert dedupe, scoped delete nonce rejection, query-cache freshness, `wp_delete_post()` failure, GET-delete non-destruction, and nonce-confirmed POST delete behavior; cached-offer cron import smoke; real missing-nonce `admin-post.php` permission failure check; alert follow-up meta registration check; Playwright Chromium runtime screenshots and keyboard review; source-secret, app-owned console/request, horizontal-overflow, and cleanup checks.
+
+Bugs found: Code review found that success copy was too absolute about email delivery despite `wp_mail()` being allowed to fail or defer. Codex PR review then found two P1 issues: the cached-offer cron path was missing the `Post_Type_Registrar` import after the alert-job edit, and the first alert delete link allowed a destructive GET request from email. Follow-up Codex reviews found that `delete_by_token()` treated a `false` `wp_delete_post()` return as success, failed `wp_mail()` sends stayed in `requested`, legacy duplicate `requested` rows for the same email/route could send duplicate cron emails, and the delete confirmation nonce was not scoped to the alert/token target. Runtime validation also exposed a repeatability issue in the smoke script caused by leftover test alert records and a stale same-request quota query cache edge; both were resolved in the validation harness and service query settings.
+
+Bugs fixed: Adjusted alert copy to say the queue will try to send confirmation/delete email while keeping explicit provider-boundary language, restored the cached-offer cron import, changed email delete links into signed frontend confirmation URLs, required alert-specific nonce-protected POST before deletion, added confirmation-form styling, required a deleted `WP_Post` object before treating token deletion as successful, moved failed `wp_mail()` sends to `email_failed`, excluded failed-email records from the active/pending quota, disabled stale query result caching for alert queue/dedupe/quota reads, marked later duplicate queued email/route rows skipped, and cleaned temporary test-alert records before rerunning validation.
+
+Bugs deferred: WordPress personal-data exporter/eraser integration remains planned for P19.3 (`ONE-122`). P19.2 provides immediate alert deletion through signed, nonce-confirmed manage links. Broader privacy export/erase, analytics/reporting, release-readiness, and final Phase 19 gates remain later child issues.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-19-alerts-review.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Common APIs Handbook: Nonces.
+- WordPress Plugin Handbook: Cron.
+- WordPress Code Reference: `wp_mail()`.
+- WordPress Code Reference: `pre_wp_mail`.
+- WordPress Code Reference: `wp_delete_post()`.
+- WordPress Code Reference: `admin_post_{$action}`.
+- WordPress Common APIs Handbook: Sanitizing Data.
+
+Decision: P19.2 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.

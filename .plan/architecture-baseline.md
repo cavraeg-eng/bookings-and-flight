@@ -114,6 +114,8 @@ Phase 18.4 adds local approval-oriented handoff preparation from saved `trip_pla
 
 Phase 19.1 adds the member saved-trip board at `/saved-trips/`. Saved trips are private `trip_plan` records owned by the signed-in user and marked with `baf_saved_trip_status=active`. The board and `baf/v1/saved-trips` REST routes store local itinerary intent only: origin, destination, travel dates, traveler count, travel style, a short planning note, and public Travelpayouts placement/SubID context. They do not store provider booking IDs, payment data, confirmation numbers, live prices, room/fare availability, provider URLs, secrets, raw AI prompts, AI itinerary JSON, or AI handoff intents. Anonymous users are sent to sign in before storage; logged-in writes require a valid REST nonce and explicit local-storage consent. Users can permanently delete saved-trip records from the board.
 
+Phase 19.2 finalizes the local flight alert lifecycle without taking ownership of live fare monitoring. The `[baf_flight_alert_signup]` form still uses nonce-protected `admin-post.php` capture with explicit consent, route-code validation, and a short per-client/email/route throttle. `BAF\Core\Services\Flight_Alert_Service` now deduplicates email/route intents, caps each email at ten active or pending route alerts, stores follow-up email status/timestamps, and lets the hourly `baf_process_travel_alerts` cron job send idempotent confirmation/manage emails through `wp_mail()`. Legacy duplicate requested alert rows for the same email/route are collapsed during processing by sending one follow-up and marking later queued duplicates as `duplicate` / skipped. Failed email sends move to a non-counted `email_failed` local status so users are not locked out by delivery failures, while a later same-email/same-route save can revive the local intent for another attempt. Alert emails include provider-owned live fare/booking boundary copy plus a signed delete-confirmation link; the token is derived from alert metadata and WordPress salts rather than stored in plaintext. The confirmation page requires an alert-specific nonce-protected POST before permanently removing the private `travel_alert` record, and deletion is treated as successful only when WordPress returns the deleted post object.
+
 Phase 18.5 hardens live-provider readiness and malformed-input handling. `BAF\Core\AI\Provider_Factory::live_readiness()` is the shared contract for live-mode UI messaging and backend provider selection. The planner blocks known-misconfigured live states before sending prompt data to the itinerary REST endpoint, while backend provider selection still rejects missing providers, unsupported providers, missing API keys, missing saved External AI consent, and missing per-request consent. Demo mode remains available without live credentials or external provider calls.
 
 ## REST Namespace
@@ -260,10 +262,16 @@ Use the `baf_` prefix for new meta. Phase 1 registers the following post meta ke
 - `baf_alert_source_url`
 - `baf_alert_consent_at`
 - `baf_alert_status`
+- `baf_alert_email_status`
+- `baf_alert_email_sent_at`
+- `baf_alert_email_last_attempt_at`
+- `baf_alert_updated_at`
 - `baf_partner_apply_url`
 - `baf_partner_status`
 
 Phase 15.5 adds local flight alert intent capture through the `[baf_flight_alert_signup]` shortcode and `admin-post.php` actions `baf_save_flight_alert` / `admin_post_nopriv_baf_save_flight_alert`. Alert signup stores private `travel_alert` posts with route codes, optional date/traveler/cabin context, contact email, source surface, consent timestamp, and local status only. It does not store provider fare inventory, partner booking records, payment data, reservation state, or supplier result payloads. Public writes require a WordPress nonce, explicit consent, email validation, bounded route-code input, and a short per-client/email/route transient throttle; alert administration remains capability-gated by `manage_baf_alerts`.
+
+Phase 19.2 adds `admin-post.php` delete actions `baf_delete_flight_alert` / `admin_post_nopriv_baf_delete_flight_alert` for nonce-confirmed POST deletion after signed alert-delete confirmation links, plus bounded cron/email processing for requested alert intents. Email follow-up remains local alert-management messaging only; it does not call Travelpayouts, store live fare inventory, create provider links beyond the existing `/flights/` handoff, book, pay, or send private prompt/provider data.
 
 Phase 15.6 documents the flight SEO/indexing boundary. WordPress owns indexable `/routes/`, sanitized origin-filter archives such as `/routes/?route_origin=NYC`, and individual `route` posts as editorial SEO pages. The Flights page remains an indexable search-handoff entry point, but transient flight-search query URLs are not SEO landing pages: they render `noindex, follow` and canonicalize to `/flights/`. Travelpayouts White Label, official widgets, and partner scripts remain provider-owned result/handoff surfaces and must not become the canonical SEO source, local fare inventory, booking backend, or source of fake price/scarcity claims.
 
@@ -580,7 +588,7 @@ Implemented by `BAF\Core\Cron\Cron_Manager`:
 | Hook | Recurrence | Purpose |
 | --- | --- | --- |
 | `baf_refresh_cached_offers` | `baf_ten_minutes` | Checks eligible cached offer/deal refresh work outside page render; defers provider work unless consent is enabled. |
-| `baf_process_travel_alerts` | `hourly` | Checks eligible travel alert work outside page render. |
+| `baf_process_travel_alerts` | `hourly` | Processes queued local travel alert follow-up email work outside page render without live fare or booking ownership. |
 | `baf_sync_provider_stats` | `hourly` | Records safe provider configuration/status telemetry for future reporting. |
 | `baf_cleanup_job_records` | `daily` | Removes old successful job records and stale job locks. |
 

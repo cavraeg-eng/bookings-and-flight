@@ -8,28 +8,38 @@
 namespace BAF\Core\Frontend;
 
 use BAF\Core\Post_Types\Post_Type_Registrar;
+use BAF\Core\Services\Flight_Alert_Service;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Flight_Alert_Intent_Handler {
 
-	public const ACTION           = 'baf_save_flight_alert';
-	public const NONCE_ACTION     = 'baf_save_flight_alert';
-	public const NONCE_FIELD      = 'baf_alert_nonce';
-	public const STATUS_QUERY_ARG = 'baf_alert_status';
+	public const ACTION              = 'baf_save_flight_alert';
+	public const DELETE_ACTION       = 'baf_delete_flight_alert';
+	public const NONCE_ACTION        = 'baf_save_flight_alert';
+	public const NONCE_FIELD         = 'baf_alert_nonce';
+	public const DELETE_NONCE_ACTION = 'baf_delete_flight_alert';
+	public const DELETE_NONCE_FIELD  = 'baf_alert_delete_nonce';
+	public const STATUS_QUERY_ARG    = 'baf_alert_status';
 
 	private const STATUS_SAVED           = 'saved';
+	private const STATUS_UPDATED         = 'updated';
+	private const STATUS_DELETED         = 'deleted';
 	private const STATUS_INVALID_EMAIL   = 'invalid_email';
 	private const STATUS_MISSING_ROUTE   = 'missing_route';
 	private const STATUS_CONSENT         = 'consent_required';
 	private const STATUS_UNAVAILABLE     = 'unavailable';
 	private const STATUS_INVALID_REQUEST = 'invalid_request';
 	private const STATUS_RATE_LIMITED    = 'rate_limited';
+	private const STATUS_LIMIT_REACHED   = 'limit_reached';
+	private const STATUS_DELETE_INVALID  = 'delete_invalid';
 	private const THROTTLE_SECONDS       = 60;
 
 	public static function bootstrap(): void {
 		add_action( 'admin_post_' . self::ACTION, array( self::class, 'handle_submit' ) );
 		add_action( 'admin_post_nopriv_' . self::ACTION, array( self::class, 'handle_submit' ) );
+		add_action( 'admin_post_' . self::DELETE_ACTION, array( self::class, 'handle_delete' ) );
+		add_action( 'admin_post_nopriv_' . self::DELETE_ACTION, array( self::class, 'handle_delete' ) );
 	}
 
 	public static function handle_submit(): void {
@@ -91,53 +101,57 @@ final class Flight_Alert_Intent_Handler {
 			self::redirect_with_status( $redirect_url, self::STATUS_RATE_LIMITED );
 		}
 
+		$result = ( new Flight_Alert_Service() )->save(
+			array(
+				'origin'      => $origin,
+				'destination' => $destination,
+				'email'       => $email,
+				'user_id'     => $user_id,
+				'frequency'   => $frequency,
+				'cabin'       => $cabin,
+				'depart_date' => $depart_date,
+				'return_date' => $return_date,
+				'travelers'   => $travelers,
+				'surface'     => $surface,
+				'source_url'  => $source_url,
+				'route_id'    => $route_id,
+			)
+		);
+
+		if ( is_wp_error( $result ) ) {
+			$status = 'baf_alert_limit_reached' === $result->get_error_code() ? self::STATUS_LIMIT_REACHED : self::STATUS_UNAVAILABLE;
+			self::redirect_with_status( $redirect_url, $status );
+		}
+
 		self::mark_rate_limited( $email, $route_key );
 
-		$alert_id = wp_insert_post(
-			array(
-				'post_type'   => Post_Type_Registrar::TRAVEL_ALERT,
-				'post_status' => 'private',
-				'post_title'  => sprintf(
-					/* translators: %s: route code pair. */
-					__( 'Flight alert intent: %s', 'bookings-flights-core' ),
-					$route_key
-				),
-				'post_author' => $user_id,
-			),
-			true
-		);
+		$status = 'updated' === (string) ( $result['mode'] ?? '' ) ? self::STATUS_UPDATED : self::STATUS_SAVED;
+		self::redirect_with_status( $redirect_url, $status );
+	}
 
-		if ( is_wp_error( $alert_id ) || $alert_id <= 0 ) {
-			self::redirect_with_status( $redirect_url, self::STATUS_UNAVAILABLE );
+	public static function handle_delete(): void {
+		$data         = self::request_data();
+		$redirect_url = self::redirect_url( self::url_field( $data, 'baf_alert_redirect' ) );
+
+		if ( 'POST' !== self::request_method() ) {
+			self::redirect_with_status( $redirect_url, self::STATUS_DELETE_INVALID );
 		}
 
-		$meta = array(
-			'baf_origin_airport'       => $origin,
-			'baf_destination_airport'  => $destination,
-			'baf_departure_window'     => $depart_date,
-			'baf_return_window'        => $return_date,
-			'baf_alert_route'          => $route_key,
-			'baf_alert_frequency'      => $frequency,
-			'baf_alert_email'          => $email,
-			'baf_alert_user_id'        => (string) $user_id,
-			'baf_alert_route_post_id'  => (string) $route_id,
-			'baf_alert_travelers'      => (string) $travelers,
-			'baf_alert_cabin'          => $cabin,
-			'baf_alert_surface'        => $surface,
-			'baf_alert_source_url'     => $source_url,
-			'baf_alert_consent_at'     => wp_date( DATE_ATOM ),
-			'baf_alert_status'         => 'requested',
-		);
+		$alert_id     = absint( self::field( $data, 'baf_alert_id' ) );
+		$token        = self::field( $data, 'baf_alert_token' );
 
-		foreach ( $meta as $meta_key => $meta_value ) {
-			if ( '' === $meta_value ) {
-				continue;
-			}
+		check_admin_referer( self::delete_nonce_action( $alert_id, $token ), self::DELETE_NONCE_FIELD );
 
-			update_post_meta( (int) $alert_id, $meta_key, $meta_value );
-		}
+		$result       = ( new Flight_Alert_Service() )->delete_by_token( $alert_id, $token );
 
-		self::redirect_with_status( $redirect_url, self::STATUS_SAVED );
+		self::redirect_with_status( $redirect_url, is_wp_error( $result ) ? self::STATUS_DELETE_INVALID : self::STATUS_DELETED );
+	}
+
+	public static function delete_nonce_action( int $alert_id, string $token ): string {
+		$token = preg_replace( '/[^a-f0-9]/', '', strtolower( $token ) );
+		$token = is_string( $token ) ? $token : '';
+
+		return self::DELETE_NONCE_ACTION . '_' . absint( $alert_id ) . '_' . substr( hash( 'sha256', $token ), 0, 16 );
 	}
 
 	public static function normalize_iata( string $value ): string {
@@ -169,6 +183,13 @@ final class Flight_Alert_Intent_Handler {
 		}
 
 		return wp_unslash( $_POST );
+	}
+
+	private static function request_data(): array {
+		$get  = ! empty( $_GET ) && is_array( $_GET ) ? wp_unslash( $_GET ) : array();
+		$post = ! empty( $_POST ) && is_array( $_POST ) ? wp_unslash( $_POST ) : array();
+
+		return array_merge( $get, $post );
 	}
 
 	private static function field( array $data, string $key ): string {
