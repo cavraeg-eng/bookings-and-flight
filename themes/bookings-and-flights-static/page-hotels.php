@@ -138,6 +138,7 @@ $city_guides = new WP_Query(
 
 $destinations_url = get_post_type_archive_link( 'destination' );
 $destinations_url = is_string( $destinations_url ) && '' !== $destinations_url ? $destinations_url : home_url( '/destinations/' );
+$placement_channel = 'home' === $surface ? 'homepage' : 'search_page';
 
 get_header();
 ?>
@@ -282,6 +283,20 @@ get_header();
 		</div>
 	</section>
 
+	<?php
+	get_template_part(
+		'template-parts/hotel-discovery-placements',
+		null,
+		array(
+			'title'       => __( 'Map and listing handoffs for live comparison', 'bookings_and_flights' ),
+			'description' => __( 'Keep planning context in WordPress, then open the partner-owned map and listing surfaces for live hotel comparison and booking details.', 'bookings_and_flights' ),
+			'channel'     => $placement_channel,
+			'slug_prefix' => 'hotels_landing',
+			'details'     => $details,
+		)
+	);
+	?>
+
 	<div id="hotels-provider-search" class="search-page__content search-page__content--provider">
 		<?php
 		get_template_part(
@@ -290,7 +305,7 @@ get_header();
 			array(
 				'placement'        => 'hotels_partner_search',
 				'surface'          => 'hotels',
-				'channel'          => 'home' === $surface ? 'homepage' : 'search_page',
+				'channel'          => $placement_channel,
 				'slug'             => 'hotel_search',
 				'class'            => 'search-placement--hotels',
 				'eyebrow'          => __( 'Hotels partner surface', 'bookings_and_flights' ),

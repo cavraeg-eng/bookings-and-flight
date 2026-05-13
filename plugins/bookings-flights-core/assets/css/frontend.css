@@ -164,7 +164,7 @@
 	width: 100%;
 }
 
-.baf-travelpayouts-widget--hotels .baf-travelpayouts-widget__iframe-frame {
+.baf-travelpayouts-widget--placement-hotels_partner_search .baf-travelpayouts-widget__iframe-frame {
 	height: 96px;
 	min-height: 96px;
 }
@@ -177,7 +177,7 @@
 	width: 100%;
 }
 
-.baf-travelpayouts-widget--hotels iframe {
+.baf-travelpayouts-widget--placement-hotels_partner_search iframe {
 	min-height: 220px;
 	transform: translateY(-112px);
 }
@@ -327,7 +327,7 @@
 		min-height: min(420px, var(--baf-widget-mobile-min-height, 640px));
 	}
 
-	.baf-travelpayouts-widget--hotels .baf-travelpayouts-widget__iframe-frame {
+	.baf-travelpayouts-widget--placement-hotels_partner_search .baf-travelpayouts-widget__iframe-frame {
 		height: 84px;
 		min-height: 84px;
 	}
@@ -336,7 +336,7 @@
 		min-height: min(420px, var(--baf-widget-mobile-min-height, 640px));
 	}
 
-	.baf-travelpayouts-widget--hotels iframe {
+	.baf-travelpayouts-widget--placement-hotels_partner_search iframe {
 		min-height: 220px;
 		transform: translateY(-122px);
 	}

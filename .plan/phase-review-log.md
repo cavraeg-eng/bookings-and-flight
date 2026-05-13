@@ -2130,3 +2130,42 @@ Research consulted:
 - Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
 
 Decision: P16.2 local implementation and review gate passed. Keep Phase 16 overall `In Progress` until the remaining hotel/stays issues pass review and merge.
+
+## Phase 16.3 Review - 2026-05-13
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-102` Hotel widget/table/map placements and SubIDs. Reviewed Phase 16 objective, Travelpayouts widget/SubID guidance, P16.1 Hotels page, P16.2 city guide templates, Phase 13 registry contracts, current Trip.com hotel partner URL behavior, placement frame CSS, source output, desktop/mobile runtime screenshots, and keyboard navigation.
+
+Acceptance criteria result: Passed locally for the PR candidate. The registry schema now seeds `hotels_map_handoff` and `hotels_listing_handoff` companion placements when the existing hotel partner URL is safe for direct handoff. `/hotels/` and destination guide pages render a reusable hotel partner tools section with visible disclosure, map/listing copy, provider-owned booking boundaries, and unique readable SubIDs. The compact Trip.com search iframe crop is now scoped to `hotels_partner_search` only, so future hotel map/listing iframes are not clipped by that search-bar treatment.
+
+Security review: Passed locally. No public REST routes, custom SQL, provider API calls, custom tables, cron jobs, direct checkout, payment path, or private-data write path was added. Registry private URLs remain stored in `baf_travelpayouts_widget_registry` and are read only by trusted server-side rendering. Templates sanitize class/channel/slug values and escape rendered copy, URLs, attributes, and details. Source scans found no app-owned PHP warnings, API keys, tokens, authorization headers, bearer strings, postback secrets, passwords, direct-checkout claims, auto-booking, Booking.com White Label promises, unavailable-placement state, or WordPress-owned hotel inventory claim.
+
+REST permission review: Not applicable. P16.3 added no REST endpoints and did not change public REST exposure.
+
+Database/migration review: Passed for scope. No custom tables or destructive migrations were added. The non-autoloaded registry option migrates from schema `1.0.2` to `1.0.3` idempotently, seeding only missing hotel companion placements and preserving later admin edits. Local registry smoke confirmed schema `1.0.3`, active `hotels_map_handoff`, active `hotels_listing_handoff`, and configured Trip.com handoff URLs.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Desktop/mobile screenshots confirmed Hotels and destination guide companion sections render without horizontal overflow, duplicate IDs, clipped handoff controls, blank pages, or app-owned console/request failures. Keyboard navigation reached `Open hotel map` and `Open hotel listings` with visible focus. Link-only companion cards were tightened after visual review so they no longer reserve a large blank map/table frame when rendering only a handoff link.
+
+Regression review: Existing `hotels_partner_search` iframe/handoff behavior, P16.1 hotel intent module, P16.2 city guide provider placement, Phase 13 consent/missing/no-script states, public SubID convention, and the Travelpayouts-controlled backend boundary remain intact. The shared placement part now supports multiple CSS classes safely, and the renderer adds widget-family/placement-key classes without exposing private registry data.
+
+Validation performed: PHP syntax for changed PHP files; file-size checks; `git diff --check`; Local-socket WP-CLI registry migration and plugin status checks; HTTP/source smoke for `/hotels/` and a temporary destination guide; source scans for companion placements, CSS handles, SubIDs, disclosure, secrets, app warnings, and unsupported hotel claims; Playwright Chromium desktop/mobile screenshots, companion-section screenshots, console/request health, duplicate-ID and overflow checks, card-height checks, and keyboard navigation; Playwright admin smoke for `hotels_listing_handoff` family editing after Codex PR review; temporary destination and temporary admin-user cleanup.
+
+Bugs found: WP-CLI initially failed against the default `localhost` socket outside Local's wrapper; using the Local `qRHZasMmV` MySQL socket resolved validation. Code review found the shared placement part collapsed multi-class strings into a single sanitized class. Visual review found link-only handoff cards reserved too much empty space before the button. Codex PR review found that the admin widget-family dropdowns did not include the new `hotel_listing` value, so saving `hotels_listing_handoff` could silently rewrite its family.
+
+Bugs fixed: The validation command now uses the Local MySQL socket. The shared placement part now sanitizes multi-class strings class-by-class. Link-only hotel companion cards now use compact body sizing while future map/listing iframes remain protected by placement-specific frame metadata. The admin placement form and placement page now expose `hotel_listing` in their widget-family choices. Browser and keyboard checks were rerun after the layout fix.
+
+Bugs deferred: Provider-owned Trip.com runtime behavior remains watchlist-only when app-owned checks pass. Dedicated hotel map/listing/table embeds still depend on Travelpayouts or partner dashboard code being available; until then the companion placements are honest sponsored handoff links with SubID tracking.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Code Reference: `wp_enqueue_style()`.
+- WordPress Code Reference: `esc_html()`.
+- WordPress Code Reference: `esc_url()`.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: Travelpayouts White Label Web Setup Guide.
+
+Decision: P16.3 local implementation and review gate passed. Keep Phase 16 overall `In Progress` until handoff-language guardrails, mobile/source review, and final Phase 16 review issues pass and merge.

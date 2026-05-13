@@ -360,6 +360,8 @@ final class Travelpayouts_Widget_Renderer {
 			self::DEFAULT_CLASS,
 			self::DEFAULT_CLASS . '--' . sanitize_html_class( (string) ( $placement['vertical'] ?? 'travel' ) ),
 			self::DEFAULT_CLASS . '--' . sanitize_html_class( (string) ( $placement['render_mode'] ?? 'placement' ) ),
+			self::DEFAULT_CLASS . '--' . sanitize_html_class( (string) ( $placement['widget_family'] ?? 'widget' ) ),
+			self::DEFAULT_CLASS . '--placement-' . sanitize_html_class( (string) ( $placement['key'] ?? $attributes['placement'] ?? 'placement' ) ),
 			'is-' . sanitize_html_class( $state ),
 		);
 		$extra_class = (string) ( $attributes['class'] ?? '' );
