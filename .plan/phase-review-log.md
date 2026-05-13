@@ -2492,3 +2492,48 @@ Research consulted:
 - WordPress Developer Resources: `admin_notices`.
 
 Decision: P17.5 completed after PR #46 merged on 2026-05-13 with merge commit `ebad31731f8f3c4f7667833b9cb3d601fa34dffb`. Keep Phase 17 overall `In Progress` until the remaining accessibility/SEO/disclosure and final-review issues pass review and merge.
+
+## Phase 17.6 Review - 2026-05-13
+
+Status: `In Review`
+
+Reviewer: Codex
+
+Linear issue: `ONE-111`
+
+Scope reviewed: `ONE-111` accessibility, responsive, SEO, and disclosure pass. Reviewed Phase 17 objective, destination/route/deal/taxonomy public template output, Travelpayouts placement wrappers, affiliate disclosure visibility, transient Flights/Hotels query SEO behavior, real runtime screenshots, keyboard navigation, source output, and documentation alignment.
+
+Acceptance criteria result: Passed locally for the PR candidate. Destination, route, deal, taxonomy, destination archive, routes archive, and travel-deals archive surfaces render as WordPress-owned SEO/editorial pages with visible disclosure boundaries. Transient Flights and Hotels query URLs remain noindex handoff/search states that canonicalize to their base search pages.
+
+Security review: Passed locally. P17.6 added no REST endpoints, provider API calls, custom SQL, options, custom tables, cron jobs, checkout, payment paths, booking behavior, auto-publishing, or private-data writes. The official widget renderer continues to escape wrapper attributes and JSON-encode the generated iframe title before inline script use.
+
+REST permission review: Not applicable. P17.6 added no REST endpoints and did not change REST exposure.
+
+Database/migration review: Passed for scope. No schema migration, custom table, option migration, or destructive data change was added. Temporary browser QA posts and taxonomy terms are cleanup-only validation data.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Playwright Chromium screenshots covered destination, route, deal, taxonomy, and archive surfaces at desktop plus mobile/narrow layouts, and keyboard screenshots confirmed focus paths through destination, route, deal, and taxonomy pages. Final checks found no horizontal overflow, duplicate IDs, hidden disclosure text, unnamed links, missing image alt findings, app-owned console errors, blocking failed requests, blank pages, framework overlays, or sub-44px visible interactive targets.
+
+Regression review: Existing P17.1 destination guides, P17.2 route guides, P17.3 deal templates, P17.4 taxonomy archives, P17.5 editor metadata, Phase 15 transient flight-query SEO behavior, Phase 16 hotel-intent SEO behavior, Phase 13 placement wrappers, SubID/disclosure boundaries, and provider-owned booking/payment/support language remain intact.
+
+Validation performed: PHP syntax checks for changed PHP files; file-size checks; `git diff --check`; plugin activation check; Playwright Chromium accessibility/responsive/source/SEO review across destination, route, deal, taxonomy, destination archive, routes archive, deals archive, transient Flights query, and transient Hotels query states; keyboard navigation review; visual screenshot review; focused mobile runtime follow-up for the tightened destination fallback copy; temporary fixture cleanup.
+
+Bugs found: The first strict runtime pass found the route alert consent checkbox had a sub-44px target, the route-map provider iframe mounted without a title, deal and taxonomy card title links could render below 44px, and default destination seasonal guidance still used "guaranteed availability" language.
+
+Bugs fixed: `frontend.css` now gives the alert consent row and checkbox a larger touch target, `Official_Shortcode_Renderer` now labels descendant provider iframes even when they are inserted late by provider scripts, deal/taxonomy card title links now keep a 44px minimum target, and the destination seasonal fallback copy now avoids guaranteed or confirmed live-availability claims.
+
+Bugs deferred: No app-owned P17.6 blocker remains after the local gate. Provider-owned Travelpayouts/Aviasales WebGL, Babel, and GraphQL console warnings remain watchlist-only when app-owned checks pass. WP-CLI emitted the known local PHP 8.5 deprecation noise from WP-CLI internals and the third-party Travelpayouts plugin, but plugin activation and cleanup completed. `plugins/bookings-flights-core/assets/css/frontend.css` is now 590 lines and should be split before future substantial core frontend CSS expansion.
+
+Documentation updated: `.plan/phase-17-accessibility-seo-disclosure-review.md`, `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Coding Standards Handbook: Accessibility Coding Standards.
+- WordPress Common APIs Handbook: Escaping Data.
+- WordPress Developer Resources: `wp_robots`.
+- WordPress Theme Handbook: Template Hierarchy.
+- Travelpayouts Help Center: What is White Label Web by Travelpayouts?
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+- Travelpayouts Help Center: ID and SubID (Affiliate marker and additional marker).
+- Travelpayouts Help Center: Getting started with widgets.
+- FTC Business Guidance: Disclosures 101 for Social Media Influencers.
+
+Decision: P17.6 local implementation and review gate passed. Keep Phase 17 overall `In Progress` until PR review, merge, Linear sync, and the remaining final Phase 17 review issue are complete.

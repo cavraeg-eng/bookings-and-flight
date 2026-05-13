@@ -1261,3 +1261,41 @@ Related files/routes/settings:
 - `baf_destination_seasonal`
 - `/destinations/`
 - `/destinations/{destination}/`
+
+## Phase 17 Accessibility SEO Disclosure Gate
+
+Fragile area: destination, route, deal, taxonomy, and archive public surfaces; transient Flights/Hotels query SEO behavior; provider widget iframe accessibility; affiliate disclosure visibility; touch-target sizing; and Travelpayouts-owned runtime warnings.
+
+Why risky: Phase 17 pages combine indexable WordPress SEO/editorial content with monetized provider handoffs. Small copy, CSS, or wrapper changes can accidentally imply live availability, shrink interactive controls below mobile target expectations, hide disclosures, index transient search URLs, or treat provider-owned iframe/script warnings as app-owned failures.
+
+What to check after future changes:
+
+- Destination, route, deal, taxonomy, and archive pages render one H1, visible disclosure copy, meaningful canonical URLs, and no app-owned console or request failures.
+- Transient `/flights/` and `/hotels/` query URLs continue to render `noindex, follow` and canonicalize to their base search pages.
+- Public taxonomy archives remain indexable WordPress-owned internal-linking surfaces and do not expose private/non-public content.
+- Visible interactive controls on reviewed public surfaces keep at least 44px target height where they behave as touch/click controls.
+- Provider iframe output gets an accessible title when rendered through the official wrapper and does not become a blank or unnamed focus stop.
+- Source scans find no API keys, authorization/bearer strings, postback secrets, direct checkout, auto-booking, guaranteed availability, confirmed live availability, fake price, fake scarcity, or local live-inventory claims.
+- Desktop/mobile/narrow screenshots show no horizontal overflow, clipped controls, hidden disclosures, blank pages, framework overlays, or fixed-header overlap.
+- Keyboard navigation reaches provider handoffs, alert consent/signup controls, internal content links, taxonomy cards, and archive cards with visible focus.
+- Provider-owned Travelpayouts/Aviasales WebGL, Babel, and GraphQL warnings remain separated from app-owned console or request failures.
+- `plugins/bookings-flights-core/assets/css/frontend.css` should be split before future substantial core frontend CSS expansion because it is currently 590 lines.
+
+Related files/routes/settings:
+
+- `plugins/bookings-flights-core/assets/css/frontend.css`
+- `plugins/bookings-flights-core/includes/frontend/class-official-shortcode-renderer.php`
+- `plugins/bookings-flights-core/includes/frontend/class-flight-alert-signup-shortcode.php`
+- `themes/bookings-and-flights-static/assets/css/deal-surface.css`
+- `themes/bookings-and-flights-static/assets/css/taxonomy-surface.css`
+- `themes/bookings-and-flights-static/single-destination.php`
+- `themes/bookings-and-flights-static/inc/seo-metadata.php`
+- `/destinations/`
+- `/destinations/{destination}/`
+- `/routes/`
+- `/routes/{route}/`
+- `/travel-deals/`
+- `/travel-deals/{deal}/`
+- `/travel-regions/{term}/`
+- `/flights/?origin={code}&destination={code}`
+- `/hotels/?travel_destination={destination}`

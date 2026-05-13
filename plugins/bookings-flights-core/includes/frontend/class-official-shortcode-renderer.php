@@ -27,22 +27,30 @@ final class Official_Shortcode_Renderer {
 			return '';
 		}
 
-		$wrapper_id      = wp_unique_id( 'baf-official-widget-' );
-		$wrapper_id_json = wp_json_encode( $wrapper_id );
+		$wrapper_id       = wp_unique_id( 'baf-official-widget-' );
+		$wrapper_id_json  = wp_json_encode( $wrapper_id );
+		$frame_title_json = wp_json_encode(
+			sprintf(
+				/* translators: %s: Travelpayouts shortcode reference. */
+				__( '%s partner travel widget', 'bookings-flights-core' ),
+				str_replace( '_', ' ', $reference )
+			)
+		);
 
-		if ( false === $wrapper_id_json ) {
+		if ( false === $wrapper_id_json || false === $frame_title_json ) {
 			return '';
 		}
 
 		return sprintf(
-			'<div class="baf-travelpayouts-widget__provider baf-travelpayouts-widget__provider--official is-loading" id="%1$s" data-baf-official-shortcode="%2$s"><p class="baf-travelpayouts-widget__loading" role="status">%3$s</p><div class="baf-travelpayouts-widget__official-output">%4$s</div><div class="baf-travelpayouts-widget__fallback" role="status">%5$s</div></div><script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">(function(){var wrapper=document.getElementById(%6$s);if(!wrapper){return;}var output=wrapper.querySelector(".baf-travelpayouts-widget__official-output");if(!output){return;}var observer=null;function textLength(){var clone=output.cloneNode(true);clone.querySelectorAll("script,noscript,style").forEach(function(node){node.remove();});return clone.textContent.trim().length;}function hasShadowContent(){return Array.prototype.some.call(output.querySelectorAll("*"),function(node){return !!(node.shadowRoot&&(node.shadowRoot.children.length>0||node.shadowRoot.textContent.trim()!==""));});}function hasContent(){return !!output.querySelector("iframe,form,table,canvas,svg,[data-reactroot]")||hasShadowContent()||textLength()>20;}function refreshFrames(){output.querySelectorAll("iframe").forEach(function(frame){if(frame.getAttribute("data-baf-visible-refresh")==="1"){return;}frame.setAttribute("data-baf-visible-refresh","1");if(frame.src){frame.src=frame.src;}});}function markLoaded(){wrapper.classList.remove("is-loading");wrapper.classList.remove("is-unavailable");wrapper.classList.add("is-loaded");if(observer){observer.disconnect();}}function markUnavailable(){wrapper.classList.remove("is-loading");wrapper.classList.remove("is-loaded");wrapper.classList.add("is-unavailable");if(observer){observer.disconnect();}}function update(forceUnavailable){if(hasContent()){markLoaded();return true;}if(forceUnavailable){markUnavailable();return true;}return false;}if("MutationObserver" in window){observer=new MutationObserver(function(){update(false);});observer.observe(output,{childList:true,subtree:true});}if("IntersectionObserver" in window){var frameObserver=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){refreshFrames();frameObserver.disconnect();}});});frameObserver.observe(wrapper);}else{window.setTimeout(refreshFrames,1200);}var checks=0;var maxChecks=24;var timer=window.setInterval(function(){checks+=1;var done=update(checks>=maxChecks);if(done||checks>=maxChecks){window.clearInterval(timer);}},500);update(false);}());</script>',
+			'<div class="baf-travelpayouts-widget__provider baf-travelpayouts-widget__provider--official is-loading" id="%1$s" data-baf-official-shortcode="%2$s"><p class="baf-travelpayouts-widget__loading" role="status">%3$s</p><div class="baf-travelpayouts-widget__official-output">%4$s</div><div class="baf-travelpayouts-widget__fallback" role="status">%5$s</div></div><script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">(function(){var wrapper=document.getElementById(%6$s);var frameTitle=%7$s;if(!wrapper){return;}var output=wrapper.querySelector(".baf-travelpayouts-widget__official-output");if(!output){return;}var observer=null;function labelFrames(){output.querySelectorAll("iframe").forEach(function(frame){if(!frame.getAttribute("title")){frame.setAttribute("title",frameTitle);}});}function textLength(){var clone=output.cloneNode(true);clone.querySelectorAll("script,noscript,style").forEach(function(node){node.remove();});return clone.textContent.trim().length;}function hasShadowContent(){return Array.prototype.some.call(output.querySelectorAll("*"),function(node){return !!(node.shadowRoot&&(node.shadowRoot.children.length>0||node.shadowRoot.textContent.trim()!==""));});}function hasContent(){labelFrames();return !!output.querySelector("iframe,form,table,canvas,svg,[data-reactroot]")||hasShadowContent()||textLength()>20;}function refreshFrames(){output.querySelectorAll("iframe").forEach(function(frame){if(!frame.getAttribute("title")){frame.setAttribute("title",frameTitle);}if(frame.getAttribute("data-baf-visible-refresh")==="1"){return;}frame.setAttribute("data-baf-visible-refresh","1");if(frame.src){frame.src=frame.src;}});}function markLoaded(){labelFrames();wrapper.classList.remove("is-loading");wrapper.classList.remove("is-unavailable");wrapper.classList.add("is-loaded");if(observer){observer.disconnect();}}function markUnavailable(){wrapper.classList.remove("is-loading");wrapper.classList.remove("is-loaded");wrapper.classList.add("is-unavailable");if(observer){observer.disconnect();}}function update(forceUnavailable){if(hasContent()){markLoaded();return true;}if(forceUnavailable){markUnavailable();return true;}return false;}if("MutationObserver" in window){observer=new MutationObserver(function(){labelFrames();update(false);});observer.observe(output,{childList:true,subtree:true});}if("IntersectionObserver" in window){var frameObserver=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){refreshFrames();frameObserver.disconnect();}});});frameObserver.observe(wrapper);}else{window.setTimeout(refreshFrames,1200);}var checks=0;var maxChecks=24;var timer=window.setInterval(function(){checks+=1;var done=update(checks>=maxChecks);if(done||checks>=maxChecks){window.clearInterval(timer);}},500);labelFrames();update(false);}());</script>',
 			esc_attr( $wrapper_id ),
 			esc_attr( $reference ),
 			esc_html__( 'Loading partner flight discovery...', 'bookings-flights-core' ),
 			// Approved official Travelpayouts shortcode output can include provider scripts/iframes.
 			$output,
 			esc_html__( 'This Travelpayouts discovery widget could not load. Try refreshing the page or use the main flight handoff above.', 'bookings-flights-core' ),
-			$wrapper_id_json
+			$wrapper_id_json,
+			$frame_title_json
 		);
 	}
 

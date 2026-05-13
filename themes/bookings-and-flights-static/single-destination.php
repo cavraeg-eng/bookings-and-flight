@@ -165,7 +165,7 @@ get_header();
 			array(
 				'label' => __( 'Seasonal angle', 'bookings_and_flights' ),
 				'title' => __( 'Seasonal trip ideas', 'bookings_and_flights' ),
-				'copy'  => '' !== $seasonal_notes ? $seasonal_notes : __( 'Use seasonal modules for flexible-month and theme planning without claiming live rates, scarcity, or guaranteed availability.', 'bookings_and_flights' ),
+				'copy'  => '' !== $seasonal_notes ? $seasonal_notes : __( 'Use seasonal modules for flexible-month and theme planning without claiming live rates, scarcity, or availability commitments.', 'bookings_and_flights' ),
 			),
 		);
 
