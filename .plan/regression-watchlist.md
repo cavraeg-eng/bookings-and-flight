@@ -42,6 +42,39 @@ Related files/routes/tables/settings:
 - `baf_consent_settings`
 - `baf_travelpayouts_widget_registry`
 
+## Phase 19 Retention Data Lifecycle
+
+Fragile area: Saved-trip records, alert records, local email follow-up, signed delete links, privacy/export behavior, and retention copy.
+
+Why risky: Phase 19 intentionally stores local intent while providers still own live search, results, fares, booking, payment, changes, and support. Future work could accidentally store provider-owned inventory or booking data, leak private alert/trip data, remove deletion paths, send repeated emails, or overpromise live monitoring.
+
+What to check after future changes:
+
+- Saved trips remain private `trip_plan` records owned by the signed-in user and never store provider booking IDs, payment data, confirmation numbers, live availability, provider URLs, raw AI prompts, AI itinerary JSON, or AI handoff intents.
+- Saved-trip REST routes remain nonce-protected, owner-scoped, and consent-gated for writes.
+- Alert records remain private `travel_alert` posts with minimized local route/watch metadata only.
+- Alert form writes keep nonce, consent, email validation, route-code validation, safe redirects, and short per-client/email/route throttling.
+- Duplicate alert submissions for the same email/route update the existing record rather than creating unbounded duplicates.
+- Per-email active/pending alert limits remain enforced before creating a new route alert.
+- `baf_process_travel_alerts` remains idempotent: already-sent/active alerts are not emailed repeatedly.
+- Alert emails and frontend copy keep provider-owned live fare, booking, payment, changes, and support language visible.
+- Signed alert delete links permanently delete the private alert record and do not rely on plaintext stored tokens.
+- Alert and saved-trip cleanup checks confirm temporary validation records are removed.
+- P19.3 personal-data export/erase work must cover both saved trips and alerts without exposing unrelated users' records.
+
+Related files/routes/settings:
+
+- `plugins/bookings-flights-core/includes/services/class-saved-trip-service.php`
+- `plugins/bookings-flights-core/includes/services/class-flight-alert-service.php`
+- `plugins/bookings-flights-core/includes/frontend/class-flight-alert-intent-handler.php`
+- `plugins/bookings-flights-core/includes/frontend/class-flight-alert-signup-shortcode.php`
+- `plugins/bookings-flights-core/includes/jobs/class-job-runner.php`
+- `plugins/bookings-flights-core/includes/cron/class-cron-manager.php`
+- `plugins/bookings-flights-core/includes/rest/class-saved-trips-controller.php`
+- `/saved-trips/`
+- `/flights/`
+- `baf_process_travel_alerts`
+
 ## Phase 12 Public Information Architecture
 
 Fragile area: Public sitemap, primary navigation, page ownership, CPT archive/single routing, and SEO page family ownership.

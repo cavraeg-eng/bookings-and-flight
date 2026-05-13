@@ -316,15 +316,15 @@ get_header();
 
 			<div class="home-retention" aria-labelledby="home-retention-title">
 				<div class="home-module__header">
-					<h3 id="home-retention-title">Keep planning without pretending every workflow is active</h3>
-					<p>Alert workflows stay staged while the AI planner turns local trip intent into editable briefs.</p>
+					<h3 id="home-retention-title">Keep planning inside the WordPress shell</h3>
+					<p>Save local alert and trip intent while providers continue to own live fares, booking, and support.</p>
 				</div>
 
 				<div class="home-retention__grid">
 					<a id="price-alerts" class="home-retention-card" href="<?php echo esc_url( add_query_arg( array( 'travel_focus' => 'price_alert', 'baf_surface' => 'home' ), $flight_search_url ) ); ?>">
-						<span class="home-retention-card__label">Price alert preview</span>
-						<span class="home-retention-card__title">Watch a route later</span>
-						<span class="home-retention-card__text">Alerts are not active yet. Start with provider-owned flight search now, then return when saved alert capture is enabled.</span>
+						<span class="home-retention-card__label">Price alert intent</span>
+						<span class="home-retention-card__title">Watch a route locally</span>
+						<span class="home-retention-card__text">Start with provider-owned flight search, then save local alert intent with email follow-up and a delete link.</span>
 						<span class="home-retention-card__action">Open flight handoff</span>
 					</a>
 

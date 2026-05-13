@@ -64,7 +64,7 @@ final class Flight_Alert_Signup_Shortcode {
 			<div class="baf-flight-alert__content">
 				<p class="baf-flight-alert__eyebrow"><?php esc_html_e( 'Price alerts', 'bookings-flights-core' ); ?></p>
 				<h2 id="<?php echo esc_attr( $title_id ); ?>" class="baf-flight-alert__title"><?php esc_html_e( 'Save this route as a local watch intent', 'bookings-flights-core' ); ?></h2>
-				<p class="baf-flight-alert__copy"><?php esc_html_e( 'Bookings and Flights stores the alert request locally. Travelpayouts or the partner provider still controls live fares, result filters, booking, payment, changes, and support.', 'bookings-flights-core' ); ?></p>
+				<p class="baf-flight-alert__copy"><?php esc_html_e( 'Bookings and Flights stores the alert request locally and can send a delete link after the queue processes it. Travelpayouts or the partner provider still controls live fares, result filters, booking, payment, changes, and support.', 'bookings-flights-core' ); ?></p>
 			</div>
 
 			<?php if ( ! post_type_exists( Post_Type_Registrar::TRAVEL_ALERT ) ) : ?>
@@ -111,7 +111,7 @@ final class Flight_Alert_Signup_Shortcode {
 
 					<label class="baf-flight-alert__consent">
 						<input type="checkbox" name="baf_alert_consent" value="1" required>
-						<span><?php esc_html_e( 'Store my email and route watch intent locally so Bookings and Flights can manage this alert request. I understand live fares and booking support remain with the provider.', 'bookings-flights-core' ); ?></span>
+						<span><?php esc_html_e( 'Store my email and route watch intent locally and send me alert-management email. I understand live fares and booking support remain with the provider.', 'bookings-flights-core' ); ?></span>
 					</label>
 
 					<button class="baf-flight-alert__submit" type="submit"><?php esc_html_e( 'Save alert intent', 'bookings-flights-core' ); ?></button>
@@ -131,7 +131,17 @@ final class Flight_Alert_Signup_Shortcode {
 		$status = sanitize_key( wp_unslash( $_GET[ Flight_Alert_Intent_Handler::STATUS_QUERY_ARG ] ) );
 		$map    = array(
 			'saved'           => array(
-				'text' => __( 'Your alert intent was saved locally. Confirm live prices and booking details inside the provider search before buying.', 'bookings-flights-core' ),
+				'text' => __( 'Your alert intent was saved locally. The alert queue will try to send a confirmation email with a delete link. Confirm live prices and booking details inside the provider search before buying.', 'bookings-flights-core' ),
+				'tone' => 'success',
+				'role' => 'status',
+			),
+			'updated'         => array(
+				'text' => __( 'Your existing alert intent was updated locally. Confirm live prices and booking details inside the provider search before buying.', 'bookings-flights-core' ),
+				'tone' => 'success',
+				'role' => 'status',
+			),
+			'deleted'         => array(
+				'text' => __( 'Your local alert intent was deleted.', 'bookings-flights-core' ),
 				'tone' => 'success',
 				'role' => 'status',
 			),
@@ -162,6 +172,16 @@ final class Flight_Alert_Signup_Shortcode {
 			),
 			'rate_limited'    => array(
 				'text' => __( 'Please wait a minute before saving another alert for this route.', 'bookings-flights-core' ),
+				'tone' => 'error',
+				'role' => 'alert',
+			),
+			'limit_reached'   => array(
+				'text' => __( 'This email has reached the active alert limit. Delete an existing alert before adding another route.', 'bookings-flights-core' ),
+				'tone' => 'error',
+				'role' => 'alert',
+			),
+			'delete_invalid'  => array(
+				'text' => __( 'The alert delete link is invalid or the alert was already deleted.', 'bookings-flights-core' ),
 				'tone' => 'error',
 				'role' => 'alert',
 			),

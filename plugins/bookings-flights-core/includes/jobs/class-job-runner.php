@@ -7,8 +7,8 @@
 
 namespace BAF\Core\Jobs;
 
-use BAF\Core\Post_Types\Post_Type_Registrar;
 use BAF\Core\Reports\Provider_Stats_Repository;
+use BAF\Core\Services\Flight_Alert_Service;
 use BAF\Core\Settings\Settings_Manager;
 
 defined( 'ABSPATH' ) || exit;
@@ -54,23 +54,7 @@ final class Job_Runner {
 		self::run(
 			'process_travel_alerts',
 			static function (): array {
-				$query = new \WP_Query(
-					array(
-						'post_type'              => Post_Type_Registrar::TRAVEL_ALERT,
-						'post_status'            => array( 'publish', 'private' ),
-						'posts_per_page'         => 20,
-						'fields'                 => 'ids',
-						'no_found_rows'          => true,
-						'update_post_meta_cache' => false,
-						'update_post_term_cache' => false,
-					)
-				);
-
-				return array(
-					'status'  => 'success',
-					'message' => __( 'Travel alert queue checked.', 'bookings-flights-core' ),
-					'data'    => array( 'eligible_alerts' => (string) count( $query->posts ) ),
-				);
+				return ( new Flight_Alert_Service() )->process_pending_alerts( 20 );
 			}
 		);
 	}

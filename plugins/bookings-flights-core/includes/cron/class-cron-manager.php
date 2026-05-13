@@ -75,7 +75,7 @@ final class Cron_Manager {
 			self::HOOK_PROCESS_ALERTS => array(
 				'label'       => __( 'Process travel alerts', 'bookings-flights-core' ),
 				'recurrence'  => 'hourly',
-				'description' => __( 'Checks queued travel alert work and records safe deferrals until alert workflows are enabled.', 'bookings-flights-core' ),
+				'description' => __( 'Processes queued local travel alert intent follow-up emails without live fare or booking ownership.', 'bookings-flights-core' ),
 			),
 			self::HOOK_SYNC_STATS     => array(
 				'label'       => __( 'Sync provider stats', 'bookings-flights-core' ),

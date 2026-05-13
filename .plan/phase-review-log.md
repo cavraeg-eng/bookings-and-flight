@@ -2936,3 +2936,46 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID.
 
 Decision: P19.1 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
+
+### P19.2 — Price alert intent, limits, and email/cron hooks
+
+Date: 2026-05-13
+
+Status: In Review
+
+Reviewer: Codex
+
+Linear issue: `ONE-121`
+
+Scope reviewed: Price alert intent lifecycle. Reviewed Phase 19 objective, existing P15.5 alert capture, private `travel_alert` CPT/meta, `admin-post.php` form actions, consent copy, cron/job runner behavior, `wp_mail()` follow-up, Travelpayouts handoff language, and privacy/delete requirements.
+
+Acceptance criteria result: Passed locally for the PR candidate. Alert intent capture now stores bounded local watch intent, deduplicates existing email/route records, caps each email at ten active or pending route alerts, records email follow-up state, processes pending confirmation/manage emails through the hourly alert cron job, and gives users a signed email delete link that permanently removes the private alert record.
+
+Security review: Passed locally. Alert submission still requires a WordPress nonce, explicit consent, email validation, route-code validation, safe redirects, and a short per-client/email/route throttle. The delete link uses a signed token derived from private alert metadata plus WordPress salts and does not store plaintext delete tokens. Email and frontend copy keep Travelpayouts/provider ownership of live fares, filters, booking, payment, changes, and support explicit. No provider credentials, API tokens, raw prompts, provider payloads, booking IDs, payment data, live prices, or private AI/session data are exposed or logged by this workflow.
+
+REST permission review: Passed for scope. P19.2 adds no REST endpoint and does not expose `travel_alert` meta through REST. Form actions remain routed through `admin-post.php`; alert administration remains capability-gated through the private CPT capability mapping.
+
+Database/migration review: No custom table, migration, or destructive schema change. New registered private alert meta keys are `baf_alert_email_status`, `baf_alert_email_sent_at`, `baf_alert_email_last_attempt_at`, and `baf_alert_updated_at`.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser path was attempted first, but no active browser pane was available, so Playwright Chromium was used. Evidence includes desktop form, desktop saved state, and mobile form screenshots at `/tmp/one121-alert-*.png`; the final report is `/tmp/one121-runtime-review-report.json` with `status=pass` and `findingCount=0`.
+
+Regression review: Existing P15.5 alert validation, P15 flight handoff boundaries, P18 AI planner restrictions, and P19.1 saved-trip deletion remain intact. The alert cron job sends local alert-management email only; it does not call Travelpayouts, execute provider searches, create live provider links beyond the existing `/flights/` handoff, book, pay, or store live inventory.
+
+Validation performed: PHP syntax checks for changed PHP files; `git diff --check`; `bookings-flights-core` deactivate/reactivate/is-active checks; focused WP-CLI alert service/cron/email/delete smoke with 35 assertions; real missing-nonce `admin-post.php` permission failure check; alert follow-up meta registration check; Playwright Chromium runtime screenshots and keyboard review; source-secret, app-owned console/request, horizontal-overflow, and cleanup checks.
+
+Bugs found: Code review found that success copy was too absolute about email delivery despite `wp_mail()` being allowed to fail or defer. Runtime validation found no app-owned production-code bug.
+
+Bugs fixed: Adjusted alert copy to say the queue will try to send confirmation/delete email, while keeping explicit provider-boundary language. No runtime bug patch was required after the Playwright pass.
+
+Bugs deferred: WordPress personal-data exporter/eraser integration remains planned for P19.3 (`ONE-122`). P19.2 provides immediate alert deletion through signed manage links. Broader privacy export/erase, analytics/reporting, release-readiness, and final Phase 19 gates remain later child issues.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-19-alerts-review.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Common APIs Handbook: Nonces.
+- WordPress Plugin Handbook: Cron.
+- WordPress Code Reference: `wp_mail()`.
+- WordPress Code Reference: `admin_post_{$action}`.
+- WordPress Common APIs Handbook: Sanitizing Data.
+
+Decision: P19.2 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
