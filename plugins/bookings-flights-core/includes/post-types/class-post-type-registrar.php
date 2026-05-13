@@ -230,7 +230,9 @@ final class Post_Type_Registrar {
 	}
 
 	public static function sanitize_code( mixed $value ): string {
-		return substr( strtoupper( preg_replace( '/[^A-Z0-9]/', '', (string) $value ) ), 0, 10 );
+		$normalized = preg_replace( '/[^A-Z0-9]/', '', strtoupper( sanitize_text_field( (string) $value ) ) );
+
+		return is_string( $normalized ) ? substr( $normalized, 0, 10 ) : '';
 	}
 
 	public static function sanitize_non_negative_number( mixed $value ): float {

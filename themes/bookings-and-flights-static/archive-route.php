@@ -27,9 +27,8 @@ add_filter(
 global $wp_query;
 
 $origin_filter = '';
-if ( isset( $_GET['route_origin'] ) && is_scalar( $_GET['route_origin'] ) ) {
-	$origin_filter = strtoupper( preg_replace( '/[^A-Z0-9]/', '', sanitize_text_field( wp_unslash( $_GET['route_origin'] ) ) ) );
-	$origin_filter = substr( $origin_filter, 0, 10 );
+if ( function_exists( 'bookings_and_flights_route_origin_filter' ) ) {
+	$origin_filter = bookings_and_flights_route_origin_filter();
 }
 
 $archive_query = null;

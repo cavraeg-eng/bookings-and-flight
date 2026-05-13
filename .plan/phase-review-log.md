@@ -1972,3 +1972,41 @@ Research consulted:
 - WordPress Common APIs Handbook: Escaping Data.
 
 Decision: P15.5 local implementation and review gate passed. Keep Phase 15 overall `In Progress` until the final SEO/source/release review issue passes review and merge.
+
+## Phase 15.6 Review - 2026-05-13
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-98` SEO metadata, source review, and route indexing. Reviewed Phase 15 objective, P15.1-P15.5 implementation notes, current Flights and route templates, route CPT/meta contracts, WordPress title support, `wp_head()`, canonical output, `WP_Query` bounds, public REST/content behavior, and the Travelpayouts-controlled result/handoff boundary.
+
+Acceptance criteria result: Passed locally for the PR candidate. `/routes/`, origin-filtered route archives, and route detail pages now have sensible WordPress-owned SEO metadata and indexable route behavior. `/flights/` remains the indexable handoff entry page, while transient flight-search query URLs render `noindex, follow` and canonicalize to `/flights/`. Travelpayouts White Label and widgets remain provider-owned result/search surfaces, not the SEO source of truth.
+
+Security review: Passed locally. Public output escapes metadata and route values, normalizes route codes uppercase before filtering, and does not expose provider credentials, API tokens, authorization headers, postback secrets, private embed fields, private alert data, raw provider payloads, checkout/payment ownership, or fake fare/scarcity claims. No REST route, POST write, custom SQL, database migration, cron job, provider secret handling, direct checkout, payment flow, auto-booking, or auto-publishing path was added.
+
+REST permission review: Passed for scope. P15.6 added no custom REST endpoint. Public WordPress route collection smoke returned a bounded collection, and route post meta remains private because the registered route meta fields continue to use `show_in_rest => false`.
+
+Database/migration review: Not applicable. P15.6 added no custom tables, options, migrations, cron jobs, or persistent records.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. Desktop and mobile origin archive screenshots confirmed readable SEO headings, route cards, and handoff actions with no horizontal overflow, duplicate IDs, app-owned console errors, framework overlays, or visible warning output. A keyboard pass tabbed from the origin archive through the primary navigation and route actions to the first route card link, then pressed Enter into the route detail page. Route detail and Flights query screenshots confirmed metadata behavior, normalized route labels, related-route links, and no app-owned page failures.
+
+Regression review: Existing P15.1 Flights intent details, P15.2 route archive/detail behavior, P15.3 discovery widgets, P15.4 White Label continuity, P15.5 alert signup, Phase 13 registry output, SubID/disclosure boundaries, header/footer continuity, and provider-owned handoff language remain intact. The lowercase route-code fix closes a source/relevance bug without changing provider ownership or storing provider inventory.
+
+Validation performed: PHP syntax checks for changed plugin/theme PHP files; targeted `git diff --check`; file-size checks; plugin deactivate/reactivate; WP-CLI route CPT, shortcode, and route-code sanitizer smoke; HTTP/source smoke for `/flights/`, `/flights/?origin=nyc&destination=lax&depart_date=2026-08-01`, `/routes/`, `/routes/?route_origin=nyc`, and a temporary route detail URL; public REST/content smoke for route collection bounds; source scans for metadata, canonical output, noindex behavior, secrets, PHP warnings, unsupported price claims, fake scarcity, checkout, payment, and booking-owner leakage; Playwright Chromium desktop/mobile screenshots; keyboard navigation review. The Codex in-app Browser plugin was attempted first, but no active browser pane was available in this session, so Playwright Chromium was used for runtime screenshots and keyboard navigation review.
+
+Bugs found: Source review found lowercase route-origin and route-meta values were filtered before uppercasing in the route archive/card/single path and in the core route-code sanitizer, which could drop lowercase airport codes from indexable route output.
+
+Bugs fixed: Added a shared theme SEO helper module, routed origin filtering and route display through uppercase-first normalization, patched the core route-code sanitizer, added route/archive/Flights metadata behavior, added route archive canonical output, added noindex behavior for transient Flights search query URLs, and documented the route indexing boundary. Runtime review with lowercase query/meta values confirmed `NYC` route output, canonical `/routes/?route_origin=NYC`, route labels, route detail metadata, and keyboard navigation.
+
+Bugs deferred: Provider-owned Travelpayouts React/GraphQL warnings and aborted analytics/image requests remain watchlist-only because app-owned console and failed-request buckets were empty, provider modules rendered, and no app source, layout, handoff, secret, or keyboard failure was found.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Code Reference: `add_theme_support()`.
+- WordPress Code Reference: `wp_head()`.
+- WordPress Code Reference: `rel_canonical()`.
+- WordPress Code Reference: `WP_Query`.
+
+Decision: P15.6 local implementation and review gate passed. Phase 15 Flights Experience is complete after PR review, merge, and Linear closeout for `ONE-98`.
