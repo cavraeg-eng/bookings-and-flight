@@ -2849,3 +2849,48 @@ Research consulted:
 - OpenAI Chat Completions API reference.
 
 Decision: P18.6 completed. PR #54 was reviewed by Codex with no major issues, had no unresolved review threads, merged into `main` at `833f013cefafff5c6845774300de1a2386d1edf9`, and the feature branch was deleted/pruned. Keep Phase 18 overall `In Progress` until `ONE-119` completes.
+
+### P18.7 — Phase 18 review and documentation gate
+
+Date: 2026-05-13
+
+Status: In Review
+
+Reviewer: Codex
+
+Linear issue: `ONE-119`
+
+Scope reviewed: `ONE-119` final Phase 18 review gate. Reviewed P18.1 through P18.6 implementation and docs, `/trip-planner/`, AI itinerary and handoff REST routes, demo/live provider behavior, consent/capability gates, structured opportunity schema, editable draft save, local Travelpayouts handoff intent storage, session privacy, frontend output, and Phase 19 readiness.
+
+Acceptance criteria result: Passed locally for the PR candidate. Phase 18 can move through Codex PR review and merge before Phase 19 starts.
+
+Security review: Passed locally. Live AI still requires saved External AI consent and per-request consent. Handoff preparation still requires edit capability, REST nonce, source draft edit permission, explicit approval, per-request provider consent, and saved provider-request consent. Fake API keys, raw prompt sentinels, provider links, live inventory, booking/payment data, and provider payloads were absent from rendered output, saved draft content, handoff meta, and reviewed session fields.
+
+REST permission review: Passed locally. `/baf/v1/ai/itinerary` and `/baf/v1/ai/handoff` remain registered with explicit callable permission callbacks. Unauthenticated itinerary requests fail closed, run-only users cannot save drafts, and limited users cannot prepare handoffs.
+
+Database/migration review: No schema migration, custom table, cron, or destructive data change. Temporary users, draft posts, and option changes were cleaned up after validation.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser connection timed out after 15 seconds, so Playwright Chromium was used. Screenshots covered empty planner, saved draft result, handoff prepared state, live per-request consent guardrail, and mobile layout. Keyboard review reached prompt, destination, external AI consent, save-draft, submit, handoff type, provider-consent checkbox, and enabled handoff button.
+
+Regression review: Existing P18.1 prompt-to-brief, P18.2 draft save, P18.3 opportunity schema, P18.4 local handoff, P18.5 live readiness, and P18.6 privacy/security hardening boundaries remain intact. AI cannot publish, book, pay, execute provider searches, create live provider links, send alerts, create public saved-trip records, or claim live price/availability in Phase 18.
+
+Validation performed: PHP syntax checks for Phase 18 AI/REST/service/frontend/template/settings/admin/post-type files; `node --check` for `ai-planner.js`; `bookings-flights-core` deactivate/reactivate/is-active checks; focused WP-CLI backend smoke with 34 assertions; `curl` `/trip-planner/` 200 check; Playwright Chromium screenshots and keyboard review; console/request health checks; fake-key/raw-prompt/provider-link storage checks; temporary user/post cleanup.
+
+Bugs found: No app-owned production-code bug was found in the final gate. The first browser QA assertion needed a wider keyboard traversal because Chromium date inputs expose multiple focus stops and the handoff button is disabled until the provider-consent checkbox is toggled; the validation script was corrected and rerun cleanly. The Codex in-app Browser connection timed out, so Playwright Chromium evidence was used.
+
+Bugs fixed: No production code changes were required in this final gate. Earlier Phase 18 slices already fixed date validation, unsupported-provider readiness, frontend response payload shadowing, opportunity approval/disclosure bypasses, non-scalar schema warnings, handoff argument sanitization, live-readiness alignment, malformed option handling, dashboard secret exposure risk, and privacy review hardening.
+
+Bugs deferred: Saved trips, alert follow-up, analytics/reporting consumption, release-readiness validation, and any approved consumption of local handoff intents remain Phase 19 scope. No app-owned Phase 18 blocker remains after the local gate.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/phase-review-log.md`, `.plan/architecture-baseline.md`, `.plan/regression-watchlist.md`, `.plan/validation-baseline.md`, `.plan/known-issues.md`, `.plan/phase-18-final-review.md`.
+
+Research consulted:
+- WordPress Plugin Security Handbook.
+- WordPress REST API Handbook: Adding Custom Endpoints.
+- WordPress Settings API documentation.
+- WordPress Nonces documentation.
+- WordPress Roles and Capabilities documentation.
+- AI SDK Core: Generating Structured Data.
+- OpenAI Chat Completions API reference.
+
+Decision: P18.7 passed locally and is ready for Codex PR review. Keep Phase 18 overall `In Review` until the PR is reviewed, merged, Linear is synced, and the feature branch is cleaned up.
