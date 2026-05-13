@@ -680,6 +680,7 @@ What to check after future changes:
 - Footer social, quick-link, legal, support, and destination links remain reachable and do not shrink below the reviewed target sizes.
 - `prefers-reduced-motion: reduce` keeps mobile-menu link and CTA transition delays at `0s`.
 - Homepage does not load official `travelpayouts-assets-*`, `search-surface.js`, or White Label scripts.
+- Official Travelpayouts shortcodes in post content, active widgets, non-singular templates, or template-level opt-in filters keep official plugin assets available.
 - Flights loads the local search-surface behavior and approved White Label wrapper, but not official Travelpayouts plugin runtime assets.
 - Hotels keeps the approved Trip.com/widget output and handoff link without loading the Flight search-surface script or official plugin runtime assets.
 - Keyboard order still reaches homepage nav/search controls, the mobile menu entries, `Open flight search`, the Trip.com iframe, and `Open hotel search` without traps.
@@ -693,6 +694,7 @@ Related files/routes/settings:
 - `themes/bookings-and-flights-static/assets/css/mobile-nav.css`
 - `themes/bookings-and-flights-static/assets/css/footer.css`
 - `themes/bookings-and-flights-static/assets/js/search-surface.js`
+- `bookings_and_flights_has_official_travelpayouts_output`
 - `/`
 - `/flights/`
 - `/hotels/`

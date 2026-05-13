@@ -1726,3 +1726,5 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
 Decision: P14.6 local implementation and review gate passed. Keep Phase 14 overall `In Progress` until remaining Phase 14 issues pass review and merge.
+
+P14.6 Codex review follow-up on 2026-05-12: PR #27 review found that the original asset-pruning guard only inspected queried singular post content, so official Travelpayouts shortcodes rendered from widget areas, non-singular templates, or template-level `do_shortcode()` calls could lose their required `travelpayouts-assets-*` runtime. The guard now preserves official assets in non-singular contexts by default, scans active widget instance content for official Travelpayouts shortcode/block patterns, and exposes the `bookings_and_flights_has_official_travelpayouts_output` filter so template-level official output can opt in before pruning. PHP syntax, targeted diff checks, Local-socket WP-CLI smoke checks for content/widget/non-singular/filter detection, and the Playwright responsive/script-scope pass passed after the patch.
