@@ -141,7 +141,8 @@ final class Flight_Alert_Intent_Handler {
 	}
 
 	public static function normalize_iata( string $value ): string {
-		$value = strtoupper( preg_replace( '/[^A-Z]/', '', $value ) );
+		$value = preg_replace( '/[^A-Z]/', '', strtoupper( $value ) );
+		$value = is_string( $value ) ? $value : '';
 
 		return preg_match( '/^[A-Z]{3}$/', $value ) ? $value : '';
 	}

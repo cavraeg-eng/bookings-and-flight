@@ -855,6 +855,7 @@ What to check after future changes:
 
 - `[baf_flight_alert_signup]` still renders only a local intent form with email, route, frequency, nonce, and explicit consent.
 - `baf_save_flight_alert` and `admin_post_nopriv_baf_save_flight_alert` keep nonce validation, scalar input checks, route-code allowlists, email validation, per-client/email/route transient throttling, and safe redirects.
+- Lowercase route-code submissions continue to normalize to uppercase before the three-letter allowlist check.
 - Form redirect/source URLs continue to rebuild the current page URL from the request path without duplicating the WordPress home path on subdirectory installs.
 - `travel_alert` remains non-public, alert meta remains `show_in_rest => false`, and alert administration remains gated by `manage_baf_alerts`.
 - Stored alert records remain minimized to contact, route/watch intent, source surface, consent timestamp, and local workflow status.
