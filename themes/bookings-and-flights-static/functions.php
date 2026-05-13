@@ -33,12 +33,7 @@ function bookings_and_flights_fallback_menu($args = array()) {
         $args = (array) $args;
     }
 
-    $menu_items = array(
-        'Home'    => home_url( '/' ),
-        'About'   => home_url( '/about/' ),
-        'Services' => home_url( '/services/' ),
-        'Contact' => home_url( '/contact/' ),
-    );
+    $menu_items = bookings_and_flights_product_nav_items();
 
     $menu_class = isset($args['menu_class']) ? $args['menu_class'] : '';
     $container_class = isset($args['container_class']) ? $args['container_class'] : '';
@@ -51,14 +46,178 @@ function bookings_and_flights_fallback_menu($args = array()) {
     }
 
     echo '<ul class="' . esc_attr($menu_class ? $menu_class : 'header__nav-list') . '">';
-    foreach ( $menu_items as $label => $url ) {
-        $request_uri  = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
-        $active       = ( parse_url( $url, PHP_URL_PATH ) === parse_url( $request_uri, PHP_URL_PATH ) ) ? ' class="current-menu-item"' : '';
-        $active_class = $active ? ' current-menu-item' : '';
-        echo '<li class="' . esc_attr($li_class . $active_class) . '"><a class="' . esc_attr($link_class) . '" href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a></li>';
+    foreach ( $menu_items as $item ) {
+        $active_class = bookings_and_flights_is_current_nav_url( $item['url'] ) ? ' current-menu-item' : '';
+        echo '<li class="' . esc_attr($li_class . $active_class) . '"><a class="' . esc_attr($link_class) . '" href="' . esc_url( $item['url'] ) . '">' . esc_html( $item['label'] ) . '</a></li>';
     }
     echo '</ul>';
 }
+
+function bookings_and_flights_product_nav_items() {
+	return array(
+		array(
+			'label' => __( 'Home', 'bookings_and_flights' ),
+			'url'   => home_url( '/' ),
+		),
+		array(
+			'label' => __( 'Flights', 'bookings_and_flights' ),
+			'url'   => home_url( '/flights/' ),
+		),
+		array(
+			'label' => __( 'Hotels', 'bookings_and_flights' ),
+			'url'   => home_url( '/hotels/' ),
+		),
+		array(
+			'label' => __( 'Explore', 'bookings_and_flights' ),
+			'url'   => home_url( '/#explore' ),
+		),
+		array(
+			'label' => __( 'Deals', 'bookings_and_flights' ),
+			'url'   => home_url( '/#deals' ),
+		),
+		array(
+			'label' => __( 'Trip Planner', 'bookings_and_flights' ),
+			'url'   => home_url( '/#trip-planner' ),
+		),
+		array(
+			'label' => __( 'Saved Trips', 'bookings_and_flights' ),
+			'url'   => home_url( '/#saved-trips' ),
+		),
+	);
+}
+
+function bookings_and_flights_required_product_nav_targets() {
+	return array(
+		'home'         => array( '/' ),
+		'flights'      => array( '/flights/' ),
+		'hotels'       => array( '/hotels/' ),
+		'explore'      => array( '/#explore', '/explore/' ),
+		'deals'        => array( '/#deals', '/deals/' ),
+		'trip-planner' => array( '/#trip-planner', '/trip-planner/' ),
+		'saved-trips'  => array( '/#saved-trips', '/saved-trips/' ),
+	);
+}
+
+function bookings_and_flights_normalize_nav_path( $url ) {
+	$path = wp_parse_url( (string) $url, PHP_URL_PATH );
+	$path = is_string( $path ) ? '/' . trim( $path, '/' ) : '/';
+
+	if ( '/' === $path || '' === $path ) {
+		return '/';
+	}
+
+	return trailingslashit( $path );
+}
+
+function bookings_and_flights_normalize_nav_target( $url ) {
+	$url_host  = wp_parse_url( (string) $url, PHP_URL_HOST );
+	$home_host = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
+
+	if ( is_string( $url_host ) && '' !== $url_host ) {
+		if ( ! is_string( $home_host ) || strtolower( $url_host ) !== strtolower( $home_host ) ) {
+			return '';
+		}
+	}
+
+	$path     = bookings_and_flights_normalize_nav_path( $url );
+	$fragment = wp_parse_url( (string) $url, PHP_URL_FRAGMENT );
+
+	if ( ! is_string( $fragment ) || '' === $fragment ) {
+		return $path;
+	}
+
+	return '/' === $path ? '/#' . sanitize_title( $fragment ) : $path . '#' . sanitize_title( $fragment );
+}
+
+function bookings_and_flights_current_nav_path() {
+	$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '/';
+
+	return bookings_and_flights_normalize_nav_path( $request_uri );
+}
+
+function bookings_and_flights_is_current_nav_url( $url ) {
+	if ( is_string( wp_parse_url( (string) $url, PHP_URL_FRAGMENT ) ) ) {
+		return false;
+	}
+
+	return bookings_and_flights_normalize_nav_path( $url ) === bookings_and_flights_current_nav_path();
+}
+
+function bookings_and_flights_primary_menu_has_product_core() {
+	static $has_product_core = null;
+
+	if ( null !== $has_product_core ) {
+		return $has_product_core;
+	}
+
+	$locations = get_nav_menu_locations();
+
+	if ( empty( $locations['primary'] ) ) {
+		$has_product_core = false;
+		return $has_product_core;
+	}
+
+	$items = wp_get_nav_menu_items( $locations['primary'] );
+
+	if ( ! is_array( $items ) ) {
+		$has_product_core = false;
+		return $has_product_core;
+	}
+
+	$required_targets = bookings_and_flights_required_product_nav_targets();
+	$matched_targets  = array_fill_keys( array_keys( $required_targets ), false );
+
+	foreach ( $items as $item ) {
+		if ( 0 !== (int) $item->menu_item_parent ) {
+			continue;
+		}
+
+		$item_target = bookings_and_flights_normalize_nav_target( (string) $item->url );
+
+		foreach ( $required_targets as $target_key => $target_values ) {
+			if ( true === $matched_targets[ $target_key ] ) {
+				continue;
+			}
+
+			if ( in_array( $item_target, $target_values, true ) ) {
+				$matched_targets[ $target_key ] = true;
+			}
+		}
+	}
+
+	$has_product_core = ! in_array( false, $matched_targets, true );
+	return $has_product_core;
+}
+
+function bookings_and_flights_is_flights_request_path(): bool {
+	$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+	$request_path = wp_parse_url( $request_uri, PHP_URL_PATH );
+
+	if ( ! is_string( $request_path ) ) {
+		return false;
+	}
+
+	$home_path = wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+	$home_path = is_string( $home_path ) ? untrailingslashit( $home_path ) : '';
+	if ( '' !== $home_path && '/' !== $home_path && 0 === strpos( $request_path, $home_path . '/' ) ) {
+		$request_path = substr( $request_path, strlen( $home_path ) );
+	}
+
+	return '/flights/' === trailingslashit( '/' . trim( $request_path, '/' ) );
+}
+
+function bookings_and_flights_allow_flights_provider_query( $query_vars ) {
+	if ( ! bookings_and_flights_is_flights_request_path() ) {
+		return $query_vars;
+	}
+
+	$query_vars['pagename'] = 'flights';
+
+	unset( $query_vars['destination'], $query_vars['name'], $query_vars['post_type'] );
+
+	return $query_vars;
+}
+add_filter( 'request', 'bookings_and_flights_allow_flights_provider_query' );
 
 // Fallback menu for footer nav when no menu is assigned
 function bookings_and_flights_footer_fallback_menu( $args = array() ) {
@@ -140,6 +299,23 @@ if (!class_exists('WP_Forge_Menu_Walker')) {
             $output .= "</li>\n";
         }
     }
+}
+
+function bookings_and_flights_primary_menu( $menu_class = 'header__nav-list', $li_class = 'header__nav-item', $link_class = 'header__nav-link' ) {
+	$args = array(
+		'theme_location' => 'primary',
+		'container'      => false,
+		'menu_class'     => $menu_class,
+		'fallback_cb'    => 'bookings_and_flights_fallback_menu',
+		'walker'         => new WP_Forge_Menu_Walker( $li_class, $link_class ),
+	);
+
+	if ( bookings_and_flights_primary_menu_has_product_core() ) {
+		wp_nav_menu( $args );
+		return;
+	}
+
+	bookings_and_flights_fallback_menu( $args );
 }
 
 // Enqueue CSS based on page template

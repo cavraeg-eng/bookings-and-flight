@@ -1484,3 +1484,41 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID affiliate marker guidance.
 
 Decision: Phase 13 passed the completion gate and is documented as `Completed`. `ONE-85` can move to Done after the PR is reviewed, merged, and Linear is synced.
+
+## Phase 14.1 Review - 2026-05-12
+
+Status: `Completed`
+
+Reviewer: Codex
+
+Scope reviewed: `ONE-86` hero media, primary/mobile navigation, and homepage flight/hotel search shell. Reviewed Phase 14 objective, Phase 12 IA/design/wireframe outputs, Phase 13 widget registry consumption requirements, current static theme templates/assets, active stored WordPress menu state, local WordPress runtime, and provider-owned Flights/Hotels handoff pages.
+
+Acceptance criteria result: Passed for P14.1 scope. Header output now includes planned product sections even when the stored WordPress menu is stale. The homepage first viewport uses local real travel media, visible product copy, and Flights/Hotels search forms first. Search forms carry Phase 13 placement-key metadata and submit to the existing Travelpayouts-controlled Flights and Hotels pages. Affiliate transparency is visible directly under the search shell.
+
+Security review: Passed locally. Template output uses escaped URLs, the fallback hero image is local instead of hotlinked, no raw provider snippets or private registry values were copied into the theme, and the rendered homepage source did not expose API tokens, API keys, access tokens, authorization headers, bearer strings, postback secrets, or secret terms.
+
+REST permission review: Not applicable. No REST routes or permission callbacks changed in P14.1.
+
+Database/migration review: Not applicable. No custom tables, options, migrations, or data mutations changed in P14.1.
+
+UI review: Passed locally with real runtime screenshots. Desktop, tablet, and mobile screenshots showed a nonblank image-led homepage, readable hero text, visible Flights and Hotels search controls, visible disclosure, product navigation, no horizontal overflow, and no obvious text overlap. Mobile menu review confirmed all seven product links plus the Plan trip CTA are keyboard reachable.
+
+Regression review: The hotel search uses `travel_destination` rather than the reserved `destination` query var. The flight search uses the provider-style `origin`, `destination`, `depart_date`, and `return_date` keys while the `/flights/` request guard prevents WordPress from treating the destination query string as a destination CPT lookup. The menu fallback preserves Flights/Hotels links and uses homepage anchors for Explore, Deals, Trip Planner, and Saved Trips until those planned pages exist. The stored-menu eligibility check now requires top-level current-site targets before bypassing the fallback, without requiring exact menu labels. Provider-owned Flight page URL normalization and known Travelpayouts console warnings remain watchlist items for later search-surface work.
+
+Validation performed: PHP syntax checks for `page-home.php`, `header.php`, and `functions.php`; `git diff --check`; WP-CLI product nav fallback smoke check; WP-CLI stored-menu eligibility checks for stale, customized-label, and external-host menus; `/flights/` provider-query HTTP smoke; live HTTP/source smoke check; Playwright desktop/tablet/mobile screenshots; Playwright desktop keyboard focus review; Playwright mobile menu keyboard trap review; post-review desktop/mobile menu screenshot rerun; flight and hotel search submit smoke; frontend secret-term scan.
+
+Bugs found: The first implementation hotlinked Unsplash for fallback hero media, which would create an unnecessary third-party image request. Codex PR review found that the stored-menu eligibility check only matched labels, so nested or stale menu items could bypass the product fallback. Follow-up Codex review found that absolute URLs from an old or external host could still match by path/fragment. Final Codex review found that the homepage flight form used local query names that the flight/White Label surface did not consume, and that exact menu-label matching would override intentionally customized menus. The Codex in-app Browser surface had no active pane, so Playwright Chromium was used for the required real runtime review. Downstream Travelpayouts Flight page scripts still emit known provider-owned React source-map and duplicate GraphQL fragment warnings.
+
+Bugs fixed: Moved the fallback hero media into `themes/bookings-and-flights-static/assets/images/home-hero-beach.jpg` and updated the template to load it locally. Tightened header link spacing and mobile navigation sizing so the expanded product menu remains usable. Updated the stored-menu eligibility guard to consider only top-level menu items and verify current-site host plus expected product targets before trusting a configured WordPress menu. Updated the homepage flight form to submit provider-style flight parameters and added a narrow `/flights/` request guard for the `destination` query-var conflict. Removed exact label matching from the stored-menu eligibility guard so managed menus can customize labels while still proving the intended targets.
+
+Bugs deferred: Standalone `/explore/`, `/deals/`, `/trip-planner/`, and `/saved-trips/` pages remain future Phase 14+ scope; P14.1 uses homepage anchor entry points to avoid introducing new 404 paths in the header. Flights and Hotels still render through existing page content and provider-owned widgets until later dedicated experience tickets.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/known-issues.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Template Files.
+- WordPress Theme Handbook: Including CSS and JavaScript.
+- WordPress Common APIs Handbook: Escaping Data.
+- Travelpayouts Help Center: Setting up a White Label with Widget type.
+
+Decision: P14.1 local implementation and review gate passed. Keep Phase 14 overall `In Progress` for the remaining homepage modules and search-surface follow-ups.
