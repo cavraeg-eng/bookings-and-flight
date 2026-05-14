@@ -5,12 +5,20 @@
  * @package Bookings_and_Flights_Static
  */
 
-$flight_search_url = home_url( '/flights/' );
-$hotel_search_url  = home_url( '/hotels/' );
-$planner_anchor    = home_url( '/trip-planner/' );
-$saved_trips_url   = home_url( '/saved-trips/' );
-$hero_image_id     = absint( bookings_and_flights_field( 'hero_image_id', 0 ) );
-$fallback_image    = get_template_directory_uri() . '/assets/images/home-hero-beach.jpg';
+$flight_search_url          = home_url( '/flights/' );
+$hotel_search_url           = home_url( '/hotels/' );
+$flight_provider_search_url = home_url( '/flights/#flights-provider-search' );
+$hotel_provider_search_url  = home_url( '/hotels/#hotels-provider-search' );
+$flight_provider_link       = static function ( array $args ) use ( $flight_search_url ): string {
+	return add_query_arg( $args, $flight_search_url ) . '#flights-provider-search';
+};
+$hotel_provider_link        = static function ( array $args ) use ( $hotel_search_url ): string {
+	return add_query_arg( $args, $hotel_search_url ) . '#hotels-provider-search';
+};
+$planner_anchor             = home_url( '/trip-planner/' );
+$saved_trips_url            = home_url( '/saved-trips/' );
+$hero_image_id              = absint( bookings_and_flights_field( 'hero_image_id', 0 ) );
+$fallback_image             = get_template_directory_uri() . '/assets/images/home-hero-beach.jpg';
 $trending_routes   = array(
 	array(
 		'label'       => 'Route idea',
@@ -125,7 +133,7 @@ get_header();
 				</header>
 
 				<div class="home-search__forms">
-					<form class="home-search__form" action="<?php echo esc_url( $flight_search_url ); ?>" method="get" data-baf-placement-key="flights_white_label_search">
+					<form class="home-search__form" action="<?php echo esc_url( $flight_provider_search_url ); ?>" method="get" data-baf-placement-key="flights_white_label_search">
 						<div class="home-search__form-head">
 							<span class="home-search__vertical">Flights</span>
 							<span class="home-search__placement">Travelpayouts White Label</span>
@@ -154,7 +162,7 @@ get_header();
 						<button class="home-search__submit" type="submit">Search flights</button>
 					</form>
 
-					<form class="home-search__form" action="<?php echo esc_url( $hotel_search_url ); ?>" method="get" data-baf-placement-key="hotels_partner_search">
+					<form class="home-search__form" action="<?php echo esc_url( $hotel_provider_search_url ); ?>" method="get" data-baf-placement-key="hotels_partner_search">
 						<div class="home-search__form-head">
 							<span class="home-search__vertical">Hotels</span>
 							<span class="home-search__placement">Trip.com partner surface</span>
@@ -196,11 +204,11 @@ get_header();
 
 	<section class="home-entrypoints" aria-label="Travel planning entry points">
 		<div class="home-entrypoints__container">
-			<a id="explore" class="home-entrypoint" href="<?php echo esc_url( add_query_arg( 'travel_mode', 'explore', $flight_search_url ) ); ?>">
+			<a id="explore" class="home-entrypoint" href="<?php echo esc_url( $flight_provider_link( array( 'travel_mode' => 'explore', 'baf_surface' => 'home' ) ) ); ?>">
 				<span class="home-entrypoint__label">Explore</span>
 				<span class="home-entrypoint__text">Start with flexible destinations and continue into flight search.</span>
 			</a>
-			<a id="deals" class="home-entrypoint" href="<?php echo esc_url( add_query_arg( 'travel_focus', 'deal_dates', $flight_search_url ) ); ?>">
+			<a id="deals" class="home-entrypoint" href="<?php echo esc_url( $flight_provider_link( array( 'travel_focus' => 'deal_dates', 'baf_surface' => 'home' ) ) ); ?>">
 				<span class="home-entrypoint__label">Deals</span>
 				<span class="home-entrypoint__text">Look for travel dates and routes before opening provider results.</span>
 			</a>
@@ -252,7 +260,7 @@ get_header();
 				</div>
 				<div class="home-card-grid home-card-grid--three">
 					<?php foreach ( $trending_routes as $route ) : ?>
-						<a class="home-discovery-card" href="<?php echo esc_url( add_query_arg( array( 'origin' => $route['origin'], 'destination' => $route['destination'], 'baf_surface' => 'home' ), $flight_search_url ) ); ?>">
+						<a class="home-discovery-card" href="<?php echo esc_url( $flight_provider_link( array( 'origin' => $route['origin'], 'destination' => $route['destination'], 'baf_surface' => 'home' ) ) ); ?>">
 							<span class="home-discovery-card__label"><?php echo esc_html( $route['label'] ); ?></span>
 							<span class="home-discovery-card__title"><?php echo esc_html( $route['title'] ); ?></span>
 							<span class="home-discovery-card__meta"><?php echo esc_html( $route['meta'] ); ?></span>
@@ -271,7 +279,7 @@ get_header();
 					</div>
 					<div class="home-card-grid">
 						<?php foreach ( $explore_ideas as $idea ) : ?>
-							<a class="home-compact-card" href="<?php echo esc_url( add_query_arg( array( 'destination' => $idea['destination'], 'baf_surface' => 'home' ), $flight_search_url ) ); ?>">
+							<a class="home-compact-card" href="<?php echo esc_url( $flight_provider_link( array( 'destination' => $idea['destination'], 'baf_surface' => 'home' ) ) ); ?>">
 								<span><?php echo esc_html( $idea['title'] ); ?></span>
 								<small><?php echo esc_html( $idea['description'] ); ?></small>
 							</a>
@@ -286,7 +294,7 @@ get_header();
 					</div>
 					<div class="home-card-grid">
 						<?php foreach ( $flex_months as $month ) : ?>
-							<a class="home-compact-card" href="<?php echo esc_url( add_query_arg( array( 'travel_focus' => $month['focus'], 'baf_surface' => 'home' ), $flight_search_url ) ); ?>">
+							<a class="home-compact-card" href="<?php echo esc_url( $flight_provider_link( array( 'travel_focus' => $month['focus'], 'baf_surface' => 'home' ) ) ); ?>">
 								<span><?php echo esc_html( $month['title'] ); ?></span>
 								<small><?php echo esc_html( $month['description'] ); ?></small>
 							</a>
@@ -302,7 +310,7 @@ get_header();
 				</div>
 				<div class="home-card-grid home-card-grid--three">
 					<?php foreach ( $hotel_cities as $city ) : ?>
-						<a class="home-discovery-card home-discovery-card--hotel" href="<?php echo esc_url( add_query_arg( array( 'travel_destination' => $city['destination'], 'guests' => 2, 'baf_surface' => 'home' ), $hotel_search_url ) ); ?>">
+						<a class="home-discovery-card home-discovery-card--hotel" href="<?php echo esc_url( $hotel_provider_link( array( 'travel_destination' => $city['destination'], 'guests' => 2, 'baf_surface' => 'home' ) ) ); ?>">
 							<span class="home-discovery-card__label">Hotel idea</span>
 							<span class="home-discovery-card__title"><?php echo esc_html( $city['title'] ); ?></span>
 							<span class="home-discovery-card__text"><?php echo esc_html( $city['description'] ); ?></span>
@@ -321,7 +329,7 @@ get_header();
 				</div>
 
 				<div class="home-retention__grid">
-					<a id="price-alerts" class="home-retention-card" href="<?php echo esc_url( add_query_arg( array( 'travel_focus' => 'price_alert', 'baf_surface' => 'home' ), $flight_search_url ) ); ?>">
+					<a id="price-alerts" class="home-retention-card" href="<?php echo esc_url( $flight_provider_link( array( 'travel_focus' => 'price_alert', 'baf_surface' => 'home' ) ) ); ?>">
 						<span class="home-retention-card__label">Price alert intent</span>
 						<span class="home-retention-card__title">Watch a route locally</span>
 						<span class="home-retention-card__text">Start with provider-owned flight search, then save local alert intent with email follow-up and a delete link.</span>

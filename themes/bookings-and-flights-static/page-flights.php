@@ -108,11 +108,13 @@ if ( in_array( $travel_mode, array( 'explore', 'planner' ), true ) ) {
 	);
 }
 
-if ( in_array( $travel_focus, array( 'deal_dates', 'flexible_city', 'price_alert' ), true ) ) {
+if ( in_array( $travel_focus, array( 'deal_dates', 'flexible_city', 'long_weekend', 'price_alert', 'school_break' ), true ) ) {
 	$focus_labels = array(
 		'deal_dates'    => __( 'Flexible travel dates', 'bookings_and_flights' ),
 		'flexible_city' => __( 'Flexible destination idea', 'bookings_and_flights' ),
+		'long_weekend'  => __( 'Long weekend window', 'bookings_and_flights' ),
 		'price_alert'   => __( 'Price alert interest', 'bookings_and_flights' ),
+		'school_break'  => __( 'School-break planning', 'bookings_and_flights' ),
 	);
 	$details[] = array(
 		'label' => __( 'Focus', 'bookings_and_flights' ),
@@ -141,7 +143,7 @@ get_header();
 		<div class="search-page__hero-inner">
 			<p class="search-page__eyebrow"><?php esc_html_e( 'Flights', 'bookings_and_flights' ); ?></p>
 			<h1 id="flight-search-title" class="search-page__title"><?php esc_html_e( 'Flight search with Travelpayouts handoff', 'bookings_and_flights' ); ?></h1>
-			<p class="search-page__lede"><?php esc_html_e( 'Start with your route, dates, and traveler intent in the Bookings and Flights shell, then continue into the approved Travelpayouts White Label module for provider-owned flight results.', 'bookings_and_flights' ); ?></p>
+			<p class="search-page__lede"><?php esc_html_e( 'Enter a route, dates, and traveler count, then jump straight to the embedded Travelpayouts search below. Your search stays visible on this page before provider-owned results and booking.', 'bookings_and_flights' ); ?></p>
 		</div>
 	</section>
 
@@ -149,11 +151,11 @@ get_header();
 		<section class="flight-intent" aria-labelledby="flight-intent-title">
 			<div class="flight-intent__content">
 				<p class="flight-intent__eyebrow"><?php esc_html_e( 'Flight intent', 'bookings_and_flights' ); ?></p>
-				<h2 id="flight-intent-title" class="flight-intent__title"><?php esc_html_e( 'Set the trip shape before opening provider search', 'bookings_and_flights' ); ?></h2>
-				<p class="flight-intent__copy"><?php esc_html_e( 'These fields keep your search intent visible on this page. Final route, travelers, cabin, flexible dates, and filter choices are confirmed inside Travelpayouts after handoff.', 'bookings_and_flights' ); ?></p>
+				<h2 id="flight-intent-title" class="flight-intent__title"><?php esc_html_e( 'Search flights without losing your place', 'bookings_and_flights' ); ?></h2>
+				<p class="flight-intent__copy"><?php esc_html_e( 'Submit the route and we will take you to the Travelpayouts search area on this page, with your search summary still visible above the provider controls.', 'bookings_and_flights' ); ?></p>
 			</div>
 
-			<form class="flight-intent__form" action="<?php echo esc_url( home_url( '/flights/' ) ); ?>" method="get" data-baf-placement-key="flights_white_label_search">
+			<form class="flight-intent__form" action="<?php echo esc_url( home_url( '/flights/#flights-provider-search' ) ); ?>" method="get" data-baf-placement-key="flights_white_label_search">
 				<div class="flight-intent__grid">
 					<label class="flight-intent__field">
 						<span><?php esc_html_e( 'From', 'bookings_and_flights' ); ?></span>
@@ -186,13 +188,13 @@ get_header();
 				</div>
 
 				<input type="hidden" name="baf_surface" value="flights_landing">
-				<button class="flight-intent__submit" type="submit"><?php esc_html_e( 'Update flight intent', 'bookings_and_flights' ); ?></button>
-				<p class="flight-intent__helper"><?php esc_html_e( 'Intent only: Travelpayouts controls provider availability, result filters, booking, changes, payment, and reservation support.', 'bookings_and_flights' ); ?></p>
+				<button class="flight-intent__submit" type="submit"><?php esc_html_e( 'Search flights', 'bookings_and_flights' ); ?></button>
+				<p class="flight-intent__helper"><?php esc_html_e( 'After submit, continue in the Travelpayouts widget below. Live availability, filters, booking, payment, changes, and reservation support remain provider-owned.', 'bookings_and_flights' ); ?></p>
 			</form>
 
 			<div class="flight-intent__provider" aria-labelledby="flight-provider-options-title">
 				<h3 id="flight-provider-options-title"><?php esc_html_e( 'Provider-controlled options', 'bookings_and_flights' ); ?></h3>
-				<p><?php esc_html_e( 'These choices are not applied by WordPress. Set them inside the Travelpayouts White Label module when the provider search opens.', 'bookings_and_flights' ); ?></p>
+				<p><?php esc_html_e( 'These choices are handled inside the Travelpayouts widget. WordPress keeps the page shell and search summary visible so the next step is clear.', 'bookings_and_flights' ); ?></p>
 				<ul class="flight-intent__provider-list">
 					<li>
 						<span><?php esc_html_e( 'Direct-only flights', 'bookings_and_flights' ); ?></span>
@@ -270,10 +272,10 @@ get_header();
 				'surface'          => 'flights',
 				'channel'          => 'home' === $surface ? 'homepage' : 'search_page',
 				'slug'             => 'flight_search',
-				'class'            => 'search-placement--flights',
+				'class'            => $has_intent ? 'search-placement--flights search-placement--has-intent' : 'search-placement--flights',
 				'eyebrow'          => __( 'Travelpayouts White Label', 'bookings_and_flights' ),
-				'title'            => __( 'Search flights', 'bookings_and_flights' ),
-				'description'      => __( 'Continue in the approved White Label search and result module. Adjust route, dates, travelers, cabin, flexible-date, direct-only, and nearby-airport choices inside the provider-owned controls as needed.', 'bookings_and_flights' ),
+				'title'            => $has_intent ? __( 'Your flight search is ready', 'bookings_and_flights' ) : __( 'Search flights', 'bookings_and_flights' ),
+				'description'      => $has_intent ? __( 'Your submitted route and trip details are summarized here. Continue in the Travelpayouts widget below to confirm live dates, travelers, cabin, flexible-date, direct-only, and nearby-airport choices.', 'bookings_and_flights' ) : __( 'Use the approved White Label search and result module. Travelpayouts controls live results, filters, booking, payment, changes, and reservation support.', 'bookings_and_flights' ),
 				'origin'           => $origin,
 				'destination'      => $destination,
 				'details'          => $details,

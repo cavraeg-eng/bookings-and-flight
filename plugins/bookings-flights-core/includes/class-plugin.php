@@ -37,11 +37,11 @@ final class Plugin {
 
 		add_action( 'init', array( Post_Type_Registrar::class, 'register' ), 0 );
 		add_action( 'init', array( Taxonomy_Registrar::class, 'register' ), 1 );
+		add_action( 'init', array( Cron_Manager::class, 'schedule_events' ), 20 );
 		add_action( 'rest_api_init', array( Rest_Manager::class, 'register_routes' ) );
 
 		Capability_Manager::bootstrap();
 		Cron_Manager::bootstrap();
-		Cron_Manager::schedule_events();
 		Capability_Manager::add_administrator_capabilities();
 		Clicks_Table::maybe_upgrade();
 		AI_Sessions_Table::maybe_upgrade();

@@ -1157,6 +1157,33 @@ git diff --check
 
 P19.6 local result on 2026-05-14: Static route/action/source scans found no production-code security bug requiring a patch. Active plugin inventory included `bookings-flights-core`, the local affiliate bridge/content manager, the tracked official `travelpayouts` plugin, and other local plugins. Runtime route inventory confirmed explicit permission callbacks on all concrete `baf/v1`, Redux Travelpayouts, and Travelpayouts widget action routes; the only missing callback entries were WordPress namespace-index discovery callbacks (`WP_REST_Server::get_namespace_index`) for `/redux_travelpayouts/descriptors/v1` and `/travelpayouts/widget`. Focused REST smoke confirmed intended public reads/affiliate validation and protected AI/saved-trip denials when minimal required params are supplied. Fake-secret smoke confirmed fake Travelpayouts, AI, affiliate bridge, and postback secrets are absent from admin HTML, public homepage source, public `/wp-json/baf/v1/config`, and the official Travelpayouts token endpoint. The Codex in-app Browser path reported no active browser pane, so Playwright Chromium was used. Runtime evidence is saved at `/tmp/one125-runtime-review-report.json`; screenshots include `/tmp/one125-admin-integrations-desktop.png`, `/tmp/one125-home-mobile.png`, and `/tmp/one125-config-json.png`. The final report returned `status=pass` and `findingCount=0`, confirming protected admin integration rendering, mobile public rendering, public config secret omission, keyboard reachability through the WordPress skip link to integration controls and Save integrations, no app-owned console errors, no app-owned request failures, and temporary fake settings/user cleanup.
 
+## Phase 19 Performance, Accessibility, Responsive, and Browser Regression Validation
+
+Use this when changing public travel surfaces, search/widget wrappers, saved trips, admin settings, widget placements, reports, frontend/admin CSS, cron scheduling that affects page output, or final release-readiness browser gates.
+
+```bash
+php -l plugins/bookings-flights-core/includes/class-plugin.php
+php -l plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-renderer.php
+php -l plugins/bookings-flights-core/includes/admin/class-widget-placements-page.php
+php -l plugins/bookings-flights-core/includes/settings/class-settings-manager.php
+php -l themes/bookings-and-flights-static/functions.php
+php -l themes/bookings-and-flights-static/page-home.php
+php -l themes/bookings-and-flights-static/page-flights.php
+php -l themes/bookings-and-flights-static/page-hotels.php
+node --check themes/bookings-and-flights-static/assets/js/search-surface.js
+wc -l changed PHP/CSS files
+wp plugin deactivate bookings-flights-core
+wp plugin activate bookings-flights-core
+wp plugin is-active bookings-flights-core
+wp eval Settings API label_for smoke for `baf-settings` and `baf-integrations`
+wp eval Widget Placement registry admin smoke
+curl source scans for `/flights/` and `/hotels/`
+node Playwright Chromium public/admin screenshot, source, console/request, target-size, duplicate-id, label, and keyboard review
+git diff --check
+```
+
+P19.7 local result on 2026-05-14: PHP syntax passed for `plugins/bookings-flights-core/includes/class-plugin.php`, `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-renderer.php`, `plugins/bookings-flights-core/includes/admin/class-widget-placements-page.php`, `plugins/bookings-flights-core/includes/settings/class-settings-manager.php`, `themes/bookings-and-flights-static/functions.php`, `themes/bookings-and-flights-static/page-home.php`, `themes/bookings-and-flights-static/page-flights.php`, and `themes/bookings-and-flights-static/page-hotels.php`; `node --check` passed for `themes/bookings-and-flights-static/assets/js/search-surface.js`; changed source files remained at or below the 600-line guideline; `git diff --check` passed. `bookings-flights-core` deactivate/reactivate/is-active passed with the LocalWP MySQL socket. Settings API smoke confirmed no missing `label_for` entries for `baf-settings` or `baf-integrations`. Widget Placement registry smoke confirmed the admin context can read the seven configured placements. Public `/flights/` and `/hotels/` source scans found no `_load_textdomain_just_in_time`, PHP warning, fatal, deprecated, or parse-error text and confirmed submitted intent pages render `#flights-provider-search` / `#hotels-provider-search`, ready-state copy, and sanitized route/hotel summaries. The Codex in-app Browser path was attempted first and reported no active browser pane, so Playwright Chromium was used. Runtime evidence is saved at `/tmp/one126-runtime-review-report-final.json`; screenshots are under `/tmp/one126-screenshots-final`. The final report returned `status=pass`, `findingCount=0`, `criticalFindingCount=0`, `screenshotCount=27`, and `keyboardReviewCount=8`, confirming nonblank public/admin content, no framework overlays, no desktop/mobile/narrow overflow, no duplicate IDs in app-owned scopes, no unlabeled app-owned controls, no sub-24px app-owned targets, no app-owned failed requests, no rendered secret-like tokens, keyboard reachability through the reviewed public/admin controls, and provider-owned Travelpayouts/Trip.com/pixel/WebGL noise separated from app-owned failures. The first browser pass found an early cron/textdomain notice, search submissions that did not move users directly to the configured provider section with submitted intent visible, missing Settings API `label_for` metadata, duplicate delete-form nonce IDs, and strict target-size misses on app-owned checkboxes; these were patched before the final pass. Temporary browser-test posts, term, and admin user were deleted after validation.
+
 ## Phase 18 AI Planner Validation
 
 Use this when changing `/trip-planner/`, AI planner assets, or `POST /wp-json/baf/v1/ai/itinerary` prompt-to-brief behavior.

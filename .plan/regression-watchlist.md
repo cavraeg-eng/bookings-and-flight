@@ -719,10 +719,10 @@ What to check after future changes:
 - Header logo, theme toggle, and mobile menu toggle stay at stable touch sizes on mobile.
 - Footer social, quick-link, legal, support, and destination links remain reachable and do not shrink below the reviewed target sizes.
 - `prefers-reduced-motion: reduce` keeps mobile-menu link and CTA transition delays at `0s`.
-- Homepage does not load official `travelpayouts-assets-*`, `search-surface.js`, or White Label scripts.
+- Homepage does not load official `travelpayouts-assets-*` or White Label scripts; the local `search-surface.js` may load only to normalize home search form submissions to provider-section anchors.
 - Official Travelpayouts shortcodes in post content, active widgets, non-singular templates, or template-level opt-in filters keep official plugin assets available.
 - Flights loads the local search-surface behavior and approved White Label wrapper, but not official Travelpayouts plugin runtime assets.
-- Hotels keeps the approved Trip.com/widget output and handoff link without loading the Flight search-surface script or official plugin runtime assets.
+- Hotels keeps the approved Trip.com/widget output and handoff link while loading only the local shared search-surface behavior, not official plugin runtime assets.
 - Keyboard order still reaches homepage nav/search controls, the mobile menu entries, `Open flight search`, the Trip.com iframe, and `Open hotel search` without traps.
 - Provider-owned console warnings remain non-blocking only when there are no page errors, failed requests, overlays, broken handoffs, or keyboard traps.
 
@@ -1465,6 +1465,46 @@ Related files/routes/settings:
 - `baf_ai_settings`
 - `baf_supplier_credentials`
 - `baf_postback_secret`
+
+## Phase 19 Performance, Accessibility, and Browser Regression Watch
+
+Fragile area: Public travel pages, Travelpayouts widget wrappers, saved-trip UI, Bookings & Flights admin screens, Settings API fields, widget-placement forms, cron scheduling, and provider-widget runtime classification.
+
+Why risky: Final launch-readiness changes may add controls, widgets, admin forms, cron hooks, provider scripts, or responsive CSS that accidentally reintroduce horizontal overflow, missing labels, duplicate IDs, too-small controls, early WordPress notices, app-owned request failures, or source-token false positives.
+
+What to check after future changes:
+
+- `Cron_Manager::schedule_events()` stays deferred until `init` or later and does not run during plugin bootstrap/page setup before WordPress textdomains are safe.
+- Settings API fields on `baf-settings` and `baf-integrations` keep `label_for` metadata in addition to escaped rendered controls.
+- Widget Placements save/delete forms keep nonce verification and unique per-row nonce field IDs.
+- Public Flights/Hotels/route alert controls and scoped Bookings & Flights admin controls keep at least 24px target dimensions, with visible focus states.
+- Home, Flights, and Hotels search forms keep provider-section anchors (`#flights-provider-search` / `#hotels-provider-search`) and submitted-intent highlighting so users land near the actual provider search rather than the top local intent copy.
+- Travelpayouts White Label flight configuration may receive sanitized `origin` and `destination` hints, but must not receive private notes, emails, saved-trip IDs, payment data, or unsupported provider-owned filter claims.
+- Browser regression covers desktop, mobile, and 320px narrow viewports for search/widget pages before launch-readiness signoff.
+- Keyboard review covers skip links, navigation, public form controls, provider handoff controls, saved-trip actions, and protected admin controls.
+- Provider-owned `tpembars.com`, `avsplow.com`, Travelpayouts, Trip.com, and Chromium WebGL messages remain separated from app-owned console/request failures.
+- Source-token scans use strict token boundaries so WordPress CSS preset names such as `dusk-gradient` are not misclassified as secrets.
+
+Related files/routes/settings:
+
+- `.plan/phase-19-performance-accessibility-review.md`
+- `plugins/bookings-flights-core/includes/class-plugin.php`
+- `plugins/bookings-flights-core/includes/cron/class-cron-manager.php`
+- `plugins/bookings-flights-core/includes/settings/class-settings-manager.php`
+- `plugins/bookings-flights-core/includes/admin/class-widget-placements-page.php`
+- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-renderer.php`
+- `plugins/bookings-flights-core/assets/css/admin.css`
+- `plugins/bookings-flights-core/assets/css/flight-alert.css`
+- `themes/bookings-and-flights-static/assets/js/search-surface.js`
+- `themes/bookings-and-flights-static/page-home.php`
+- `themes/bookings-and-flights-static/page-flights.php`
+- `themes/bookings-and-flights-static/page-hotels.php`
+- `/flights/`
+- `/hotels/`
+- `/saved-trips/`
+- `/wp-admin/admin.php?page=baf-settings`
+- `/wp-admin/admin.php?page=baf-integrations`
+- `/wp-admin/admin.php?page=baf-widget-placements`
 
 ## Phase 17 Final Review Gate
 

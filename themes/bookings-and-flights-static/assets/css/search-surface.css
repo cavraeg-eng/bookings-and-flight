@@ -350,6 +350,27 @@
   font-weight: 800;
 }
 
+.search-placement--has-intent {
+  padding: var(--space-s);
+  border: 1px solid hsl(174 42% 54%);
+  border-radius: 8px;
+  background: hsl(174 52% 96%);
+}
+
+.search-placement--has-intent .search-placement__eyebrow {
+  color: hsl(177 66% 24%);
+}
+
+.search-placement--has-intent .search-placement__intent-item {
+  border-color: hsl(174 36% 70%);
+}
+
+.search-page__content--provider.is-intent-target .search-placement__widget {
+  outline: 3px solid hsl(177 66% 29% / 0.32);
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+
 .search-placement__widget {
   min-inline-size: 0;
 }
