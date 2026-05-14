@@ -84,7 +84,7 @@
 .baf-report-grid {
 	display: grid;
 	gap: 16px;
-	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
 	margin-top: 20px;
 }
 
@@ -92,7 +92,10 @@
 	background: var(--baf-admin-surface);
 	border: 1px solid var(--baf-admin-border);
 	border-radius: 8px;
+	box-sizing: border-box;
 	margin-top: 20px;
+	max-width: 100%;
+	overflow-x: auto;
 	padding: 16px;
 }
 
@@ -108,6 +111,12 @@
 .baf-report-panel .widefat {
 	border: 0;
 	box-shadow: none;
+	min-width: 560px;
+}
+
+.baf-report-panel code {
+	overflow-wrap: anywhere;
+	white-space: normal;
 }
 
 .baf-status-card--success,

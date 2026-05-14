@@ -64,6 +64,7 @@ final class Reports_Page {
 
 			<?php
 			self::render_click_reports( (array) $dashboard['clicks'] );
+			self::render_subid_reports( (array) $dashboard['subid_map'], (array) $dashboard['clicks']['by_subid'] );
 			self::render_ai_reports( (array) $dashboard['ai_sessions'] );
 			self::render_provider_reports( (array) $dashboard['provider_stats'] );
 			self::render_content_reports( (array) $dashboard['content'] );
@@ -117,6 +118,73 @@ final class Reports_Page {
 		<?php
 	}
 
+	private static function render_subid_reports( array $subid_map, array $observed_subids ): void {
+		?>
+		<section class="baf-report-panel">
+			<h2><?php echo esc_html__( 'Travelpayouts SubID reporting map', 'bookings-flights-core' ); ?></h2>
+			<p class="description"><?php echo esc_html__( 'These readable SubIDs map major Bookings and Flights surfaces to Travelpayouts reporting. They contain placement context only; never names, emails, IP addresses, raw prompts, private trip details, or per-user identifiers.', 'bookings-flights-core' ); ?></p>
+			<?php if ( empty( $subid_map ) ) : ?>
+				<p class="description"><?php echo esc_html__( 'No SubID map entries are available yet.', 'bookings-flights-core' ); ?></p>
+			<?php else : ?>
+				<table class="widefat striped">
+					<thead>
+						<tr>
+							<th scope="col"><?php echo esc_html__( 'Surface', 'bookings-flights-core' ); ?></th>
+							<th scope="col"><?php echo esc_html__( 'Placement', 'bookings-flights-core' ); ?></th>
+							<th scope="col"><?php echo esc_html__( 'Example SubID', 'bookings-flights-core' ); ?></th>
+							<th scope="col"><?php echo esc_html__( 'Status', 'bookings-flights-core' ); ?></th>
+							<th scope="col"><?php echo esc_html__( 'Source of truth', 'bookings-flights-core' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ( $subid_map as $row ) : ?>
+							<tr>
+								<td><?php echo esc_html( (string) $row['surface'] ); ?></td>
+								<td>
+									<strong><?php echo esc_html( (string) $row['placement_key'] ); ?></strong><br />
+									<span class="description"><?php echo esc_html( (string) $row['placement_name'] ); ?></span>
+								</td>
+								<td><code><?php echo esc_html( (string) $row['example_subid'] ); ?></code></td>
+								<td><?php echo esc_html( true === (bool) $row['configured'] ? (string) $row['status'] : __( 'mapped only', 'bookings-flights-core' ) ); ?></td>
+								<td><?php echo esc_html( (string) $row['reporting_source'] ); ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endif; ?>
+		</section>
+
+		<section class="baf-report-panel">
+			<h2><?php echo esc_html__( 'Observed local SubID clicks', 'bookings-flights-core' ); ?></h2>
+			<p class="description"><?php echo esc_html__( 'Local click records are privacy-aware operational signals from signed handoff URLs. Missing rows mean unavailable local records for this date range, not zero Travelpayouts revenue or conversions.', 'bookings-flights-core' ); ?></p>
+			<?php if ( empty( $observed_subids ) ) : ?>
+				<p class="description"><?php echo esc_html__( 'No local SubID click records are available for this date range.', 'bookings-flights-core' ); ?></p>
+			<?php else : ?>
+				<table class="widefat striped">
+					<thead>
+						<tr>
+							<th scope="col"><?php echo esc_html__( 'SubID', 'bookings-flights-core' ); ?></th>
+							<th scope="col"><?php echo esc_html__( 'Provider', 'bookings-flights-core' ); ?></th>
+							<th scope="col"><?php echo esc_html__( 'Target host', 'bookings-flights-core' ); ?></th>
+							<th scope="col"><?php echo esc_html__( 'Local clicks', 'bookings-flights-core' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ( $observed_subids as $row ) : ?>
+							<tr>
+								<td><code><?php echo esc_html( (string) $row['subid'] ); ?></code></td>
+								<td><?php echo esc_html( (string) $row['provider'] ); ?></td>
+								<td><?php echo esc_html( (string) $row['target_host'] ); ?></td>
+								<td><?php echo esc_html( number_format_i18n( (int) $row['count'] ) ); ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endif; ?>
+		</section>
+		<?php
+	}
+
 	private static function render_ai_reports( array $sessions ): void {
 		?>
 		<div class="baf-report-grid">
@@ -148,7 +216,7 @@ final class Reports_Page {
 							<tr>
 								<td><?php echo esc_html( (string) $row['provider'] ); ?></td>
 								<td><?php echo esc_html( (string) $row['status'] ); ?></td>
-								<td><?php echo esc_html( (string) $row['metric_key'] ); ?>: <?php echo esc_html( (string) $row['metric_value'] ); ?></td>
+								<td><?php echo esc_html( (string) $row['metric_key'] ); ?>: <?php echo esc_html( self::format_metric_value( $row['metric_value'] ?? null ) ); ?></td>
 								<td><?php echo esc_html( self::format_datetime( (string) $row['recorded_at'] ) ); ?></td>
 								<td><?php echo esc_html( (string) $row['message'] ); ?></td>
 							</tr>
@@ -258,5 +326,17 @@ final class Reports_Page {
 		}
 
 		return wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp );
+	}
+
+	private static function format_metric_value( mixed $value ): string {
+		if ( null === $value || '' === $value ) {
+			return __( 'Unavailable', 'bookings-flights-core' );
+		}
+
+		if ( is_numeric( $value ) ) {
+			return (string) (float) $value;
+		}
+
+		return sanitize_text_field( (string) $value );
 	}
 }

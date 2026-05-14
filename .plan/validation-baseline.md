@@ -280,6 +280,7 @@ Phase 8 note:
 
 - `bookings-flights-core` creates `$wpdb->prefix . 'bf_provider_stats'` idempotently with `dbDelta()` for provider status reporting.
 - The table stores snapshot UUID, timestamp, provider key, status, metric key/value, sanitized message, and source label. It must not store API keys, raw provider payloads, private customer data, raw request identifiers, or conversion identifiers.
+- P19.4 extends the admin Reports surface with a Travelpayouts SubID reporting map and observed local SubID click rows. Validate that SubID examples stay lowercase/underscore-only, observed rows come from local `bf_clicks` records only, provider-owned revenue/conversion/search totals are described as Travelpayouts-owned, unavailable metrics render as unavailable rather than zero, and desktop/mobile admin tables do not overflow their panels.
 
 Phase 8 WP-CLI smoke checks from the WordPress root:
 
@@ -290,6 +291,8 @@ php -d mysqli.default_socket="/Users/djcavy/Library/Application Support/Local/ru
 php -d mysqli.default_socket="/Users/djcavy/Library/Application Support/Local/run/qRHZasMmV/mysql/mysqld.sock" /opt/homebrew/bin/wp eval '$admins = get_users( array( "role" => "administrator", "number" => 1, "fields" => "ID" ) ); wp_set_current_user( (int) $admins[0] ); BAF\Core\Admin\Admin_Manager::register_menu(); global $submenu; $slugs = array(); foreach ( (array) ( $submenu["baf-dashboard"] ?? array() ) as $item ) { $slugs[] = $item[2]; } echo "reports_menu:" . ( in_array( "baf-reports", $slugs, true ) ? "registered" : "missing" ) . PHP_EOL;'
 php -d mysqli.default_socket="/Users/djcavy/Library/Application Support/Local/run/qRHZasMmV/mysql/mysqld.sock" /opt/homebrew/bin/wp eval '$admins = get_users( array( "role" => "administrator", "number" => 1, "fields" => "ID" ) ); wp_set_current_user( (int) $admins[0] ); ob_start(); BAF\Core\Admin\Reports_Page::render(); $html = ob_get_clean(); echo "reports_render:" . ( str_contains( $html, "Bookings and Flights Reports" ) ? "ok" : "missing" ) . PHP_EOL;'
 ```
+
+P19.4 local result on 2026-05-14: focused WP-CLI smoke inserted one temporary `bf_clicks` row with a valid UUID, confirmed the reporting dashboard returned at least 15 SubID map entries and one observed local SubID click row, verified example SubIDs use only lowercase letters, numbers, and underscores, and confirmed conversion data remains unavailable/provider-owned rather than zero revenue. Playwright Chromium runtime validation was used after the Codex in-app Browser connection timed out; desktop and mobile admin screenshots confirmed the Reports page rendered the SubID map, observed local SubID clicks, unavailable provider metric state, keyboard reachability for report controls, no app-owned console/request failures, and no horizontal overflow. Temporary click, provider-stat, and admin-user fixtures were deleted after validation.
 
 Phase 9 release readiness custom table check from the WordPress root:
 

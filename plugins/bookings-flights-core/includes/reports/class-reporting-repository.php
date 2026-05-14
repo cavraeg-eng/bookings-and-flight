@@ -26,17 +26,20 @@ final class Reporting_Repository {
 			return array(
 				'total'       => 0,
 				'by_provider' => array(),
+				'by_subid'    => array(),
 				'top_content' => array(),
 			);
 		}
 
 		$total       = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table} WHERE occurred_at >= %s", $cutoff ) );
 		$by_provider = (array) $wpdb->get_results( $wpdb->prepare( "SELECT provider, COUNT(*) AS clicks FROM {$table} WHERE occurred_at >= %s GROUP BY provider ORDER BY clicks DESC LIMIT 10", $cutoff ), ARRAY_A );
+		$by_subid    = (array) $wpdb->get_results( $wpdb->prepare( "SELECT subid, provider, target_host, COUNT(*) AS clicks FROM {$table} WHERE occurred_at >= %s AND subid <> '' GROUP BY subid, provider, target_host ORDER BY clicks DESC LIMIT 25", $cutoff ), ARRAY_A );
 		$top_content = (array) $wpdb->get_results( $wpdb->prepare( "SELECT post_id, COUNT(*) AS clicks FROM {$table} WHERE occurred_at >= %s AND post_id > 0 GROUP BY post_id ORDER BY clicks DESC LIMIT 10", $cutoff ), ARRAY_A );
 
 		return array(
 			'total'       => $total,
 			'by_provider' => array_map( array( $this, 'sanitize_count_row' ), $by_provider ),
+			'by_subid'    => array_map( array( $this, 'sanitize_subid_row' ), $by_subid ),
 			'top_content' => $this->hydrate_top_content( $top_content ),
 		);
 	}
@@ -110,6 +113,15 @@ final class Reporting_Repository {
 		return array(
 			'label' => sanitize_text_field( (string) ( $row['provider'] ?? '' ) ),
 			'count' => absint( $row['clicks'] ?? 0 ),
+		);
+	}
+
+	private function sanitize_subid_row( array $row ): array {
+		return array(
+			'subid'       => substr( preg_replace( '/[^a-z0-9_]+/', '_', strtolower( (string) ( $row['subid'] ?? '' ) ) ), 0, 191 ),
+			'provider'    => sanitize_key( (string) ( $row['provider'] ?? '' ) ),
+			'target_host' => sanitize_text_field( (string) ( $row['target_host'] ?? '' ) ),
+			'count'       => absint( $row['clicks'] ?? 0 ),
 		);
 	}
 

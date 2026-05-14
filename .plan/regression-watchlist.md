@@ -19,6 +19,8 @@ What to check after future changes:
 - WordPress does not store canonical live flight or hotel inventory. Any future cached-offer feature remains explicitly non-canonical, consent-aware, TTL/provenance documented, and separate from Travelpayouts revenue/reporting source of truth.
 - Travelpayouts Partner ID, Token, marker, and API credentials are never exposed in frontend HTML, JavaScript, public REST responses, logs, or admin notices.
 - SubIDs use lowercase Latin letters, numbers, and underscores and do not contain private user/trip data.
+- Admin Reports keep the Travelpayouts SubID reporting map readable and do not include names, emails, IP addresses, raw prompts, private trip details, or per-user identifiers in examples or observed rows.
+- Missing local SubID click rows or unavailable provider metric values are not described as zero Travelpayouts revenue, bookings, searches, clicks, conversion, or earnings.
 - PHP deprecation or warning output from bundled Travelpayouts dependencies does not print into public pages.
 - Trip.com hotel surfaces keep a visible sponsored handoff link even when the embedded iframe is blocked or blank in a browser.
 - Affiliate disclosure appears on every monetized widget, link, card, route, destination, and AI planner surface.
@@ -28,6 +30,7 @@ What to check after future changes:
 - Search/result transitions do not expose an unrelated redirected-page look that breaks brand continuity.
 - White Label SEO and Booking.com fare limitations remain documented where relevant.
 - Local analytics treat Travelpayouts reports as the source of truth for affiliate revenue and conversion data.
+- Local `bf_clicks` analytics remain operational WordPress signals from signed handoff events and do not become a substitute for Travelpayouts Performance reports.
 
 Related files/routes/tables/settings:
 
