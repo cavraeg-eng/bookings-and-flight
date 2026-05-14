@@ -446,7 +446,7 @@ function bookings_and_flights_enqueue_scripts() {
         true
     );
 
-    if ( is_page( array( 'flights', 'hotels' ) ) ) {
+    if ( is_front_page() || is_page( array( 'flights', 'hotels' ) ) ) {
         wp_enqueue_script(
             'bookings_and_flights-search-surface',
             get_template_directory_uri() . '/assets/js/search-surface.js',

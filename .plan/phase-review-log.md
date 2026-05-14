@@ -3146,3 +3146,44 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID affiliate marker and additional marker.
 
 Decision: P19.6 is ready for PR review. Keep Phase 19 `In Progress` until the remaining release-readiness and final Phase 19 gates pass.
+
+### P19.7 - Performance, accessibility, responsive, and browser regression pass
+
+Date: 2026-05-14
+
+Linear issue: `ONE-126`
+
+Status: In Review
+
+Scope reviewed: Release-readiness browser regression pass across public travel surfaces, authenticated saved trips, and Bookings & Flights admin screens. Reviewed responsive layout, home/Flights/Hotels search-to-provider anchors, Travelpayouts White Label route hints, keyboard traversal, app-owned console/request failures, Settings API labels, admin/widget nonces, touch targets, source warnings, and provider-owned runtime noise classification.
+
+Acceptance criteria result: Passed locally for the PR candidate. The final Playwright report returned `status=pass`, `findingCount=0`, `criticalFindingCount=0`, `screenshotCount=27`, and `keyboardReviewCount=8`.
+
+Functional review: Passed locally. Runtime checks covered homepage, Flights, Hotels, destination archive/single, route archive/single, travel deal archive/single, travel-region taxonomy, Trip Planner, About, Privacy, Terms, authenticated Saved Trips, Integrations, Widget Placements, Reports, and Settings. The pass confirmed nonblank content, no framework overlays, no horizontal overflow, no duplicate IDs in app-owned scopes, no unlabeled app-owned controls, no sub-24px app-owned targets, and no app-owned failed requests.
+
+Keyboard review: Passed locally. Keyboard paths covered Flights, Hotels, route single, Trip Planner, Saved Trips, Integrations, Widget Placements, and Settings. Focus moved through skip links, navigation, forms, handoff controls, saved-trip actions, and protected admin controls without traps.
+
+Security and data review: Passed locally. Strict rendered-source token scanning found no API keys, bearer tokens, provider secrets, postback secrets, raw prompts, provider payloads, booking IDs, payment identifiers, confirmation numbers, or live inventory. Provider-owned `tpembars.com`, `avsplow.com`, Travelpayouts, Trip.com, and Chromium WebGL noise remained separate from app-owned failures.
+
+Regression review: Existing P19.1 saved-trip privacy/deletion, P19.2 alert lifecycle/delete links, P19.3 privacy export/erase, P19.4 SubID analytics, P19.5 report guardrails, P19.6 source/security exposure, Phase 18 AI privacy gates, and Phase 13 placement rendering boundaries remain intact.
+
+Validation performed: PHP syntax checks for changed PHP files; `node --check` for `search-surface.js`; file-size review; `bookings-flights-core` deactivate/reactivate/is-active with the LocalWP MySQL socket; Settings API `label_for` smoke; Widget Placement registry admin smoke; public Flights/Hotels source scans for textdomain/PHP warning output plus provider-section anchors/intent summaries; Codex in-app Browser attempt followed by Playwright Chromium fallback because no active browser pane was available; `/tmp/one126-runtime-review-report-final.json`; screenshots under `/tmp/one126-screenshots-final`; temporary browser-test posts, term, and admin user cleanup; `git diff --check`.
+
+Bugs found: Core cron scheduling ran too early during plugin bootstrap and could print a WordPress `_load_textdomain_just_in_time` notice before widget output. Home, Flights, and Hotels search submissions could leave users at the top/local intent area instead of moving them to the configured provider search section with the submitted intent visible. Settings API fields lacked `label_for` metadata. Multiple Widget Placements delete forms reused the default `_wpnonce` input ID. Flight-alert/admin checkboxes were below the strict 24px target-size threshold.
+
+Bugs fixed: `Cron_Manager::schedule_events()` now runs on `init` priority 20. Search-surface forms now target `#flights-provider-search` or `#hotels-provider-search`, highlight submitted provider sections, normalize route codes, and pass flight route hints into the Travelpayouts White Label configuration. Settings fields now share a `label_for` helper. Widget placement delete forms now use per-placement nonce field names. Flight-alert and scoped Bookings & Flights admin checkbox/button targets meet the strict browser audit.
+
+Bugs deferred: No app-owned P19.7 blocker remains. Provider-owned widget/runtime warnings remain watchlist-only. The remaining final launch-readiness Phase 19 gate stays in the next issue.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-19-performance-accessibility-review.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Theme Handbook: Accessibility.
+- WordPress Plugin Handbook: Enqueuing scripts and styles.
+- WordPress Plugin Security Handbook: sanitizing, escaping, capabilities, and nonces.
+- WordPress REST API Handbook: permission callbacks.
+- WordPress Cron Handbook.
+- W3C WCAG 2.2: keyboard, focus, and target-size guidance.
+- Travelpayouts official Help Center: widgets, White Label, ID, and SubID guidance.
+
+Decision: P19.7 is ready for PR review. Keep Phase 19 `In Progress` until the final launch-readiness Phase 19 gate passes.

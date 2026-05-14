@@ -196,6 +196,26 @@ final class Travelpayouts_Widget_Renderer {
 			);
 		}
 
+		$flight_params = array();
+
+		if ( '' !== (string) $attributes['origin'] ) {
+			$flight_params['origin'] = (string) $attributes['origin'];
+		}
+
+		if ( '' !== (string) $attributes['destination'] ) {
+			$flight_params['destination'] = (string) $attributes['destination'];
+		}
+
+		if ( array() !== $flight_params ) {
+			$configuration['flightParams'] = wp_parse_args(
+				$flight_params,
+				array(
+					'origin'      => '',
+					'destination' => '',
+				)
+			);
+		}
+
 		$configuration_json = wp_json_encode( $configuration );
 		$script_src_json    = wp_json_encode( esc_url_raw( $script_src ) );
 		$fallback_placement = self::with_white_label_fallback( $placement );

@@ -128,9 +128,11 @@
 }
 
 .baf-flight-alert__consent input {
-	block-size: 1.35rem;
-	inline-size: 1.35rem;
+	block-size: 1.5rem;
+	inline-size: 1.5rem;
 	margin-block-start: 0.25rem;
+	min-block-size: 24px;
+	min-inline-size: 24px;
 }
 
 .baf-flight-alert__submit {

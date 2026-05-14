@@ -156,6 +156,22 @@
 	max-width: 100%;
 }
 
+.baf-admin input[type="checkbox"] {
+	min-block-size: 24px;
+	min-inline-size: 24px;
+	vertical-align: middle;
+}
+
+.baf-admin .button {
+	min-block-size: 32px;
+}
+
+.baf-admin a.button,
+.baf-admin button.button {
+	align-items: center;
+	display: inline-flex;
+}
+
 .baf-settings-form input:focus-visible,
 .baf-settings-form select:focus-visible,
 .baf-settings-form textarea:focus-visible,

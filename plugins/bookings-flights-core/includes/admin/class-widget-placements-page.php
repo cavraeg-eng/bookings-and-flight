@@ -152,7 +152,7 @@ final class Widget_Placements_Page {
 
 		$key = sanitize_key( (string) wp_unslash( $_POST['placement_key'] ?? '' ) );
 
-		check_admin_referer( self::DELETE_ACTION . '_' . $key );
+		check_admin_referer( self::DELETE_ACTION . '_' . $key, self::delete_nonce_field_name( $key ) );
 
 		$service = new Travelpayouts_Widget_Registry_Service();
 		$deleted = $service->delete_placement( $key );
@@ -292,7 +292,7 @@ final class Widget_Placements_Page {
 				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 					<input type="hidden" name="action" value="<?php echo esc_attr( self::DELETE_ACTION ); ?>" />
 					<input type="hidden" name="placement_key" value="<?php echo esc_attr( $key ); ?>" />
-					<?php wp_nonce_field( self::DELETE_ACTION . '_' . $key ); ?>
+					<?php wp_nonce_field( self::DELETE_ACTION . '_' . $key, self::delete_nonce_field_name( $key ), false ); ?>
 					<button type="submit" class="button button-small" onclick="return confirm('<?php echo esc_js( __( 'Delete this placement?', 'bookings-flights-core' ) ); ?>');"><?php echo esc_html__( 'Delete', 'bookings-flights-core' ); ?></button>
 				</form>
 			</td>
@@ -302,6 +302,10 @@ final class Widget_Placements_Page {
 
 	private static function requested_placement_key(): string {
 		return sanitize_key( (string) wp_unslash( $_GET['placement'] ?? '' ) );
+	}
+
+	private static function delete_nonce_field_name( string $key ): string {
+		return '_wpnonce_' . sanitize_key( $key );
 	}
 
 	private static function placement_is_configured( array $placement ): bool {

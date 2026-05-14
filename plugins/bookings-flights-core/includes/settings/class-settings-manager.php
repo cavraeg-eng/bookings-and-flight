@@ -188,34 +188,36 @@ final class Settings_Manager {
 
 	private static function register_core_fields(): void {
 		add_settings_section( 'baf_general_section', __( 'Product basics', 'bookings-flights-core' ), '__return_false', 'baf-settings' );
-		add_settings_field( 'baf_brand_name', __( 'Brand name', 'bookings-flights-core' ), array( self::class, 'render_text_field' ), 'baf-settings', 'baf_general_section', array( 'option' => self::OPTION_GENERAL, 'key' => 'brand_name' ) );
-		add_settings_field( 'baf_support_email', __( 'Support email', 'bookings-flights-core' ), array( self::class, 'render_email_field' ), 'baf-settings', 'baf_general_section', array( 'option' => self::OPTION_GENERAL, 'key' => 'support_email' ) );
+		add_settings_field( 'baf_brand_name', __( 'Brand name', 'bookings-flights-core' ), array( self::class, 'render_text_field' ), 'baf-settings', 'baf_general_section', self::field_args( self::OPTION_GENERAL, 'brand_name' ) );
+		add_settings_field( 'baf_support_email', __( 'Support email', 'bookings-flights-core' ), array( self::class, 'render_email_field' ), 'baf-settings', 'baf_general_section', self::field_args( self::OPTION_GENERAL, 'support_email' ) );
 
 		add_settings_section( 'baf_consent_section', __( 'Consent gates', 'bookings-flights-core' ), array( self::class, 'render_consent_section' ), 'baf-settings' );
-		add_settings_field( 'baf_allow_external_ai', __( 'External AI consent', 'bookings-flights-core' ), array( self::class, 'render_checkbox_field' ), 'baf-settings', 'baf_consent_section', array( 'option' => self::OPTION_CONSENT, 'key' => 'allow_external_ai', 'label' => __( 'Allow live AI providers after explicit user/admin approval.', 'bookings-flights-core' ) ) );
-		add_settings_field( 'baf_allow_provider_requests', __( 'Provider request consent', 'bookings-flights-core' ), array( self::class, 'render_checkbox_field' ), 'baf-settings', 'baf_consent_section', array( 'option' => self::OPTION_CONSENT, 'key' => 'allow_provider_requests', 'label' => __( 'Allow configured affiliate/search providers to receive required request data.', 'bookings-flights-core' ) ) );
-		add_settings_field( 'baf_consent_notice_override', __( 'Consent notice', 'bookings-flights-core' ), array( self::class, 'render_textarea_field' ), 'baf-settings', 'baf_consent_section', array( 'option' => self::OPTION_CONSENT, 'key' => 'consent_notice_override' ) );
+		add_settings_field( 'baf_allow_external_ai', __( 'External AI consent', 'bookings-flights-core' ), array( self::class, 'render_checkbox_field' ), 'baf-settings', 'baf_consent_section', self::field_args( self::OPTION_CONSENT, 'allow_external_ai', array( 'label' => __( 'Allow live AI providers after explicit user/admin approval.', 'bookings-flights-core' ) ) ) );
+		add_settings_field( 'baf_allow_provider_requests', __( 'Provider request consent', 'bookings-flights-core' ), array( self::class, 'render_checkbox_field' ), 'baf-settings', 'baf_consent_section', self::field_args( self::OPTION_CONSENT, 'allow_provider_requests', array( 'label' => __( 'Allow configured affiliate/search providers to receive required request data.', 'bookings-flights-core' ) ) ) );
+		add_settings_field( 'baf_consent_notice_override', __( 'Consent notice', 'bookings-flights-core' ), array( self::class, 'render_textarea_field' ), 'baf-settings', 'baf_consent_section', self::field_args( self::OPTION_CONSENT, 'consent_notice_override' ) );
 
 		add_settings_section( 'baf_tracking_section', __( 'Tracking defaults', 'bookings-flights-core' ), '__return_false', 'baf-settings' );
-		add_settings_field( 'baf_enable_click_tracking', __( 'Click tracking', 'bookings-flights-core' ), array( self::class, 'render_checkbox_field' ), 'baf-settings', 'baf_tracking_section', array( 'option' => self::OPTION_TRACKING, 'key' => 'enable_click_tracking', 'label' => __( 'Record privacy-aware local click signals for signed affiliate handoffs; Travelpayouts remains the revenue and conversion source of truth.', 'bookings-flights-core' ) ) );
-		add_settings_field( 'baf_anonymize_ip', __( 'Privacy', 'bookings-flights-core' ), array( self::class, 'render_checkbox_field' ), 'baf-settings', 'baf_tracking_section', array( 'option' => self::OPTION_TRACKING, 'key' => 'anonymize_ip', 'label' => __( 'Anonymize IP-derived data where tracking is stored.', 'bookings-flights-core' ) ) );
-		add_settings_field( 'baf_subid_prefix', __( 'SubID prefix', 'bookings-flights-core' ), array( self::class, 'render_text_field' ), 'baf-settings', 'baf_tracking_section', array( 'option' => self::OPTION_TRACKING, 'key' => 'subid_prefix' ) );
+		add_settings_field( 'baf_enable_click_tracking', __( 'Click tracking', 'bookings-flights-core' ), array( self::class, 'render_checkbox_field' ), 'baf-settings', 'baf_tracking_section', self::field_args( self::OPTION_TRACKING, 'enable_click_tracking', array( 'label' => __( 'Record privacy-aware local click signals for signed affiliate handoffs; Travelpayouts remains the revenue and conversion source of truth.', 'bookings-flights-core' ) ) ) );
+		add_settings_field( 'baf_anonymize_ip', __( 'Privacy', 'bookings-flights-core' ), array( self::class, 'render_checkbox_field' ), 'baf-settings', 'baf_tracking_section', self::field_args( self::OPTION_TRACKING, 'anonymize_ip', array( 'label' => __( 'Anonymize IP-derived data where tracking is stored.', 'bookings-flights-core' ) ) ) );
+		add_settings_field( 'baf_subid_prefix', __( 'SubID prefix', 'bookings-flights-core' ), array( self::class, 'render_text_field' ), 'baf-settings', 'baf_tracking_section', self::field_args( self::OPTION_TRACKING, 'subid_prefix' ) );
 	}
 
 	private static function register_integration_fields(): void {
 		add_settings_section( 'baf_travelpayouts_section', __( 'Travelpayouts', 'bookings-flights-core' ), array( self::class, 'render_travelpayouts_section' ), 'baf-integrations' );
-		add_settings_field( 'baf_travelpayouts_marker', __( 'Marker', 'bookings-flights-core' ), array( self::class, 'render_text_field' ), 'baf-integrations', 'baf_travelpayouts_section', array( 'option' => self::OPTION_TRAVELPAYOUTS, 'key' => 'marker' ) );
-		add_settings_field( 'baf_travelpayouts_api_token', __( 'API token', 'bookings-flights-core' ), array( self::class, 'render_secret_field' ), 'baf-integrations', 'baf_travelpayouts_section', array( 'option' => self::OPTION_TRAVELPAYOUTS, 'key' => 'api_token' ) );
+		add_settings_field( 'baf_travelpayouts_marker', __( 'Marker', 'bookings-flights-core' ), array( self::class, 'render_text_field' ), 'baf-integrations', 'baf_travelpayouts_section', self::field_args( self::OPTION_TRAVELPAYOUTS, 'marker' ) );
+		add_settings_field( 'baf_travelpayouts_api_token', __( 'API token', 'bookings-flights-core' ), array( self::class, 'render_secret_field' ), 'baf-integrations', 'baf_travelpayouts_section', self::field_args( self::OPTION_TRAVELPAYOUTS, 'api_token' ) );
 		add_settings_field(
 			'baf_travelpayouts_white_label_widget_id',
 			__( 'White Label Widget code or ID', 'bookings-flights-core' ),
 			array( self::class, 'render_white_label_widget_field' ),
 			'baf-integrations',
 			'baf_travelpayouts_section',
-			array(
-				'option'      => self::OPTION_TRAVELPAYOUTS,
-				'key'         => 'white_label_widget_id',
-				'description' => __( 'Paste the full Travelpayouts White Label Widget main code or only the wl_id value. For safety, only the widget ID is stored.', 'bookings-flights-core' ),
+			self::field_args(
+				self::OPTION_TRAVELPAYOUTS,
+				'white_label_widget_id',
+				array(
+					'description' => __( 'Paste the full Travelpayouts White Label Widget main code or only the wl_id value. For safety, only the widget ID is stored.', 'bookings-flights-core' ),
+				)
 			)
 		);
 		add_settings_field(
@@ -224,10 +226,12 @@ final class Settings_Manager {
 			array( self::class, 'render_url_field' ),
 			'baf-integrations',
 			'baf_travelpayouts_section',
-			array(
-				'option'      => self::OPTION_TRAVELPAYOUTS,
-				'key'         => 'white_label_results_url',
-				'description' => __( 'Optional. Use this only when Travelpayouts results should open on a separate WordPress results page.', 'bookings-flights-core' ),
+			self::field_args(
+				self::OPTION_TRAVELPAYOUTS,
+				'white_label_results_url',
+				array(
+					'description' => __( 'Optional. Use this only when Travelpayouts results should open on a separate WordPress results page.', 'bookings-flights-core' ),
+				)
 			)
 		);
 		add_settings_field(
@@ -236,17 +240,19 @@ final class Settings_Manager {
 			array( self::class, 'render_hotel_widget_field' ),
 			'baf-integrations',
 			'baf_travelpayouts_section',
-			array(
-					'option'      => self::OPTION_TRAVELPAYOUTS,
-					'key'         => 'hotel_widget_script_url',
+			self::field_args(
+				self::OPTION_TRAVELPAYOUTS,
+				'hotel_widget_script_url',
+				array(
 					'description' => __( 'Paste the Travelpayouts dashboard hotel widget code for Trip.com or another Hotels & Accommodation brand. For safety, only an approved Travelpayouts widget script URL or Trip.com partner iframe URL is stored.', 'bookings-flights-core' ),
 				)
-			);
+			)
+		);
 
 		add_settings_section( 'baf_ai_section', __( 'AI provider', 'bookings-flights-core' ), array( self::class, 'render_ai_section' ), 'baf-integrations' );
-		add_settings_field( 'baf_ai_mode', __( 'Mode', 'bookings-flights-core' ), array( self::class, 'render_select_field' ), 'baf-integrations', 'baf_ai_section', array( 'option' => self::OPTION_AI, 'key' => 'mode', 'choices' => array( 'demo' => __( 'Demo mode', 'bookings-flights-core' ), 'live' => __( 'Live provider', 'bookings-flights-core' ) ) ) );
-		add_settings_field( 'baf_ai_provider', __( 'Provider', 'bookings-flights-core' ), array( self::class, 'render_select_field' ), 'baf-integrations', 'baf_ai_section', array( 'option' => self::OPTION_AI, 'key' => 'provider', 'choices' => array( '' => __( 'Not configured', 'bookings-flights-core' ), 'openai' => 'OpenAI', 'anthropic' => 'Anthropic', 'vercel_ai_gateway' => 'Vercel AI Gateway' ) ) );
-		add_settings_field( 'baf_ai_api_key', __( 'API key', 'bookings-flights-core' ), array( self::class, 'render_secret_field' ), 'baf-integrations', 'baf_ai_section', array( 'option' => self::OPTION_AI, 'key' => 'api_key' ) );
+		add_settings_field( 'baf_ai_mode', __( 'Mode', 'bookings-flights-core' ), array( self::class, 'render_select_field' ), 'baf-integrations', 'baf_ai_section', self::field_args( self::OPTION_AI, 'mode', array( 'choices' => array( 'demo' => __( 'Demo mode', 'bookings-flights-core' ), 'live' => __( 'Live provider', 'bookings-flights-core' ) ) ) ) );
+		add_settings_field( 'baf_ai_provider', __( 'Provider', 'bookings-flights-core' ), array( self::class, 'render_select_field' ), 'baf-integrations', 'baf_ai_section', self::field_args( self::OPTION_AI, 'provider', array( 'choices' => array( '' => __( 'Not configured', 'bookings-flights-core' ), 'openai' => 'OpenAI', 'anthropic' => 'Anthropic', 'vercel_ai_gateway' => 'Vercel AI Gateway' ) ) ) );
+		add_settings_field( 'baf_ai_api_key', __( 'API key', 'bookings-flights-core' ), array( self::class, 'render_secret_field' ), 'baf-integrations', 'baf_ai_section', self::field_args( self::OPTION_AI, 'api_key' ) );
 	}
 
 	public static function render_text_field( array $args ): void {
@@ -373,6 +379,17 @@ final class Settings_Manager {
 
 	private static function field_id( string $option, string $key ): string {
 		return $option . '_' . $key;
+	}
+
+	private static function field_args( string $option, string $key, array $args = array() ): array {
+		return array_merge(
+			array(
+				'option'    => $option,
+				'key'       => $key,
+				'label_for' => self::field_id( $option, $key ),
+			),
+			$args
+		);
 	}
 
 	private static function sanitize_secret_value( $value, string $existing ): string {
