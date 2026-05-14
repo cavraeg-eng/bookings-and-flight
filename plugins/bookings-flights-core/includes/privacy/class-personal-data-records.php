@@ -123,7 +123,7 @@ final class Personal_Data_Records {
 			'order'                  => 'ASC',
 			'orderby'                => 'ID',
 			'paged'                  => max( 1, $page ),
-			'post_status'            => array( 'draft', 'private', 'pending', 'publish' ),
+			'post_status'            => array( 'draft', 'private' ),
 			'post_type'              => Post_Type_Registrar::TRIP_PLAN,
 			'posts_per_page'         => $per_page,
 			'no_found_rows'          => true,

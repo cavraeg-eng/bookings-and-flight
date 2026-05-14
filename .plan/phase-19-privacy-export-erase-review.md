@@ -44,6 +44,7 @@ Passed locally:
 - `bookings-flights-core` deactivate/reactivate/is-active check.
 - WP-CLI privacy smoke with 54 assertions.
 - WP-CLI retained-record erasure smoke with 31 assertions.
+- WP-CLI published-AI privacy smoke with 5 assertions.
 - Playwright Chromium runtime screenshots and keyboard review after the Codex in-app Browser connection timed out.
 
 Runtime evidence:
@@ -60,6 +61,7 @@ Found and fixed:
 
 - Temporary privacy-smoke assertions were too literal about JSON-escaped URLs; the validation harness was tightened.
 - Codex review found that retained saved-trip records could stop erasure pagination too early; the eraser now reports retained records without marking the batch done when more records remain.
+- Codex review found that published AI-attributed trip-plan posts could be included in draft privacy erasure; AI trip-plan export/erase now stays scoped to draft/private non-public records.
 - Provider-owned widget console noise, including `tpembars.com` CORS/config messages, was classified as watchlist-only after app-owned request checks passed.
 
 Deferred:
