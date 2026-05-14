@@ -68,6 +68,9 @@ What to check after future changes:
 - Signed alert delete links open a confirmation page, require an alert-specific nonce-protected POST to permanently delete the private alert record, do not rely on plaintext stored tokens, and treat `wp_delete_post()` `false`/`null` returns as failures.
 - Alert and saved-trip cleanup checks confirm temporary validation records are removed.
 - Personal-data export/erase work must keep saved trips, alerts, AI trip-plan drafts, and AI session logs scoped to the requester and must not expose unrelated users' records, raw AI prompts, provider payloads, request/output hashes, booking/payment identifiers, provider secrets, or live inventory.
+- Launch-readiness checks keep the distinction between app-owned blockers and production-environment validation: real Travelpayouts account/domain, White Label, partner embeds, consent settings, caching/content-security, and browser mix must be rechecked on deployment before public go-live.
+- `themes/bookings-and-flights-static/functions.php` remains at the 600-line ceiling after P19.8 and should be split before future theme bootstrap expansion.
+- The untracked affiliate bridge/content manager plugin source remains outside the tracked launch scope unless a separate decision stages those files.
 
 Related files/routes/settings:
 
@@ -78,6 +81,7 @@ Related files/routes/settings:
 - `plugins/bookings-flights-core/includes/jobs/class-job-runner.php`
 - `plugins/bookings-flights-core/includes/cron/class-cron-manager.php`
 - `plugins/bookings-flights-core/includes/rest/class-saved-trips-controller.php`
+- `.plan/release-readiness-checklist.md`
 - `/saved-trips/`
 - `/flights/`
 - `baf_process_travel_alerts`

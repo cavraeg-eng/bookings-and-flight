@@ -2899,7 +2899,7 @@ Decision: P18.7 completed. PR #55 was reviewed by Codex with no major issues, ha
 
 Date: 2026-05-13
 
-Status: In Review
+Status: Completed
 
 Reviewer: Codex
 
@@ -2935,13 +2935,13 @@ Research consulted:
 - WordPress Plugin Handbook: Personal Data Exporter, Personal Data Eraser, Privacy Related Options/Hooks/Capabilities.
 - Travelpayouts Help Center: ID and SubID.
 
-Decision: P19.1 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
+Decision: P19.1 completed after PR #56 was reviewed, merged into `main` at `5ad70d0`, and Linear `ONE-120` was synced to Done. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
 
 ### P19.2 — Price alert intent, limits, and email/cron hooks
 
 Date: 2026-05-13
 
-Status: In Review
+Status: Completed
 
 Reviewer: Codex
 
@@ -2980,13 +2980,13 @@ Research consulted:
 - WordPress Code Reference: `admin_post_{$action}`.
 - WordPress Common APIs Handbook: Sanitizing Data.
 
-Decision: P19.2 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
+Decision: P19.2 completed after PR #57 was reviewed, merged into `main` at `34be52f`, and Linear `ONE-121` was synced to Done. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
 
 ### P19.3 — Resume planning links and user data delete/export behavior
 
 Date: 2026-05-13
 
-Status: In Review
+Status: Completed
 
 Reviewer: Codex
 
@@ -3023,7 +3023,7 @@ Research consulted:
 - WordPress Code Reference: `wp_privacy_personal_data_erasers`.
 - WordPress Plugin Security Handbook: sanitizing, escaping, capability, and privacy boundaries.
 
-Decision: P19.3 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
+Decision: P19.3 completed after PR #58 was reviewed, merged into `main` at `b677176`, and Linear `ONE-122` was synced to Done. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
 
 ### P19.4 - Travelpayouts SubID reporting map and local analytics
 
@@ -3031,7 +3031,7 @@ Date: 2026-05-14
 
 Linear issue: `ONE-123`
 
-Status: In Review
+Status: Completed
 
 Scope reviewed: Travelpayouts SubID reporting map and local analytics. Reviewed Phase 19 objective, existing placement registry/SubID builder, `bf_clicks` local tracking table, admin Reports dashboard, CSV export, provider stats display, Travelpayouts-owned reporting boundary, privacy/export context, and runtime browser validation requirement.
 
@@ -3064,7 +3064,7 @@ Research consulted:
 - WordPress Plugin Handbook: Creating Tables with Plugins.
 - WordPress Plugin Handbook: Personal Data Exporter and Personal Data Eraser behavior for privacy-aware analytics context.
 
-Decision: P19.4 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
+Decision: P19.4 completed after PR #59 was reviewed, merged into `main` at `71adf9f`, and Linear `ONE-123` was synced to Done. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
 
 ### P19.5 - Admin reports, privacy review, and revenue overclaim guardrails
 
@@ -3072,7 +3072,7 @@ Date: 2026-05-14
 
 Linear issue: `ONE-124`
 
-Status: In Review
+Status: Completed
 
 Scope reviewed: Admin report privacy and revenue guardrails. Reviewed Phase 19 objective, report menu capabilities, `Reports_Page`, `Reporting_Service`, reporting repositories, provider stats, click/SubID summaries, AI session summaries, CSV export, Travelpayouts Performance reporting boundary, and runtime browser validation requirement.
 
@@ -3105,7 +3105,7 @@ Research consulted:
 - WordPress Roles and Capabilities documentation.
 - Travelpayouts Help Center: ID and SubID affiliate marker and additional marker.
 
-Decision: P19.5 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
+Decision: P19.5 completed after PR #60 was reviewed, merged into `main` at `eac0b04`, and Linear `ONE-124` was synced to Done. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
 
 ### P19.6 - Full security, REST permission, source, and secret exposure pass
 
@@ -3113,7 +3113,7 @@ Date: 2026-05-14
 
 Linear issue: `ONE-125`
 
-Status: In Review
+Status: Completed
 
 Scope reviewed: Full release-readiness security and exposure pass. Reviewed core REST controllers, settings, admin pages, widget placements, frontend shortcodes/routes, AI provider wiring, saved-trip endpoints, alert handlers, reports, active affiliate bridge routes, tracked Travelpayouts REST/widget routes, and public/admin source output.
 
@@ -3145,7 +3145,7 @@ Research consulted:
 - WordPress Plugin Security Handbook.
 - Travelpayouts Help Center: ID and SubID affiliate marker and additional marker.
 
-Decision: P19.6 is ready for PR review. Keep Phase 19 `In Progress` until the remaining release-readiness and final Phase 19 gates pass.
+Decision: P19.6 completed after PR #61 was reviewed by Codex with no major issues, merged into `main` at `4311c1d`, and Linear `ONE-125` was synced to Done. Keep Phase 19 `In Progress` until the remaining release-readiness and final Phase 19 gates pass.
 
 ### P19.7 - Performance, accessibility, responsive, and browser regression pass
 
@@ -3153,7 +3153,7 @@ Date: 2026-05-14
 
 Linear issue: `ONE-126`
 
-Status: In Review
+Status: Completed
 
 Scope reviewed: Release-readiness browser regression pass across public travel surfaces, authenticated saved trips, and Bookings & Flights admin screens. Reviewed responsive layout, home/Flights/Hotels search-to-provider anchors, Travelpayouts White Label route hints, keyboard traversal, app-owned console/request failures, Settings API labels, admin/widget nonces, touch targets, source warnings, and provider-owned runtime noise classification.
 
@@ -3186,4 +3186,49 @@ Research consulted:
 - W3C WCAG 2.2: keyboard, focus, and target-size guidance.
 - Travelpayouts official Help Center: widgets, White Label, ID, and SubID guidance.
 
-Decision: P19.7 is ready for PR review. Keep Phase 19 `In Progress` until the final launch-readiness Phase 19 gate passes.
+Decision: P19.7 completed after PR #62 was reviewed by Codex with no major issues, had no unresolved review threads, merged into `main` at `2f1dd86e1dd16dac4cd68aadf5a7979c286883a1`, and Linear `ONE-126` was synced to Done. Keep Phase 19 `In Progress` until the final launch-readiness Phase 19 gate passes.
+
+### P19.8 - Launch readiness checklist, known issues, and phase completion gate
+
+Date: 2026-05-14
+
+Linear issue: `ONE-127`
+
+Status: In Review
+
+Scope reviewed: Final Phase 19 launch-readiness gate. Reviewed Phase 11 through Phase 19 delivery notes, Travelpayouts-controlled backend boundary, launch checklist, known issues, regression watchlist, validation baseline, architecture baseline, saved trips, alerts, privacy export/erase, AI planner, local handoff intent, admin reports, security/source exposure, browser regression evidence, and current LocalWP sanity checks.
+
+Acceptance criteria result: Passed locally for the PR candidate. The launch checklist is current, known issues are triaged, the regression watchlist is current, and no app-owned local launch blocker remains. Public production launch still requires deployed-environment validation with real Travelpayouts account/domain settings, White Label configuration, partner embed behavior, caching/content-security, consent settings, and target browsers.
+
+Security review: Passed locally. P19.8 rechecked source output for PHP warnings and credential patterns on key public launch pages, confirmed concrete core REST routes retain permission callbacks, and confirmed the launch checklist still keeps Travelpayouts, Trip.com, White Label, booking, payment, changes, support, attribution, and definitive revenue reporting outside WordPress.
+
+REST permission review: Passed locally. WP-CLI route inventory with the LocalWP socket confirmed callable permission callbacks for `/baf/v1/destinations`, `/baf/v1/routes`, `/baf/v1/affiliate/click`, `/baf/v1/ai/itinerary`, `/baf/v1/ai/handoff`, and `/baf/v1/saved-trips`.
+
+Database/migration review: Passed locally. No schema change was introduced. Existing custom tables `bf_clicks`, `bf_ai_sessions`, and `bf_provider_stats` are present.
+
+Cron/email/privacy review: Passed locally for the gate. Cron hooks `baf_refresh_cached_offers`, `baf_process_travel_alerts`, `baf_sync_provider_stats`, and `baf_cleanup_job_records` are scheduled, and WordPress personal-data exporter/eraser hooks are registered.
+
+UI/browser review: Passed by aggregation from P19.7 plus current HTTP/source sanity. P19.7 captured 27 screenshots and 8 keyboard paths with 0 app-owned findings. Current HTTP checks confirmed `/flights/` and `/hotels/` return `200`; public source scans across `/flights/`, `/hotels/`, `/trip-planner/`, and `/saved-trips/` found no PHP warning/fatal/deprecated/textdomain output or credential patterns.
+
+Regression review: Existing P19.1 saved-trip privacy/deletion, P19.2 alert email/delete behavior, P19.3 privacy export/erase, P19.4 SubID analytics, P19.5 report guardrails, P19.6 security/source exposure, P19.7 browser regression fixes, Phase 18 AI privacy gates, and Phase 13 placement boundaries remain intact.
+
+Validation performed: `bookings-flights-core` deactivate/reactivate/is-active with LocalWP socket; core REST permission-callback inventory; cron schedule check; custom table presence check; privacy hook registration check; HTTP `200` checks for `/flights/` and `/hotels/`; source scans for PHP warning/fatal/deprecated/textdomain output and credential patterns on `/flights/`, `/hotels/`, `/trip-planner/`, and `/saved-trips/`; tracked core/static theme source file-size scan; `git diff --check`. WP-CLI emitted known PHP 8.5 deprecation warnings from bundled dependencies, but commands completed.
+
+Bugs found: No new app-owned production-code blocker was found. The existing `.plan/release-readiness-checklist.md` was stale from Phase 9 and needed to reflect Phase 11-19 evidence.
+
+Bugs fixed: Updated the launch checklist, added the Phase 19 launch-readiness review artifact, reconciled Phase 19 status in the phase plan, and refreshed known-issue/regression/validation/architecture docs for the final gate.
+
+Bugs deferred: Production Travelpayouts account/domain, White Label, partner embed, deployed browser/content-security, and consent validation remain required before public go-live. The official Travelpayouts plugin still emits PHP 8.5 deprecation warnings in WP-CLI/admin contexts. The untracked affiliate bridge/content manager plugin source needs a separate tracking decision before launch hardening changes are staged. `themes/bookings-and-flights-static/functions.php` is exactly 600 lines and should be split before further theme bootstrap expansion.
+
+Documentation updated: `.plan/release-readiness-checklist.md`, `.plan/phase-19-launch-readiness-review.md`, `.plan/phased-implementation.md`, `.plan/phase-review-log.md`, `.plan/known-issues.md`, `.plan/regression-watchlist.md`, `.plan/validation-baseline.md`, `.plan/architecture-baseline.md`.
+
+Research consulted:
+- WordPress Plugin Security Handbook.
+- WordPress REST API Handbook: Adding Custom Endpoints and permission callbacks.
+- WordPress Cron Handbook.
+- WordPress Plugin Privacy Handbook.
+- Travelpayouts Help Center: Getting started with widgets.
+- Travelpayouts Help Center: White Label Web Setup Guide.
+- Travelpayouts Help Center: ID and SubID.
+
+Decision: P19.8 is ready for PR review. Move Linear `ONE-127` and parent Phase 19 issue `ONE-67` to Done only after the PR is reviewed, merged, and branch cleanup is complete.
