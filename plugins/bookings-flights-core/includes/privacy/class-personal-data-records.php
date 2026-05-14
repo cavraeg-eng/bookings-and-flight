@@ -44,7 +44,7 @@ final class Personal_Data_Records {
 			);
 		}
 
-		return self::erase_response( $items_removed, $items_retained, $messages, count( $ids ) < $page_size || $items_retained );
+		return self::erase_response( $items_removed, $items_retained, $messages, count( $ids ) < $page_size );
 	}
 
 	public static function saved_trip_ids( int $user_id, int $page, int $per_page ): array {
