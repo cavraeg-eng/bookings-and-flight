@@ -17,7 +17,7 @@ P19.3 implements WordPress personal-data export and erasure behavior for retenti
 
 ## Implementation
 
-`BAF\Core\Privacy\Personal_Data_Manager` registers WordPress privacy exporters and erasers for:
+`BAF\Core\Privacy\Personal_Data_Manager` registers WordPress privacy exporters and erasers, while `BAF\Core\Privacy\Personal_Data_Records` owns the shared query, link, formatting, and erasure helpers for:
 
 - `baf-saved-trips`
 - `baf-travel-alerts`
@@ -39,7 +39,7 @@ Existing saved-trip REST routes remain logged-in, nonce-protected, owner-scoped,
 Passed locally:
 
 - PHP syntax checks for changed PHP files.
-- File-size review: `class-personal-data-manager.php` is 573 lines.
+- File-size review: `class-personal-data-manager.php` is 310 lines and `class-personal-data-records.php` is 280 lines.
 - `git diff --check`.
 - `bookings-flights-core` deactivate/reactivate/is-active check.
 - WP-CLI privacy smoke with 54 assertions.
@@ -58,7 +58,7 @@ Runtime evidence:
 Found and fixed:
 
 - Temporary privacy-smoke assertions were too literal about JSON-escaped URLs; the validation harness was tightened.
-- Provider-owned widget console noise was classified as watchlist-only after app-owned request checks passed.
+- Provider-owned widget console noise, including `tpembars.com` CORS/config messages, was classified as watchlist-only after app-owned request checks passed.
 
 Deferred:
 
