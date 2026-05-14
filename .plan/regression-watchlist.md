@@ -1426,6 +1426,46 @@ Related files/routes/settings:
 - `baf_ai_settings`
 - `baf_consent_settings`
 
+## Phase 19 Security Exposure Watch
+
+Fragile area: The release-readiness security boundary across concrete REST routes, admin settings, public source output, affiliate bridge runtime routes, tracked Travelpayouts widget routes, saved trips, alerts, reports, and AI settings.
+
+Why risky: Later launch-readiness work may add routes, widgets, admin actions, provider settings, platform handoffs, or reporting exports. Those changes can accidentally skip permission callbacks, render saved secrets, widen public config output, weaken nonce/capability gates, or misclassify WordPress namespace-index records as concrete route handlers.
+
+What to check after future changes:
+
+- Every concrete custom REST route has an explicit `permission_callback`; classify `WP_REST_Server::get_namespace_index` namespace discovery records separately.
+- Public routes still expose only intended non-secret data and use bounded validation.
+- Protected `baf/v1/status`, AI, saved-trip, report, settings, widget-placement, and admin surfaces require the documented capability and nonce/shared-secret gates.
+- Public config output never includes API tokens, postback secrets, bearer strings, provider payloads, booking IDs, payment data, confirmation data, raw prompts, or live inventory.
+- Admin settings and dashboard output mask saved Travelpayouts/API/AI/affiliate bridge/postback secrets.
+- Official Travelpayouts token routes return configured-state only, not saved token values.
+- Runtime browser checks include at least one protected admin settings surface, one public page, one public config endpoint, source-secret checks, console/request checks, and keyboard reachability through the protected form or report controls.
+- Active local untracked plugins are treated as runtime context; do not silently stage them unless a tracking decision is made.
+
+Related files/routes/settings:
+
+- `.plan/phase-19-security-exposure-review.md`
+- `plugins/bookings-flights-core/includes/rest/`
+- `plugins/bookings-flights-core/includes/settings/class-settings-manager.php`
+- `plugins/bookings-flights-core/includes/admin/class-admin-manager.php`
+- `plugins/bookings-flights-core/includes/admin/class-widget-placements-page.php`
+- `plugins/bookings-flights-core/includes/frontend/class-flight-alert-intent-handler.php`
+- `plugins/bookings-flights-core/includes/frontend/class-travelpayouts-widget-renderer.php`
+- `plugins/travelpayouts/src/components/web/WpRestRouteGroup.php`
+- `plugins/travelpayouts/src/components/rest/controllers/GutenbergRestController.php`
+- `/wp-json/baf/v1/config`
+- `/wp-json/baf/v1/status`
+- `/wp-json/baf/v1/postback`
+- `/wp-json/baf/v1/ai/itinerary`
+- `/wp-json/baf/v1/ai/handoff`
+- `/wp-json/baf/v1/saved-trips`
+- `/wp-json/travelpayouts/widget/token`
+- `baf_travelpayouts_settings`
+- `baf_ai_settings`
+- `baf_supplier_credentials`
+- `baf_postback_secret`
+
 ## Phase 17 Final Review Gate
 
 Fragile area: The combined Phase 17 content engine across destination, route, deal, taxonomy, editor metadata, SEO metadata, disclosure, and provider handoff boundaries.
