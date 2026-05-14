@@ -132,12 +132,12 @@ Planned fix phase: Phase 18 is closed after PR #55 merged. Continue with Phase 1
 
 ## Phase 19 Retention Follow-Ups
 
-Severity: Low after the P19.2 local gate; keep privacy export/erase, analytics, and release-readiness surfaces on the Phase 19 watchlist.
+Severity: Low after the P19.3 local gate; keep analytics and release-readiness surfaces on the Phase 19 watchlist.
 
-Affected area: `/saved-trips/`, `baf/v1/saved-trips`, private `trip_plan` saved-trip records, planner resume prefill, `[baf_flight_alert_signup]`, private `travel_alert` records, `baf_process_travel_alerts`, and local Travelpayouts placement/SubID context.
+Affected area: `/saved-trips/`, `baf/v1/saved-trips`, private `trip_plan` saved-trip records, planner resume prefill, `[baf_flight_alert_signup]`, private `travel_alert` records, `baf_process_travel_alerts`, WordPress personal-data export/erase hooks, and local Travelpayouts placement/SubID context.
 
-Current issue: P19.1 added the WordPress-owned saved-trip board, member save/list/resume/update/delete REST workflow, anonymous sign-in handoff, minimized saved-trip metadata, and browser-verified desktop/mobile UI. P19.2 finalized local alert intent limits, dedupe, queued confirmation/manage email, and signed alert deletion. No app-owned P19.1 or P19.2 blocker remains after the local gates. WordPress personal-data exporter/eraser hooks are still deferred to P19.3, where user data export/delete behavior is the explicit child issue.
+Current issue: P19.1 added the WordPress-owned saved-trip board, member save/list/resume/update/delete REST workflow, anonymous sign-in handoff, minimized saved-trip metadata, and browser-verified desktop/mobile UI. P19.2 finalized local alert intent limits, dedupe, queued confirmation/manage email, and signed alert deletion. P19.3 added WordPress personal-data exporters and erasers for saved trips, travel alerts, AI trip-plan drafts, and AI session logs. No app-owned P19.1, P19.2, or P19.3 privacy/export/delete blocker remains after the local gates.
 
-Workaround: Use `/saved-trips/` for immediate member-owned saved-trip deletion and the alert email delete link to open the nonce-confirmed alert deletion form. Keep export/erase integration tracked for P19.3 before launch-readiness completion.
+Workaround: Use `/saved-trips/` for immediate member-owned saved-trip deletion, the alert email delete link for nonce-confirmed alert deletion, and WordPress privacy export/erase tools for broader saved-trip, alert, AI draft, and AI session data-control requests.
 
-Planned fix phase: Continue with P19.3 resume/export/erase behavior after `ONE-121` is reviewed, merged, and synced.
+Planned fix phase: Continue with remaining Phase 19 analytics and release-readiness issues after `ONE-122` is reviewed, merged, and synced.
