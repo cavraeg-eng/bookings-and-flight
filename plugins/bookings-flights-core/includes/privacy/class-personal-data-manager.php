@@ -241,7 +241,12 @@ final class Personal_Data_Manager {
 			return Personal_Data_Records::erase_response();
 		}
 
-		return Personal_Data_Records::erase_posts( Personal_Data_Records::saved_trip_query_args( $user_id, 1, self::ERASE_PAGE_SIZE ), self::ERASE_PAGE_SIZE );
+		return Personal_Data_Records::erase_posts(
+			Personal_Data_Records::saved_trip_query_args( $user_id, 1, self::ERASE_PAGE_SIZE ),
+			self::ERASE_PAGE_SIZE,
+			Personal_Data_Records::erasure_state_key( 'saved_trips', $email_address ),
+			$page
+		);
 	}
 
 	public static function erase_travel_alerts( string $email_address, int $page = 1 ): array {
@@ -251,7 +256,12 @@ final class Personal_Data_Manager {
 			return Personal_Data_Records::erase_response();
 		}
 
-		return Personal_Data_Records::erase_posts( Personal_Data_Records::travel_alert_query_args( $email, 1, self::ERASE_PAGE_SIZE ), self::ERASE_PAGE_SIZE );
+		return Personal_Data_Records::erase_posts(
+			Personal_Data_Records::travel_alert_query_args( $email, 1, self::ERASE_PAGE_SIZE ),
+			self::ERASE_PAGE_SIZE,
+			Personal_Data_Records::erasure_state_key( 'travel_alerts', $email ),
+			$page
+		);
 	}
 
 	public static function erase_ai_trip_plans( string $email_address, int $page = 1 ): array {
@@ -261,7 +271,12 @@ final class Personal_Data_Manager {
 			return Personal_Data_Records::erase_response();
 		}
 
-		return Personal_Data_Records::erase_posts( Personal_Data_Records::ai_trip_plan_query_args( $user_id, 1, self::ERASE_PAGE_SIZE ), self::ERASE_PAGE_SIZE );
+		return Personal_Data_Records::erase_posts(
+			Personal_Data_Records::ai_trip_plan_query_args( $user_id, 1, self::ERASE_PAGE_SIZE ),
+			self::ERASE_PAGE_SIZE,
+			Personal_Data_Records::erasure_state_key( 'ai_trip_plans', $email_address ),
+			$page
+		);
 	}
 
 	public static function erase_ai_sessions( string $email_address, int $page = 1 ): array {

@@ -15,12 +15,24 @@ defined( 'ABSPATH' ) || exit;
 
 final class Personal_Data_Records {
 
-	public static function erase_posts( array $query_args, int $page_size ): array {
+	public static function erase_posts( array $query_args, int $page_size, string $state_key = '', int $page = 1 ): array {
+		$retained_ids = '' === $state_key ? array() : self::retained_ids( $state_key );
+
+		if ( $page <= 1 && '' !== $state_key ) {
+			delete_transient( $state_key );
+			$retained_ids = array();
+		}
+
 		$query_args['fields']                 = 'ids';
 		$query_args['no_found_rows']          = true;
 		$query_args['cache_results']          = false;
 		$query_args['update_post_meta_cache'] = false;
 		$query_args['update_post_term_cache'] = false;
+
+		if ( ! empty( $retained_ids ) ) {
+			$excluded_ids               = array_map( 'absint', (array) ( $query_args['post__not_in'] ?? array() ) );
+			$query_args['post__not_in'] = array_values( array_unique( array_merge( $excluded_ids, $retained_ids ) ) );
+		}
 
 		$query          = new \WP_Query( $query_args );
 		$ids            = array_map( 'absint', $query->posts );
@@ -37,6 +49,7 @@ final class Personal_Data_Records {
 			}
 
 			$items_retained = true;
+			$retained_ids[] = $post_id;
 			$messages[]     = sprintf(
 				/* translators: %d: post ID. */
 				__( 'Bookings and Flights record %d could not be erased.', 'bookings-flights-core' ),
@@ -44,7 +57,13 @@ final class Personal_Data_Records {
 			);
 		}
 
+		self::store_retained_ids( $state_key, $retained_ids, count( $ids ) < $page_size );
+
 		return self::erase_response( $items_removed, $items_retained, $messages, count( $ids ) < $page_size );
+	}
+
+	public static function erasure_state_key( string $scope, string $email_address ): string {
+		return 'baf_privacy_erase_' . sanitize_key( $scope ) . '_' . md5( strtolower( $email_address ) );
 	}
 
 	public static function saved_trip_ids( int $user_id, int $page, int $per_page ): array {
@@ -269,6 +288,31 @@ final class Personal_Data_Records {
 			'messages'       => $messages,
 			'done'           => $done,
 		);
+	}
+
+	private static function retained_ids( string $state_key ): array {
+		$value = get_transient( $state_key );
+
+		if ( ! is_array( $value ) ) {
+			return array();
+		}
+
+		return array_values( array_unique( array_filter( array_map( 'absint', $value ) ) ) );
+	}
+
+	private static function store_retained_ids( string $state_key, array $retained_ids, bool $done ): void {
+		if ( '' === $state_key ) {
+			return;
+		}
+
+		$retained_ids = array_values( array_unique( array_filter( array_map( 'absint', $retained_ids ) ) ) );
+
+		if ( $done || empty( $retained_ids ) ) {
+			delete_transient( $state_key );
+			return;
+		}
+
+		set_transient( $state_key, $retained_ids, HOUR_IN_SECONDS );
 	}
 
 	private static function iata_code( string $value ): string {

@@ -39,7 +39,7 @@ Existing saved-trip REST routes remain logged-in, nonce-protected, owner-scoped,
 Passed locally:
 
 - PHP syntax checks for changed PHP files.
-- File-size review: `class-personal-data-manager.php` is 310 lines and `class-personal-data-records.php` is 280 lines.
+- File-size review: `class-personal-data-manager.php` is 325 lines and `class-personal-data-records.php` is 324 lines.
 - `git diff --check`.
 - `bookings-flights-core` deactivate/reactivate/is-active check.
 - WP-CLI privacy smoke with 54 assertions.
@@ -60,7 +60,7 @@ Runtime evidence:
 Found and fixed:
 
 - Temporary privacy-smoke assertions were too literal about JSON-escaped URLs; the validation harness was tightened.
-- Codex review found that retained saved-trip records could stop erasure pagination too early; the eraser now reports retained records without marking the batch done when more records remain.
+- Codex review found that retained saved-trip records could stop or stall erasure pagination; the eraser now stores retained IDs during the request, skips them on later callbacks, and keeps processing later records.
 - Codex review found that published AI-attributed trip-plan posts could be included in draft privacy erasure; AI trip-plan export/erase now stays scoped to draft/private non-public records.
 - Provider-owned widget console noise, including `tpembars.com` CORS/config messages, was classified as watchlist-only after app-owned request checks passed.
 
