@@ -3106,3 +3106,43 @@ Research consulted:
 - Travelpayouts Help Center: ID and SubID affiliate marker and additional marker.
 
 Decision: P19.5 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
+
+### P19.6 - Full security, REST permission, source, and secret exposure pass
+
+Date: 2026-05-14
+
+Linear issue: `ONE-125`
+
+Status: In Review
+
+Scope reviewed: Full release-readiness security and exposure pass. Reviewed core REST controllers, settings, admin pages, widget placements, frontend shortcodes/routes, AI provider wiring, saved-trip endpoints, alert handlers, reports, active affiliate bridge routes, tracked Travelpayouts REST/widget routes, and public/admin source output.
+
+Acceptance criteria result: Passed locally for the PR candidate. Every concrete reviewed REST route has an explicit permission callback, protected writes keep nonce/capability or shared-secret gates, and fake provider/API/postback secrets were absent from protected admin HTML, public homepage source, public config output, and the official Travelpayouts token endpoint.
+
+Security review: Passed locally. Intentionally public endpoints remain explicit and bounded. Protected AI, saved-trip, status, settings, report, widget-placement, and alert flows keep the documented capability, nonce, consent, owner, or shared-secret checks. No provider credentials, AI API keys, postback secrets, bearer strings, raw prompts, provider payloads, booking IDs, payment data, confirmation data, or live inventory were exposed by the reviewed app-owned flows.
+
+REST permission review: Passed locally. Runtime inventory confirmed concrete callbacks for `baf/v1` core and affiliate bridge routes, Redux Travelpayouts descriptor action routes, and Travelpayouts widget action routes. The two missing callback inventory rows were WordPress namespace-index discovery records from `WP_REST_Server::get_namespace_index`, not custom route callbacks.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser path was attempted first but reported no active Codex browser pane, so Playwright Chromium was used. Evidence includes `/tmp/one125-admin-integrations-desktop.png`, `/tmp/one125-home-mobile.png`, `/tmp/one125-config-json.png`, and `/tmp/one125-runtime-review-report.json` with `status=pass` and `findingCount=0`. Keyboard review used the WordPress skip link and reached protected integration form fields plus Save integrations.
+
+Regression review: Existing P19.1 saved-trip privacy, P19.2 alert nonce/delete behavior, P19.3 privacy export/erase boundaries, P19.4 SubID analytics, P19.5 report guardrails, and Phase 18 AI provider/privacy gates remain intact. The local affiliate bridge and content manager plugins were reviewed as active runtime context but are still untracked source and should not be staged without a separate tracking decision.
+
+Validation performed: Static REST/action/shortcode inventory; source scan for token/secret/bearer/postback patterns; active plugin inventory; runtime REST route inventory with permission classification; focused unauthenticated REST permission smoke; fake-secret admin/public/config/Travelpayouts token exposure smoke; Playwright Chromium admin desktop, public mobile, and public config screenshots; skip-link keyboard review; console/request checks; temporary fake settings and user cleanup.
+
+Bugs found: No production-code security bug was found. Validation follow-up corrected the expected route list for current core REST coverage, supplied minimal request params before protected permission assertions, used the admin skip link for keyboard traversal, and scoped browser request failure filtering to app-owned routes/assets.
+
+Bugs fixed: No production-code patch was required.
+
+Bugs deferred: No P19.6 security blocker remains. Remaining performance and final Phase 19 launch gates stay in later Phase 19 issues. The active local affiliate bridge/content manager plugins need a separate tracked-code decision before code changes there are staged.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-19-security-exposure-review.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress REST API Handbook: Adding Custom Endpoints and permission callbacks.
+- WordPress Security APIs: Nonces.
+- WordPress Security APIs: Sanitizing.
+- WordPress Security APIs: Escaping.
+- WordPress Plugin Security Handbook.
+- Travelpayouts Help Center: ID and SubID affiliate marker and additional marker.
+
+Decision: P19.6 is ready for PR review. Keep Phase 19 `In Progress` until the remaining release-readiness and final Phase 19 gates pass.
