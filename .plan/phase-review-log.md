@@ -3024,3 +3024,44 @@ Research consulted:
 - WordPress Plugin Security Handbook: sanitizing, escaping, capability, and privacy boundaries.
 
 Decision: P19.3 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
+
+### P19.4 - Travelpayouts SubID reporting map and local analytics
+
+Date: 2026-05-14
+
+Linear issue: `ONE-123`
+
+Status: In Review
+
+Scope reviewed: Travelpayouts SubID reporting map and local analytics. Reviewed Phase 19 objective, existing placement registry/SubID builder, `bf_clicks` local tracking table, admin Reports dashboard, CSV export, provider stats display, Travelpayouts-owned reporting boundary, privacy/export context, and runtime browser validation requirement.
+
+Acceptance criteria result: Passed locally for the PR candidate. Admin Reports now maps major Bookings and Flights surfaces to readable Travelpayouts SubID examples, shows observed local SubID clicks when local records exist, exports both as CSV rows, and keeps Travelpayouts Performance reports as the source of truth for partner clicks, searches, bookings, conversion, and earnings.
+
+Functional review: Passed locally. `Reporting_Service::dashboard()` includes `subid_map`; `Reporting_Repository::click_summary()` includes bounded `by_subid` rows; `Reports_Page` renders the SubID map and observed local rows; CSV export includes `local_clicks_by_subid` and `travelpayouts_subid_map` rows.
+
+Error and empty-state review: Passed locally. Missing local SubID rows are described as unavailable local records, not zero Travelpayouts revenue or conversion. Provider metric values that are `null` or blank render as `Unavailable`, while numeric zero still renders as a numeric value.
+
+Security and data review: Passed locally. SubID examples are lowercase/underscore placement identifiers and do not include names, emails, IP addresses, raw prompts, private trip details, per-user identifiers, provider credentials, raw provider payloads, booking IDs, payment data, confirmation data, or live inventory.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser connection timed out after 15 seconds, so Playwright Chromium was used. Evidence includes desktop and mobile Reports screenshots at `/tmp/one123-reports-desktop.png` and `/tmp/one123-reports-mobile.png`; `/tmp/one123-runtime-review-report.json` returned `status=pass` and `findingCount=0`.
+
+Regression review: Existing P19.1 saved-trip storage/deletion, P19.2 alert lifecycle/delete links, P19.3 personal-data export/erase, Phase 13 placement/SubID behavior, and Travelpayouts/provider-owned booking/payment/live inventory boundaries remain intact. Admin report table styling now constrains long SubID map copy without changing public theme surfaces.
+
+Validation performed: PHP syntax checks for changed PHP files; file-size review; focused WP-CLI dashboard smoke with temporary click/provider-stat/user fixtures and cleanup; Playwright Chromium desktop/mobile screenshot and keyboard review after Browser fallback; `git diff --check`.
+
+Bugs found: The first temporary click fixture used an event UUID longer than the `bf_clicks.event_uuid` column, and mobile admin report tables could overflow the panel with the new SubID map copy.
+
+Bugs fixed: The validation fixture now uses a valid UUID-sized event identifier. Admin report panels now constrain grid tracks, allow table overflow inside the panel, and wrap code values so the Reports page has no mobile horizontal overflow.
+
+Bugs deferred: None for P19.4 SubID analytics scope. Remaining release-readiness and final Phase 19 gate work stay in later Phase 19 issues.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-19-subid-analytics-review.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- Travelpayouts Help Center: ID and SubID affiliate marker and additional marker.
+- WordPress Plugin Security Handbook: sanitizing, escaping, capability, and privacy boundaries.
+- WordPress REST API Handbook: permission callback guidance.
+- WordPress Plugin Handbook: Creating Tables with Plugins.
+- WordPress Plugin Handbook: Personal Data Exporter and Personal Data Eraser behavior for privacy-aware analytics context.
+
+Decision: P19.4 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
