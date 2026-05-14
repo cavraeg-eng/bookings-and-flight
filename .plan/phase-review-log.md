@@ -3065,3 +3065,44 @@ Research consulted:
 - WordPress Plugin Handbook: Personal Data Exporter and Personal Data Eraser behavior for privacy-aware analytics context.
 
 Decision: P19.4 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.
+
+### P19.5 - Admin reports, privacy review, and revenue overclaim guardrails
+
+Date: 2026-05-14
+
+Linear issue: `ONE-124`
+
+Status: In Review
+
+Scope reviewed: Admin report privacy and revenue guardrails. Reviewed Phase 19 objective, report menu capabilities, `Reports_Page`, `Reporting_Service`, reporting repositories, provider stats, click/SubID summaries, AI session summaries, CSV export, Travelpayouts Performance reporting boundary, and runtime browser validation requirement.
+
+Acceptance criteria result: Passed locally for the PR candidate. Reports require `view_baf_reports`, report-only users can reach Reports from the top-level Bookings & Flights admin menu, queries remain bounded, private request fields are not rendered, and report copy does not overclaim revenue, booking, search, conversion, or earnings authority.
+
+Functional review: Passed locally. `Reporting_Service::dashboard()` and `export_rows()` now include report guardrails. `Reports_Page` renders the guardrail panel. `Admin_Manager` routes a report-only top-level admin menu to Reports instead of widget placements.
+
+Permission review: Passed locally. A no-cap user is denied by `Reports_Page::render()`. A subscriber with only `view_baf_reports` receives a report-capability top-level Bookings & Flights menu route and can render Reports without settings or widget-placement capabilities.
+
+Query bounds and empty-state review: Passed locally. Invalid `days=999` requests fall back to the 30-day window. Guardrails document approved date windows and bounded row limits. Existing empty/unavailable copy continues to distinguish unavailable local/provider records from zero Travelpayouts revenue or conversion.
+
+Security and data review: Passed locally. Reports and CSV export document private-data exclusions and do not render request hashes, output hashes, API keys, access tokens, raw prompts, raw IPs, raw user agents, raw referrers, provider payloads, booking IDs, payment data, confirmation data, or live inventory.
+
+UI review: Passed locally with real runtime screenshots and keyboard review. The Codex in-app Browser connection timed out after 15 seconds, so Playwright Chromium was used. Evidence includes desktop and mobile Reports screenshots at `/tmp/one124-reports-desktop.png` and `/tmp/one124-reports-mobile.png`; `/tmp/one124-runtime-review-report.json` returned `status=pass` and `findingCount=0`.
+
+Regression review: Existing P19.4 SubID map/local analytics, P19.3 privacy export/erase, P19.2 alert lifecycle, P19.1 saved trips, Phase 13 placement/SubID behavior, and Travelpayouts/provider-owned booking/payment/live inventory boundaries remain intact.
+
+Validation performed: PHP syntax checks for changed PHP files; file-size review; focused WP-CLI permission smoke for no-cap denial, report-only menu routing, fallback 30-day window, guardrail render/export, forbidden internal-field absence, and cleanup; Playwright Chromium desktop/mobile screenshot and keyboard review after Browser fallback.
+
+Bugs found: Report-only users could render Reports directly, but the top-level admin menu did not route them cleanly to Reports. The first browser keyboard traversal used an administrator account and did not reach report controls within the initial tab window because the WordPress admin menu was intentionally long.
+
+Bugs fixed: `Admin_Manager` now routes report-only top-level menu access to `Reports_Page::render()`. Runtime validation now uses a report-only user and the WordPress skip-link path to verify keyboard access to the Reports date selector, Apply button, and Export CSV link.
+
+Bugs deferred: None for P19.5 admin report guardrails scope. Remaining full security/release-readiness gates stay in later Phase 19 issues.
+
+Documentation updated: `.plan/phased-implementation.md`, `.plan/architecture-baseline.md`, `.plan/validation-baseline.md`, `.plan/regression-watchlist.md`, `.plan/known-issues.md`, `.plan/phase-19-admin-report-guardrails-review.md`, `.plan/phase-review-log.md`.
+
+Research consulted:
+- WordPress Plugin Security Handbook: checking user capabilities, sanitizing, and escaping.
+- WordPress Roles and Capabilities documentation.
+- Travelpayouts Help Center: ID and SubID affiliate marker and additional marker.
+
+Decision: P19.5 is ready for PR review. Keep Phase 19 `In Progress` until the remaining P19 child issues pass their own gates.

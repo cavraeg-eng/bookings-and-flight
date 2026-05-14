@@ -63,6 +63,7 @@ final class Reports_Page {
 			</div>
 
 			<?php
+			self::render_guardrails( (array) $dashboard['guardrails'] );
 			self::render_click_reports( (array) $dashboard['clicks'] );
 			self::render_subid_reports( (array) $dashboard['subid_map'], (array) $dashboard['clicks']['by_subid'] );
 			self::render_ai_reports( (array) $dashboard['ai_sessions'] );
@@ -115,6 +116,33 @@ final class Reports_Page {
 				<?php endif; ?>
 			</section>
 		</div>
+		<?php
+	}
+
+	private static function render_guardrails( array $guardrails ): void {
+		?>
+		<section class="baf-report-panel">
+			<h2><?php echo esc_html__( 'Report privacy guardrails', 'bookings-flights-core' ); ?></h2>
+			<p class="description"><?php echo esc_html__( 'These reports are capability-gated, bounded, and intentionally local. They help operate the WordPress product without replacing Travelpayouts partner reporting.', 'bookings-flights-core' ); ?></p>
+			<table class="widefat striped">
+				<thead>
+					<tr>
+						<th scope="col"><?php echo esc_html__( 'Guardrail', 'bookings-flights-core' ); ?></th>
+						<th scope="col"><?php echo esc_html__( 'Value', 'bookings-flights-core' ); ?></th>
+						<th scope="col"><?php echo esc_html__( 'Reason', 'bookings-flights-core' ); ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ( $guardrails as $row ) : ?>
+						<tr>
+							<td><?php echo esc_html( (string) $row['label'] ); ?></td>
+							<td><?php echo esc_html( (string) $row['value'] ); ?></td>
+							<td><?php echo esc_html( (string) $row['description'] ); ?></td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</section>
 		<?php
 	}
 

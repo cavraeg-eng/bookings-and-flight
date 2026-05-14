@@ -20,6 +20,8 @@ What to check after future changes:
 - Travelpayouts Partner ID, Token, marker, and API credentials are never exposed in frontend HTML, JavaScript, public REST responses, logs, or admin notices.
 - SubIDs use lowercase Latin letters, numbers, and underscores and do not contain private user/trip data.
 - Admin Reports keep the Travelpayouts SubID reporting map readable and do not include names, emails, IP addresses, raw prompts, private trip details, or per-user identifiers in examples or observed rows.
+- Report-only users with `view_baf_reports` can reach Reports from the Bookings & Flights admin menu without settings or widget-placement capabilities.
+- Report privacy guardrails remain visible in admin Reports and CSV export, including capability gate, approved date windows, bounded rows, private-data exclusions, and Travelpayouts Performance reports source-of-truth copy.
 - Missing local SubID click rows or unavailable provider metric values are not described as zero Travelpayouts revenue, bookings, searches, clicks, conversion, or earnings.
 - PHP deprecation or warning output from bundled Travelpayouts dependencies does not print into public pages.
 - Trip.com hotel surfaces keep a visible sponsored handoff link even when the embedded iframe is blocked or blank in a browser.

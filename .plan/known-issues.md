@@ -132,12 +132,12 @@ Planned fix phase: Phase 18 is closed after PR #55 merged. Continue with Phase 1
 
 ## Phase 19 Retention Follow-Ups
 
-Severity: Low after the P19.4 local gate; keep release-readiness surfaces on the Phase 19 watchlist.
+Severity: Low after the P19.5 local gate; keep release-readiness surfaces on the Phase 19 watchlist.
 
 Affected area: `/saved-trips/`, `baf/v1/saved-trips`, private `trip_plan` saved-trip records, planner resume prefill, `[baf_flight_alert_signup]`, private `travel_alert` records, `baf_process_travel_alerts`, WordPress personal-data export/erase hooks, local Travelpayouts placement/SubID context, and admin Reports analytics.
 
-Current issue: P19.1 added the WordPress-owned saved-trip board, member save/list/resume/update/delete REST workflow, anonymous sign-in handoff, minimized saved-trip metadata, and browser-verified desktop/mobile UI. P19.2 finalized local alert intent limits, dedupe, queued confirmation/manage email, and signed alert deletion. P19.3 added WordPress personal-data exporters and erasers for saved trips, travel alerts, AI trip-plan drafts, and AI session logs. P19.4 added the Travelpayouts SubID reporting map, observed local SubID clicks, CSV rows, and unavailable provider metric display while preserving Travelpayouts Performance reports as the revenue/conversion source of truth. No app-owned P19.1, P19.2, P19.3, or P19.4 blocker remains after the local gates.
+Current issue: P19.1 added the WordPress-owned saved-trip board, member save/list/resume/update/delete REST workflow, anonymous sign-in handoff, minimized saved-trip metadata, and browser-verified desktop/mobile UI. P19.2 finalized local alert intent limits, dedupe, queued confirmation/manage email, and signed alert deletion. P19.3 added WordPress personal-data exporters and erasers for saved trips, travel alerts, AI trip-plan drafts, and AI session logs. P19.4 added the Travelpayouts SubID reporting map, observed local SubID clicks, CSV rows, and unavailable provider metric display while preserving Travelpayouts Performance reports as the revenue/conversion source of truth. P19.5 added explicit report privacy/source guardrails and report-only admin menu routing for `view_baf_reports` users. No app-owned P19.1, P19.2, P19.3, P19.4, or P19.5 blocker remains after the local gates.
 
 Workaround: Use `/saved-trips/` for immediate member-owned saved-trip deletion, the alert email delete link for nonce-confirmed alert deletion, WordPress privacy export/erase tools for broader saved-trip, alert, AI draft, and AI session data-control requests, and Travelpayouts Performance reports for definitive partner search, booking, conversion, and earnings reporting by SubID.
 
-Planned fix phase: Continue with remaining Phase 19 release-readiness issues after `ONE-123` is reviewed, merged, and synced.
+Planned fix phase: Continue with remaining Phase 19 release-readiness issues after `ONE-124` is reviewed, merged, and synced.

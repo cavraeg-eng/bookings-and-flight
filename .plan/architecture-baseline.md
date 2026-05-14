@@ -555,17 +555,18 @@ Existing affiliate bridge settings page remains at `options-general.php?page=baf
 
 ## Phase 8 Reporting
 
-`admin.php?page=baf-reports` is protected by `view_baf_reports`.
+`admin.php?page=baf-reports` is protected by `view_baf_reports`. If a user has report access but not settings or widget-placement access, `BAF\Core\Admin\Admin_Manager` routes the top-level Bookings & Flights admin menu directly to the Reports page instead of an inaccessible dashboard or placement screen.
 
 Reports include:
 
 - affiliate click totals, provider breakdowns, and top clicked content from `bf_clicks`;
 - AI session totals, status breakdowns, and mode breakdowns from `bf_ai_sessions`;
 - latest local provider status snapshots from `bf_provider_stats`;
+- report privacy guardrails documenting the capability gate, approved date windows, bounded rows, private-data exclusions, and Travelpayouts Performance reports as the revenue source of truth;
 - content inventory counts for registered Bookings and Flights CPTs;
 - CSV export guarded by a WordPress nonce and `view_baf_reports`.
 
-Reporting queries are bounded to approved date ranges (`7`, `30`, `90`, or `365` days) and limited result sets. Admin reports and exports minimize private data: they do not show raw IP addresses, user agents, referrers, raw prompts, API tokens, provider payloads, full target URLs, private customer data, or revenue/conversion identifiers. Revenue and conversion reporting displays a safe unavailable state until postback/provider conversion data exists.
+Reporting queries are bounded to approved date ranges (`7`, `30`, `90`, or `365` days) and limited result sets. Invalid date-window requests fall back to the 30-day report window. Admin reports and exports minimize private data: they do not show raw IP addresses, user agents, referrers, raw prompts, API tokens, provider payloads, full target URLs, private customer data, or revenue/conversion identifiers. Revenue and conversion reporting displays a safe unavailable/provider-owned state and must not be interpreted as zero partner revenue, bookings, searches, conversion, or earnings.
 
 ## Asset Handles
 
