@@ -41,7 +41,7 @@ final class Admin_Manager {
 
 	public static function register_menu(): void {
 		$dashboard_capability = self::dashboard_menu_capability();
-		$dashboard_callback   = Capability_Manager::MANAGE_SETTINGS === $dashboard_capability ? array( self::class, 'render_dashboard' ) : array( Widget_Placements_Page::class, 'render' );
+		$dashboard_callback   = self::dashboard_menu_callback( $dashboard_capability );
 
 		$dashboard_hook = add_menu_page(
 			__( 'Bookings and Flights', 'bookings-flights-core' ),
@@ -113,7 +113,27 @@ final class Admin_Manager {
 
 		$placements_capability = Widget_Placements_Page::menu_capability();
 
-		return '' === $placements_capability ? Capability_Manager::MANAGE_SETTINGS : $placements_capability;
+		if ( '' !== $placements_capability ) {
+			return $placements_capability;
+		}
+
+		if ( current_user_can( Capability_Manager::VIEW_REPORTS ) ) {
+			return Capability_Manager::VIEW_REPORTS;
+		}
+
+		return Capability_Manager::MANAGE_SETTINGS;
+	}
+
+	private static function dashboard_menu_callback( string $capability ): array {
+		if ( Capability_Manager::MANAGE_SETTINGS === $capability ) {
+			return array( self::class, 'render_dashboard' );
+		}
+
+		if ( Capability_Manager::VIEW_REPORTS === $capability ) {
+			return array( Reports_Page::class, 'render' );
+		}
+
+		return array( Widget_Placements_Page::class, 'render' );
 	}
 
 	public static function enqueue_assets( string $hook_suffix ): void {
@@ -153,7 +173,9 @@ final class Admin_Manager {
 					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=' . self::WIDGET_PLACEMENTS_SLUG ) ); ?>"><?php echo esc_html__( 'Manage widget placements', 'bookings-flights-core' ); ?></a>
 				<?php endif; ?>
 				<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=' . self::JOBS_SLUG ) ); ?>"><?php echo esc_html__( 'View background jobs', 'bookings-flights-core' ); ?></a>
-				<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=' . self::REPORTS_SLUG ) ); ?>"><?php echo esc_html__( 'Open reports', 'bookings-flights-core' ); ?></a>
+				<?php if ( current_user_can( Capability_Manager::VIEW_REPORTS ) ) : ?>
+					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=' . self::REPORTS_SLUG ) ); ?>"><?php echo esc_html__( 'Open reports', 'bookings-flights-core' ); ?></a>
+				<?php endif; ?>
 			</nav>
 
 			<div class="baf-status-grid">

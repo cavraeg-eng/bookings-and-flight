@@ -2,6 +2,7 @@
 
 namespace BAF\Core\Reports;
 
+use BAF\Core\Capabilities\Capability_Manager;
 use BAF\Core\Services\Travelpayouts_Subid_Map_Service;
 
 defined( 'ABSPATH' ) || exit;
@@ -27,6 +28,7 @@ final class Reporting_Service {
 			'provider_stats' => $this->repository->provider_stats(),
 			'subid_map'      => $this->subid_map->entries(),
 			'content'        => $this->repository->content_summary(),
+			'guardrails'     => $this->guardrails( $days ),
 			'conversion'     => array(
 				'available' => false,
 				'message'   => __( 'Revenue, bookings, conversion rate, and partner search totals are provider-owned. Use Travelpayouts Performance reports as the source of truth; this WordPress report only shows local operational signals and must not be treated as zero revenue.', 'bookings-flights-core' ),
@@ -42,6 +44,10 @@ final class Reporting_Service {
 			array( 'ai_sessions', 'total', (string) $dashboard['ai_sessions']['total'], (string) $dashboard['days'] . ' days' ),
 			array( 'conversion', 'available', 'no', (string) $dashboard['conversion']['message'] ),
 		);
+
+		foreach ( $dashboard['guardrails'] as $row ) {
+			$rows[] = array( 'report_guardrail', (string) $row['label'], (string) $row['value'], (string) $row['description'] );
+		}
 
 		foreach ( $dashboard['clicks']['by_provider'] as $row ) {
 			$rows[] = array( 'clicks_by_provider', (string) $row['label'], (string) $row['count'], (string) $dashboard['days'] . ' days' );
@@ -71,5 +77,39 @@ final class Reporting_Service {
 
 	private function normalize_days( int $days ): int {
 		return min( 365, max( 1, absint( $days ) ) );
+	}
+
+	private function guardrails( int $days ): array {
+		return array(
+			array(
+				'label'       => __( 'Capability gate', 'bookings-flights-core' ),
+				'value'       => Capability_Manager::VIEW_REPORTS,
+				'description' => __( 'Admin report pages and CSV exports render only after the current user can view Bookings and Flights reports.', 'bookings-flights-core' ),
+			),
+			array(
+				'label'       => __( 'Date windows', 'bookings-flights-core' ),
+				'value'       => sprintf(
+					/* translators: %d: selected report day window. */
+					__( '%d days selected', 'bookings-flights-core' ),
+					$days
+				),
+				'description' => __( 'Reports accept only the approved 7, 30, 90, and 365 day windows; invalid requests fall back to 30 days.', 'bookings-flights-core' ),
+			),
+			array(
+				'label'       => __( 'Bounded rows', 'bookings-flights-core' ),
+				'value'       => __( '10 provider rows, 25 SubID click rows, 10 top-content rows', 'bookings-flights-core' ),
+				'description' => __( 'Analytics queries stay bounded for admin performance and do not expose unbounded event-level logs.', 'bookings-flights-core' ),
+			),
+			array(
+				'label'       => __( 'Private data excluded', 'bookings-flights-core' ),
+				'value'       => __( 'No raw IPs, user agents, referrers, prompts, provider payloads, or secrets', 'bookings-flights-core' ),
+				'description' => __( 'Reports use aggregate local signals and sanitized provider status messages instead of private request data.', 'bookings-flights-core' ),
+			),
+			array(
+				'label'       => __( 'Revenue source of truth', 'bookings-flights-core' ),
+				'value'       => __( 'Travelpayouts Performance reports', 'bookings-flights-core' ),
+				'description' => __( 'WordPress reports show operational local signals only and must not be interpreted as partner revenue, booking, search, conversion, or earnings totals.', 'bookings-flights-core' ),
+			),
+		);
 	}
 }
