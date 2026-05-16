@@ -190,7 +190,11 @@ final class Travelpayouts_Widget_Renderer {
 		$configuration = array();
 
 		if ( '' !== (string) $settings['white_label_results_url'] ) {
-			$configuration['resultsURL'] = self::white_label_results_url( (string) $settings['white_label_results_url'], $attributes );
+			$configuration['resultsURL'] = Travelpayouts_Widget_Subid_Service::add_to_url(
+				self::white_label_results_url( (string) $settings['white_label_results_url'], $attributes ),
+				$subid,
+				(string) $settings['marker']
+			);
 		}
 
 		$flight_params = array();
