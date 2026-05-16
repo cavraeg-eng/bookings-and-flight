@@ -302,6 +302,14 @@ final class Travelpayouts_Widget_Renderer {
 
 		$clean_url .= isset( $parts['path'] ) ? (string) $parts['path'] : '/';
 
+		if ( ! empty( $parts['query'] ) ) {
+			$clean_url .= '?' . (string) $parts['query'];
+		}
+
+		if ( ! empty( $parts['fragment'] ) ) {
+			$clean_url .= '#' . (string) $parts['fragment'];
+		}
+
 		return esc_url_raw( $clean_url );
 	}
 
