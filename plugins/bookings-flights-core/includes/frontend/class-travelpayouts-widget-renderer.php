@@ -280,21 +280,18 @@ final class Travelpayouts_Widget_Renderer {
 	}
 
 	private static function white_label_results_url( string $url, array $attributes ): string {
-		if ( 'flights' === (string) ( $attributes['surface'] ?? '' ) ) {
-			return self::default_white_label_results_url( $attributes );
-		}
-
-		$url   = esc_url_raw( trim( $url ) );
-		$parts = wp_parse_url( $url );
+		$is_flights_surface = 'flights' === (string) ( $attributes['surface'] ?? '' );
+		$url                = esc_url_raw( trim( $url ) );
+		$parts              = wp_parse_url( $url );
 
 		if ( '' === $url || ! is_array( $parts ) || empty( $parts['scheme'] ) || empty( $parts['host'] ) ) {
-			return $url;
+			return $is_flights_surface ? self::default_white_label_results_url( $attributes ) : $url;
 		}
 
 		$host = strtolower( trim( (string) $parts['host'], '[]' ) );
 
 		if ( 'localhost' === $host || '127.0.0.1' === $host || '::1' === $host || str_ends_with( $host, '.local' ) ) {
-			return self::default_white_label_results_url( $attributes );
+			return $is_flights_surface ? self::default_white_label_results_url( $attributes ) : $url;
 		}
 
 		$clean_url = $parts['scheme'] . '://' . $parts['host'];
