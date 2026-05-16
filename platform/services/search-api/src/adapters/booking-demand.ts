@@ -46,11 +46,15 @@ type BookingAccommodation = {
 
 type BookingCityLookupResponse = {
     data?: BookingCity[];
+    metadata?: {
+        next_page?: string | null;
+    };
 };
 
 type BookingCity = {
     id?: number;
     name?: string;
+    country?: string;
 };
 
 export const bookingDemandAdapter: SupplierAdapter = {
@@ -97,23 +101,70 @@ function authHeaders(): Record<string, string> {
 }
 
 async function resolveCityId(destination: string): Promise<number | null> {
-    const response = await postJson<BookingCityLookupResponse>(
-        `${baseUrl()}${CITIES_URL}`,
-        {
-            rows: 20,
-            languages: ["en-gb"],
-        },
-        authHeaders(),
-    );
+    const lookup = parseDestinationForCityLookup(destination);
+    const cities = await fetchMatchingCities(lookup);
 
-    const target = destination.trim().toLowerCase();
-    const exact = (response.data ?? []).find((city) => city.name?.trim().toLowerCase() === target);
+    const target = lookup.city.toLowerCase();
+    const exact = cities.find((city) => city.name?.trim().toLowerCase() === target);
     if (exact?.id) return exact.id;
 
-    const partial = (response.data ?? []).find((city) =>
+    const partial = cities.find((city) =>
         city.name?.trim().toLowerCase().includes(target),
     );
+    if (partial?.id) return partial.id;
+
+    if (lookup.filters.airport) {
+        const airportScoped = cities.find((city) => city.id);
+        if (airportScoped?.id) return airportScoped.id;
+    }
+
     return partial?.id ?? null;
+}
+
+async function fetchMatchingCities(
+    lookup: ReturnType<typeof parseDestinationForCityLookup>,
+): Promise<BookingCity[]> {
+    const cities: BookingCity[] = [];
+    let page: string | undefined;
+
+    do {
+        const response = await postJson<BookingCityLookupResponse>(
+            `${baseUrl()}${CITIES_URL}`,
+            {
+                ...lookup.filters,
+                ...(page ? { page } : {}),
+                rows: 1000,
+                languages: ["en-gb"],
+            },
+            authHeaders(),
+        );
+
+        cities.push(...(response.data ?? []));
+        page = response.metadata?.next_page ?? undefined;
+    } while (page);
+
+    return cities;
+}
+
+function parseDestinationForCityLookup(destination: string): {
+    city: string;
+    filters: { airport?: string; country?: string };
+} {
+    const trimmed = destination.trim();
+    const parts = trimmed.split(",").map((part) => part.trim()).filter(Boolean);
+    const city = parts[0] || trimmed;
+    const qualifier = parts[1]?.toLowerCase();
+    const filters: { airport?: string; country?: string } = {};
+
+    if (/^[A-Z]{3}$/.test(trimmed)) {
+        filters.airport = trimmed;
+    }
+
+    if (qualifier && /^[a-z]{2}$/.test(qualifier)) {
+        filters.country = qualifier;
+    }
+
+    return { city, filters };
 }
 
 function buildSearchBody(req: HotelSearchRequest, cityId: number) {

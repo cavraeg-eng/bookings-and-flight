@@ -32,24 +32,20 @@ async function handleBookClick(offer: Offer) {
         const res = await fetch("/api/clicks", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                supplier: offer.supplier,
-                vertical: offer.vertical,
-                offerRef: offer.supplierOfferRef,
-                deeplink: offer.deeplink,
-                price: offer.price.amount,
-                currency: offer.price.currency,
-            }),
+            body: JSON.stringify({ offer }),
         });
         if (res.ok) {
-            const { redirectUrl } = await res.json();
-            window.open(redirectUrl, "_blank", "noopener,noreferrer");
-        } else {
-            window.open(offer.deeplink, "_blank", "noopener,noreferrer");
+            const data = await res.json();
+            if (typeof data.redirectUrl === "string" && data.redirectUrl.length > 0) {
+                window.open(data.redirectUrl, "_blank", "noopener,noreferrer");
+                return;
+            }
         }
     } catch {
-        window.open(offer.deeplink, "_blank", "noopener,noreferrer");
+        // Tracking should never block the outbound supplier handoff.
     }
+
+    window.open(offer.deeplink, "_blank", "noopener,noreferrer");
 }
 
 /* ------------------------------------------------------------------ */
