@@ -36,12 +36,52 @@ $cabin_options = array(
 	'first'           => __( 'First', 'bookings_and_flights' ),
 );
 
+$compact_flight_search = strtoupper( preg_replace( '/[^A-Z0-9]/', '', $get_text( 'flightSearch' ) ) );
+$compact_origin        = '';
+$compact_destination   = '';
+$compact_depart_date   = '';
+$compact_return_date   = '';
+
+$compact_date = static function ( string $day, string $month, int $year ): string {
+	$date = DateTimeImmutable::createFromFormat( '!Y-m-d', sprintf( '%04d-%02d-%02d', $year, absint( $month ), absint( $day ) ), wp_timezone() );
+
+	if ( ! $date instanceof DateTimeImmutable ) {
+		return '';
+	}
+
+	return $date->format( 'Y-m-d' );
+};
+
+if ( preg_match( '/^([A-Z]{3})(\d{2})(\d{2})([A-Z]{3})(?:(\d{2})(\d{2}))?/', $compact_flight_search, $compact_matches ) ) {
+	$compact_origin      = $normalize_iata( $compact_matches[1] );
+	$compact_destination = $normalize_iata( $compact_matches[4] );
+	$current_year        = absint( wp_date( 'Y' ) );
+	$today               = wp_date( 'Y-m-d' );
+	$compact_depart_date = $compact_date( $compact_matches[2], $compact_matches[3], $current_year );
+
+	if ( '' !== $compact_depart_date && $compact_depart_date < $today ) {
+		$compact_depart_date = $compact_date( $compact_matches[2], $compact_matches[3], $current_year + 1 );
+	}
+
+	if ( isset( $compact_matches[5], $compact_matches[6] ) ) {
+		$compact_return_date = $compact_date( $compact_matches[5], $compact_matches[6], $current_year );
+
+		if ( '' !== $compact_depart_date && '' !== $compact_return_date && $compact_return_date < $compact_depart_date ) {
+			$compact_return_date = $compact_date( $compact_matches[5], $compact_matches[6], $current_year + 1 );
+		}
+	}
+}
+
 $origin            = $normalize_iata( $get_text( 'origin' ) );
 $destination       = $normalize_iata( $get_text( 'destination' ) );
+$origin            = '' !== $origin ? $origin : $compact_origin;
+$destination       = '' !== $destination ? $destination : $compact_destination;
 $origin_label      = $normalize_label( $get_text( 'travel_origin' ) );
 $destination_label = $normalize_label( $get_text( 'travel_destination' ) );
 $depart_date       = $normalize_date( $get_text( 'depart_date' ) );
 $return_date       = $normalize_date( $get_text( 'return_date' ) );
+$depart_date       = '' !== $depart_date ? $depart_date : $compact_depart_date;
+$return_date       = '' !== $return_date ? $return_date : $compact_return_date;
 $surface           = sanitize_key( $get_text( 'baf_surface' ) );
 $travelers         = isset( $_GET['travelers'] ) && is_scalar( $_GET['travelers'] ) ? absint( wp_unslash( $_GET['travelers'] ) ) : 1;
 $travelers         = min( 9, max( 1, $travelers ) );
@@ -52,7 +92,8 @@ $travel_focus      = sanitize_key( $get_text( 'travel_focus' ) );
 
 $has_traveler_intent = isset( $_GET['travelers'] ) || isset( $_GET['cabin'] );
 $has_intent          = '' !== $origin || '' !== $destination || '' !== $origin_label || '' !== $destination_label
-	|| '' !== $depart_date || '' !== $return_date || $has_traveler_intent || '' !== $travel_mode || '' !== $travel_focus;
+	|| '' !== $depart_date || '' !== $return_date || $has_traveler_intent || '' !== $travel_mode || '' !== $travel_focus
+	|| '' !== $compact_flight_search;
 
 $continuity_css = get_template_directory() . '/assets/css/white-label-continuity.css';
 if ( file_exists( $continuity_css ) ) {
@@ -126,10 +167,67 @@ if ( '' !== $origin || '' !== $destination ) {
 	add_filter( 'bookings_and_flights_has_official_travelpayouts_output', '__return_true' );
 }
 
+$render_provider_search = static function () use ( $details, $destination, $has_intent, $origin, $surface ): void {
+	$continuity_links = array(
+		array(
+			'label' => __( 'Home', 'bookings_and_flights' ),
+			'url'   => home_url( '/' ),
+		),
+		array(
+			'label' => __( 'Flights', 'bookings_and_flights' ),
+			'url'   => home_url( '/flights/' ),
+		),
+		array(
+			'label' => __( 'Route guides', 'bookings_and_flights' ),
+			'url'   => get_post_type_archive_link( 'route' ) ?: home_url( '/routes/' ),
+		),
+	);
+
+	if ( $has_intent ) {
+		$continuity_links[] = array(
+			'label' => __( 'Refine search', 'bookings_and_flights' ),
+			'url'   => '#flight-intent-title',
+		);
+	}
+
+	get_template_part(
+		'template-parts/white-label-continuity',
+		null,
+		array(
+			'title' => __( 'Search here, book with the travel site', 'bookings_and_flights' ),
+			'copy'  => __( 'Use the live flight results below to compare fares and filters without losing this page. When you choose a fare, checkout and support happen with that booking site.', 'bookings_and_flights' ),
+			'links' => $continuity_links,
+		)
+	);
+
+	get_template_part(
+		'template-parts/travel-search-placement',
+		null,
+		array(
+			'placement'        => 'flights_white_label_search',
+			'surface'          => 'flights',
+			'channel'          => 'home' === $surface ? 'homepage' : 'search_page',
+			'slug'             => 'flight_search',
+			'class'            => $has_intent ? 'search-placement--flights search-placement--has-intent search-placement--priority' : 'search-placement--flights',
+			'eyebrow'          => __( 'Travelpayouts White Label', 'bookings_and_flights' ),
+			'title'            => $has_intent ? __( 'Your flight search is ready', 'bookings_and_flights' ) : __( 'Search flights', 'bookings_and_flights' ),
+			'description'      => $has_intent ? __( 'Your route is already filled in. Use the live results below to compare fares, adjust filters, and pick the booking site that fits.', 'bookings_and_flights' ) : __( 'Start with a route, then compare live fares and filters in the results area below. Choose a fare only when you are ready to open the booking site.', 'bookings_and_flights' ),
+			'origin'           => $origin,
+			'destination'      => $destination,
+			'details'          => $details,
+			'fallback_message' => __( 'Flight search is configured through the Travelpayouts placement registry. If it is unavailable, check provider consent or placement settings.', 'bookings_and_flights' ),
+		)
+	);
+};
+
 add_filter(
 	'body_class',
-	static function ( array $classes ): array {
+	static function ( array $classes ) use ( $has_intent ): array {
 		$classes[] = 'search-surface-page';
+
+		if ( $has_intent ) {
+			$classes[] = 'search-surface-page--provider-first';
+		}
 
 		return $classes;
 	}
@@ -142,17 +240,23 @@ get_header();
 	<section class="search-page__hero" aria-labelledby="flight-search-title">
 		<div class="search-page__hero-inner">
 			<p class="search-page__eyebrow"><?php esc_html_e( 'Flights', 'bookings_and_flights' ); ?></p>
-			<h1 id="flight-search-title" class="search-page__title"><?php esc_html_e( 'Flight search with Travelpayouts handoff', 'bookings_and_flights' ); ?></h1>
-			<p class="search-page__lede"><?php esc_html_e( 'Enter a route, dates, and traveler count, then jump straight to the embedded Travelpayouts search below. Your search stays visible on this page before provider-owned results and booking.', 'bookings_and_flights' ); ?></p>
+			<h1 id="flight-search-title" class="search-page__title"><?php echo esc_html( $has_intent ? __( 'Your flight search is ready', 'bookings_and_flights' ) : __( 'Find a flight and keep moving', 'bookings_and_flights' ) ); ?></h1>
+			<p class="search-page__lede"><?php echo esc_html( $has_intent ? __( 'Live results are ready below. Compare fares, adjust filters, and open the booking site only when a flight looks right.', 'bookings_and_flights' ) : __( 'Enter your route, dates, and travelers. We will open live flight results on this page and send you to the booking site only when you choose a fare.', 'bookings_and_flights' ) ); ?></p>
 		</div>
 	</section>
+
+	<?php if ( $has_intent ) : ?>
+		<div id="flights-provider-search" class="search-page__content search-page__content--provider search-page__content--provider-first">
+			<?php $render_provider_search(); ?>
+		</div>
+	<?php endif; ?>
 
 	<div class="search-page__content">
 		<section class="flight-intent" aria-labelledby="flight-intent-title">
 			<div class="flight-intent__content">
-				<p class="flight-intent__eyebrow"><?php esc_html_e( 'Flight intent', 'bookings_and_flights' ); ?></p>
-				<h2 id="flight-intent-title" class="flight-intent__title"><?php esc_html_e( 'Search flights without losing your place', 'bookings_and_flights' ); ?></h2>
-				<p class="flight-intent__copy"><?php esc_html_e( 'Submit the route and we will take you to the Travelpayouts search area on this page, with your search summary still visible above the provider controls.', 'bookings_and_flights' ); ?></p>
+				<p class="flight-intent__eyebrow"><?php esc_html_e( 'Start your flight search', 'bookings_and_flights' ); ?></p>
+				<h2 id="flight-intent-title" class="flight-intent__title"><?php echo esc_html( $has_intent ? __( 'Refine this flight search', 'bookings_and_flights' ) : __( 'Search flights without losing your place', 'bookings_and_flights' ) ); ?></h2>
+				<p class="flight-intent__copy"><?php echo esc_html( $has_intent ? __( 'Change the route or dates here, then run the search again to refresh the live results.', 'bookings_and_flights' ) : __( 'Tell us where and when you want to go. Your results will open below, and this page will keep your route summary visible while you compare options.', 'bookings_and_flights' ) ); ?></p>
 			</div>
 
 			<form class="flight-intent__form" action="<?php echo esc_url( home_url( '/flights/#flights-provider-search' ) ); ?>" method="get" data-baf-placement-key="flights_white_label_search">
@@ -189,30 +293,29 @@ get_header();
 
 				<input type="hidden" name="baf_surface" value="flights_landing">
 				<button class="flight-intent__submit" type="submit"><?php esc_html_e( 'Search flights', 'bookings_and_flights' ); ?></button>
-				<p class="flight-intent__helper"><?php esc_html_e( 'After submit, continue in the Travelpayouts widget below. Live availability, filters, booking, payment, changes, and reservation support remain provider-owned.', 'bookings_and_flights' ); ?></p>
+				<p class="flight-intent__helper"><?php esc_html_e( 'After you search, use the live results below to compare fares. Final booking, payment, changes, and support happen with the travel site you choose.', 'bookings_and_flights' ); ?></p>
 			</form>
 
 			<div class="flight-intent__provider" aria-labelledby="flight-provider-options-title">
-				<h3 id="flight-provider-options-title"><?php esc_html_e( 'Provider-controlled options', 'bookings_and_flights' ); ?></h3>
-				<p><?php esc_html_e( 'These choices are handled inside the Travelpayouts widget. WordPress keeps the page shell and search summary visible so the next step is clear.', 'bookings_and_flights' ); ?></p>
-				<ul class="flight-intent__provider-list">
+				<h3 id="flight-provider-options-title"><?php esc_html_e( 'What happens after you search', 'bookings_and_flights' ); ?></h3>
+				<p><?php esc_html_e( 'Your route opens in the live results area below. From there, narrow the list, compare the fare details, and continue only when the flight feels right.', 'bookings_and_flights' ); ?></p>
+				<ol class="flight-intent__provider-list">
 					<li>
-						<span><?php esc_html_e( 'Direct-only flights', 'bookings_and_flights' ); ?></span>
-						<strong><?php esc_html_e( 'Set in provider', 'bookings_and_flights' ); ?></strong>
+						<strong><?php esc_html_e( '1', 'bookings_and_flights' ); ?></strong>
+						<span><?php esc_html_e( 'Compare live fares', 'bookings_and_flights' ); ?></span>
+						<p><?php esc_html_e( 'See current prices, schedules, and seat availability in one results area.', 'bookings_and_flights' ); ?></p>
 					</li>
 					<li>
-						<span><?php esc_html_e( 'Nearby airports', 'bookings_and_flights' ); ?></span>
-						<strong><?php esc_html_e( 'Set in provider', 'bookings_and_flights' ); ?></strong>
+						<strong><?php esc_html_e( '2', 'bookings_and_flights' ); ?></strong>
+						<span><?php esc_html_e( 'Fine-tune the trip', 'bookings_and_flights' ); ?></span>
+						<p><?php esc_html_e( 'Filter by stops, nearby airports, flexible dates, baggage, airlines, and times.', 'bookings_and_flights' ); ?></p>
 					</li>
 					<li>
-						<span><?php esc_html_e( 'Flexible-date calendar', 'bookings_and_flights' ); ?></span>
-						<strong><?php esc_html_e( 'Set in provider', 'bookings_and_flights' ); ?></strong>
+						<strong><?php esc_html_e( '3', 'bookings_and_flights' ); ?></strong>
+						<span><?php esc_html_e( 'Choose where to book', 'bookings_and_flights' ); ?></span>
+						<p><?php esc_html_e( 'When a fare works, Buy opens the travel site that will handle checkout and support.', 'bookings_and_flights' ); ?></p>
 					</li>
-					<li>
-						<span><?php esc_html_e( 'Airline, baggage, and time filters', 'bookings_and_flights' ); ?></span>
-						<strong><?php esc_html_e( 'Set in provider', 'bookings_and_flights' ); ?></strong>
-					</li>
-				</ul>
+				</ol>
 			</div>
 		</section>
 
@@ -237,53 +340,16 @@ get_header();
 		<?php endif; ?>
 	</div>
 
-	<div id="flights-provider-search" class="search-page__content search-page__content--provider">
-		<?php
-		get_template_part(
-			'template-parts/white-label-continuity',
-			null,
-			array(
-				'title' => __( 'Provider search stays in the Bookings and Flights shell', 'bookings_and_flights' ),
-				'copy'  => __( 'The embedded Travelpayouts Widget-type White Label keeps the site header, navigation, footer, and affiliate disclosure visible while Travelpayouts controls live results, filters, booking, payment, changes, and support.', 'bookings_and_flights' ),
-				'links' => array(
-					array(
-						'label' => __( 'Home', 'bookings_and_flights' ),
-						'url'   => home_url( '/' ),
-					),
-					array(
-						'label' => __( 'Flights', 'bookings_and_flights' ),
-						'url'   => home_url( '/flights/' ),
-					),
-					array(
-						'label' => __( 'Route guides', 'bookings_and_flights' ),
-						'url'   => get_post_type_archive_link( 'route' ) ?: home_url( '/routes/' ),
-					),
-				),
-			)
-		);
-		?>
-
-		<?php
-		get_template_part(
-			'template-parts/travel-search-placement',
-			null,
-			array(
-				'placement'        => 'flights_white_label_search',
-				'surface'          => 'flights',
-				'channel'          => 'home' === $surface ? 'homepage' : 'search_page',
-				'slug'             => 'flight_search',
-				'class'            => $has_intent ? 'search-placement--flights search-placement--has-intent' : 'search-placement--flights',
-				'eyebrow'          => __( 'Travelpayouts White Label', 'bookings_and_flights' ),
-				'title'            => $has_intent ? __( 'Your flight search is ready', 'bookings_and_flights' ) : __( 'Search flights', 'bookings_and_flights' ),
-				'description'      => $has_intent ? __( 'Your submitted route and trip details are summarized here. Continue in the Travelpayouts widget below to confirm live dates, travelers, cabin, flexible-date, direct-only, and nearby-airport choices.', 'bookings_and_flights' ) : __( 'Use the approved White Label search and result module. Travelpayouts controls live results, filters, booking, payment, changes, and reservation support.', 'bookings_and_flights' ),
-				'origin'           => $origin,
-				'destination'      => $destination,
-				'details'          => $details,
-				'fallback_message' => __( 'Flight search is configured through the Travelpayouts placement registry. If it is unavailable, check provider consent or placement settings.', 'bookings_and_flights' ),
-			)
-		);
-		?>
-	</div>
+	<?php if ( ! $has_intent ) : ?>
+		<div id="flights-provider-search" class="search-page__content search-page__content--provider search-page__content--provider-empty">
+			<section class="flight-results-empty" aria-labelledby="flight-results-empty-title">
+				<p class="flight-results-empty__eyebrow"><?php esc_html_e( 'Live results', 'bookings_and_flights' ); ?></p>
+				<h2 id="flight-results-empty-title"><?php esc_html_e( 'Your results will appear here after you search', 'bookings_and_flights' ); ?></h2>
+				<p><?php esc_html_e( 'Enter both airports, dates, and travelers in the flight form above. We load the partner results only after the trip details are clear, so the search area does not open blank.', 'bookings_and_flights' ); ?></p>
+				<a class="flight-results-empty__link" href="#flight-intent-title"><?php esc_html_e( 'Start flight search', 'bookings_and_flights' ); ?></a>
+			</section>
+		</div>
+	<?php endif; ?>
 
 	<div class="search-page__content search-page__content--discovery">
 		<?php

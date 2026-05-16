@@ -30,6 +30,7 @@ What to check after future changes:
 - Page-type White Label header customization continues to mirror the Bookings and Flights home-site header: logo, brand name, favicon, header color/image, search-heading copy, and approved menu/footer links.
 - Page-type White Label includes an obvious route back to the main WordPress site.
 - Search/result transitions do not expose an unrelated redirected-page look that breaks brand continuity.
+- Flight search-intent URLs keep the `/flights/` White Label provider block first in the content order before refine, alert, and discovery modules.
 - White Label SEO and Booking.com fare limitations remain documented where relevant.
 - Local analytics treat Travelpayouts reports as the source of truth for affiliate revenue and conversion data.
 - Local `bf_clicks` analytics remain operational WordPress signals from signed handoff events and do not become a substitute for Travelpayouts Performance reports.
@@ -1483,7 +1484,10 @@ What to check after future changes:
 - Widget Placements save/delete forms keep nonce verification and unique per-row nonce field IDs.
 - Public Flights/Hotels/route alert controls and scoped Bookings & Flights admin controls keep at least 24px target dimensions, with visible focus states.
 - Home, Flights, and Hotels search forms keep provider-section anchors (`#flights-provider-search` / `#hotels-provider-search`) and submitted-intent highlighting so users land near the actual provider search rather than the top local intent copy.
+- Travelpayouts White Label may rewrite clean flight query URLs into compact `flightSearch` values; `/flights/` must continue decoding compact route/date values back into the WordPress summary, refine form, alert form, and provider details so users can modify a searched route without losing dates.
 - Travelpayouts White Label flight configuration may receive sanitized `origin` and `destination` hints, but must not receive private notes, emails, saved-trip IDs, payment data, or unsupported provider-owned filter claims.
+- Travelpayouts White Label Buy links must remain clickable through the `baf-frontend-runtime` guarded redirect handler when provider modal scripts suppress the default `_blank` click in embedded local/browser contexts.
+- Travelpayouts White Label Widget `17324` keeps dashboard `Show hotels` disabled for the flight surface. If it is re-enabled, a flight search can send the initial tab to Booking.com hotel results instead of keeping the embedded flight results first.
 - Browser regression covers desktop, mobile, and 320px narrow viewports for search/widget pages before launch-readiness signoff.
 - Keyboard review covers skip links, navigation, public form controls, provider handoff controls, saved-trip actions, and protected admin controls.
 - Provider-owned `tpembars.com`, `avsplow.com`, Travelpayouts, Trip.com, and Chromium WebGL messages remain separated from app-owned console/request failures.

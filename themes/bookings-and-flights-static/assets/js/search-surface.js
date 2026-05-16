@@ -15,6 +15,7 @@
     'cabin',
     'travel_mode',
     'travel_focus',
+    'flightSearch',
     'travel_destination',
     'check_in',
     'check_out',
@@ -46,8 +47,16 @@
 
   function setupSearchForms(root) {
     root.querySelectorAll('form[data-baf-placement-key]').forEach((form) => {
-      form.addEventListener('submit', () => {
+      const submitCanonicalSearch = (event) => {
         if (!window.URL) {
+          return;
+        }
+
+        if (typeof form.checkValidity === 'function' && !form.checkValidity()) {
+          if ('click' === event.type && typeof form.reportValidity === 'function') {
+            form.reportValidity();
+          }
+
           return;
         }
 
@@ -59,7 +68,85 @@
 
         const action = new URL(form.getAttribute('action') || window.location.href, window.location.href);
         action.hash = target;
+
+        const params = new URLSearchParams();
+        const fields = new FormData(form);
+
+        fields.forEach((value, key) => {
+          const stringValue = typeof value === 'string' ? value.trim() : '';
+
+          if ('' !== key && '' !== stringValue) {
+            params.set(key, stringValue);
+          }
+        });
+
+        action.search = params.toString();
         form.setAttribute('action', action.toString());
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        window.location.assign(action.toString());
+      };
+
+      form.addEventListener('submit', submitCanonicalSearch, true);
+
+      form.querySelectorAll('button[type="submit"], input[type="submit"]').forEach((button) => {
+        button.addEventListener('click', submitCanonicalSearch, true);
+      });
+    });
+  }
+
+  function setupHomeSearchTabs(root) {
+    root.querySelectorAll('[data-home-search-tabs]').forEach((tabsRoot) => {
+      const tabs = Array.from(tabsRoot.querySelectorAll('[data-home-search-tab]'));
+      const panels = Array.from(tabsRoot.querySelectorAll('[data-home-search-panel]'));
+
+      if (!tabs.length || !panels.length) {
+        return;
+      }
+
+      function activate(target) {
+        tabs.forEach((tab) => {
+          const isActive = tab.dataset.homeSearchTab === target;
+          tab.classList.toggle('is-active', isActive);
+          tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          tab.setAttribute('tabindex', isActive ? '0' : '-1');
+        });
+
+        panels.forEach((panel) => {
+          const isActive = panel.dataset.homeSearchPanel === target;
+          panel.classList.toggle('is-active', isActive);
+          panel.hidden = !isActive;
+        });
+      }
+
+      tabsRoot.setAttribute('data-tabs-ready', 'true');
+      activate(tabs.find((tab) => tab.classList.contains('is-active'))?.dataset.homeSearchTab || tabs[0].dataset.homeSearchTab);
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => activate(tab.dataset.homeSearchTab));
+        tab.addEventListener('keydown', (event) => {
+          if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
+            return;
+          }
+
+          event.preventDefault();
+          const currentIndex = tabs.indexOf(tab);
+          let nextIndex = currentIndex;
+
+          if ('Home' === event.key) {
+            nextIndex = 0;
+          } else if ('End' === event.key) {
+            nextIndex = tabs.length - 1;
+          } else if ('ArrowRight' === event.key) {
+            nextIndex = (currentIndex + 1) % tabs.length;
+          } else if ('ArrowLeft' === event.key) {
+            nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+          }
+
+          tabs[nextIndex].focus();
+          activate(tabs[nextIndex].dataset.homeSearchTab);
+        });
       });
     });
   }
@@ -103,6 +190,7 @@
 
   function init() {
     setupCodeFields(document);
+    setupHomeSearchTabs(document);
     setupSearchForms(document);
     restoreIntentUrl();
     highlightTarget();
