@@ -110,9 +110,9 @@
 
     const returnDate = compactDate(fieldValue(fields, 'return_date'));
     const cabinPrefix = {
-      business: 'C',
-      premium_economy: 'W',
-      first: 'F'
+      business: 'c',
+      premium_economy: 'w',
+      first: 'f'
     }[fieldValue(fields, 'cabin')] || '';
     const legacyTravelers = clampInteger(fieldValue(fields, 'travelers') || '1', 1, 9);
     const adults = clampInteger(fieldValue(fields, 'adults') || String(legacyTravelers), 1, 9);
