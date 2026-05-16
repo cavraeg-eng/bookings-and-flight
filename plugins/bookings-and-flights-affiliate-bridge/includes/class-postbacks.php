@@ -3,8 +3,8 @@
  * Supplier postback ingestion.
  *
  * Suppliers call our public endpoint /wp-json/baf/v1/postback when a booking
- * completes. We validate a shared secret (either a query param or header),
- * then forward to the Node search-api so the click gets marked converted.
+ * completes. We validate a shared secret from the x-baf-secret header, then
+ * forward to the Node search-api so the click gets marked converted.
  *
  * Suppliers differ wildly in what they POST; adapters live as closures in
  * $map below. Each one returns a normalized {clickId, value, currency} tuple
@@ -30,7 +30,7 @@ class Postbacks {
 			self::NAMESPACE,
 			'/postback',
 			array(
-				'methods'             => array( 'GET', 'POST' ),
+				'methods'             => 'POST',
 				'permission_callback' => '__return_true', // auth is secret-based
 				'callback'            => array( self::class, 'handle' ),
 			)
@@ -38,13 +38,9 @@ class Postbacks {
 	}
 
 	public static function handle( \WP_REST_Request $req ): \WP_REST_Response {
-		$secret_param = $req->get_param( 'secret' );
-		$secret_hdr   = $req->get_header( 'x-baf-secret' );
-		$stored       = (string) get_option( BAF_OPT_POSTBACK_SECRET, '' );
-
-		$provided = is_string( $secret_hdr ) && $secret_hdr !== ''
-			? $secret_hdr
-			: (string) ( $secret_param ?? '' );
+		$secret_hdr = $req->get_header( 'x-baf-secret' );
+		$stored     = (string) get_option( BAF_OPT_POSTBACK_SECRET, '' );
+		$provided   = is_string( $secret_hdr ) ? $secret_hdr : '';
 
 		if ( '' === $stored || ! hash_equals( $stored, $provided ) ) {
 			return new \WP_REST_Response( array( 'error' => 'forbidden' ), 403 );

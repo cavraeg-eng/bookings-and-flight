@@ -25,7 +25,7 @@ class REST {
 			'/config',
 			array(
 				'methods'             => 'GET',
-				'permission_callback' => '__return_true',
+				'permission_callback' => array( self::class, 'current_user_can_manage' ),
 				'callback'            => array( self::class, 'get_config' ),
 			)
 		);
