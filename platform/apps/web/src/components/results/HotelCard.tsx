@@ -81,6 +81,12 @@ export function HotelCard({ offer, searchId, className }: HotelCardProps) {
 
     async function handleClick() {
         setClicking(true);
+        const bookingWindow = window.open("about:blank", "_blank");
+        if (bookingWindow) {
+            bookingWindow.opener = null;
+        }
+        let redirectUrl = offer.deeplink;
+
         try {
             const res = await fetch("/api/clicks", {
                 method: "POST",
@@ -89,14 +95,18 @@ export function HotelCard({ offer, searchId, className }: HotelCardProps) {
             });
             if (res.ok) {
                 const data = await res.json();
-                window.open(data.redirectUrl, "_blank", "noopener,noreferrer");
-            } else {
-                // Fallback: open deeplink directly
-                window.open(offer.deeplink, "_blank", "noopener,noreferrer");
+                if (typeof data.redirectUrl === "string" && data.redirectUrl.length > 0) {
+                    redirectUrl = data.redirectUrl;
+                }
             }
         } catch {
-            window.open(offer.deeplink, "_blank", "noopener,noreferrer");
+            redirectUrl = offer.deeplink;
         } finally {
+            if (bookingWindow && !bookingWindow.closed) {
+                bookingWindow.location.href = redirectUrl;
+            } else {
+                window.location.href = redirectUrl;
+            }
             setClicking(false);
         }
     }

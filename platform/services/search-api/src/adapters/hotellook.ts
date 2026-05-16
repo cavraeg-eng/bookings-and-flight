@@ -10,12 +10,8 @@ import type { SupplierAdapter } from "./types.js";
  *   1. Try the Hotellook cache API to get real pricing data.
  *      - Lookup: GET https://engine.hotellook.com/api/v2/lookup.json
  *      - Prices: GET https://engine.hotellook.com/api/v2/cache.json
- *   2. If the API call fails or returns no results, fall back to a
- *      deep-link based adapter that generates affiliate search links.
- *
- * The deep-link fallback ensures we always return *something* useful
- * (a link to search results on Hotellook) even when the cached-price
- * API has no data for the requested city/dates.
+ *   2. If the API call fails or returns no results, return no offers
+ *      instead of inventing prices that would mislead sorting and filters.
  */
 
 const LOOKUP_URL = "https://engine.hotellook.com/api/v2/lookup.json";
@@ -67,18 +63,11 @@ export const hotellookAdapter: SupplierAdapter = {
 
         try {
             const offers = await fetchHotellookAPI(req);
-            if (offers.length > 0) {
-                cache.set(cacheKey, offers, CACHE_TTL_MS);
-                return offers;
-            }
+            cache.set(cacheKey, offers, CACHE_TTL_MS);
+            return offers;
         } catch {
-            // API failed — fall through to deep-link fallback
+            return [];
         }
-
-        // Fallback: generate a single deep-link offer pointing to Hotellook search
-        const fallback = buildDeeplinkOffers(req);
-        cache.set(cacheKey, fallback, CACHE_TTL_MS);
-        return fallback;
     },
 };
 
@@ -171,38 +160,6 @@ async function resolveLocationId(city: string): Promise<string | null> {
     return locations[0].id;
 }
 
-/* ------------------------------------------------------------------ */
-/*  Deep-link fallback                                                */
-/* ------------------------------------------------------------------ */
-
-function buildDeeplinkOffers(req: HotelSearchRequest): Offer[] {
-    const deeplink = buildSearchDeeplink(req);
-
-    return [
-        {
-            supplier: "travelpayouts",
-            vertical: "hotels",
-            supplierOfferRef: `hl-search-${slug(req.destination)}-${req.checkIn}`,
-            title: `Hotels in ${req.destination}`,
-            subtitle: `${req.checkIn} → ${req.checkOut} · ${req.adults} guest${req.adults > 1 ? "s" : ""} · ${req.rooms} room${req.rooms > 1 ? "s" : ""}`,
-            price: { amount: 0, currency: req.currency },
-            badges: ["Search results"],
-            deeplink,
-            metadata: { fallback: true },
-        } satisfies Offer,
-    ];
-}
-
-function buildSearchDeeplink(req: HotelSearchRequest): string {
-    const url = new URL(HOTELLOOK_SEARCH);
-    url.searchParams.set("destination", req.destination);
-    url.searchParams.set("checkIn", req.checkIn);
-    url.searchParams.set("checkOut", req.checkOut);
-    url.searchParams.set("adults", String(req.adults));
-    url.searchParams.set("marker", env.travelpayouts.marker);
-    return url.toString();
-}
-
 function buildHotelDeeplink(req: HotelSearchRequest, hotelId: number): string {
     const url = new URL(HOTELLOOK_SEARCH);
     url.searchParams.set("destination", req.destination);
@@ -212,8 +169,4 @@ function buildHotelDeeplink(req: HotelSearchRequest, hotelId: number): string {
     url.searchParams.set("hotelId", String(hotelId));
     url.searchParams.set("marker", env.travelpayouts.marker);
     return url.toString();
-}
-
-function slug(s: string): string {
-    return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
