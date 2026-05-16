@@ -89,8 +89,17 @@ class Postbacks {
 			);
 		}
 
+		$status = (int) wp_remote_retrieve_response_code( $res );
+
+		if ( 200 > $status || 300 <= $status ) {
+			return new \WP_REST_Response(
+				array( 'error' => 'forward_rejected', 'api_status' => $status ),
+				502
+			);
+		}
+
 		return new \WP_REST_Response(
-			array( 'ok' => true, 'api_status' => (int) wp_remote_retrieve_response_code( $res ) ),
+			array( 'ok' => true, 'api_status' => $status ),
 			200
 		);
 	}

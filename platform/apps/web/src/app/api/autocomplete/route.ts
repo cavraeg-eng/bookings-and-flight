@@ -70,23 +70,69 @@ const AIRPORTS: AirportResult[] = [
     { code: "BOM", name: "Chhatrapati Shivaji Maharaj International", city: "Mumbai", country: "India", type: "airport" },
 ];
 
+const CITY_CODES = new Map<string, string>([
+    ["New York|United States", "NYC"],
+    ["Washington D.C.|United States", "WAS"],
+    ["London|United Kingdom", "LON"],
+    ["Paris|France", "PAR"],
+    ["Tokyo|Japan", "TYO"],
+    ["São Paulo|Brazil", "SAO"],
+]);
+
+function toCityResults(airports: AirportResult[]): AirportResult[] {
+    const cities = new Map<string, AirportResult>();
+
+    for (const airport of airports) {
+        const key = `${airport.city}|${airport.country}`;
+
+        if (!cities.has(key)) {
+            cities.set(key, {
+                code: CITY_CODES.get(key) ?? airport.city,
+                name: airport.city,
+                city: airport.city,
+                country: airport.country,
+                type: "city",
+            });
+        }
+    }
+
+    return Array.from(cities.values());
+}
+
+function matchesQuery(result: AirportResult, q: string): boolean {
+    return `${result.code} ${result.name} ${result.city} ${result.country}`.toLowerCase().includes(q);
+}
+
+function rankResult(result: AirportResult, q: string): number {
+    const code = result.code.toLowerCase();
+    const name = result.name.toLowerCase();
+    const city = result.city.toLowerCase();
+    const country = result.country.toLowerCase();
+
+    if (code === q) return 0;
+    if (city === q || name === q) return 1;
+    if (code.startsWith(q)) return 2;
+    if (city.startsWith(q) || name.startsWith(q)) return 3;
+    if (code.includes(q)) return 4;
+    if (city.includes(q) || name.includes(q)) return 5;
+    if (country.startsWith(q)) return 6;
+    return 7;
+}
+
 export async function GET(request: NextRequest) {
     const { searchParams } = request.nextUrl;
     const q = (searchParams.get("q") ?? "").trim().toLowerCase();
-    const typeFilter = searchParams.get("type") as "airport" | "city" | null;
+    const typeParam = searchParams.get("type");
+    const typeFilter = typeParam === "airport" || typeParam === "city" ? typeParam : null;
 
     if (q.length < 1) {
         return NextResponse.json([]);
     }
 
-    let results = AIRPORTS.filter((a) => {
-        const searchable = `${a.code} ${a.name} ${a.city} ${a.country}`.toLowerCase();
-        return searchable.includes(q);
-    });
-
-    if (typeFilter) {
-        results = results.filter((a) => a.type === typeFilter);
-    }
+    const results = typeFilter === "city"
+        ? toCityResults(AIRPORTS).filter((a) => matchesQuery(a, q)).sort((a, b) => rankResult(a, q) - rankResult(b, q))
+        : AIRPORTS.filter((a) => matchesQuery(a, q) && (typeFilter ? a.type === typeFilter : true))
+            .sort((a, b) => rankResult(a, q) - rankResult(b, q));
 
     // Return top 8 results
     return NextResponse.json(results.slice(0, 8));
