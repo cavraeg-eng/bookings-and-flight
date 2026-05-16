@@ -1,4 +1,5 @@
 import type { FastifyPluginAsync } from "fastify";
+import { timingSafeEqual } from "node:crypto";
 import {
     ClickRequestSchema,
     isAllowedSupplierUrl,
@@ -7,6 +8,19 @@ import {
 } from "@baf/shared";
 import { env } from "../config/env.js";
 import { prisma } from "../infra/db.js";
+
+function firstHeaderValue(value: string | string[] | undefined): string {
+    return Array.isArray(value) ? value[0] ?? "" : value ?? "";
+}
+
+function secretsMatch(received: string, expected: string): boolean {
+    if (!received || !expected) return false;
+
+    const receivedBuffer = Buffer.from(received);
+    const expectedBuffer = Buffer.from(expected);
+
+    return receivedBuffer.length === expectedBuffer.length && timingSafeEqual(receivedBuffer, expectedBuffer);
+}
 
 export const clickRoutes: FastifyPluginAsync = async (app) => {
     /**
@@ -81,8 +95,8 @@ export const clickRoutes: FastifyPluginAsync = async (app) => {
     app.post<{
         Body: { clickId: string; value: number; currency: string };
     }>("/postbacks/supplier-conversion", async (req, reply) => {
-        const secret = req.headers["x-postback-secret"];
-        if (!secret || secret !== env.clickHmacSecret) {
+        const secret = firstHeaderValue(req.headers["x-postback-secret"]);
+        if (!secretsMatch(secret, env.postbackSecret)) {
             reply.code(401);
             return { error: "UNAUTHORIZED" };
         }

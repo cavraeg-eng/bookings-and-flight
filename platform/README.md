@@ -21,7 +21,7 @@ platform/
 npm install
 npm run build:shared    # compiles @baf/shared once so downstream workspaces can import it
 npm run typecheck       # runs tsc --noEmit on every workspace
-npm run dev             # starts search-api on :4000 AND Next.js on :3000
+npm run dev             # starts search-api on :4050 AND Next.js on :3000
 ```
 
 ## Environment
@@ -41,7 +41,7 @@ The monorepo is **fail-closed**: supplier adapters that don't have credentials t
 2. API HMAC-signs a short `clickId`, logs a row, returns `{ clickId, redirectUrl }`.
 3. Browser navigates to `GET /go/:clickId` (on the API or via Next.js rewrite).
 4. API verifies the HMAC, checks the destination host is on the supplier allowlist, then 302s the user to the supplier deeplink.
-5. (Later) The supplier calls our WP plugin postback endpoint when the booking completes, and we mark the click as converted.
+5. (Later) The supplier calls our WP plugin postback endpoint when the booking completes; WordPress forwards the normalized conversion to the API with `x-postback-secret`, and the API validates it against `BAF_POSTBACK_SECRET` before marking the click converted.
 
 ## Location note
 

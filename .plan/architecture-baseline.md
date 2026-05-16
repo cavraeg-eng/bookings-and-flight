@@ -700,7 +700,7 @@ Planned AI tool names:
 
 - Next.js visitor-facing app on port `3000`
 - Fastify search API on port `4050` by default, from `platform/services/search-api/src/config/env.ts` and `.env.example`.
-- `platform/README.md` still says `npm run dev` starts the search API on `:4000`; this is stale documentation and should be corrected before or during platform integration work.
+- The Fastify search API uses `CLICK_HMAC_SECRET` only for signed click IDs and `/go/:clickId` verification. Supplier conversion forwards from the WordPress affiliate bridge must validate against the separate `BAF_POSTBACK_SECRET`, matching the WordPress `baf_postback_secret` option.
 - Shared TypeScript package `@baf/shared`
 - Search adapters for Travelpayouts, Hotellook, Booking Demand, activities, and cars.
 
