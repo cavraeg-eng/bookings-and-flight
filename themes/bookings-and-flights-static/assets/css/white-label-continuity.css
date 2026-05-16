@@ -73,6 +73,10 @@
   text-decoration: none;
 }
 
+body.search-surface-page #tpwl-modals:empty {
+  pointer-events: none;
+}
+
 @media (max-width: 1100px) {
   .white-label-continuity {
     grid-template-columns: 1fr;
