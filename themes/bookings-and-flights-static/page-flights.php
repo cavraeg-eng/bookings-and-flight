@@ -56,7 +56,12 @@ if ( preg_match( '/^([A-Z]{3})(\d{2})(\d{2})([A-Z]{3})(?:(\d{2})(\d{2}))?/', $co
 	$compact_origin      = $normalize_iata( $compact_matches[1] );
 	$compact_destination = $normalize_iata( $compact_matches[4] );
 	$current_year        = absint( wp_date( 'Y' ) );
+	$today               = wp_date( 'Y-m-d' );
 	$compact_depart_date = $compact_date( $compact_matches[2], $compact_matches[3], $current_year );
+
+	if ( '' !== $compact_depart_date && $compact_depart_date < $today ) {
+		$compact_depart_date = $compact_date( $compact_matches[2], $compact_matches[3], $current_year + 1 );
+	}
 
 	if ( isset( $compact_matches[5], $compact_matches[6] ) ) {
 		$compact_return_date = $compact_date( $compact_matches[5], $compact_matches[6], $current_year );

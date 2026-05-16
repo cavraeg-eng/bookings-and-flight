@@ -52,6 +52,14 @@
           return;
         }
 
+        if (typeof form.checkValidity === 'function' && !form.checkValidity()) {
+          if ('click' === event.type && typeof form.reportValidity === 'function') {
+            form.reportValidity();
+          }
+
+          return;
+        }
+
         const target = placementTargets[form.dataset.bafPlacementKey];
 
         if (!target) {
