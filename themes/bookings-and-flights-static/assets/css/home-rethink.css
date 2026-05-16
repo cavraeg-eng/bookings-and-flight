@@ -1,0 +1,327 @@
+/**
+ * Homepage rethink pass.
+ * Search-first layout inspired by modern booking surfaces.
+ */
+
+@import url("./home-wow.css");
+@import url("./home-flow.css");
+
+.home-main {
+  --home-bg: hsl(41 45% 96%);
+  --home-surface: hsl(0 0% 100%);
+  --home-surface-soft: hsl(42 31% 93%);
+  --home-line: hsl(38 24% 78%);
+  --home-accent: hsl(176 66% 28%);
+  --home-accent-strong: hsl(176 72% 22%);
+  --home-warm: hsl(35 59% 55%);
+  --home-shadow: 0 24px 70px hsl(207 31% 12% / 0.2);
+  background: linear-gradient(180deg, hsl(41 45% 96%) 0%, hsl(0 0% 100%) 44%, hsl(42 36% 94%) 100%);
+}
+
+.home-hero {
+  min-block-size: min(840px, 88dvh);
+  padding-block: calc(84px + var(--space-l)) var(--space-l);
+}
+
+.home-hero__overlay {
+  background:
+    linear-gradient(90deg, hsl(207 42% 8% / 0.9) 0%, hsl(207 38% 10% / 0.68) 42%, hsl(190 28% 13% / 0.24) 100%),
+    linear-gradient(0deg, var(--home-bg) 0%, hsl(41 45% 96% / 0) 24%);
+}
+
+.home-hero__container {
+  grid-template-columns: minmax(18rem, 0.74fr) minmax(42rem, 1.26fr);
+  gap: clamp(1.5rem, 4vw, 4.75rem);
+  align-items: center;
+}
+
+.home-hero__copy {
+  max-inline-size: 36rem;
+  gap: var(--space-s);
+}
+
+.home-hero__title {
+  max-inline-size: 10.5ch;
+  font-size: clamp(3.4rem, 5.6vw, 5.85rem);
+  line-height: 0.92;
+}
+
+.home-hero__lede {
+  max-inline-size: 32rem;
+  font-size: clamp(1rem, 1.1vw, 1.12rem);
+}
+
+.home-button {
+  min-block-size: 50px;
+  padding-inline: 1.15rem;
+}
+
+.home-search {
+  inline-size: min(100%, 920px);
+  justify-self: end;
+  margin-block-start: 0;
+  gap: 0;
+  overflow: hidden;
+  padding: 0;
+  border-color: hsl(42 45% 98% / 0.78);
+  background: hsl(0 0% 100% / 0.98);
+}
+
+.home-search__mast {
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.52fr);
+  gap: var(--space-m);
+  align-items: center;
+  padding: clamp(1rem, 1.8vw, 1.35rem) clamp(1rem, 2vw, 1.5rem) 0.9rem;
+  border-block-end: 0;
+  background: hsl(0 0% 100%);
+}
+
+.home-search__title {
+  max-inline-size: 18ch;
+  font-size: clamp(1.65rem, 2.3vw, 2.25rem);
+}
+
+.home-search__summary {
+  font-size: 0.95rem;
+}
+
+.home-search__tabs {
+  margin: 0 clamp(1rem, 2vw, 1.5rem);
+  border-color: hsl(38 24% 78%);
+  background: hsl(42 31% 93%);
+}
+
+.home-search__tab {
+  min-block-size: 52px;
+}
+
+.home-search__tab.is-active {
+  border-color: hsl(176 45% 58%);
+  background: hsl(0 0% 100%);
+}
+
+.home-search__panels {
+  padding: clamp(0.9rem, 1.6vw, 1.15rem) clamp(1rem, 2vw, 1.5rem) 0;
+}
+
+.home-search__form {
+  grid-template-columns: 1fr;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.home-search__form-head {
+  padding: 0.8rem 0.9rem 0;
+  border: 1px solid var(--home-line);
+  border-block-end: 0;
+  border-radius: 8px 8px 0 0;
+  background: hsl(42 45% 97%);
+}
+
+.home-search__grid {
+  padding: 0.85rem 0 0.9rem 0.9rem;
+  border: 1px solid var(--home-line);
+  border-radius: 0 0 8px 8px;
+  background: hsl(42 45% 97%);
+}
+
+.home-search__grid--flights {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  padding-inline-end: 0.9rem;
+}
+
+.home-search__grid--flights .home-search__field:nth-child(1),
+.home-search__grid--flights .home-search__field:nth-child(2),
+.home-search__grid--flights .home-search__field:nth-child(3),
+.home-search__grid--flights .home-search__field:nth-child(4) {
+  grid-column: span 2;
+}
+
+.home-search__passengers {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0.56rem;
+  border: 1px solid hsl(198 32% 76%);
+  border-radius: 12px;
+  background: hsl(0 0% 100% / 0.7);
+}
+
+.home-search__passengers legend {
+  padding-inline: 0.3rem;
+  color: hsl(205 14% 28%);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.home-search__passenger-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.home-search__passenger-grid .home-search__field {
+  grid-column: span 2;
+}
+
+.home-search__passenger-picker {
+  grid-column: span 4;
+}
+
+.home-search__passenger-picker summary {
+  min-block-size: 54px;
+  border-color: hsl(38 24% 70%);
+  background: hsl(42 45% 98%);
+}
+
+.home-search__passenger-panel {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.home-search__grid--hotels {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  padding-inline-end: 0.9rem;
+}
+
+.home-search__grid--hotels .home-search__field:nth-child(1) {
+  grid-column: span 6;
+}
+
+.home-search__grid--hotels .home-search__field:nth-child(2),
+.home-search__grid--hotels .home-search__field:nth-child(3) {
+  grid-column: span 3;
+}
+
+.home-search__grid--hotels .home-search__field:nth-child(4),
+.home-search__grid--hotels .home-search__field:nth-child(5) {
+  grid-column: span 3;
+}
+
+.home-search__field input,
+.home-search__field select {
+  min-block-size: 54px;
+  border-color: hsl(38 24% 70%);
+  background: hsl(0 0% 100%);
+  box-shadow: 0 1px 0 hsl(207 31% 12% / 0.04);
+}
+
+.home-search__submit {
+  grid-column: 1;
+  justify-self: stretch;
+  inline-size: 100%;
+  margin-block-start: 0.85rem;
+  min-block-size: 54px;
+  border-radius: 8px;
+}
+
+.home-search__quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.85rem clamp(1rem, 2vw, 1.5rem) 0;
+}
+
+.home-search__quick span {
+  color: var(--home-muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.home-search__quick a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 34px;
+  padding-inline: 0.8rem;
+  border: 1px solid hsl(38 24% 76%);
+  border-radius: 8px;
+  background: hsl(42 45% 97%);
+  color: var(--home-ink);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.home-search__disclosure {
+  margin: 0.85rem clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2vw, 1.35rem);
+  border-color: hsl(38 68% 73%);
+  background: hsl(40 92% 93%);
+}
+
+@media (max-width: 74em) {
+  .home-hero {
+    min-block-size: auto;
+  }
+
+  .home-hero__container {
+    grid-template-columns: 1fr;
+  }
+
+  .home-search {
+    justify-self: stretch;
+    inline-size: 100%;
+  }
+
+}
+
+@media (max-width: 60em) {
+  .home-search__mast,
+  .home-search__form {
+    grid-template-columns: 1fr;
+  }
+
+  .home-search__grid {
+    border-inline-end: 1px solid var(--home-line);
+    border-radius: 0 0 8px 8px;
+    padding-inline: 0.9rem;
+  }
+
+  .home-search__submit {
+    border-radius: 8px;
+  }
+
+}
+
+@media (max-width: 42em) {
+  .home-hero {
+    padding-block: calc(72px + var(--space-m)) var(--space-m);
+  }
+
+  .home-hero__title {
+    font-size: clamp(2.55rem, 12vw, 3.15rem);
+  }
+
+  .home-hero__actions {
+    display: none;
+  }
+
+  .home-search__mast,
+  .home-search__panels,
+  .home-search__quick,
+  .home-search__disclosure {
+    margin-inline: 0;
+    padding-inline: 0.9rem;
+  }
+
+  .home-search__tabs {
+    margin-inline: 0.9rem;
+  }
+
+  .home-search__form-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .home-search__grid--flights,
+  .home-search__grid--hotels,
+  .home-search__passenger-grid,
+  .home-search__passenger-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .home-search__passenger-grid .home-search__field,
+  .home-search__passenger-picker {
+    grid-column: auto;
+  }
+
+}

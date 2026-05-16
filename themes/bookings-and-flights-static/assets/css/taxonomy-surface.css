@@ -1,3 +1,5 @@
+@import url('./visual-surfaces.css');
+
 .taxonomy-surface-page {
   background: #f4f7f6;
   color: var(--text-body);

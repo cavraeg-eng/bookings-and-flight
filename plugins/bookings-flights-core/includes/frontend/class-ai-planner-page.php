@@ -26,6 +26,7 @@ final class AI_Planner_Page {
 		add_action( 'init', array( self::class, 'maybe_flush_rewrites' ), 20 );
 		add_filter( 'query_vars', array( self::class, 'register_query_var' ) );
 		add_filter( 'template_include', array( self::class, 'template_include' ) );
+		add_filter( 'body_class', array( self::class, 'body_class' ) );
 		add_action( 'wp_enqueue_scripts', array( self::class, 'enqueue_assets' ) );
 	}
 
@@ -46,6 +47,14 @@ final class AI_Planner_Page {
 		$vars[] = self::QUERY_VAR;
 
 		return $vars;
+	}
+
+	public static function body_class( array $classes ): array {
+		if ( self::is_planner_request() ) {
+			$classes[] = 'baf-ai-planner-template';
+		}
+
+		return $classes;
 	}
 
 	public static function template_include( string $template ): string {

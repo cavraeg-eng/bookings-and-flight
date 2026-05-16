@@ -48,7 +48,7 @@ final class Official_Shortcode_Renderer {
 			esc_html__( 'Loading partner flight discovery...', 'bookings-flights-core' ),
 			// Approved official Travelpayouts shortcode output can include provider scripts/iframes.
 			$output,
-			esc_html__( 'This Travelpayouts discovery widget could not load. Try refreshing the page or use the main flight handoff above.', 'bookings-flights-core' ),
+			esc_html__( 'This travel discovery widget could not load. Try refreshing the page or use the main flight search above.', 'bookings-flights-core' ),
 			$wrapper_id_json,
 			$frame_title_json
 		);

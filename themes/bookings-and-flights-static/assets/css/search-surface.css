@@ -3,6 +3,8 @@
  * Bookings and Flights Static Theme
  */
 
+@import url('./visual-surfaces.css');
+
 .search-page {
   min-block-size: 100vh;
   background: hsl(190 28% 96%);
@@ -71,6 +73,10 @@
   color: var(--light);
 }
 
+.search-surface-page--provider-first .search-page__hero {
+  padding-block: calc(82px + var(--space-m)) var(--space-m);
+}
+
 .search-page__hero-inner,
 .search-page__content {
   inline-size: min(100%, var(--container-max));
@@ -99,6 +105,11 @@
   text-wrap: balance;
 }
 
+.search-surface-page--provider-first .search-page__title {
+  max-inline-size: 16ch;
+  font-size: clamp(2.05rem, 5vw, 3.8rem);
+}
+
 .search-page__lede {
   max-inline-size: 54rem;
   margin-block-start: var(--space-s);
@@ -116,7 +127,15 @@
   scroll-margin-block-start: 110px;
 }
 
+.search-page__content--provider-first {
+  padding-block: var(--space-m) var(--space-l);
+}
+
 .search-page__content--discovery {
+  padding-block-start: 0;
+}
+
+.search-surface-page--provider-first .search-page__content:not(.search-page__content--provider) {
   padding-block-start: 0;
 }
 
@@ -181,14 +200,19 @@
 
 .flight-intent__grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0.65rem;
+  padding: 0.45rem;
+  border: 1px solid hsl(198 38% 76%);
+  border-radius: 14px;
+  background: hsl(204 68% 94%);
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.72);
 }
 
 .flight-intent__field {
   display: grid;
-  grid-column: span 2;
-  gap: 0.38rem;
+  grid-column: span 3;
+  gap: 0.32rem;
   min-inline-size: 0;
 }
 
@@ -197,24 +221,96 @@
   grid-column: span 3;
 }
 
-.flight-intent__field span {
+.flight-intent__field span,
+.flight-intent__passenger-picker summary span {
   color: hsl(205 14% 28%);
-  font-size: 0.78rem;
+  font-size: 0.68rem;
   font-weight: 800;
   text-transform: uppercase;
+  letter-spacing: 0;
 }
 
 .flight-intent__field input,
 .flight-intent__field select {
   inline-size: 100%;
-  min-block-size: 48px;
-  padding: 0.7rem 0.8rem;
-  border: 1px solid hsl(198 22% 74%);
-  border-radius: 8px;
-  background: hsl(190 38% 97%);
+  min-block-size: 44px;
+  padding: 0.56rem 0.68rem;
+  border: 1px solid hsl(198 35% 70%);
+  border-radius: 10px;
+  background: hsl(0 0% 100% / 0.92);
   color: hsl(205 24% 16%);
   font: inherit;
-  font-weight: 750;
+  font-size: 0.95rem;
+  font-weight: 800;
+  box-shadow: 0 1px 0 hsl(0 0% 100% / 0.8), 0 8px 18px hsl(205 38% 38% / 0.08);
+}
+
+.flight-intent__field--compact input,
+.flight-intent__field--compact select {
+  min-block-size: 38px;
+  padding-block: 0.42rem;
+  font-size: 0.9rem;
+}
+
+.flight-intent__passenger-picker {
+  position: relative;
+  grid-column: span 6;
+  min-inline-size: 0;
+}
+
+.flight-intent__passenger-picker summary {
+  display: grid;
+  gap: 0.32rem;
+  min-block-size: 44px;
+  padding: 0.56rem 0.68rem;
+  border: 1px solid hsl(198 35% 70%);
+  border-radius: 10px;
+  background: hsl(0 0% 100% / 0.92);
+  color: hsl(205 24% 16%);
+  cursor: pointer;
+  list-style: none;
+  box-shadow: 0 1px 0 hsl(0 0% 100% / 0.8), 0 8px 18px hsl(205 38% 38% / 0.08);
+}
+
+.flight-intent__passenger-picker summary::-webkit-details-marker {
+  display: none;
+}
+
+.flight-intent__passenger-picker summary::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: 0.95rem;
+  inset-block-start: 1.45rem;
+  inline-size: 0.48rem;
+  block-size: 0.48rem;
+  border-inline-end: 2px solid currentColor;
+  border-block-end: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--duration-normal) var(--ease-out-expo);
+}
+
+.flight-intent__passenger-picker[open] summary::after {
+  transform: rotate(225deg);
+}
+
+.flight-intent__passenger-picker summary strong {
+  padding-inline-end: 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.flight-intent__passenger-panel {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.55rem;
+  align-items: end;
+  margin-block-start: 0.55rem;
+  padding: 0.68rem;
+  border: 1px solid hsl(198 32% 76%);
+  border-radius: 12px;
+  background: hsl(0 0% 100%);
+  box-shadow: 0 18px 44px hsl(205 38% 20% / 0.18);
 }
 
 .flight-intent__field input::placeholder {
@@ -231,32 +327,36 @@
 
 .flight-intent__submit {
   justify-self: start;
-  min-block-size: 48px;
-  padding: 0.8rem 1rem;
-  border: 0;
-  border-radius: 8px;
+  min-block-size: 52px;
+  padding: 0.82rem 1.35rem;
+  border: 4px solid hsl(177 55% 90%);
+  border-radius: 16px;
   background: hsl(177 66% 29%);
   color: hsl(0 0% 100%);
   font: inherit;
-  font-weight: 800;
+  font-size: 1rem;
+  font-weight: 850;
   cursor: pointer;
+  box-shadow: 0 16px 30px hsl(177 60% 20% / 0.2);
 }
 
 .flight-intent__provider {
   grid-column: 1 / -1;
   display: grid;
   gap: 0.75rem;
-  padding-block-start: var(--space-s);
-  border-block-start: 1px solid hsl(198 22% 86%);
+  padding: var(--space-s);
+  border: 1px solid hsl(184 35% 78%);
+  border-radius: 8px;
+  background: linear-gradient(135deg, hsl(184 45% 96%), hsl(41 78% 96%));
 }
 
 .flight-intent__provider h3 {
-  font-size: 1.25rem;
+  font-size: clamp(1.25rem, 2.4vw, 1.7rem);
 }
 
 .flight-intent__provider-list {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.7rem;
   margin: 0;
   padding: 0;
@@ -265,30 +365,45 @@
 
 .flight-intent__provider-list li {
   display: grid;
-  gap: 0.55rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.35rem 0.65rem;
+  align-items: start;
   min-inline-size: 0;
-  padding: 0.85rem 0.9rem;
-  border: 1px dashed hsl(198 22% 70%);
+  padding: 0.95rem;
+  border: 1px solid hsl(190 28% 84%);
   border-radius: 8px;
-  background: hsl(190 38% 97%);
+  background: hsl(0 0% 100% / 0.9);
+  box-shadow: 0 14px 32px hsl(202 35% 16% / 0.08);
 }
 
 .flight-intent__provider-list span {
+  align-self: center;
   color: hsl(205 24% 16%);
   font-weight: 800;
   line-height: 1.3;
 }
 
 .flight-intent__provider-list strong {
-  justify-self: start;
-  padding: 0.3rem 0.45rem;
-  border-radius: 6px;
-  background: hsl(202 42% 12%);
+  display: grid;
+  place-items: center;
+  inline-size: 2rem;
+  block-size: 2rem;
+  border-radius: 999px;
+  background: hsl(177 66% 29%);
   color: hsl(0 0% 100%);
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-size: 0.95rem;
 }
+
+.flight-intent__provider-list p {
+  grid-column: 2;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.theme-dark .flight-intent__provider { border-color: hsl(184 22% 36%); background: linear-gradient(135deg, hsl(205 26% 14%), hsl(202 28% 10%)); }
+.theme-dark .flight-intent__provider-list li { border-color: hsl(190 18% 30%); background: hsl(205 24% 16% / 0.92); }
+.theme-dark .flight-intent__provider h3, .theme-dark .flight-intent__provider-list span { color: hsl(43 42% 94%); }
+.theme-dark .flight-intent__provider p, .theme-dark .flight-intent__provider-list p { color: hsl(42 19% 78%); }
 
 .search-placement {
   display: grid;
@@ -365,6 +480,10 @@
   border-color: hsl(174 36% 70%);
 }
 
+.search-placement--priority {
+  box-shadow: 0 18px 55px hsl(177 42% 22% / 0.1);
+}
+
 .search-page__content--provider.is-intent-target .search-placement__widget {
   outline: 3px solid hsl(177 66% 29% / 0.32);
   outline-offset: 6px;
@@ -410,86 +529,11 @@
   color: hsl(204 58% 21%);
 }
 
-.flight-discovery {
-  display: grid;
-  gap: var(--space-s);
-}
-
-.flight-discovery__header {
-  display: grid;
-  gap: 0.45rem;
-  max-inline-size: 62rem;
-}
-
-.flight-discovery__eyebrow {
-  margin: 0;
-  color: hsl(174 72% 25%);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.flight-discovery__title {
-  margin: 0;
-  color: hsl(202 34% 14%);
-  font-family: var(--font-display);
-  font-size: clamp(1.65rem, 3.4vw, 2.55rem);
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: 0;
-}
-
-.flight-discovery__copy {
-  margin: 0;
-  color: hsl(205 13% 33%);
-  line-height: 1.6;
-}
-
-.flight-discovery__grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-s);
-  align-items: start;
-}
-
-.flight-discovery .search-placement,
-.flight-discovery__missing {
-  min-inline-size: 0;
-  padding: var(--space-s);
-  border: 1px solid hsl(198 22% 82%);
-  border-radius: 8px;
-  background: hsl(0 0% 100%);
-  box-shadow: 0 14px 42px hsl(202 35% 16% / 0.1);
-}
-
-.flight-discovery .search-placement__title,
-.flight-discovery__missing h3 {
-  font-size: clamp(1.2rem, 2.2vw, 1.55rem);
-}
-
-.flight-discovery__missing {
-  display: grid;
-  gap: 0.55rem;
-  min-block-size: 220px;
-  align-content: center;
-  background: hsl(43 88% 94%);
-  color: hsl(35 46% 20%);
-}
-
-.flight-discovery__missing h3,
-.flight-discovery__missing p {
-  margin: 0;
-}
-
-.flight-discovery__missing p {
-  line-height: 1.55;
-}
-
 .flight-intent a:focus-visible,
 .flight-intent button:focus-visible,
 .flight-intent input:focus-visible,
 .flight-intent select:focus-visible,
+.flight-intent summary:focus-visible,
 .search-placement a:focus-visible,
 .search-placement button:focus-visible,
 .search-placement iframe:focus-visible,
@@ -507,9 +551,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .flight-discovery__grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 900px) {
@@ -525,6 +566,14 @@
   .flight-intent__field:nth-child(3),
   .flight-intent__field:nth-child(4) {
     grid-column: auto;
+  }
+
+  .flight-intent__passenger-picker {
+    grid-column: 1 / -1;
+  }
+
+  .flight-intent__passenger-panel {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -546,8 +595,17 @@
   }
 
   .flight-intent__grid,
+  .flight-intent__passenger-panel,
   .flight-intent__provider-list {
     grid-template-columns: 1fr;
+  }
+
+  .flight-intent__passenger-picker {
+    grid-column: auto;
+  }
+
+  .flight-intent__passenger-panel {
+    margin-block-start: 0.55rem;
   }
 
   .flight-intent__submit {

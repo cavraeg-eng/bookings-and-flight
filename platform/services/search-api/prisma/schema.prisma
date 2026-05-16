@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Click {
+  id           String    @id @default(cuid())
+  clickId      String    @unique
+  supplier     String
+  vertical     String
+  offerRef     String?
+  deeplink     String
+  price        Float?
+  currency     String?
+  converted    Boolean   @default(false)
+  convValue    Float?
+  convCurrency String?
+  createdAt    DateTime  @default(now())
+  convertedAt  DateTime?
+}
+
+model SearchSession {
+  id          String   @id @default(cuid())
+  vertical    String
+  origin      String?
+  destination String
+  departDate  String?
+  returnDate  String?
+  adults      Int      @default(1)
+  resultCount Int      @default(0)
+  createdAt   DateTime @default(now())
+}

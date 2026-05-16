@@ -18,10 +18,15 @@
 
 # Local development toolkits and backup plugins
 /wp-forge/
+/CLAUDE.md
+/wordpress-project-agent-setup.md
+/mu-plugins/annotator-loader.php
 /plugins/devkit/
+/plugins/head-footer-code/
 /plugins/wp-forge-setup/
 /plugins/wpvivid-backup-pro/
 /plugins/wpvivid-backuprestore/
+/themes/twentytwentyfive/
 
 # JavaScript dependencies and build output
 node_modules/

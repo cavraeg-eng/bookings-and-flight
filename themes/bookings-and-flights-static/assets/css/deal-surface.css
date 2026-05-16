@@ -1,3 +1,5 @@
+@import url('./visual-surfaces.css');
+
 .deal-surface-page {
   background: #f3f5f4;
   color: var(--text-body);

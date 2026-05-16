@@ -12,6 +12,9 @@
     'depart_date',
     'return_date',
     'travelers',
+    'adults',
+    'children',
+    'infants',
     'cabin',
     'travel_mode',
     'travel_focus',
@@ -45,6 +48,139 @@
     });
   }
 
+  function clampInteger(value, min, max) {
+    const parsed = Number.parseInt(value, 10);
+
+    if (!Number.isFinite(parsed)) {
+      return min;
+    }
+
+    return Math.min(max, Math.max(min, parsed));
+  }
+
+  function compactDate(value) {
+    const match = String(value || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+
+    return match ? `${match[3]}${match[2]}` : '';
+  }
+
+  function fieldValue(fields, key) {
+    const value = fields.get(key);
+
+    return typeof value === 'string' ? value.trim() : '';
+  }
+
+  function cabinLabel(value) {
+    return {
+      economy: 'Economy',
+      premium_economy: 'Premium economy',
+      business: 'Business',
+      first: 'First'
+    }[value] || 'Economy';
+  }
+
+  function updatePassengerSummary(form, adults, children, infants) {
+    const summary = form.querySelector('[data-baf-passenger-summary]');
+
+    if (!summary) {
+      return;
+    }
+
+    const parts = [`${adults} ${adults === 1 ? 'adult' : 'adults'}`];
+
+    if (children > 0) {
+      parts.push(`${children} ${children === 1 ? 'child' : 'children'}`);
+    }
+
+    if (infants > 0) {
+      parts.push(`${infants} ${infants === 1 ? 'infant' : 'infants'}`);
+    }
+
+    summary.textContent = `${parts.join(', ')}, ${cabinLabel(form.elements.cabin?.value || 'economy')}`;
+  }
+
+  function buildFlightSearch(fields) {
+    const origin = fieldValue(fields, 'origin').toUpperCase();
+    const destination = fieldValue(fields, 'destination').toUpperCase();
+    const departDate = compactDate(fieldValue(fields, 'depart_date'));
+
+    if (!/^[A-Z]{3}$/.test(origin) || !/^[A-Z]{3}$/.test(destination) || '' === departDate) {
+      return '';
+    }
+
+    const returnDate = compactDate(fieldValue(fields, 'return_date'));
+    const cabinPrefix = {
+      business: 'C',
+      premium_economy: 'W',
+      first: 'F'
+    }[fieldValue(fields, 'cabin')] || '';
+    const legacyTravelers = clampInteger(fieldValue(fields, 'travelers') || '1', 1, 9);
+    const adults = clampInteger(fieldValue(fields, 'adults') || String(legacyTravelers), 1, 9);
+    let children = clampInteger(fieldValue(fields, 'children') || '0', 0, 8);
+    let infants = clampInteger(fieldValue(fields, 'infants') || '0', 0, adults);
+
+    if (adults + children > 9) {
+      children = 9 - adults;
+    }
+
+    infants = Math.min(infants, adults);
+
+    const passengerSuffix = `${cabinPrefix}${adults}${children > 0 || infants > 0 ? children : ''}${infants > 0 ? infants : ''}`;
+
+    fields.set('adults', String(adults));
+    fields.set('children', String(children));
+    fields.set('infants', String(infants));
+    fields.set('travelers', String(adults + children + infants));
+
+    return `${origin}${departDate}${destination}${returnDate}${passengerSuffix}`;
+  }
+
+  function syncPassengerTotal(form) {
+    const totalField = form.querySelector('[data-baf-passenger-total]');
+
+    if (!totalField) {
+      return;
+    }
+
+    const adults = clampInteger(form.elements.adults?.value || '1', 1, 9);
+    let children = clampInteger(form.elements.children?.value || '0', 0, 8);
+    let infants = clampInteger(form.elements.infants?.value || '0', 0, adults);
+
+    if (adults + children > 9) {
+      children = 9 - adults;
+    }
+
+    infants = Math.min(infants, adults);
+    totalField.value = String(adults + children + infants);
+
+    if (form.elements.children) {
+      form.elements.children.value = String(children);
+    }
+
+    if (form.elements.infants) {
+      form.elements.infants.max = String(adults);
+      form.elements.infants.value = String(infants);
+    }
+
+    updatePassengerSummary(form, adults, children, infants);
+  }
+
+  function syncFlightSearch(form) {
+    const flightSearchField = form.querySelector('[data-baf-flight-search]');
+
+    if (!flightSearchField) {
+      return '';
+    }
+
+    const fields = new FormData(form);
+    const flightSearch = buildFlightSearch(fields);
+
+    flightSearchField.value = flightSearch;
+    syncPassengerTotal(form);
+
+    return flightSearch;
+  }
+
   function setupSearchForms(root) {
     root.querySelectorAll('form[data-baf-placement-key]').forEach((form) => {
       const submitCanonicalSearch = (event) => {
@@ -71,6 +207,11 @@
 
         const params = new URLSearchParams();
         const fields = new FormData(form);
+        const flightSearch = form.dataset.bafPlacementKey === 'flights_white_label_search' ? syncFlightSearch(form) : '';
+
+        if ('' !== flightSearch) {
+          fields.set('flightSearch', flightSearch);
+        }
 
         fields.forEach((value, key) => {
           const stringValue = typeof value === 'string' ? value.trim() : '';
@@ -79,6 +220,19 @@
             params.set(key, stringValue);
           }
         });
+
+        if ('' !== flightSearch) {
+          params.delete('origin');
+          params.delete('destination');
+          params.delete('depart_date');
+          params.delete('return_date');
+          params.delete('adults');
+          params.delete('children');
+          params.delete('infants');
+          params.delete('travelers');
+          params.delete('cabin');
+          params.set('flightSearch', flightSearch);
+        }
 
         action.search = params.toString();
         form.setAttribute('action', action.toString());
@@ -89,6 +243,13 @@
       };
 
       form.addEventListener('submit', submitCanonicalSearch, true);
+
+      form.querySelectorAll('input[name="origin"], input[name="destination"], input[name="depart_date"], input[name="return_date"], input[name="adults"], input[name="children"], input[name="infants"], select[name="cabin"]').forEach((field) => {
+        field.addEventListener('input', () => syncFlightSearch(form));
+        field.addEventListener('change', () => syncFlightSearch(form));
+      });
+
+      syncFlightSearch(form);
 
       form.querySelectorAll('button[type="submit"], input[type="submit"]').forEach((button) => {
         button.addEventListener('click', submitCanonicalSearch, true);

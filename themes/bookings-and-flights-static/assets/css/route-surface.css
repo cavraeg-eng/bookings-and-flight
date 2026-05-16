@@ -3,6 +3,8 @@
  * Bookings and Flights Static Theme
  */
 
+@import url('./visual-surfaces.css');
+
 .route-surface-page {
   min-block-size: 100vh;
   background: hsl(190 28% 96%);

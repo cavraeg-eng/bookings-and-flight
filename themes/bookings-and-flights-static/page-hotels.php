@@ -143,92 +143,116 @@ $placement_channel = 'home' === $surface ? 'homepage' : 'search_page';
 get_header();
 ?>
 
-<main id="main-content" class="search-page search-page--hotels">
-	<section class="search-page__hero" aria-labelledby="hotel-search-title">
-		<div class="search-page__hero-inner">
-			<p class="search-page__eyebrow"><?php esc_html_e( 'Hotels', 'bookings_and_flights' ); ?></p>
-			<h1 id="hotel-search-title" class="search-page__title"><?php esc_html_e( 'Hotel search with partner handoff', 'bookings_and_flights' ); ?></h1>
-			<p class="search-page__lede"><?php esc_html_e( 'Enter a city, dates, and guest count, then jump straight to the partner hotel search below. Your stay details remain visible before provider-owned availability and booking.', 'bookings_and_flights' ); ?></p>
-		</div>
-	</section>
-
-	<div class="search-page__content">
-		<section class="hotel-intent" aria-labelledby="hotel-intent-title">
-			<div class="hotel-intent__content">
-				<p class="hotel-intent__eyebrow"><?php esc_html_e( 'Hotel intent', 'bookings_and_flights' ); ?></p>
-				<h2 id="hotel-intent-title" class="hotel-intent__title"><?php esc_html_e( 'Search hotels without losing your place', 'bookings_and_flights' ); ?></h2>
-				<p class="hotel-intent__copy"><?php esc_html_e( 'Submit the stay details and we will take you to the partner search area on this page, with your hotel summary still visible above the provider controls.', 'bookings_and_flights' ); ?></p>
-			</div>
-
-			<form class="hotel-intent__form" action="<?php echo esc_url( home_url( '/hotels/#hotels-provider-search' ) ); ?>" method="get" data-baf-placement-key="hotels_partner_search">
-				<div class="hotel-intent__grid">
-					<label class="hotel-intent__field hotel-intent__field--destination">
-						<span><?php esc_html_e( 'Destination', 'bookings_and_flights' ); ?></span>
-						<input type="text" name="travel_destination" value="<?php echo esc_attr( $destination ); ?>" placeholder="<?php esc_attr_e( 'Miami Beach', 'bookings_and_flights' ); ?>" autocomplete="address-level2" maxlength="80">
-					</label>
-					<label class="hotel-intent__field">
-						<span><?php esc_html_e( 'Check in', 'bookings_and_flights' ); ?></span>
-						<input type="date" name="check_in" value="<?php echo esc_attr( $check_in ); ?>">
-					</label>
-					<label class="hotel-intent__field">
-						<span><?php esc_html_e( 'Check out', 'bookings_and_flights' ); ?></span>
-						<input type="date" name="check_out" value="<?php echo esc_attr( $check_out ); ?>">
-					</label>
-					<label class="hotel-intent__field">
-						<span><?php esc_html_e( 'Guests', 'bookings_and_flights' ); ?></span>
-						<input type="number" name="guests" value="<?php echo esc_attr( (string) $guests ); ?>" min="1" max="12" inputmode="numeric">
-					</label>
-					<label class="hotel-intent__field">
-						<span><?php esc_html_e( 'Rooms', 'bookings_and_flights' ); ?></span>
-						<input type="number" name="rooms" value="<?php echo esc_attr( (string) $rooms ); ?>" min="1" max="6" inputmode="numeric">
-					</label>
-					<label class="hotel-intent__field hotel-intent__field--focus">
-						<span><?php esc_html_e( 'Stay focus', 'bookings_and_flights' ); ?></span>
-						<select name="stay_focus">
-							<option value=""><?php esc_html_e( 'Choose in partner search', 'bookings_and_flights' ); ?></option>
-							<?php foreach ( $stay_focus_options as $focus_key => $focus_label ) : ?>
-								<option value="<?php echo esc_attr( $focus_key ); ?>" <?php selected( $stay_focus, $focus_key ); ?>><?php echo esc_html( $focus_label ); ?></option>
-							<?php endforeach; ?>
-						</select>
-					</label>
+	<main id="main-content" class="search-page search-page--hotels">
+		<section class="search-page__hero" aria-labelledby="hotel-search-title">
+			<div class="search-page__hero-inner">
+				<h1 id="hotel-search-title" class="search-page__title"><?php esc_html_e( 'Compare hotels around the place you want to be', 'bookings_and_flights' ); ?></h1>
+				<p class="search-page__lede"><?php esc_html_e( 'Start with the city, dates, guests, and rooms. Then compare current hotel options with a partner while your planning context stays visible on Bookings and Flights.', 'bookings_and_flights' ); ?></p>
+				<div class="search-page__hero-actions" aria-label="<?php esc_attr_e( 'Hotel search actions', 'bookings_and_flights' ); ?>">
+					<a class="hotel-intent__provider-link" href="#hotel-search-panel"><?php esc_html_e( 'Set stay details', 'bookings_and_flights' ); ?></a>
+					<a class="hotel-intent__provider-link hotel-intent__provider-link--secondary" href="#hotels-provider-search"><?php esc_html_e( 'Compare hotels', 'bookings_and_flights' ); ?></a>
 				</div>
-
-				<input type="hidden" name="baf_surface" value="hotels_landing">
-				<button class="hotel-intent__submit" type="submit"><?php esc_html_e( 'Search hotels', 'bookings_and_flights' ); ?></button>
-				<p class="hotel-intent__helper"><?php esc_html_e( 'After submit, continue in the partner search below. Current rates, rooms, taxes, policies, booking terms, payment, changes, and support remain provider-owned.', 'bookings_and_flights' ); ?></p>
-			</form>
-
-			<div class="hotel-intent__provider" aria-labelledby="hotel-provider-options-title">
-				<h3 id="hotel-provider-options-title"><?php esc_html_e( 'Provider-controlled hotel choices', 'bookings_and_flights' ); ?></h3>
-				<p><?php esc_html_e( 'WordPress keeps the editorial shell and stay summary visible. Set map, neighborhood, amenity, and room controls inside the partner surface when those controls are available there.', 'bookings_and_flights' ); ?></p>
-				<ul class="hotel-intent__provider-list">
-					<li>
-						<span><?php esc_html_e( 'Current rates and taxes', 'bookings_and_flights' ); ?></span>
-						<strong><?php esc_html_e( 'Provider', 'bookings_and_flights' ); ?></strong>
-					</li>
-					<li>
-						<span><?php esc_html_e( 'Room type and policies', 'bookings_and_flights' ); ?></span>
-						<strong><?php esc_html_e( 'Provider', 'bookings_and_flights' ); ?></strong>
-					</li>
-					<li>
-						<span><?php esc_html_e( 'Map, neighborhood, and amenity filters', 'bookings_and_flights' ); ?></span>
-						<strong><?php esc_html_e( 'Provider', 'bookings_and_flights' ); ?></strong>
-					</li>
-					<li>
-						<span><?php esc_html_e( 'Booking, payment, changes, and support', 'bookings_and_flights' ); ?></span>
-						<strong><?php esc_html_e( 'Provider', 'bookings_and_flights' ); ?></strong>
-					</li>
-				</ul>
 			</div>
 		</section>
+
+		<div class="search-page__content">
+			<section id="hotel-search-panel" class="hotel-intent" aria-labelledby="hotel-intent-title">
+				<div class="hotel-intent__content">
+					<p class="hotel-intent__eyebrow"><?php esc_html_e( 'Stay search', 'bookings_and_flights' ); ?></p>
+					<h2 id="hotel-intent-title" class="hotel-intent__title"><?php esc_html_e( 'Start with the stay details you know', 'bookings_and_flights' ); ?></h2>
+					<p class="hotel-intent__copy"><?php esc_html_e( 'Set the basics here, then use the hotel partner tool for rooms, maps, amenities, policies, and checkout. Your stay details remain visible so the next step is easy to follow.', 'bookings_and_flights' ); ?></p>
+				</div>
+
+				<form class="hotel-intent__form" action="<?php echo esc_url( home_url( '/hotels/#hotels-provider-search' ) ); ?>" method="get" data-baf-placement-key="hotels_partner_search">
+					<div class="hotel-intent__grid">
+						<label class="hotel-intent__field hotel-intent__field--destination">
+							<span><?php esc_html_e( 'Destination', 'bookings_and_flights' ); ?></span>
+							<input type="text" name="travel_destination" value="<?php echo esc_attr( $destination ); ?>" placeholder="<?php esc_attr_e( 'Miami Beach', 'bookings_and_flights' ); ?>" autocomplete="address-level2" maxlength="80">
+						</label>
+						<label class="hotel-intent__field">
+							<span><?php esc_html_e( 'Check in', 'bookings_and_flights' ); ?></span>
+							<input type="date" name="check_in" value="<?php echo esc_attr( $check_in ); ?>">
+						</label>
+						<label class="hotel-intent__field">
+							<span><?php esc_html_e( 'Check out', 'bookings_and_flights' ); ?></span>
+							<input type="date" name="check_out" value="<?php echo esc_attr( $check_out ); ?>">
+						</label>
+						<label class="hotel-intent__field">
+							<span><?php esc_html_e( 'Guests', 'bookings_and_flights' ); ?></span>
+							<input type="number" name="guests" value="<?php echo esc_attr( (string) $guests ); ?>" min="1" max="12" inputmode="numeric">
+						</label>
+						<label class="hotel-intent__field">
+							<span><?php esc_html_e( 'Rooms', 'bookings_and_flights' ); ?></span>
+							<input type="number" name="rooms" value="<?php echo esc_attr( (string) $rooms ); ?>" min="1" max="6" inputmode="numeric">
+						</label>
+						<label class="hotel-intent__field hotel-intent__field--focus">
+							<span><?php esc_html_e( 'What matters most', 'bookings_and_flights' ); ?></span>
+							<select name="stay_focus">
+								<option value=""><?php esc_html_e( 'Choose later in hotel search', 'bookings_and_flights' ); ?></option>
+								<?php foreach ( $stay_focus_options as $focus_key => $focus_label ) : ?>
+									<option value="<?php echo esc_attr( $focus_key ); ?>" <?php selected( $stay_focus, $focus_key ); ?>><?php echo esc_html( $focus_label ); ?></option>
+								<?php endforeach; ?>
+							</select>
+						</label>
+					</div>
+
+					<input type="hidden" name="baf_surface" value="hotels_landing">
+					<button class="hotel-intent__submit" type="submit"><?php esc_html_e( 'Compare hotels', 'bookings_and_flights' ); ?></button>
+					<p class="hotel-intent__helper"><?php esc_html_e( 'Bookings and Flights does not sell rooms or rank hotel inventory. The hotel partner handles current availability, rates, taxes, payment, booking changes, and support.', 'bookings_and_flights' ); ?></p>
+				</form>
+
+				<div class="hotel-intent__provider" aria-labelledby="hotel-provider-options-title">
+					<h3 id="hotel-provider-options-title"><?php esc_html_e( 'How the hotel search works', 'bookings_and_flights' ); ?></h3>
+					<p><?php esc_html_e( 'First set the trip basics here. Next, use the hotel partner search for current rooms and filters. Booking, payment, changes, and support stay with the hotel partner.', 'bookings_and_flights' ); ?></p>
+					<ul class="hotel-intent__provider-list">
+						<li>
+							<span><?php esc_html_e( 'Set destination, dates, guests, and rooms', 'bookings_and_flights' ); ?></span>
+							<strong><?php esc_html_e( 'This page', 'bookings_and_flights' ); ?></strong>
+						</li>
+						<li>
+							<span><?php esc_html_e( 'Compare rooms, filters, rates, and policies', 'bookings_and_flights' ); ?></span>
+							<strong><?php esc_html_e( 'Hotel partner', 'bookings_and_flights' ); ?></strong>
+						</li>
+						<li>
+							<span><?php esc_html_e( 'Book, pay, change, or get support', 'bookings_and_flights' ); ?></span>
+							<strong><?php esc_html_e( 'Hotel partner', 'bookings_and_flights' ); ?></strong>
+						</li>
+					</ul>
+					<div class="hotel-intent__provider-actions">
+						<a class="hotel-intent__provider-link" href="#hotels-provider-search"><?php esc_html_e( 'Compare hotels', 'bookings_and_flights' ); ?></a>
+					</div>
+				</div>
+			</section>
+		</div>
+
+	<div id="hotels-provider-search" class="search-page__content search-page__content--provider">
+		<?php
+		get_template_part(
+			'template-parts/travel-search-placement',
+			null,
+			array(
+				'placement'        => 'hotels_partner_search',
+				'surface'          => 'hotels',
+				'channel'          => $placement_channel,
+				'slug'             => 'hotel_search',
+				'class'            => $has_intent ? 'search-placement--hotels search-placement--has-intent' : 'search-placement--hotels',
+				'eyebrow'          => __( 'Hotel search', 'bookings_and_flights' ),
+					'title'            => $has_intent ? __( 'Your hotel search is ready', 'bookings_and_flights' ) : __( 'Compare current hotel options', 'bookings_and_flights' ),
+				'description'      => $has_intent ? __( 'Your stay details are summarized here. Use the embedded hotel search or sponsored link to confirm current rooms, rates, policies, and booking terms with the hotel partner.', 'bookings_and_flights' ) : __( 'Use the embedded hotel search or sponsored link to compare current rooms, filters, rates, and booking terms. Bookings and Flights keeps the planning context but does not store, rank, or filter hotel inventory.', 'bookings_and_flights' ),
+				'details'          => $details,
+				'fallback_message' => __( 'Hotel search is configured through the Travelpayouts placement registry. If it is unavailable, check provider consent or placement settings.', 'bookings_and_flights' ),
+				'support_note'     => __( 'Sponsored hotel search may earn a commission. Current rooms, rates, taxes, booking terms, payment, changes, and support stay with Trip.com, Travelpayouts, or the partner provider.', 'bookings_and_flights' ),
+			)
+		);
+		?>
 	</div>
 
 	<section class="hotel-guide-teaser" aria-labelledby="hotel-guide-teaser-title">
 		<div class="hotel-guide-teaser__inner">
 			<div class="hotel-guide-teaser__header">
 				<p class="hotel-guide-teaser__eyebrow"><?php esc_html_e( 'City hotel guides', 'bookings_and_flights' ); ?></p>
-				<h2 id="hotel-guide-teaser-title" class="hotel-guide-teaser__title"><?php esc_html_e( 'Editorial stay guides before partner search', 'bookings_and_flights' ); ?></h2>
-				<p class="hotel-guide-teaser__copy"><?php esc_html_e( 'Use destination guides for neighborhoods, landmarks, family stays, luxury stays, and budget planning. Provider search handles current rates, map filters, booking terms, payment, changes, and support.', 'bookings_and_flights' ); ?></p>
+				<h2 id="hotel-guide-teaser-title" class="hotel-guide-teaser__title"><?php esc_html_e( 'Not sure where to stay yet?', 'bookings_and_flights' ); ?></h2>
+				<p class="hotel-guide-teaser__copy"><?php esc_html_e( 'Use destination guides for neighborhoods, landmarks, family stays, luxury stays, and budget planning before you compare current rooms with the hotel partner.', 'bookings_and_flights' ); ?></p>
 			</div>
 
 			<?php if ( $city_guides->have_posts() ) : ?>
@@ -272,7 +296,7 @@ get_header();
 			<?php else : ?>
 				<div class="hotel-guide-empty" role="status">
 					<h3><?php esc_html_e( 'City guide slots are ready', 'bookings_and_flights' ); ?></h3>
-					<p><?php esc_html_e( 'Published destination posts will appear here as editable hotel guide cards. The hotel search handoff remains available now.', 'bookings_and_flights' ); ?></p>
+					<p><?php esc_html_e( 'Published destination posts will appear here as editable hotel guide cards. The live hotel search above is available now.', 'bookings_and_flights' ); ?></p>
 					<a class="hotel-guide-button" href="<?php echo esc_url( $destinations_url ); ?>"><?php esc_html_e( 'Browse city guides', 'bookings_and_flights' ); ?></a>
 				</div>
 			<?php endif; ?>
@@ -288,36 +312,14 @@ get_header();
 		'template-parts/hotel-discovery-placements',
 		null,
 		array(
-			'title'       => __( 'Map and listing handoffs for partner comparison', 'bookings_and_flights' ),
-			'description' => __( 'Keep planning context in WordPress, then open the partner-owned map and listing surfaces to confirm current hotel options and booking terms.', 'bookings_and_flights' ),
+			'title'       => __( 'Need a map or full listings view?', 'bookings_and_flights' ),
+			'description' => __( 'Use these follow-up links when you want the hotel partner map, listing filters, room details, and final booking terms.', 'bookings_and_flights' ),
 			'channel'     => $placement_channel,
 			'slug_prefix' => 'hotels_landing',
 			'details'     => $details,
 		)
 	);
 	?>
-
-	<div id="hotels-provider-search" class="search-page__content search-page__content--provider">
-		<?php
-		get_template_part(
-			'template-parts/travel-search-placement',
-			null,
-			array(
-				'placement'        => 'hotels_partner_search',
-				'surface'          => 'hotels',
-				'channel'          => $placement_channel,
-				'slug'             => 'hotel_search',
-				'class'            => $has_intent ? 'search-placement--hotels search-placement--has-intent' : 'search-placement--hotels',
-				'eyebrow'          => __( 'Hotels partner surface', 'bookings_and_flights' ),
-				'title'            => $has_intent ? __( 'Your hotel search is ready', 'bookings_and_flights' ) : __( 'Open partner hotel search', 'bookings_and_flights' ),
-				'description'      => $has_intent ? __( 'Your submitted stay details are summarized here. Use the embedded partner controls or open the sponsored handoff to confirm availability, policies, room options, and booking terms.', 'bookings_and_flights' ) : __( 'Use the embedded partner controls or open the sponsored handoff to continue to provider-owned hotel search. WordPress does not store, rank, or filter provider room inventory.', 'bookings_and_flights' ),
-				'details'          => $details,
-				'fallback_message' => __( 'Hotel search is configured through the Travelpayouts placement registry. If it is unavailable, check provider consent or placement settings.', 'bookings_and_flights' ),
-				'support_note'     => __( 'Sponsored hotel search may earn a commission. Bookings and Flights keeps the planning shell visible; current rooms, rates, taxes, booking terms, payment, changes, and support stay with Trip.com, Travelpayouts, or the partner provider.', 'bookings_and_flights' ),
-			)
-		);
-		?>
-	</div>
 </main>
 
 <?php

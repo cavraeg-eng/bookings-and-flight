@@ -190,12 +190,12 @@ function bookings_and_flights_primary_menu_has_product_core() {
 	return $has_product_core;
 }
 
-function bookings_and_flights_is_flights_request_path(): bool {
+function bookings_and_flights_normalized_request_path(): string {
 	$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 	$request_path = wp_parse_url( $request_uri, PHP_URL_PATH );
 
 	if ( ! is_string( $request_path ) ) {
-		return false;
+		return '';
 	}
 
 	$home_path = wp_parse_url( home_url( '/' ), PHP_URL_PATH );
@@ -204,17 +204,56 @@ function bookings_and_flights_is_flights_request_path(): bool {
 		$request_path = substr( $request_path, strlen( $home_path ) );
 	}
 
-	return '/flights/' === trailingslashit( '/' . trim( $request_path, '/' ) );
+	return trailingslashit( '/' . trim( $request_path, '/' ) );
 }
+
+function bookings_and_flights_flight_search_from_request_path(): string {
+	$request_path = bookings_and_flights_normalized_request_path();
+
+	if ( '/flights/' === $request_path || 0 !== strpos( $request_path, '/flights/' ) ) {
+		return '';
+	}
+
+	$compact_search = trim( substr( $request_path, strlen( '/flights/' ) ), '/' );
+
+	if ( '' === $compact_search || false !== strpos( $compact_search, '/' ) ) {
+		return '';
+	}
+
+	$compact_search = strtoupper( preg_replace( '/[^A-Z0-9]/', '', $compact_search ) );
+
+	return preg_match( '/^[A-Z]{3}\d{4}[A-Z]{3}[A-Z0-9]{0,16}$/', $compact_search ) ? $compact_search : '';
+}
+
+function bookings_and_flights_is_flights_request_path(): bool {
+	$request_path = bookings_and_flights_normalized_request_path();
+
+	return '/flights/' === $request_path || '' !== bookings_and_flights_flight_search_from_request_path();
+}
+
+function bookings_and_flights_flights_query_vars( $query_vars ) {
+	if ( ! in_array( 'flightSearch', $query_vars, true ) ) {
+		$query_vars[] = 'flightSearch';
+	}
+
+	return $query_vars;
+}
+add_filter( 'query_vars', 'bookings_and_flights_flights_query_vars' );
 
 function bookings_and_flights_allow_flights_provider_query( $query_vars ) {
 	if ( ! bookings_and_flights_is_flights_request_path() ) {
 		return $query_vars;
 	}
 
+	$compact_search = bookings_and_flights_flight_search_from_request_path();
+
 	$query_vars['pagename'] = 'flights';
 
-	unset( $query_vars['destination'], $query_vars['name'], $query_vars['post_type'] );
+	if ( '' !== $compact_search ) {
+		$query_vars['flightSearch'] = $compact_search;
+	}
+
+	unset( $query_vars['attachment'], $query_vars['destination'], $query_vars['name'], $query_vars['post_type'] );
 
 	return $query_vars;
 }
@@ -337,7 +376,6 @@ function bookings_and_flights_enqueue_assets() {
         filemtime( get_template_directory() . '/assets/css/tokens.css' )
     );
 
-    // 3. Base - reset and base styles (depends on tokens)
     wp_enqueue_style(
         'bookings_and_flights-base',
         get_template_directory_uri() . '/assets/css/base.css',
@@ -345,7 +383,6 @@ function bookings_and_flights_enqueue_assets() {
         filemtime( get_template_directory() . '/assets/css/base.css' )
     );
 
-    // 4. Shared components, header, mobile navigation, and footer - depend on base styles
     wp_enqueue_style(
         'bookings_and_flights-components',
         get_template_directory_uri() . '/assets/css/components.css',
@@ -380,7 +417,6 @@ function bookings_and_flights_enqueue_assets() {
         );
     }
 
-    // 404 page assets (not template-based, must check before $template early return)
     if ( is_404() ) {
         $css_404 = get_template_directory() . '/assets/css/404.css';
         if ( file_exists( $css_404 ) ) {
@@ -394,8 +430,6 @@ function bookings_and_flights_enqueue_assets() {
         return;
     }
 
-    // 5. Page-specific styles — auto-discovered from template slug
-    // Convention: page-{slug}.php -> assets/css/{slug}.css
     $template = get_page_template_slug();
 
     if ( ! $template ) {
@@ -414,12 +448,15 @@ function bookings_and_flights_enqueue_assets() {
             filemtime( $css_path )
         );
     }
+
+    $home_rethink_path = get_template_directory() . '/assets/css/home-rethink.css';
+    if ( 'home' === $css_slug && file_exists( $home_rethink_path ) ) {
+        wp_enqueue_style( 'bookings_and_flights-home-rethink', get_template_directory_uri() . '/assets/css/home-rethink.css', array( 'bookings_and_flights-page-style' ), filemtime( $home_rethink_path ) );
+    }
 }
 add_action( 'wp_enqueue_scripts', 'bookings_and_flights_enqueue_assets' );
 
-// Enqueue JavaScript based on page template
 function bookings_and_flights_enqueue_scripts() {
-    // Header script - ALL pages (mobile menu, scroll handling, header variant)
     wp_enqueue_script(
         'bookings_and_flights-header',
         get_template_directory_uri() . '/assets/js/header.js',

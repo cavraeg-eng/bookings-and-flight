@@ -222,7 +222,7 @@ final class Travelpayouts_Widget_Registry_Service {
 			'consent_required' => self::truthy( $placement['consent_required'] ?? $existing['consent_required'] ?? true ),
 			'disclosure'      => array(
 				'required' => self::truthy( $placement['disclosure']['required'] ?? $existing['disclosure']['required'] ?? true ),
-				'copy'     => sanitize_text_field( (string) ( $placement['disclosure']['copy'] ?? $existing['disclosure']['copy'] ?? 'Sponsored travel search. Booking is completed with the partner provider.' ) ),
+				'copy'     => sanitize_text_field( (string) ( $placement['disclosure']['copy'] ?? $existing['disclosure']['copy'] ?? 'Sponsored travel search. Final booking is handled by the booking site.' ) ),
 			),
 			'frame'           => self::sanitize_frame( (array) ( $placement['frame'] ?? $existing['frame'] ?? array() ) ),
 			'fallback'        => self::sanitize_fallback( (array) ( $placement['fallback'] ?? $existing['fallback'] ?? array() ) ),

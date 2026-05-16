@@ -159,7 +159,7 @@ final class Widget_Placement_Form {
 			'consent_required' => true,
 			'disclosure'      => array(
 				'required' => true,
-				'copy'     => __( 'Sponsored travel search. Booking is completed with the partner provider.', 'bookings-flights-core' ),
+				'copy'     => __( 'Sponsored travel search. Final booking is handled by the booking site.', 'bookings-flights-core' ),
 			),
 			'frame'           => array(
 				'desktop_min_height' => 520,
