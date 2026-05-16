@@ -25,7 +25,7 @@ export const flightRoutes: FastifyPluginAsync = async (app) => {
                     resultCount: result.offers.length,
                 },
             })
-            .catch((err) => app.log.warn({ err }, "failed to log search session"));
+            .catch((err: unknown) => app.log.warn({ err }, "failed to log search session"));
 
         return result;
     });
