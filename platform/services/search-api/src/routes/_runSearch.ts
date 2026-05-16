@@ -17,7 +17,7 @@ export async function runSearch<Req>(
     vertical: Vertical,
     req: Req,
     log: FastifyBaseLogger,
-): Promise<{ searchId: string; partial: false; offers: Offer[]; warnings?: string[] }> {
+): Promise<{ searchId: string; partial: boolean; offers: Offer[]; warnings?: string[] }> {
     const searchId = randomUUID();
     const allAdapters = adaptersFor(vertical);
     const usable = allAdapters.filter((a) => a.isConfigured() && hasVerticalMethod(a, vertical));
@@ -45,7 +45,7 @@ export async function runSearch<Req>(
 
     return {
         searchId,
-        partial: false,
+        partial: warnings.length > 0,
         offers,
         warnings: warnings.length ? warnings : undefined,
     };

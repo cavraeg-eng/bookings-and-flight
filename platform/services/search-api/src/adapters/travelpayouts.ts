@@ -167,11 +167,14 @@ export const travelpayoutsAdapter: SupplierAdapter = {
                 badges: badges.length ? badges : undefined,
                 deeplink: buildDeeplink(p.link, env.travelpayouts.marker),
                 metadata: {
+                    airline: carrier,
                     carrier,
                     airlineCode: p.airline,
                     flightNumber: p.flight_number,
                     duration: durStr,
+                    transfers: stopsStr,
                     stops: p.transfers,
+                    departTime: formatTime(p.departure_at),
                     departureAt: p.departure_at,
                 },
             } satisfies Offer;
@@ -187,6 +190,18 @@ function formatDuration(minutes: number): string {
     const h = Math.floor(minutes / 60);
     const m = minutes % 60;
     return h > 0 ? `${h}h ${m}m` : `${m}m`;
+}
+
+function formatTime(value: string): string {
+    const timeMatch = value.match(/T(\d{2}:\d{2})/);
+    if (timeMatch) return timeMatch[1];
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${hours}:${minutes}`;
 }
 
 function buildDeeplink(link: string, marker: string): string {
