@@ -72,6 +72,23 @@ function saveRecent(search: RecentSearch) {
     localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, MAX_RECENT)));
 }
 
+function suggestionDisplay(s: AirportSuggestion, cityMode = false): string {
+    if (cityMode) {
+        return [s.city || s.name || s.code, s.country].filter(Boolean).join(", ");
+    }
+
+    return s.city ? `${s.code} — ${s.city}` : s.code;
+}
+
+function selectedFlightCode(selection: AirportSuggestion | null, query: string): string | null {
+    const typed = query.trim();
+    if (selection && typed === suggestionDisplay(selection)) {
+        return selection.code;
+    }
+
+    return null;
+}
+
 /* ------------------------------------------------------------------ */
 /*  Main SearchForm                                                    */
 /* ------------------------------------------------------------------ */
@@ -85,6 +102,7 @@ export function SearchForm({
     const [tab, setTab] = useState<Vertical>(initialTab);
     const router = useRouter();
     const [recentSearches, setRecentSearches] = useState<RecentSearch[]>([]);
+    const [formError, setFormError] = useState<string | null>(null);
 
     // Load recent searches on mount
     useEffect(() => {
@@ -98,6 +116,8 @@ export function SearchForm({
     const [flightDest, setFlightDest] = useState<AirportSuggestion | null>(
         initialValues.destination ? { code: initialValues.destination, name: "", city: "", country: "" } : null,
     );
+    const [flightOriginQuery, setFlightOriginQuery] = useState(initialValues.origin ?? "");
+    const [flightDestQuery, setFlightDestQuery] = useState(initialValues.destination ?? "");
     const [flightDepart, setFlightDepart] = useState(initialValues.depart ?? inDays(14));
     const [flightReturn, setFlightReturn] = useState(initialValues.return ?? "");
     const [tripType, setTripType] = useState<"roundtrip" | "oneway">(initialValues.return ? "roundtrip" : "oneway");
@@ -141,18 +161,27 @@ export function SearchForm({
     const handleSubmit = useCallback(
         (e: React.FormEvent) => {
             e.preventDefault();
+            setFormError(null);
             const params = new URLSearchParams();
             let url = "";
             let label = "";
 
             switch (tab) {
                 case "flights": {
-                    const o = flightOrigin?.code ?? "JFK";
-                    const d = flightDest?.code ?? "LHR";
+                    const o = selectedFlightCode(flightOrigin, flightOriginQuery);
+                    const d = selectedFlightCode(flightDest, flightDestQuery);
+                    if (!o || !d) {
+                        setFormError("Choose both airports from the suggestions before searching.");
+                        return;
+                    }
+                    if (tripType === "roundtrip" && !flightReturn) {
+                        setFormError("Choose a return date for a round-trip search.");
+                        return;
+                    }
                     params.set("origin", o);
                     params.set("destination", d);
                     params.set("depart", flightDepart);
-                    if (tripType === "roundtrip" && flightReturn) params.set("return", flightReturn);
+                    if (tripType === "roundtrip") params.set("return", flightReturn);
                     params.set("cabin", cabin);
                     params.set("adults", String(passengers.adults));
                     if (passengers.children > 0) params.set("children", String(passengers.children));
@@ -204,7 +233,7 @@ export function SearchForm({
         },
         [
             tab, router,
-            flightOrigin, flightDest, flightDepart, flightReturn, tripType, passengers, cabin,
+            flightOrigin, flightDest, flightOriginQuery, flightDestQuery, flightDepart, flightReturn, tripType, passengers, cabin,
             hotelDest, hotelCheckIn, hotelCheckOut, hotelGuests, hotelRooms,
             carPickup, carDropoff, carPickupDate, carDropoffDate, carPickupTime, carDropoffTime,
             actDest, actFrom, actTo, actTravelers,
@@ -260,6 +289,12 @@ export function SearchForm({
                         : "bg-white/60 backdrop-blur-md border-white/30 shadow-glass p-4 sm:p-5",
                 )}
             >
+                {formError && (
+                    <div className="mb-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-ink-700">
+                        {formError}
+                    </div>
+                )}
+
                 {/* Flights */}
                 {tab === "flights" && (
                     <div className="space-y-3">
@@ -298,7 +333,17 @@ export function SearchForm({
                             <AutocompleteInput
                                 label="From"
                                 value={flightOrigin}
-                                onChange={setFlightOrigin}
+                                onChange={(airport) => {
+                                    setFlightOrigin(airport);
+                                    setFlightOriginQuery(suggestionDisplay(airport));
+                                    setFormError(null);
+                                }}
+                                onInputValueChange={(value) => {
+                                    setFlightOriginQuery(value);
+                                    if (flightOrigin && value !== suggestionDisplay(flightOrigin)) {
+                                        setFlightOrigin(null);
+                                    }
+                                }}
                                 placeholder="City or airport"
                                 name="origin"
                             />
@@ -307,8 +352,11 @@ export function SearchForm({
                                     type="button"
                                     onClick={() => {
                                         const tmp = flightOrigin;
+                                        const tmpQuery = flightOriginQuery;
                                         setFlightOrigin(flightDest);
+                                        setFlightOriginQuery(flightDestQuery);
                                         setFlightDest(tmp);
+                                        setFlightDestQuery(tmpQuery);
                                     }}
                                     className="flex h-8 w-8 items-center justify-center rounded-full border border-ink-200 text-ink-400 hover:bg-ink-50 hover:text-ink-600 transition-colors"
                                 >
@@ -318,7 +366,17 @@ export function SearchForm({
                             <AutocompleteInput
                                 label="To"
                                 value={flightDest}
-                                onChange={setFlightDest}
+                                onChange={(airport) => {
+                                    setFlightDest(airport);
+                                    setFlightDestQuery(suggestionDisplay(airport));
+                                    setFormError(null);
+                                }}
+                                onInputValueChange={(value) => {
+                                    setFlightDestQuery(value);
+                                    if (flightDest && value !== suggestionDisplay(flightDest)) {
+                                        setFlightDest(null);
+                                    }
+                                }}
                                 placeholder="City or airport"
                                 name="destination"
                             />
@@ -333,9 +391,13 @@ export function SearchForm({
                                 <DatePicker
                                     label="Return"
                                     value={flightReturn}
-                                    onChange={setFlightReturn}
+                                    onChange={(value) => {
+                                        setFlightReturn(value);
+                                        setFormError(null);
+                                    }}
                                     name="return"
                                     minDate={flightDepart}
+                                    required
                                 />
                             )}
                         </div>

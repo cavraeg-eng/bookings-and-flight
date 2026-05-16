@@ -26,6 +26,8 @@ export interface AutocompleteInputProps {
     name?: string;
     /** Show city-style results (no IATA code emphasis) */
     cityMode?: boolean;
+    /** Mirrors raw input text so parent forms can validate typed-but-unselected values. */
+    onInputValueChange?: (value: string) => void;
 }
 
 /* ------------------------------------------------------------------ */
@@ -40,6 +42,7 @@ export function AutocompleteInput({
     className,
     name,
     cityMode = false,
+    onInputValueChange,
 }: AutocompleteInputProps) {
     const [query, setQuery] = useState(value ? displayValue(value, cityMode) : "");
     const [suggestions, setSuggestions] = useState<AirportSuggestion[]>([]);
@@ -85,13 +88,15 @@ export function AutocompleteInput({
 
     function handleInputChange(val: string) {
         setQuery(val);
+        onInputValueChange?.(val);
         if (debounceRef.current) clearTimeout(debounceRef.current);
         debounceRef.current = setTimeout(() => fetchSuggestions(val), 300);
     }
 
     function selectSuggestion(s: AirportSuggestion) {
+        const nextValue = displayValue(s, cityMode);
         onChange(s);
-        setQuery(displayValue(s, cityMode));
+        setQuery(nextValue);
         setIsOpen(false);
         setSuggestions([]);
         setActiveIndex(-1);
@@ -252,5 +257,9 @@ export function AutocompleteInput({
 }
 
 function displayValue(s: AirportSuggestion, cityMode: boolean): string {
-    return cityMode ? `${s.city}, ${s.country}` : `${s.code} — ${s.city}`;
+    if (cityMode) {
+        return [s.city || s.name || s.code, s.country].filter(Boolean).join(", ");
+    }
+
+    return s.city ? `${s.code} — ${s.city}` : s.code;
 }
