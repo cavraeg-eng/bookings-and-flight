@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 type Vertical = "flights" | "hotels" | "cars" | "activities";
 
 type IntegrationsPayload = {
+    apiBase: string;
     activeByVertical: Record<Vertical, string[]>;
     credentials: {
         travelpayouts: { configured: boolean; tokenPresent: boolean; markerPresent: boolean };
@@ -109,8 +110,12 @@ const SPECS: ProgramSpec[] = [
     },
 ];
 
+function getApiBase(): string {
+    return process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:4050";
+}
+
 async function getIntegrations(): Promise<IntegrationsPayload | null> {
-    const apiBase = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:4050";
+    const apiBase = getApiBase();
 
     try {
         const res = await fetch(`${apiBase}/integrations`, {
@@ -129,6 +134,7 @@ async function getIntegrations(): Promise<IntegrationsPayload | null> {
 
 export default async function ProgramSwitchboardPage() {
     const data = await getIntegrations();
+    const rawBackendStatusUrl = `${data?.apiBase ?? getApiBase()}/integrations`;
 
     return (
         <main className="bg-cream-100">
@@ -151,7 +157,7 @@ export default async function ProgramSwitchboardPage() {
                             Back to dashboard
                         </LinkButton>
                         <LinkButton
-                            href="http://localhost:4050/integrations"
+                            href={rawBackendStatusUrl}
                             target="_blank"
                             rel="noreferrer"
                             variant="accent"

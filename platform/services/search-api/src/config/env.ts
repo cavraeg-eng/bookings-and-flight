@@ -1,5 +1,6 @@
 import "node:process";
 
+const port = Number(process.env.PORT ?? 4050);
 const nodeEnv = process.env.NODE_ENV ?? "development";
 const clickHmacSecret =
     process.env.CLICK_HMAC_SECRET ??
@@ -13,11 +14,12 @@ const postbackSecret =
 
 /** Typed runtime env for the search-api. Fails fast on missing critical vars. */
 export const env = {
-    port: Number(process.env.PORT ?? 4050),
+    port,
     nodeEnv,
     clickHmacSecret,
     postbackSecret,
     webOrigin: process.env.WEB_ORIGIN ?? "http://localhost:3000",
+    apiBase: process.env.PUBLIC_API_BASE ?? process.env.API_BASE ?? `http://localhost:${port}`,
 
     travelpayouts: {
         token: process.env.TRAVELPAYOUTS_API_TOKEN ?? "",

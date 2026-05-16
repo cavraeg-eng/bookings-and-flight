@@ -35,6 +35,8 @@ cp apps/web/.env.example apps/web/.env.local
 
 The monorepo is **fail-closed**: supplier adapters that don't have credentials throw `SUPPLIER_UNAVAILABLE` at runtime, so search still returns a clean (empty) result rather than an error — you can demo the click-through flow end-to-end with zero real supplier credentials.
 
+Set `PUBLIC_API_BASE` in `services/search-api/.env` to the browser-reachable API origin for staging or production. The integrations payload and switchboard links use that value instead of assuming localhost.
+
 ## Click → redirect flow
 
 1. Browser `POST /clicks` with the normalized offer metadata.

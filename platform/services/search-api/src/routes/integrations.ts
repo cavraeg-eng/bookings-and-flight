@@ -13,7 +13,7 @@ export const integrationsRoutes: FastifyPluginAsync = async (app) => {
 
         return {
             publicSite: env.webOrigin,
-            apiBase: `http://localhost:${env.port}`,
+            apiBase: env.apiBase,
             activeByVertical,
             adapters: allAdapters.map((adapter) => ({
                 id: adapter.id,
