@@ -59,8 +59,8 @@ defined( 'ABSPATH' ) || exit;
 			<tr>
 				<th scope="row"><?php echo esc_html__( 'Postback URL', 'baf-affiliate-bridge' ); ?></th>
 				<td>
-					<code style="display:inline-block; padding:0.4em 0.6em; background:#f0f0f1;"><?php echo esc_html( $postback_endpoint ); ?>?supplier={ID}&amp;secret=••••••</code>
-					<p class="description"><?php echo esc_html__( 'Give this URL to each affiliate program, appending the supplier ID. Each supplier will POST when a booking completes.', 'baf-affiliate-bridge' ); ?></p>
+					<code style="display:inline-block; padding:0.4em 0.6em; background:#f0f0f1;"><?php echo esc_html( $postback_endpoint ); ?>?supplier={ID}</code>
+					<p class="description"><?php echo esc_html__( 'Give this URL to each affiliate program, appending the supplier ID. Each supplier must send a POST request with the shared secret in the x-baf-secret header.', 'baf-affiliate-bridge' ); ?></p>
 				</td>
 			</tr>
 		</table>

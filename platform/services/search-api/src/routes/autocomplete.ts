@@ -13,7 +13,7 @@ interface AutocompleteResult {
     city: string;
     country: string;
     countryCode: string;
-    type: "airport";
+    type: "airport" | "city";
 }
 
 /* Pre-compute lower-case lookup fields once at startup. */
@@ -33,10 +33,14 @@ export const autocompleteRoutes: FastifyPluginAsync = async (app) => {
             return { error: "INVALID_REQUEST", details: parsed.error.flatten() };
         }
 
-        const { q } = parsed.data;
+        const { q, type } = parsed.data;
         const needle = q.toLowerCase().trim();
         if (!needle) {
             return { results: [] };
+        }
+
+        if (type === "city") {
+            return { results: searchCities(needle).slice(0, 10) };
         }
 
         const exactCode: AutocompleteResult[] = [];
@@ -87,6 +91,53 @@ export const autocompleteRoutes: FastifyPluginAsync = async (app) => {
         return { results };
     });
 };
+
+function searchCities(needle: string): AutocompleteResult[] {
+    const cities = new Map<string, AutocompleteResult & { _score: number }>();
+
+    for (const a of indexedAirports) {
+        const cityKey = `${a.city}|${a.countryCode}`;
+        const existing = cities.get(cityKey);
+
+        if (!existing || a.popularity > existing._score) {
+            cities.set(cityKey, {
+                code: a.city,
+                name: a.city,
+                city: a.city,
+                country: a.country,
+                countryCode: a.countryCode,
+                type: "city",
+                _score: a.popularity,
+            });
+        }
+    }
+
+    return Array.from(cities.values())
+        .filter((city) => {
+            const searchable = `${city.code} ${city.name} ${city.city} ${city.country}`.toLowerCase();
+            return searchable.includes(needle);
+        })
+        .sort((a, b) => rankCity(a, needle) - rankCity(b, needle) || b._score - a._score)
+        .map((city) => ({
+            code: city.code,
+            name: city.name,
+            city: city.city,
+            country: city.country,
+            countryCode: city.countryCode,
+            type: city.type,
+        }));
+}
+
+function rankCity(city: AutocompleteResult, needle: string): number {
+    const code = city.code.toLowerCase();
+    const name = city.name.toLowerCase();
+    const country = city.country.toLowerCase();
+
+    if (code === needle || name === needle) return 0;
+    if (code.startsWith(needle) || name.startsWith(needle)) return 1;
+    if (country.startsWith(needle)) return 2;
+    return 3;
+}
 
 function toResult(a: Airport | (Airport & Record<string, unknown>)): AutocompleteResult {
     return {
