@@ -126,6 +126,9 @@ export type ClickRequest = z.infer<typeof ClickRequestSchema>;
 
 export const ClickResponseSchema = z.object({
     clickId: z.string().min(1),
-    redirectUrl: z.string().url(),
+    redirectUrl: z.string().refine(
+        (value) => value.startsWith("/") || z.string().url().safeParse(value).success,
+        "Absolute URL or site-relative path required",
+    ),
 });
 export type ClickResponse = z.infer<typeof ClickResponseSchema>;
