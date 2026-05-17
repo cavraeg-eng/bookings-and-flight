@@ -179,7 +179,7 @@ function buildSearchBody(req: HotelSearchRequest, cityId: number) {
         },
         guests: {
             number_of_rooms: req.rooms,
-            adults: req.adults,
+            number_of_adults: req.adults,
             children: Array.from({ length: req.children }, () => 8),
         },
     };

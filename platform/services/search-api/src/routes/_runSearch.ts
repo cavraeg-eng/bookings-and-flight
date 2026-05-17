@@ -25,6 +25,26 @@ export async function runSearch<Req>(
     const warnings: string[] = [];
     const offers: Offer[] = [];
 
+    if (usable.length === 0) {
+        log.warn(
+            {
+                vertical,
+                adapters: allAdapters.map((adapter) => ({
+                    id: adapter.id,
+                    configured: adapter.isConfigured(),
+                    supportsVertical: hasVerticalMethod(adapter, vertical),
+                })),
+            },
+            "no configured adapters available for vertical",
+        );
+        return {
+            searchId,
+            partial: true,
+            offers,
+            warnings: [`${vertical}: no configured adapters available`],
+        };
+    }
+
     const results = await Promise.allSettled(
         usable.map((a) => callVertical(a, vertical, req)),
     );
