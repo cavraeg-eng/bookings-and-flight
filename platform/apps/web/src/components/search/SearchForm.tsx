@@ -89,6 +89,15 @@ function selectedFlightCode(selection: AirportSuggestion | null, query: string):
     return null;
 }
 
+function searchLocationValue(selection: AirportSuggestion | null, query: string, cityMode = false): string {
+    const typed = query.trim();
+    if (selection && typed === suggestionDisplay(selection, cityMode)) {
+        return cityMode ? selection.city || selection.name || selection.code : selection.code || selection.city;
+    }
+
+    return typed;
+}
+
 /* ------------------------------------------------------------------ */
 /*  Main SearchForm                                                    */
 /* ------------------------------------------------------------------ */
@@ -132,6 +141,7 @@ export function SearchForm({
     const [hotelDest, setHotelDest] = useState<AirportSuggestion | null>(
         initialValues.destination ? { code: initialValues.destination, name: "", city: initialValues.destination, country: "" } : null,
     );
+    const [hotelDestQuery, setHotelDestQuery] = useState(initialValues.destination ?? "");
     const [hotelCheckIn, setHotelCheckIn] = useState(initialValues.checkIn ?? inDays(14));
     const [hotelCheckOut, setHotelCheckOut] = useState(initialValues.checkOut ?? inDays(17));
     const [hotelGuests, setHotelGuests] = useState({ adults: Number(initialValues.adults ?? "2"), children: Number(initialValues.children ?? "0") });
@@ -144,6 +154,8 @@ export function SearchForm({
     const [carDropoff, setCarDropoff] = useState<AirportSuggestion | null>(
         initialValues.dropoffLocation ? { code: initialValues.dropoffLocation, name: "", city: initialValues.dropoffLocation, country: "" } : null,
     );
+    const [carPickupQuery, setCarPickupQuery] = useState(initialValues.pickupLocation ?? "");
+    const [carDropoffQuery, setCarDropoffQuery] = useState(initialValues.dropoffLocation ?? "");
     const [carPickupDate, setCarPickupDate] = useState(initialValues.pickupDate ?? inDays(14));
     const [carDropoffDate, setCarDropoffDate] = useState(initialValues.dropoffDate ?? inDays(19));
     const [carPickupTime, setCarPickupTime] = useState(initialValues.pickupTime ?? "10:00");
@@ -153,6 +165,7 @@ export function SearchForm({
     const [actDest, setActDest] = useState<AirportSuggestion | null>(
         initialValues.destination && initialTab === "activities" ? { code: initialValues.destination, name: "", city: initialValues.destination, country: "" } : null,
     );
+    const [actDestQuery, setActDestQuery] = useState(initialValues.destination && initialTab === "activities" ? initialValues.destination : "");
     const [actFrom, setActFrom] = useState(initialValues.from ?? inDays(14));
     const [actTo, setActTo] = useState(initialValues.to ?? "");
     const [actTravelers, setActTravelers] = useState({ adults: Number(initialValues.adults ?? "2"), children: Number(initialValues.children ?? "0") });
@@ -191,7 +204,11 @@ export function SearchForm({
                     break;
                 }
                 case "hotels": {
-                    const dest = hotelDest?.city || hotelDest?.code || "Paris";
+                    const dest = searchLocationValue(hotelDest, hotelDestQuery, true);
+                    if (!dest) {
+                        setFormError("Enter a hotel destination before searching.");
+                        return;
+                    }
                     params.set("destination", dest);
                     params.set("checkIn", hotelCheckIn);
                     params.set("checkOut", hotelCheckOut);
@@ -203,9 +220,14 @@ export function SearchForm({
                     break;
                 }
                 case "cars": {
-                    const p = carPickup?.code || carPickup?.city || "JFK";
+                    const p = searchLocationValue(carPickup, carPickupQuery);
+                    const dropoff = searchLocationValue(carDropoff, carDropoffQuery);
+                    if (!p) {
+                        setFormError("Enter a pickup location before searching.");
+                        return;
+                    }
                     params.set("pickupLocation", p);
-                    if (carDropoff) params.set("dropoffLocation", carDropoff.code || carDropoff.city);
+                    if (dropoff) params.set("dropoffLocation", dropoff);
                     params.set("pickupDate", carPickupDate);
                     params.set("dropoffDate", carDropoffDate);
                     params.set("pickupTime", carPickupTime);
@@ -215,7 +237,11 @@ export function SearchForm({
                     break;
                 }
                 case "activities": {
-                    const dest = actDest?.city || actDest?.code || "Tokyo";
+                    const dest = searchLocationValue(actDest, actDestQuery, true);
+                    if (!dest) {
+                        setFormError("Enter an activity destination before searching.");
+                        return;
+                    }
                     params.set("destination", dest);
                     params.set("from", actFrom);
                     if (actTo) params.set("to", actTo);
@@ -234,9 +260,9 @@ export function SearchForm({
         [
             tab, router,
             flightOrigin, flightDest, flightOriginQuery, flightDestQuery, flightDepart, flightReturn, tripType, passengers, cabin,
-            hotelDest, hotelCheckIn, hotelCheckOut, hotelGuests, hotelRooms,
-            carPickup, carDropoff, carPickupDate, carDropoffDate, carPickupTime, carDropoffTime,
-            actDest, actFrom, actTo, actTravelers,
+            hotelDest, hotelDestQuery, hotelCheckIn, hotelCheckOut, hotelGuests, hotelRooms,
+            carPickup, carPickupQuery, carDropoff, carDropoffQuery, carPickupDate, carDropoffDate, carPickupTime, carDropoffTime,
+            actDest, actDestQuery, actFrom, actTo, actTravelers,
         ],
     );
 
@@ -424,7 +450,17 @@ export function SearchForm({
                             <AutocompleteInput
                                 label="Destination"
                                 value={hotelDest}
-                                onChange={setHotelDest}
+                                onChange={(destination) => {
+                                    setHotelDest(destination);
+                                    setHotelDestQuery(suggestionDisplay(destination, true));
+                                    setFormError(null);
+                                }}
+                                onInputValueChange={(value) => {
+                                    setHotelDestQuery(value);
+                                    if (hotelDest && value !== suggestionDisplay(hotelDest, true)) {
+                                        setHotelDest(null);
+                                    }
+                                }}
                                 placeholder="City or hotel"
                                 cityMode
                                 name="destination"
@@ -468,14 +504,33 @@ export function SearchForm({
                             <AutocompleteInput
                                 label="Pickup location"
                                 value={carPickup}
-                                onChange={setCarPickup}
+                                onChange={(location) => {
+                                    setCarPickup(location);
+                                    setCarPickupQuery(suggestionDisplay(location));
+                                    setFormError(null);
+                                }}
+                                onInputValueChange={(value) => {
+                                    setCarPickupQuery(value);
+                                    if (carPickup && value !== suggestionDisplay(carPickup)) {
+                                        setCarPickup(null);
+                                    }
+                                }}
                                 placeholder="Airport or city"
                                 name="pickupLocation"
                             />
                             <AutocompleteInput
                                 label="Drop-off location"
                                 value={carDropoff}
-                                onChange={setCarDropoff}
+                                onChange={(location) => {
+                                    setCarDropoff(location);
+                                    setCarDropoffQuery(suggestionDisplay(location));
+                                }}
+                                onInputValueChange={(value) => {
+                                    setCarDropoffQuery(value);
+                                    if (carDropoff && value !== suggestionDisplay(carDropoff)) {
+                                        setCarDropoff(null);
+                                    }
+                                }}
                                 placeholder="Same as pickup"
                                 name="dropoffLocation"
                             />
@@ -534,7 +589,17 @@ export function SearchForm({
                             <AutocompleteInput
                                 label="Destination"
                                 value={actDest}
-                                onChange={setActDest}
+                                onChange={(destination) => {
+                                    setActDest(destination);
+                                    setActDestQuery(suggestionDisplay(destination, true));
+                                    setFormError(null);
+                                }}
+                                onInputValueChange={(value) => {
+                                    setActDestQuery(value);
+                                    if (actDest && value !== suggestionDisplay(actDest, true)) {
+                                        setActDest(null);
+                                    }
+                                }}
                                 placeholder="City or attraction"
                                 cityMode
                                 name="destination"

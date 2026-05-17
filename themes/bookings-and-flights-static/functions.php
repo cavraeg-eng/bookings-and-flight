@@ -220,7 +220,7 @@ function bookings_and_flights_flight_search_from_request_path(): string {
 		return '';
 	}
 
-	$compact_search = strtoupper( preg_replace( '/[^A-Z0-9]/', '', $compact_search ) );
+	$compact_search = strtoupper( preg_replace( '/[^A-Za-z0-9]/', '', $compact_search ) );
 
 	return preg_match( '/^[A-Z]{3}\d{4}[A-Z]{3}[A-Z0-9]{0,16}$/', $compact_search ) ? $compact_search : '';
 }
