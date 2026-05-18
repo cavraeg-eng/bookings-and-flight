@@ -1,13 +1,21 @@
 import type { FastifyPluginAsync } from "fastify";
 import { timingSafeEqual } from "node:crypto";
 import {
+    type ClickRequest,
     ClickRequestSchema,
     isAllowedSupplierUrl,
     mintClickId,
+    type Offer,
     verifyClickId,
 } from "@baf/shared";
 import { env } from "../config/env.js";
+import { clickStore } from "../infra/click-store.js";
 import { prisma } from "../infra/db.js";
+
+type StoredClick = {
+    supplier: Offer["supplier"];
+    deeplink: string;
+};
 
 function firstHeaderValue(value: string | string[] | undefined): string {
     return Array.isArray(value) ? value[0] ?? "" : value ?? "";
@@ -44,17 +52,7 @@ export const clickRoutes: FastifyPluginAsync = async (app) => {
 
         const clickId = mintClickId(env.clickHmacSecret);
 
-        await prisma.click.create({
-            data: {
-                clickId,
-                supplier: offer.supplier,
-                vertical: offer.vertical,
-                offerRef: offer.supplierOfferRef,
-                deeplink: offer.deeplink,
-                price: offer.price.amount,
-                currency: offer.price.currency,
-            },
-        });
+        await persistClick(app, clickId, offer, searchId, visitor);
 
         return {
             clickId,
@@ -74,12 +72,12 @@ export const clickRoutes: FastifyPluginAsync = async (app) => {
             reply.code(400);
             return { error: "INVALID_CLICK_ID" };
         }
-        const record = await prisma.click.findUnique({ where: { clickId } });
+        const record = await findClick(app, clickId);
         if (!record) {
             reply.code(404);
             return { error: "CLICK_NOT_FOUND" };
         }
-        if (!isAllowedSupplierUrl(record.supplier as Parameters<typeof isAllowedSupplierUrl>[0], record.deeplink)) {
+        if (!isAllowedSupplierUrl(record.supplier, record.deeplink)) {
             reply.code(400);
             return { error: "UNSAFE_DEEPLINK" };
         }
@@ -106,10 +104,83 @@ export const clickRoutes: FastifyPluginAsync = async (app) => {
             return { error: "INVALID_PAYLOAD" };
         }
 
-        const existing = await prisma.click.findUnique({ where: { clickId } });
-        if (!existing) {
+        const converted = await markClickConverted(app, clickId, value, currency);
+        if (!converted) {
             reply.code(404);
             return { error: "CLICK_NOT_FOUND" };
+        }
+
+        return { ok: true };
+    });
+};
+
+async function persistClick(
+    app: Parameters<FastifyPluginAsync>[0],
+    clickId: string,
+    offer: Offer,
+    searchId?: string,
+    visitor?: ClickRequest["visitor"],
+) {
+    try {
+        await prisma.click.create({
+            data: {
+                clickId,
+                supplier: offer.supplier,
+                vertical: offer.vertical,
+                offerRef: offer.supplierOfferRef,
+                deeplink: offer.deeplink,
+                price: offer.price.amount,
+                currency: offer.price.currency,
+            },
+        });
+    } catch (err) {
+        app.log.warn({ err }, "prisma click storage unavailable; using in-memory click store");
+        clickStore.put({
+            clickId,
+            createdAt: Date.now(),
+            offer,
+            searchId,
+            visitor,
+            converted: false,
+        });
+    }
+}
+
+async function findClick(app: Parameters<FastifyPluginAsync>[0], clickId: string): Promise<StoredClick | null> {
+    const fallback = clickStore.get(clickId);
+
+    try {
+        const record = await prisma.click.findUnique({ where: { clickId } });
+        if (record) {
+            return {
+                supplier: record.supplier as Offer["supplier"],
+                deeplink: record.deeplink,
+            };
+        }
+    } catch (err) {
+        app.log.warn({ err }, "prisma click lookup unavailable; using in-memory click store");
+    }
+
+    if (!fallback) {
+        return null;
+    }
+
+    return {
+        supplier: fallback.offer.supplier,
+        deeplink: fallback.offer.deeplink,
+    };
+}
+
+async function markClickConverted(
+    app: Parameters<FastifyPluginAsync>[0],
+    clickId: string,
+    value: number,
+    currency: string,
+): Promise<boolean> {
+    try {
+        const existing = await prisma.click.findUnique({ where: { clickId } });
+        if (!existing) {
+            return Boolean(clickStore.markConverted(clickId, value, currency));
         }
 
         await prisma.click.update({
@@ -121,7 +192,9 @@ export const clickRoutes: FastifyPluginAsync = async (app) => {
                 convCurrency: currency,
             },
         });
-
-        return { ok: true };
-    });
-};
+        return true;
+    } catch (err) {
+        app.log.warn({ err }, "prisma conversion update unavailable; using in-memory click store");
+        return Boolean(clickStore.markConverted(clickId, value, currency));
+    }
+}

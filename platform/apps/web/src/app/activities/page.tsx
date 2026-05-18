@@ -8,6 +8,7 @@ import { SearchForm } from "@/components/search/SearchForm";
 import { ActivityCard } from "@/components/results/ActivityCard";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/cn";
+import { openTrackedOffer } from "@/lib/clicks";
 import { inDays } from "@/lib/search";
 import type { Offer, SearchResponse } from "@baf/shared";
 
@@ -28,24 +29,7 @@ export default function ActivitiesPage() {
 /* ------------------------------------------------------------------ */
 
 async function handleBookClick(offer: Offer) {
-    try {
-        const res = await fetch("/api/clicks", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ offer }),
-        });
-        if (res.ok) {
-            const data = await res.json();
-            if (typeof data.redirectUrl === "string" && data.redirectUrl.length > 0) {
-                window.open(data.redirectUrl, "_blank", "noopener,noreferrer");
-                return;
-            }
-        }
-    } catch {
-        // Tracking should never block the outbound supplier handoff.
-    }
-
-    window.open(offer.deeplink, "_blank", "noopener,noreferrer");
+    await openTrackedOffer(offer);
 }
 
 /* ------------------------------------------------------------------ */
