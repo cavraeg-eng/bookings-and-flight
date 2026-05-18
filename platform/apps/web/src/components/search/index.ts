@@ -1,5 +1,5 @@
 export { SearchForm } from "./SearchForm";
-export type { SearchFormProps, Vertical } from "./SearchForm";
+export type { SearchFormProps, Vertical } from "./SearchFormSupport";
 export { AutocompleteInput } from "./AutocompleteInput";
 export type { AutocompleteInputProps, AirportSuggestion } from "./AutocompleteInput";
 export { DatePicker } from "./DatePicker";

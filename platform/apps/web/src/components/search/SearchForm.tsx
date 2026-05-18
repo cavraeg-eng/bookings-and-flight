@@ -2,15 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import {
-    Plane,
-    Hotel,
-    Car,
-    Compass,
-    ArrowRightLeft,
-    Clock,
-    X,
-} from "lucide-react";
+import { ArrowRightLeft } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { inDays } from "@/lib/search";
 import { AutocompleteInput, type AirportSuggestion } from "./AutocompleteInput";
@@ -18,85 +10,18 @@ import { DatePicker } from "./DatePicker";
 import { PassengerSelector, type PassengerCounts } from "./PassengerSelector";
 import { CabinSelector, type CabinClass } from "./CabinSelector";
 import { GuestSelector, SearchButton } from "./SearchFormControls";
-
-/* ------------------------------------------------------------------ */
-/*  Types                                                              */
-/* ------------------------------------------------------------------ */
-
-export type Vertical = "flights" | "hotels" | "cars" | "activities";
-
-export interface SearchFormProps {
-    initialTab?: Vertical;
-    initialValues?: Partial<Record<string, string>>;
-    compact?: boolean;
-    className?: string;
-}
-
-interface RecentSearch {
-    tab: Vertical;
-    label: string;
-    url: string;
-    ts: number;
-}
-
-/* ------------------------------------------------------------------ */
-/*  Tab config                                                         */
-/* ------------------------------------------------------------------ */
-
-const TABS: { id: Vertical; label: string; Icon: typeof Plane }[] = [
-    { id: "flights", label: "Flights", Icon: Plane },
-    { id: "hotels", label: "Hotels", Icon: Hotel },
-    { id: "cars", label: "Cars", Icon: Car },
-    { id: "activities", label: "Activities", Icon: Compass },
-];
-
-/* ------------------------------------------------------------------ */
-/*  Recent searches helpers                                            */
-/* ------------------------------------------------------------------ */
-
-const RECENT_KEY = "bf-recent-searches";
-const MAX_RECENT = 5;
-
-function loadRecent(): RecentSearch[] {
-    if (typeof window === "undefined") return [];
-    try {
-        return JSON.parse(localStorage.getItem(RECENT_KEY) ?? "[]");
-    } catch {
-        return [];
-    }
-}
-
-function saveRecent(search: RecentSearch) {
-    const list = loadRecent().filter((r) => r.url !== search.url);
-    list.unshift(search);
-    localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, MAX_RECENT)));
-}
-
-function suggestionDisplay(s: AirportSuggestion, cityMode = false): string {
-    if (cityMode) {
-        return [s.city || s.name || s.code, s.country].filter(Boolean).join(", ");
-    }
-
-    return s.city ? `${s.code} — ${s.city}` : s.code;
-}
-
-function selectedFlightCode(selection: AirportSuggestion | null, query: string): string | null {
-    const typed = query.trim();
-    if (selection && typed === suggestionDisplay(selection)) {
-        return selection.code;
-    }
-
-    return null;
-}
-
-function searchLocationValue(selection: AirportSuggestion | null, query: string, cityMode = false): string {
-    const typed = query.trim();
-    if (selection && typed === suggestionDisplay(selection, cityMode)) {
-        return cityMode ? selection.city || selection.name || selection.code : selection.code || selection.city;
-    }
-
-    return typed;
-}
+import { RecentSearches } from "./RecentSearches";
+import { SearchTabs } from "./SearchTabs";
+import {
+    loadRecent,
+    saveRecent,
+    searchLocationValue,
+    selectedFlightCode,
+    suggestionDisplay,
+    type RecentSearch,
+    type SearchFormProps,
+    type Vertical,
+} from "./SearchFormSupport";
 
 /* ------------------------------------------------------------------ */
 /*  Main SearchForm                                                    */
@@ -271,39 +196,7 @@ export function SearchForm({
     return (
         <div className={cn("w-full", compact ? "mt-4" : "mt-0", className)}>
             {/* Tab bar */}
-            <div
-                role="tablist"
-                aria-label="Search type"
-                className={cn(
-                    "inline-flex flex-wrap items-center gap-1 p-1",
-                    compact
-                        ? "rounded-full bg-white border border-ink-900/10 shadow-subtle"
-                        : "rounded-full bg-white/80 backdrop-blur-sm border border-white/30 shadow-subtle",
-                )}
-            >
-                {TABS.map((t) => {
-                    const active = tab === t.id;
-                    return (
-                        <button
-                            key={t.id}
-                            role="tab"
-                            aria-selected={active}
-                            onClick={() => setTab(t.id)}
-                            type="button"
-                            className={cn(
-                                "inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200",
-                                active
-                                    ? "bg-ink-900 text-cream-100 shadow-card"
-                                    : "text-ink-500 hover:text-ink-900 hover:bg-ink-900/[0.04]",
-                                active && !compact && "border-b-2 border-amber-500",
-                            )}
-                        >
-                            <t.Icon className="h-4 w-4" strokeWidth={2.25} />
-                            <span className="hidden sm:inline">{t.label}</span>
-                        </button>
-                    );
-                })}
-            </div>
+            <SearchTabs activeTab={tab} compact={compact} onChange={setTab} />
 
             {/* Form card (glass variant for hero, solid for compact) */}
             <form
@@ -633,60 +526,12 @@ export function SearchForm({
                 )}
             </form>
 
-            {/* Recent searches */}
-            {recentSearches.length > 0 && !compact && (
-                <div className="mt-4 flex flex-wrap items-center gap-2">
-                    <span className="flex items-center gap-1.5 text-xs font-medium text-ink-400">
-                        <Clock className="h-3 w-3" />
-                        Recent:
-                    </span>
-                    {recentSearches.map((r, i) => (
-                        <button
-                            key={r.ts}
-                            type="button"
-                            onClick={() => router.push(r.url)}
-                            className={cn(
-                                "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium",
-                                "bg-white/80 backdrop-blur-sm border border-ink-200/40 text-ink-600",
-                                "hover:bg-white hover:border-ink-300 hover:text-ink-900 transition-all",
-                                "shadow-subtle",
-                            )}
-                        >
-                            {TABS.find((t) => t.id === r.tab)?.Icon && (
-                                <span className="text-ink-400">
-                                    {(() => {
-                                        const TabIcon = TABS.find((t) => t.id === r.tab)!.Icon;
-                                        return <TabIcon className="h-3 w-3" />;
-                                    })()}
-                                </span>
-                            )}
-                            <span className="truncate max-w-[180px]">{r.label}</span>
-                            <span
-                                role="button"
-                                tabIndex={0}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    const updated = loadRecent().filter((_, idx) => idx !== i);
-                                    localStorage.setItem(RECENT_KEY, JSON.stringify(updated));
-                                    setRecentSearches(updated);
-                                }}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter" || e.key === " ") {
-                                        e.stopPropagation();
-                                        const updated = loadRecent().filter((_, idx) => idx !== i);
-                                        localStorage.setItem(RECENT_KEY, JSON.stringify(updated));
-                                        setRecentSearches(updated);
-                                    }
-                                }}
-                                className="text-ink-300 hover:text-ink-600"
-                                aria-label="Remove recent search"
-                            >
-                                <X className="h-3 w-3" />
-                            </span>
-                        </button>
-                    ))}
-                </div>
-            )}
+            <RecentSearches
+                compact={compact}
+                recentSearches={recentSearches}
+                onOpen={(url) => router.push(url)}
+                onChange={setRecentSearches}
+            />
         </div>
     );
 }
