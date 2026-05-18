@@ -5,9 +5,13 @@
   "type": "module",
   "main": "dist/server.js",
   "scripts": {
+    "predev": "npm run -w @baf/shared build",
     "dev": "tsx watch --env-file=.env src/server.ts",
+    "prebuild": "npm run -w @baf/shared build",
     "build": "tsc -p tsconfig.json",
+    "prestart": "npm run -w @baf/shared build",
     "start": "node --env-file=.env dist/server.js",
+    "pretypecheck": "npm run -w @baf/shared build",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {

@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "npm run -w @baf/shared build",
     "dev": "next dev -p 3000",
+    "prebuild": "npm run -w @baf/shared build",
     "build": "next build",
+    "prestart": "npm run -w @baf/shared build",
     "start": "next start -p 3000",
+    "pretypecheck": "npm run -w @baf/shared build",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
