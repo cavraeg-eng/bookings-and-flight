@@ -100,19 +100,23 @@ export const integrationsRoutes: FastifyPluginAsync = async (app) => {
                 return { error: "UNAUTHORIZED" };
             }
 
-            const credentials = syncSupplierCredentials(req.body ?? {});
+            const syncResult = syncSupplierCredentials(req.body ?? {});
             app.log.info(
                 {
                     configured: Object.fromEntries(
-                        Object.entries(credentials).map(([supplier, status]) => [supplier, status.configured]),
+                        Object.entries(syncResult.credentials).map(([supplier, status]) => [supplier, status.configured]),
                     ),
+                    persisted: syncResult.persisted,
                 },
                 "synced supplier credentials from WordPress bridge",
             );
 
             return {
                 ok: true,
-                credentials,
+                credentials: syncResult.credentials,
+                credentialStore: {
+                    persisted: syncResult.persisted,
+                },
                 activeAdapters: configuredAdapters().map((adapter) => adapter.id),
             };
         },

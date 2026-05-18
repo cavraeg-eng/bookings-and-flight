@@ -27,9 +27,10 @@ class Settings {
 			),
 			'booking'       => array(
 				'label'  => 'Booking.com Affiliate',
-				'blurb'  => 'Hotels. Largest inventory globally. Deeplinks only; no API at MVP tier.',
+				'blurb'  => 'Hotels. Largest inventory globally. Add API credentials when Booking Demand API access is approved.',
 				'fields' => array(
 					'affiliate_id' => 'Affiliate ID',
+					'api_token'    => 'API Token',
 				),
 				'apply'  => 'https://www.booking.com/affiliate-program/v2/index.html',
 			),
@@ -204,6 +205,11 @@ class Settings {
 			'travelpayouts' => array(
 				'token'  => (string) ( $creds['travelpayouts']['api_token'] ?? '' ),
 				'marker' => (string) ( $creds['travelpayouts']['marker'] ?? '' ),
+			),
+			'booking'       => array(
+				'affiliateId' => (string) ( $creds['booking']['affiliate_id'] ?? '' ),
+				'apiToken'    => (string) ( $creds['booking']['api_token'] ?? '' ),
+				'useSandbox'  => false,
 			),
 			'viator'        => array(
 				'apiKey'    => (string) ( $creds['viator']['api_key'] ?? '' ),
