@@ -1,5 +1,4 @@
 import type { FastifyPluginAsync } from "fastify";
-import { timingSafeEqual } from "node:crypto";
 import {
     type ClickRequest,
     ClickRequestSchema,
@@ -11,24 +10,12 @@ import {
 import { env } from "../config/env.js";
 import { clickStore } from "../infra/click-store.js";
 import { prisma } from "../infra/db.js";
+import { firstHeaderValue, secretsMatch } from "../infra/secrets.js";
 
 type StoredClick = {
     supplier: Offer["supplier"];
     deeplink: string;
 };
-
-function firstHeaderValue(value: string | string[] | undefined): string {
-    return Array.isArray(value) ? value[0] ?? "" : value ?? "";
-}
-
-function secretsMatch(received: string, expected: string): boolean {
-    if (!received || !expected) return false;
-
-    const receivedBuffer = Buffer.from(received);
-    const expectedBuffer = Buffer.from(expected);
-
-    return receivedBuffer.length === expectedBuffer.length && timingSafeEqual(receivedBuffer, expectedBuffer);
-}
 
 export const clickRoutes: FastifyPluginAsync = async (app) => {
     /**

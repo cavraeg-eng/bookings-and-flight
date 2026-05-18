@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 	<h1><?php echo esc_html__( 'Bookings and Flights — Affiliate Bridge', 'baf-affiliate-bridge' ); ?></h1>
 
 	<p style="max-width: 760px;">
-		<?php echo esc_html__( 'Paste your affiliate program credentials below. The Node search-api will pick them up on next start. Keys never leave WordPress options — the public REST endpoint only exposes which suppliers are enabled, never the secrets.', 'baf-affiliate-bridge' ); ?>
+		<?php echo esc_html__( 'Paste your affiliate program credentials below. WordPress stores the secrets and securely syncs them to the private search-api when settings are saved. The public REST endpoint only exposes which suppliers are enabled, never the secrets.', 'baf-affiliate-bridge' ); ?>
 	</p>
 
 	<form method="post" action="options.php" style="max-width: 960px;">

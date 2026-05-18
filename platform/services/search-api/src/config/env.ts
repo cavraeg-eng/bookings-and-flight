@@ -12,6 +12,55 @@ const postbackSecret =
     // Local-only fallback keeps dev setup simple; production must configure the WordPress bridge secret.
     (nodeEnv === "production" ? "" : clickHmacSecret);
 
+type SupplierCredentialSyncPayload = {
+    travelpayouts?: {
+        token?: unknown;
+        marker?: unknown;
+    };
+    booking?: {
+        affiliateId?: unknown;
+        apiToken?: unknown;
+        useSandbox?: unknown;
+    };
+    viator?: {
+        apiKey?: unknown;
+        partnerId?: unknown;
+    };
+    discovercars?: {
+        partnerId?: unknown;
+    };
+    kiwi?: {
+        affiliateId?: unknown;
+    };
+};
+
+type CredentialStatus = {
+    travelpayouts: {
+        configured: boolean;
+        tokenPresent: boolean;
+        markerPresent: boolean;
+    };
+    booking: {
+        configured: boolean;
+        affiliateIdPresent: boolean;
+        apiTokenPresent: boolean;
+        sandbox: boolean;
+    };
+    viator: {
+        configured: boolean;
+        apiKeyPresent: boolean;
+        partnerIdPresent: boolean;
+    };
+    discovercars: {
+        configured: boolean;
+        partnerIdPresent: boolean;
+    };
+    kiwi: {
+        configured: boolean;
+        affiliateIdPresent: boolean;
+    };
+};
+
 /** Typed runtime env for the search-api. Fails fast on missing critical vars. */
 export const env = {
     port,
@@ -48,4 +97,65 @@ if (env.nodeEnv === "production" && !env.clickHmacSecret) {
 
 if (env.nodeEnv === "production" && !env.postbackSecret) {
     throw new Error("BAF_POSTBACK_SECRET must be set in production");
+}
+
+function stringValue(value: unknown): string {
+    return typeof value === "string" ? value.trim() : "";
+}
+
+export function syncSupplierCredentials(payload: SupplierCredentialSyncPayload): CredentialStatus {
+    if (payload.travelpayouts) {
+        env.travelpayouts.token = stringValue(payload.travelpayouts.token);
+        env.travelpayouts.marker = stringValue(payload.travelpayouts.marker);
+    }
+
+    if (payload.booking) {
+        env.booking.affiliateId = stringValue(payload.booking.affiliateId);
+        env.booking.apiToken = stringValue(payload.booking.apiToken);
+        env.booking.useSandbox = payload.booking.useSandbox === true;
+    }
+
+    if (payload.viator) {
+        env.viator.apiKey = stringValue(payload.viator.apiKey);
+        env.viator.partnerId = stringValue(payload.viator.partnerId);
+    }
+
+    if (payload.discovercars) {
+        env.discovercars.partnerId = stringValue(payload.discovercars.partnerId);
+    }
+
+    if (payload.kiwi) {
+        env.kiwi.affiliateId = stringValue(payload.kiwi.affiliateId);
+    }
+
+    return credentialStatus();
+}
+
+export function credentialStatus(): CredentialStatus {
+    return {
+        travelpayouts: {
+            configured: Boolean(env.travelpayouts.token && env.travelpayouts.marker),
+            tokenPresent: Boolean(env.travelpayouts.token),
+            markerPresent: Boolean(env.travelpayouts.marker),
+        },
+        booking: {
+            configured: Boolean(env.booking.affiliateId && env.booking.apiToken),
+            affiliateIdPresent: Boolean(env.booking.affiliateId),
+            apiTokenPresent: Boolean(env.booking.apiToken),
+            sandbox: env.booking.useSandbox,
+        },
+        viator: {
+            configured: Boolean(env.viator.apiKey && env.viator.partnerId),
+            apiKeyPresent: Boolean(env.viator.apiKey),
+            partnerIdPresent: Boolean(env.viator.partnerId),
+        },
+        discovercars: {
+            configured: Boolean(env.discovercars.partnerId),
+            partnerIdPresent: Boolean(env.discovercars.partnerId),
+        },
+        kiwi: {
+            configured: Boolean(env.kiwi.affiliateId),
+            affiliateIdPresent: Boolean(env.kiwi.affiliateId),
+        },
+    };
 }

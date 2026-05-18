@@ -46,7 +46,7 @@ export const hotellookAdapter: SupplierAdapter = {
     mode: "real",
     verticals: ["hotels"],
 
-    isConfigured: () => Boolean(env.travelpayouts.marker),
+    isConfigured: () => Boolean(env.travelpayouts.token && env.travelpayouts.marker),
 
     async searchHotels(req: HotelSearchRequest): Promise<Offer[]> {
         const cacheKey = cache.generateKey(

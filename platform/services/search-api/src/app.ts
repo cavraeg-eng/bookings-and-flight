@@ -10,7 +10,7 @@ import { activityRoutes } from "./routes/activities.js";
 import { clickRoutes } from "./routes/clicks.js";
 import { integrationsRoutes } from "./routes/integrations.js";
 import { autocompleteRoutes } from "./routes/autocomplete.js";
-import { adapters } from "./adapters/registry.js";
+import { configuredAdapters } from "./adapters/registry.js";
 
 export function buildApp() {
     const app = Fastify({
@@ -45,8 +45,8 @@ export function buildApp() {
     app.register(autocompleteRoutes);
 
     app.log.info(
-        { active: adapters.map((a) => a.id) },
-        `active supplier adapters: ${adapters.map((a) => a.id).join(", ") || "none"}`,
+        { active: configuredAdapters().map((a) => a.id) },
+        `active supplier adapters: ${configuredAdapters().map((a) => a.id).join(", ") || "none"}`,
     );
 
     app.setErrorHandler((err, _req, reply) => {

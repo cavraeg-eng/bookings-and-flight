@@ -1,14 +1,66 @@
 import type { FastifyPluginAsync } from "fastify";
-import { allAdapters, adapters } from "../adapters/registry.js";
-import { env } from "../config/env.js";
+import { allAdapters, configuredAdapters } from "../adapters/registry.js";
+import { credentialStatus, env, syncSupplierCredentials } from "../config/env.js";
+import { firstHeaderValue, secretsMatch } from "../infra/secrets.js";
+
+type CredentialSyncBody = Parameters<typeof syncSupplierCredentials>[0];
+
+const credentialSyncSchema = {
+    body: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+            travelpayouts: {
+                type: "object",
+                additionalProperties: false,
+                properties: {
+                    token: { type: "string" },
+                    marker: { type: "string" },
+                },
+            },
+            booking: {
+                type: "object",
+                additionalProperties: false,
+                properties: {
+                    affiliateId: { type: "string" },
+                    apiToken: { type: "string" },
+                    useSandbox: { type: "boolean" },
+                },
+            },
+            viator: {
+                type: "object",
+                additionalProperties: false,
+                properties: {
+                    apiKey: { type: "string" },
+                    partnerId: { type: "string" },
+                },
+            },
+            discovercars: {
+                type: "object",
+                additionalProperties: false,
+                properties: {
+                    partnerId: { type: "string" },
+                },
+            },
+            kiwi: {
+                type: "object",
+                additionalProperties: false,
+                properties: {
+                    affiliateId: { type: "string" },
+                },
+            },
+        },
+    },
+} as const;
 
 export const integrationsRoutes: FastifyPluginAsync = async (app) => {
     app.get("/integrations", async () => {
+        const activeAdapters = configuredAdapters();
         const activeByVertical = {
-            flights: adapters.filter((a) => a.verticals.includes("flights")).map((a) => a.id),
-            hotels: adapters.filter((a) => a.verticals.includes("hotels")).map((a) => a.id),
-            cars: adapters.filter((a) => a.verticals.includes("cars")).map((a) => a.id),
-            activities: adapters.filter((a) => a.verticals.includes("activities")).map((a) => a.id),
+            flights: activeAdapters.filter((a) => a.verticals.includes("flights")).map((a) => a.id),
+            hotels: activeAdapters.filter((a) => a.verticals.includes("hotels")).map((a) => a.id),
+            cars: activeAdapters.filter((a) => a.verticals.includes("cars")).map((a) => a.id),
+            activities: activeAdapters.filter((a) => a.verticals.includes("activities")).map((a) => a.id),
         };
 
         return {
@@ -21,32 +73,7 @@ export const integrationsRoutes: FastifyPluginAsync = async (app) => {
                 verticals: adapter.verticals,
                 configured: adapter.isConfigured(),
             })),
-            credentials: {
-                travelpayouts: {
-                    configured: Boolean(env.travelpayouts.token && env.travelpayouts.marker),
-                    tokenPresent: Boolean(env.travelpayouts.token),
-                    markerPresent: Boolean(env.travelpayouts.marker),
-                },
-                booking: {
-                    configured: Boolean(env.booking.affiliateId && env.booking.apiToken),
-                    affiliateIdPresent: Boolean(env.booking.affiliateId),
-                    apiTokenPresent: Boolean(env.booking.apiToken),
-                    sandbox: env.booking.useSandbox,
-                },
-                viator: {
-                    configured: Boolean(env.viator.apiKey && env.viator.partnerId),
-                    apiKeyPresent: Boolean(env.viator.apiKey),
-                    partnerIdPresent: Boolean(env.viator.partnerId),
-                },
-                discovercars: {
-                    configured: Boolean(env.discovercars.partnerId),
-                    partnerIdPresent: Boolean(env.discovercars.partnerId),
-                },
-                kiwi: {
-                    configured: Boolean(env.kiwi.affiliateId),
-                    affiliateIdPresent: Boolean(env.kiwi.affiliateId),
-                },
-            },
+            credentials: credentialStatus(),
             notes: {
                 flights:
                     activeByVertical.flights.includes("travelpayouts")
@@ -62,4 +89,32 @@ export const integrationsRoutes: FastifyPluginAsync = async (app) => {
             },
         };
     });
+
+    app.post<{ Body: CredentialSyncBody }>(
+        "/integrations/credentials",
+        { schema: credentialSyncSchema },
+        async (req, reply) => {
+            const secret = firstHeaderValue(req.headers["x-postback-secret"]);
+            if (!secretsMatch(secret, env.postbackSecret)) {
+                reply.code(401);
+                return { error: "UNAUTHORIZED" };
+            }
+
+            const credentials = syncSupplierCredentials(req.body ?? {});
+            app.log.info(
+                {
+                    configured: Object.fromEntries(
+                        Object.entries(credentials).map(([supplier, status]) => [supplier, status.configured]),
+                    ),
+                },
+                "synced supplier credentials from WordPress bridge",
+            );
+
+            return {
+                ok: true,
+                credentials,
+                activeAdapters: configuredAdapters().map((adapter) => adapter.id),
+            };
+        },
+    );
 };

@@ -11,6 +11,7 @@ namespace BAF\AffiliateBridge;
 defined( 'ABSPATH' ) || exit;
 
 class Settings {
+	private static bool $credentials_sync_queued = false;
 
 	/** Supplier catalog. Keys must match the monorepo's SupplierId union. */
 	public static function suppliers(): array {
@@ -62,6 +63,8 @@ class Settings {
 
 	public static function bootstrap(): void {
 		add_action( 'admin_init', array( self::class, 'register' ) );
+		add_action( 'added_option', array( self::class, 'maybe_queue_credentials_sync' ), 10, 2 );
+		add_action( 'updated_option', array( self::class, 'maybe_queue_credentials_sync' ), 10, 3 );
 	}
 
 	public static function register(): void {
@@ -139,5 +142,79 @@ class Settings {
 			return (string) get_option( BAF_OPT_POSTBACK_SECRET, '' );
 		}
 		return $v;
+	}
+
+	public static function maybe_queue_credentials_sync( string $option_name, ...$unused ): void {
+		unset( $unused );
+
+		if ( ! in_array( $option_name, array( BAF_OPT_SUPPLIER_CREDS, BAF_OPT_SEARCH_API_URL, BAF_OPT_POSTBACK_SECRET ), true ) ) {
+			return;
+		}
+
+		if ( true === self::$credentials_sync_queued ) {
+			return;
+		}
+
+		self::$credentials_sync_queued = true;
+		add_action( 'shutdown', array( self::class, 'sync_credentials_to_search_api' ) );
+	}
+
+	public static function sync_credentials_to_search_api(): array {
+		$api_url = rtrim( (string) get_option( BAF_OPT_SEARCH_API_URL, '' ), '/' );
+		$secret  = (string) get_option( BAF_OPT_POSTBACK_SECRET, '' );
+
+		if ( '' === $api_url || '' === $secret ) {
+			return array(
+				'ok'    => false,
+				'error' => 'not_configured',
+			);
+		}
+
+		$res = wp_remote_post(
+			$api_url . '/integrations/credentials',
+			array(
+				'timeout' => 5,
+				'headers' => array(
+					'content-type'      => 'application/json',
+					'x-postback-secret' => $secret,
+				),
+				'body'    => wp_json_encode( self::search_api_credentials_payload() ),
+			)
+		);
+
+		if ( is_wp_error( $res ) ) {
+			return array(
+				'ok'    => false,
+				'error' => 'sync_failed',
+			);
+		}
+
+		$status = (int) wp_remote_retrieve_response_code( $res );
+
+		return array(
+			'ok'          => 200 <= $status && 300 > $status,
+			'status_code' => $status,
+		);
+	}
+
+	private static function search_api_credentials_payload(): array {
+		$creds = (array) get_option( BAF_OPT_SUPPLIER_CREDS, array() );
+
+		return array(
+			'travelpayouts' => array(
+				'token'  => (string) ( $creds['travelpayouts']['api_token'] ?? '' ),
+				'marker' => (string) ( $creds['travelpayouts']['marker'] ?? '' ),
+			),
+			'viator'        => array(
+				'apiKey'    => (string) ( $creds['viator']['api_key'] ?? '' ),
+				'partnerId' => (string) ( $creds['viator']['partner_id'] ?? '' ),
+			),
+			'discovercars'  => array(
+				'partnerId' => (string) ( $creds['discovercars']['partner_id'] ?? '' ),
+			),
+			'kiwi'          => array(
+				'affiliateId' => (string) ( $creds['kiwi']['affiliate_id'] ?? '' ),
+			),
+		);
 	}
 }

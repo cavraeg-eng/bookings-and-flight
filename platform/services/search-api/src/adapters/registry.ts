@@ -27,7 +27,9 @@ const realAdapters: SupplierAdapter[] = [
     activitiesAdapter,
 ];
 
-export const adapters: SupplierAdapter[] = realAdapters.filter((a) => a.isConfigured());
+export function configuredAdapters(): SupplierAdapter[] {
+    return realAdapters.filter((a) => a.isConfigured());
+}
 
 export const allAdapters: SupplierAdapter[] = [
     travelpayoutsAdapter,
@@ -40,5 +42,5 @@ export const allAdapters: SupplierAdapter[] = [
 export function adaptersFor(
     vertical: "flights" | "hotels" | "cars" | "activities" | "packages",
 ): SupplierAdapter[] {
-    return adapters.filter((a) => a.verticals.includes(vertical));
+    return configuredAdapters().filter((a) => a.verticals.includes(vertical));
 }
