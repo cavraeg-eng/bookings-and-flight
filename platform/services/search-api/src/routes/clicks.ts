@@ -17,6 +17,14 @@ type StoredClick = {
     deeplink: string;
 };
 
+const CLICK_ID_QUERY_PARAM: Record<Offer["supplier"], string> = {
+    travelpayouts: "sub_id",
+    kiwi: "sub_id",
+    booking: "label",
+    viator: "mcid",
+    discovercars: "click_id",
+};
+
 export const clickRoutes: FastifyPluginAsync = async (app) => {
     /**
      * POST /clicks
@@ -38,8 +46,14 @@ export const clickRoutes: FastifyPluginAsync = async (app) => {
         }
 
         const clickId = mintClickId(env.clickHmacSecret);
+        const trackedOffer = attachClickIdToOffer(offer, clickId);
 
-        await persistClick(app, clickId, offer, searchId, visitor);
+        if (!isAllowedSupplierUrl(trackedOffer.supplier, trackedOffer.deeplink)) {
+            reply.code(400);
+            return { error: "UNSAFE_TRACKED_DEEPLINK", supplier: trackedOffer.supplier };
+        }
+
+        await persistClick(app, clickId, trackedOffer, searchId, visitor);
 
         return {
             clickId,
@@ -100,6 +114,16 @@ export const clickRoutes: FastifyPluginAsync = async (app) => {
         return { ok: true };
     });
 };
+
+function attachClickIdToOffer(offer: Offer, clickId: string): Offer {
+    const deeplink = new URL(offer.deeplink);
+    deeplink.searchParams.set(CLICK_ID_QUERY_PARAM[offer.supplier], clickId);
+
+    return {
+        ...offer,
+        deeplink: deeplink.toString(),
+    };
+}
 
 async function persistClick(
     app: Parameters<FastifyPluginAsync>[0],
