@@ -200,6 +200,13 @@ class Settings {
 			);
 		}
 
+		if ( ! self::is_trusted_search_api_url( $api_url ) ) {
+			return array(
+				'ok'    => false,
+				'error' => 'untrusted_search_api_url',
+			);
+		}
+
 		$res = wp_remote_post(
 			$api_url . '/integrations/credentials',
 			array(
@@ -225,6 +232,63 @@ class Settings {
 			'ok'          => 200 <= $status && 300 > $status,
 			'status_code' => $status,
 		);
+	}
+
+	public static function is_trusted_search_api_url( string $api_url ): bool {
+		$parts = wp_parse_url( $api_url );
+		if ( ! is_array( $parts ) || empty( $parts['scheme'] ) || empty( $parts['host'] ) ) {
+			return false;
+		}
+
+		$trusted = apply_filters( 'baf_affiliate_bridge_trusted_search_api_url', null, $api_url, $parts );
+		if ( is_bool( $trusted ) ) {
+			return $trusted;
+		}
+
+		$scheme       = strtolower( (string) $parts['scheme'] );
+		$host         = strtolower( trim( (string) $parts['host'], '[]' ) );
+		$is_local_env = in_array( wp_get_environment_type(), array( 'local', 'development' ), true );
+
+		if ( true === $is_local_env && self::is_loopback_host( $host ) && in_array( $scheme, array( 'http', 'https' ), true ) ) {
+			return true;
+		}
+
+		if ( 'https' !== $scheme || self::is_local_or_private_host( $host ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private static function is_loopback_host( string $host ): bool {
+		if ( in_array( $host, array( 'localhost', '127.0.0.1', '::1' ), true ) ) {
+			return true;
+		}
+
+		return 1 === preg_match( '/^127\./', $host );
+	}
+
+	private static function is_local_or_private_host( string $host ): bool {
+		if ( self::is_loopback_host( $host ) ) {
+			return true;
+		}
+
+		if ( preg_match( '/(^|\.)localhost$|(^|\.)local$|(^|\.)internal$/', $host ) ) {
+			return true;
+		}
+
+		$ips = filter_var( $host, FILTER_VALIDATE_IP ) ? array( $host ) : gethostbynamel( $host );
+		if ( empty( $ips ) || ! is_array( $ips ) ) {
+			return true;
+		}
+
+		foreach ( $ips as $ip ) {
+			if ( ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private static function search_api_credentials_payload(): array {

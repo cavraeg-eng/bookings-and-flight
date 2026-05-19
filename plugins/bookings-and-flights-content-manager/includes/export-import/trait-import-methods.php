@@ -188,7 +188,8 @@ trait Bookings_And_Flights_Export_Import_Import_Methods {
      */
     private function import_global_options( $options, $source_url, $target_url ) {
         $fields    = Bookings_And_Flights_Options::get_fields();
-        $sanitized = array();
+        $existing  = get_option( Bookings_And_Flights_Options::OPTION_NAME, array() );
+        $sanitized = is_array( $existing ) ? $existing : array();
 
         foreach ( $fields as $key => $field ) {
             if ( ! array_key_exists( $key, $options ) ) {

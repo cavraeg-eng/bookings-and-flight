@@ -101,10 +101,15 @@ async function fetchHotellookAPI(req: HotelSearchRequest): Promise<Offer[]> {
         clearTimeout(timer);
     }
 
-    if (!resp.ok) return [];
+    if (!resp.ok) {
+        throw new Error(`hotellook cache HTTP ${resp.status}`);
+    }
 
     const hotels = (await resp.json()) as HLCacheHotel[];
-    if (!Array.isArray(hotels) || hotels.length === 0) return [];
+    if (!Array.isArray(hotels)) {
+        throw new Error("hotellook returned malformed cache response");
+    }
+    if (hotels.length === 0) return [];
 
     return hotels.map((h, i) => {
         const starsStr = h.stars > 0 ? "★".repeat(h.stars) : "";
@@ -152,7 +157,9 @@ async function resolveLocationId(city: string): Promise<string | null> {
         clearTimeout(timer);
     }
 
-    if (!resp.ok) return null;
+    if (!resp.ok) {
+        throw new Error(`hotellook lookup HTTP ${resp.status}`);
+    }
 
     const data = (await resp.json()) as HLLookupResult;
     const locations = data.results?.locations;
