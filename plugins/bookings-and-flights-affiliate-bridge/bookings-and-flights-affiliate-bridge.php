@@ -24,6 +24,24 @@ define( 'BAF_OPT_SUPPLIER_CREDS', 'baf_supplier_credentials' );
 define( 'BAF_OPT_SEARCH_API_URL', 'baf_search_api_url' );
 define( 'BAF_OPT_POSTBACK_SECRET', 'baf_postback_secret' );
 define( 'BAF_OPT_CREDENTIAL_SYNC_SECRET', 'baf_credential_sync_secret' );
+define( 'BAF_LOCAL_POSTBACK_SECRET', 'dev-secret-change-me' );
+define( 'BAF_LOCAL_CREDENTIAL_SYNC_SECRET', 'dev-credential-sync-secret' );
+
+function baf_affiliate_bridge_default_secret( string $option_name ): string {
+	$is_local_env = in_array( wp_get_environment_type(), array( 'local', 'development' ), true );
+
+	if ( true === $is_local_env ) {
+		if ( BAF_OPT_CREDENTIAL_SYNC_SECRET === $option_name ) {
+			return BAF_LOCAL_CREDENTIAL_SYNC_SECRET;
+		}
+
+		if ( BAF_OPT_POSTBACK_SECRET === $option_name ) {
+			return BAF_LOCAL_POSTBACK_SECRET;
+		}
+	}
+
+	return wp_generate_password( 48, false, false );
+}
 
 require_once BAF_AFFILIATE_BRIDGE_DIR . 'includes/class-settings.php';
 require_once BAF_AFFILIATE_BRIDGE_DIR . 'includes/class-admin.php';
@@ -38,12 +56,11 @@ add_action( 'plugins_loaded', function () {
 } );
 
 register_activation_hook( __FILE__, function () {
-	// Generate a postback secret on first activation if none exists.
 	if ( ! get_option( BAF_OPT_POSTBACK_SECRET ) ) {
-		update_option( BAF_OPT_POSTBACK_SECRET, wp_generate_password( 48, false, false ) );
+		update_option( BAF_OPT_POSTBACK_SECRET, baf_affiliate_bridge_default_secret( BAF_OPT_POSTBACK_SECRET ) );
 	}
 	if ( ! get_option( BAF_OPT_CREDENTIAL_SYNC_SECRET ) ) {
-		update_option( BAF_OPT_CREDENTIAL_SYNC_SECRET, wp_generate_password( 48, false, false ) );
+		update_option( BAF_OPT_CREDENTIAL_SYNC_SECRET, baf_affiliate_bridge_default_secret( BAF_OPT_CREDENTIAL_SYNC_SECRET ) );
 	}
 	if ( ! get_option( BAF_OPT_SEARCH_API_URL ) ) {
 		update_option( BAF_OPT_SEARCH_API_URL, 'http://localhost:4050' );

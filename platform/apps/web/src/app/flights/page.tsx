@@ -133,6 +133,17 @@ function FlightsPageContent() {
     const children = params.get("children") ?? "0";
     const infants = params.get("infants") ?? "0";
 
+    const flightInitialValues = {
+        origin,
+        destination,
+        ...(depart ? { depart } : {}),
+        ...(ret ? { return: ret } : {}),
+        cabin,
+        adults,
+        children,
+        infants,
+    };
+
     const hasSearch = !!origin && !!destination && !!depart;
 
     const [offers, setOffers] = useState<Offer[]>([]);
@@ -221,7 +232,10 @@ function FlightsPageContent() {
                             Compare prices across airlines and booking sites to find the best deals on flights worldwide.
                         </p>
                         <div className="mt-10">
-                            <SearchForm initialTab="flights" />
+                            <SearchForm
+                                initialTab="flights"
+                                initialValues={flightInitialValues}
+                            />
                         </div>
                     </div>
                 </section>
@@ -246,16 +260,7 @@ function FlightsPageContent() {
                     <SearchForm
                         initialTab="flights"
                         compact
-                        initialValues={{
-                            origin,
-                            destination,
-                            depart,
-                            return: ret ?? "",
-                            cabin,
-                            adults,
-                            children,
-                            infants,
-                        }}
+                        initialValues={flightInitialValues}
                     />
                 }
             />

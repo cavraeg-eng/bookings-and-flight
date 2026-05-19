@@ -63,15 +63,19 @@ class Settings {
 	}
 
 	public static function bootstrap(): void {
-		add_action( 'admin_init', array( self::class, 'ensure_credential_sync_secret' ), 0 );
+		add_action( 'admin_init', array( self::class, 'ensure_bridge_secrets' ), 0 );
 		add_action( 'admin_init', array( self::class, 'register' ) );
 		add_action( 'added_option', array( self::class, 'maybe_queue_credentials_sync' ), 10, 2 );
 		add_action( 'updated_option', array( self::class, 'maybe_queue_credentials_sync' ), 10, 3 );
 	}
 
-	public static function ensure_credential_sync_secret(): void {
+	public static function ensure_bridge_secrets(): void {
+		if ( ! get_option( BAF_OPT_POSTBACK_SECRET ) ) {
+			update_option( BAF_OPT_POSTBACK_SECRET, \baf_affiliate_bridge_default_secret( BAF_OPT_POSTBACK_SECRET ) );
+		}
+
 		if ( ! get_option( BAF_OPT_CREDENTIAL_SYNC_SECRET ) ) {
-			update_option( BAF_OPT_CREDENTIAL_SYNC_SECRET, wp_generate_password( 48, false, false ) );
+			update_option( BAF_OPT_CREDENTIAL_SYNC_SECRET, \baf_affiliate_bridge_default_secret( BAF_OPT_CREDENTIAL_SYNC_SECRET ) );
 		}
 	}
 
