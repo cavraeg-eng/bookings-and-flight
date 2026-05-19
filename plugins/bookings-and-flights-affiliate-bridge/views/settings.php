@@ -4,7 +4,8 @@
  *
  * Expects these vars from Admin::render_page():
  *   array $suppliers, array $creds, string $search_api_url,
- *   string $postback_secret, string $postback_endpoint
+ *   string $postback_secret, string $credential_sync_secret,
+ *   string $postback_endpoint
  *
  * @package Bookings_And_Flights\Affiliate_Bridge
  */
@@ -54,6 +55,23 @@ defined( 'ABSPATH' ) || exit;
 						autocomplete="new-password"
 					/>
 					<p class="description"><?php echo esc_html__( 'Shared secret between this plugin and the search-api. 16–128 printable ASCII characters.', 'baf-affiliate-bridge' ); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<label for="baf_credential_sync_secret"><?php echo esc_html__( 'Credential Sync Secret', 'baf-affiliate-bridge' ); ?></label>
+				</th>
+				<td>
+					<input
+						name="<?php echo esc_attr( BAF_OPT_CREDENTIAL_SYNC_SECRET ); ?>"
+						id="baf_credential_sync_secret"
+						type="password"
+						class="regular-text code"
+						value=""
+						placeholder="<?php echo esc_attr( '' !== $credential_sync_secret ? __( 'Configured. Leave blank to keep saved secret.', 'baf-affiliate-bridge' ) : __( 'Not configured.', 'baf-affiliate-bridge' ) ); ?>"
+						autocomplete="new-password"
+					/>
+					<p class="description"><?php echo esc_html__( 'Private WordPress-to-search-api secret for syncing supplier credentials. Set the same value as BAF_CREDENTIAL_SYNC_SECRET in the search-api environment.', 'baf-affiliate-bridge' ); ?></p>
 				</td>
 			</tr>
 			<tr>

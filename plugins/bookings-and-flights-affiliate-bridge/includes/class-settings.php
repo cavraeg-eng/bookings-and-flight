@@ -63,9 +63,16 @@ class Settings {
 	}
 
 	public static function bootstrap(): void {
+		add_action( 'admin_init', array( self::class, 'ensure_credential_sync_secret' ), 0 );
 		add_action( 'admin_init', array( self::class, 'register' ) );
 		add_action( 'added_option', array( self::class, 'maybe_queue_credentials_sync' ), 10, 2 );
 		add_action( 'updated_option', array( self::class, 'maybe_queue_credentials_sync' ), 10, 3 );
+	}
+
+	public static function ensure_credential_sync_secret(): void {
+		if ( ! get_option( BAF_OPT_CREDENTIAL_SYNC_SECRET ) ) {
+			update_option( BAF_OPT_CREDENTIAL_SYNC_SECRET, wp_generate_password( 48, false, false ) );
+		}
 	}
 
 	public static function register(): void {
@@ -93,6 +100,15 @@ class Settings {
 			array(
 				'type'              => 'string',
 				'sanitize_callback' => array( self::class, 'sanitize_secret' ),
+				'default'           => '',
+			)
+		);
+		register_setting(
+			'baf_affiliate_bridge',
+			BAF_OPT_CREDENTIAL_SYNC_SECRET,
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => array( self::class, 'sanitize_credential_sync_secret' ),
 				'default'           => '',
 			)
 		);
@@ -145,10 +161,19 @@ class Settings {
 		return $v;
 	}
 
+	public static function sanitize_credential_sync_secret( $value ): string {
+		$v = is_string( $value ) ? trim( $value ) : '';
+		// Accept only printable ASCII, 16-128 chars.
+		if ( ! preg_match( '/^[\x21-\x7e]{16,128}$/', $v ) ) {
+			return (string) get_option( BAF_OPT_CREDENTIAL_SYNC_SECRET, '' );
+		}
+		return $v;
+	}
+
 	public static function maybe_queue_credentials_sync( string $option_name, ...$unused ): void {
 		unset( $unused );
 
-		if ( ! in_array( $option_name, array( BAF_OPT_SUPPLIER_CREDS, BAF_OPT_SEARCH_API_URL, BAF_OPT_POSTBACK_SECRET ), true ) ) {
+		if ( ! in_array( $option_name, array( BAF_OPT_SUPPLIER_CREDS, BAF_OPT_SEARCH_API_URL, BAF_OPT_CREDENTIAL_SYNC_SECRET ), true ) ) {
 			return;
 		}
 
@@ -162,7 +187,7 @@ class Settings {
 
 	public static function sync_credentials_to_search_api(): array {
 		$api_url = rtrim( (string) get_option( BAF_OPT_SEARCH_API_URL, '' ), '/' );
-		$secret  = (string) get_option( BAF_OPT_POSTBACK_SECRET, '' );
+		$secret  = (string) get_option( BAF_OPT_CREDENTIAL_SYNC_SECRET, '' );
 
 		if ( '' === $api_url || '' === $secret ) {
 			return array(
@@ -176,8 +201,8 @@ class Settings {
 			array(
 				'timeout' => 5,
 				'headers' => array(
-					'content-type'      => 'application/json',
-					'x-postback-secret' => $secret,
+					'content-type'              => 'application/json',
+					'x-credential-sync-secret'  => $secret,
 				),
 				'body'    => wp_json_encode( self::search_api_credentials_payload() ),
 			)

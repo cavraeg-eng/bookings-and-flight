@@ -35,6 +35,7 @@ class Admin {
 		$creds            = (array) get_option( BAF_OPT_SUPPLIER_CREDS, array() );
 		$search_api_url   = (string) get_option( BAF_OPT_SEARCH_API_URL, 'http://localhost:4050' );
 		$postback_secret  = (string) get_option( BAF_OPT_POSTBACK_SECRET, '' );
+		$credential_sync_secret = (string) get_option( BAF_OPT_CREDENTIAL_SYNC_SECRET, '' );
 		$postback_endpoint = rest_url( 'baf/v1/postback' );
 
 		include BAF_AFFILIATE_BRIDGE_DIR . 'views/settings.php';

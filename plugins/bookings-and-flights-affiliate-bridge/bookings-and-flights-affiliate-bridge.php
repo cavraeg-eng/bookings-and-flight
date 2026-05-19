@@ -23,6 +23,7 @@ define( 'BAF_AFFILIATE_BRIDGE_URL', plugin_dir_url( __FILE__ ) );
 define( 'BAF_OPT_SUPPLIER_CREDS', 'baf_supplier_credentials' );
 define( 'BAF_OPT_SEARCH_API_URL', 'baf_search_api_url' );
 define( 'BAF_OPT_POSTBACK_SECRET', 'baf_postback_secret' );
+define( 'BAF_OPT_CREDENTIAL_SYNC_SECRET', 'baf_credential_sync_secret' );
 
 require_once BAF_AFFILIATE_BRIDGE_DIR . 'includes/class-settings.php';
 require_once BAF_AFFILIATE_BRIDGE_DIR . 'includes/class-admin.php';
@@ -40,6 +41,9 @@ register_activation_hook( __FILE__, function () {
 	// Generate a postback secret on first activation if none exists.
 	if ( ! get_option( BAF_OPT_POSTBACK_SECRET ) ) {
 		update_option( BAF_OPT_POSTBACK_SECRET, wp_generate_password( 48, false, false ) );
+	}
+	if ( ! get_option( BAF_OPT_CREDENTIAL_SYNC_SECRET ) ) {
+		update_option( BAF_OPT_CREDENTIAL_SYNC_SECRET, wp_generate_password( 48, false, false ) );
 	}
 	if ( ! get_option( BAF_OPT_SEARCH_API_URL ) ) {
 		update_option( BAF_OPT_SEARCH_API_URL, 'http://localhost:4050' );

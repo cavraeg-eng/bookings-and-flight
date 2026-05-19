@@ -13,6 +13,11 @@ const postbackSecret =
     process.env.POSTBACK_SECRET ??
     // Local-only fallback keeps dev setup simple; production must configure the WordPress bridge secret.
     (nodeEnv === "production" ? "" : clickHmacSecret);
+const credentialSyncSecret =
+    process.env.BAF_CREDENTIAL_SYNC_SECRET ??
+    process.env.CREDENTIAL_SYNC_SECRET ??
+    // Separate local-only fallback; production must configure the private credential-sync secret.
+    (nodeEnv === "production" ? "" : "dev-credential-sync-secret");
 const supplierCredentialsFile =
     process.env.SUPPLIER_CREDENTIALS_FILE ?? path.resolve(process.cwd(), ".baf-supplier-credentials.json");
 
@@ -108,6 +113,7 @@ export const env = {
     nodeEnv,
     clickHmacSecret,
     postbackSecret,
+    credentialSyncSecret,
     webOrigin: process.env.WEB_ORIGIN ?? "http://localhost:3000",
     apiBase: process.env.PUBLIC_API_BASE ?? process.env.API_BASE ?? `http://localhost:${port}`,
 
@@ -140,6 +146,10 @@ if (env.nodeEnv === "production" && !env.clickHmacSecret) {
 
 if (env.nodeEnv === "production" && !env.postbackSecret) {
     throw new Error("BAF_POSTBACK_SECRET must be set in production");
+}
+
+if (env.nodeEnv === "production" && !env.credentialSyncSecret) {
+    throw new Error("BAF_CREDENTIAL_SYNC_SECRET must be set in production");
 }
 
 export function syncSupplierCredentials(payload: SupplierCredentialSyncPayload): CredentialSyncResult {

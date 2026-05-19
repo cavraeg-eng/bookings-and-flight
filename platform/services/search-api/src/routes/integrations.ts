@@ -94,8 +94,8 @@ export const integrationsRoutes: FastifyPluginAsync = async (app) => {
         "/integrations/credentials",
         { schema: credentialSyncSchema },
         async (req, reply) => {
-            const secret = firstHeaderValue(req.headers["x-postback-secret"]);
-            if (!secretsMatch(secret, env.postbackSecret)) {
+            const secret = firstHeaderValue(req.headers["x-credential-sync-secret"]);
+            if (!secretsMatch(secret, env.credentialSyncSecret)) {
                 reply.code(401);
                 return { error: "UNAUTHORIZED" };
             }
