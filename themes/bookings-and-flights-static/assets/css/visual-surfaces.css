@@ -1,0 +1,371 @@
+/**
+ * Shared image-led polish for public travel surfaces.
+ */
+
+.search-page__hero,
+.hotel-guide-hero,
+.route-hero,
+.deal-hero,
+.taxonomy-hero {
+  --baf-hero-image: url("../images/home-hero-beach.jpg");
+  --baf-hero-position: center;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: hsl(202 42% 12%);
+}
+
+.search-page__hero::before,
+.hotel-guide-hero::before,
+.route-hero::before,
+.deal-hero::before,
+.taxonomy-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--baf-hero-image);
+  background-position: var(--baf-hero-position);
+  background-size: cover;
+  filter: saturate(1.08) contrast(1.04);
+  transform: scale(1.02);
+}
+
+.search-page__hero::after,
+.hotel-guide-hero::after,
+.route-hero::after,
+.deal-hero::after,
+.taxonomy-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, hsl(202 42% 10% / 0.9) 0%, hsl(202 42% 12% / 0.72) 46%, hsl(177 54% 22% / 0.24) 100%),
+    linear-gradient(0deg, hsl(190 28% 96%) 0%, hsl(190 28% 96% / 0) 28%);
+}
+
+.search-page--flights .search-page__hero {
+  --baf-hero-image: url("https://pd.w.org/2025/09/38768b5b57492a850.81875712-2048x1152.jpeg");
+  --baf-hero-position: center 44%;
+}
+
+.search-page--hotels .search-page__hero {
+  --baf-hero-image: url("https://pd.w.org/2022/04/603624d41c6bb55d3.38213642-2048x1535.jpeg");
+  --baf-hero-position: center 50%;
+}
+
+.hotel-guide-hero {
+  --baf-hero-image: url("https://pd.w.org/2026/04/11769e1153db3edf8.41610904-1476x2048.jpg");
+  --baf-hero-position: center 48%;
+}
+
+.route-hero {
+  --baf-hero-image: url("https://pd.w.org/2023/07/96964b51694579e59.54227006-2048x1152.jpeg");
+  --baf-hero-position: center 52%;
+}
+
+.deal-hero {
+  --baf-hero-image: url("../images/home-hero-beach.jpg");
+  --baf-hero-position: center 54%;
+}
+
+.taxonomy-hero {
+  --baf-hero-image: url("https://pd.w.org/2026/04/11769e1153db3edf8.41610904-1476x2048.jpg");
+  --baf-hero-position: center 45%;
+}
+
+.search-page__hero-inner,
+.hotel-guide-hero__inner,
+.route-hero__inner,
+.deal-hero__inner,
+.taxonomy-hero__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.flight-intent,
+.hotel-intent,
+.search-placement,
+.hotel-guide-card,
+.hotel-guide-listing-card,
+.route-card,
+.route-panel,
+.deal-card,
+.deal-panel,
+.taxonomy-card,
+.taxonomy-rule-card {
+  border-color: hsl(198 22% 78%);
+  box-shadow: 0 20px 54px hsl(202 35% 16% / 0.12);
+}
+
+.flight-intent__content::before,
+.hotel-intent__content::before {
+  content: "";
+  display: block;
+  min-block-size: 13.5rem;
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, hsl(202 42% 12% / 0.04), hsl(202 42% 12% / 0.44)),
+    var(--baf-intent-image) center / cover;
+  box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.22);
+}
+
+.flight-intent__content::before {
+  --baf-intent-image: url("https://pd.w.org/2026/04/40669d7545555b368.67969932-1152x1536.jpeg");
+}
+
+.hotel-intent__content::before {
+  --baf-intent-image: url("https://pd.w.org/2022/04/603624d41c6bb55d3.38213642-1536x1152.jpeg");
+}
+
+.hotel-guide-listing-card,
+.route-card,
+.deal-card,
+.taxonomy-card {
+  overflow: hidden;
+}
+
+.hotel-guide-listing-card::before,
+.route-card::before,
+.deal-card::before,
+.taxonomy-card::before {
+  content: "";
+  display: block;
+  margin: calc(var(--space-s) * -1) calc(var(--space-s) * -1) 0;
+  aspect-ratio: 16 / 9;
+  background:
+    linear-gradient(180deg, hsl(202 42% 12% / 0.04), hsl(202 42% 12% / 0.28)),
+    var(--baf-card-image) center / cover;
+}
+
+.hotel-guide-listing-card::before {
+  --baf-card-image: url("https://pd.w.org/2025/02/61567a139e9698916.33883534-1536x1024.jpg");
+}
+
+.route-card::before {
+  --baf-card-image: url("https://pd.w.org/2023/07/96964b51694579e59.54227006-1536x864.jpeg");
+}
+
+.deal-card::before {
+  --baf-card-image: url("../images/home-hero-beach.jpg");
+}
+
+.taxonomy-card::before {
+  --baf-card-image: url("https://pd.w.org/2026/04/11769e1153db3edf8.41610904-1107x1536.jpg");
+}
+
+.flight-discovery {
+  display: grid;
+  gap: var(--space-s);
+  padding: var(--space-m);
+  border: 1px solid hsl(190 25% 82%);
+  border-radius: 8px;
+  background: linear-gradient(135deg, hsl(0 0% 100%), hsl(190 40% 96%) 58%, hsl(43 82% 96%));
+  box-shadow: 0 24px 70px hsl(202 35% 16% / 0.11);
+}
+
+.flight-discovery__header {
+  display: grid;
+  gap: 0.45rem;
+  max-inline-size: 54rem;
+}
+
+.flight-discovery__eyebrow {
+  margin: 0;
+  color: hsl(174 72% 25%);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.flight-discovery__title {
+  margin: 0;
+  color: hsl(202 34% 14%);
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 3.4vw, 2.55rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.flight-discovery__copy {
+  margin: 0;
+  color: hsl(205 13% 33%);
+  line-height: 1.6;
+}
+
+.flight-discovery__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(18rem, 0.88fr);
+  gap: var(--space-s);
+  align-items: start;
+}
+
+.flight-discovery__grid > :first-child {
+  grid-row: span 2;
+}
+
+.flight-discovery--empty .flight-discovery__grid {
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+}
+
+.flight-discovery--empty .flight-discovery__grid > :first-child {
+  grid-row: auto;
+}
+
+.flight-discovery--empty .flight-discovery__grid > :last-child {
+  grid-column: 1 / -1;
+}
+
+.flight-discovery .search-placement,
+.flight-discovery__missing {
+  min-inline-size: 0;
+  padding: var(--space-s);
+  border: 1px solid hsl(190 26% 82%);
+  border-radius: 8px;
+  background: hsl(0 0% 100%);
+  box-shadow: 0 14px 36px hsl(202 35% 16% / 0.09);
+}
+
+.flight-discovery .search-placement:first-child,
+.flight-discovery__grid > .flight-discovery__missing:first-child {
+  min-block-size: 100%;
+  background:
+    linear-gradient(180deg, hsl(202 42% 12% / 0.02), hsl(202 42% 12% / 0.1)),
+    hsl(0 0% 100%);
+}
+
+.flight-discovery .search-placement__title,
+.flight-discovery__missing h3 {
+  font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+}
+
+.flight-discovery__missing {
+  display: grid;
+  gap: 0.55rem;
+  min-block-size: 220px;
+  align-content: start;
+  background: hsl(43 88% 95%);
+  color: hsl(35 42% 20%);
+}
+
+.flight-discovery__missing::before {
+  content: "";
+  display: block;
+  min-block-size: 7.5rem;
+  border-radius: 6px;
+  background:
+    linear-gradient(180deg, hsl(202 42% 12% / 0.03), hsl(202 42% 12% / 0.32)),
+    var(--baf-discovery-image) center / cover;
+}
+
+.flight-discovery__missing:nth-child(1) {
+  --baf-discovery-image: url("https://pd.w.org/2026/04/40669d7545555b368.67969932-1152x1536.jpeg");
+}
+
+.flight-discovery__missing:nth-child(2) {
+  --baf-discovery-image: url("https://pd.w.org/2023/07/96964b51694579e59.54227006-1536x864.jpeg");
+}
+
+.flight-discovery__missing:nth-child(3) {
+  --baf-discovery-image: url("https://pd.w.org/2025/09/38768b5b57492a850.81875712-2048x1152.jpeg");
+}
+
+.flight-discovery__missing h3,
+.flight-discovery__missing p {
+  margin: 0;
+}
+
+.flight-discovery__missing p {
+  line-height: 1.55;
+}
+
+.flight-discovery__note { margin: 0; color: hsl(205 13% 34%); font-size: 0.9rem; line-height: 1.55; }
+.theme-dark .flight-discovery { border-color: hsl(190 18% 28%); background: linear-gradient(135deg, hsl(205 26% 13%), hsl(202 29% 10%)); box-shadow: 0 24px 70px hsl(205 44% 6% / 0.38); }
+.theme-dark .flight-discovery__title, .theme-dark .flight-discovery .search-placement__title, .theme-dark .flight-discovery__missing h3 { color: hsl(43 42% 94%); }
+.theme-dark .flight-discovery__copy, .theme-dark .flight-discovery__note, .theme-dark .flight-discovery__missing p { color: hsl(42 19% 78%); }
+.theme-dark .flight-discovery .search-placement, .theme-dark .flight-discovery__missing { border-color: hsl(190 18% 30%); background: hsl(205 24% 16% / 0.92); color: hsl(43 42% 94%); }
+
+.flight-results-empty {
+  display: grid;
+  gap: 0.75rem;
+  padding: var(--space-m);
+  border: 1px solid hsl(190 25% 82%);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, hsl(202 42% 12% / 0.5), hsl(202 42% 12% / 0.1)),
+    url("https://pd.w.org/2025/09/38768b5b57492a850.81875712-2048x1152.jpeg") center / cover;
+  color: hsl(0 0% 100%);
+  box-shadow: 0 24px 70px hsl(202 35% 16% / 0.11);
+}
+
+.flight-results-empty__eyebrow {
+  margin: 0;
+  color: hsl(43 82% 82%);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.flight-results-empty h2,
+.flight-results-empty p {
+  max-inline-size: 48rem;
+  margin: 0;
+}
+
+.flight-results-empty h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.55rem);
+  line-height: 1.08;
+}
+
+.flight-results-empty p {
+  color: hsl(43 42% 92%);
+  line-height: 1.6;
+}
+
+.flight-results-empty__link {
+  justify-self: start;
+  min-block-size: 46px;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  background: hsl(177 66% 29%);
+  color: hsl(0 0% 100%);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.flight-results-empty__link:hover,
+.flight-results-empty__link:focus-visible {
+  background: hsl(177 66% 24%);
+  color: hsl(0 0% 100%);
+}
+
+.theme-dark .flight-results-empty {
+  border-color: hsl(190 18% 30%);
+  box-shadow: 0 24px 70px hsl(205 44% 6% / 0.38);
+}
+
+@media (max-width: 1100px) {
+  .flight-discovery__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flight-discovery__grid > :first-child {
+    grid-row: auto;
+  }
+
+  .flight-discovery--empty .flight-discovery__grid > :last-child {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .flight-intent__content::before,
+  .hotel-intent__content::before {
+    min-block-size: 11rem;
+  }
+}

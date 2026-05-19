@@ -3,6 +3,8 @@
  * Bookings and Flights Static Theme
  */
 
+@import url('./visual-surfaces.css');
+
 .destination-guide-hero__inner {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);

@@ -6,11 +6,23 @@
  */
 
 $get_text = static function ( string $key ): string {
-	if ( ! isset( $_GET[ $key ] ) || ! is_scalar( $_GET[ $key ] ) ) {
+	$value = null;
+
+	if ( isset( $_GET[ $key ] ) && is_scalar( $_GET[ $key ] ) ) {
+		$value = wp_unslash( $_GET[ $key ] );
+	} else {
+		$query_value = get_query_var( $key );
+
+		if ( is_scalar( $query_value ) ) {
+			$value = $query_value;
+		}
+	}
+
+	if ( null === $value ) {
 		return '';
 	}
 
-	return sanitize_text_field( wp_unslash( $_GET[ $key ] ) );
+	return sanitize_text_field( $value );
 };
 
 $normalize_iata = static function ( string $value ): string {
@@ -36,11 +48,16 @@ $cabin_options = array(
 	'first'           => __( 'First', 'bookings_and_flights' ),
 );
 
-$compact_flight_search = strtoupper( preg_replace( '/[^A-Z0-9]/', '', $get_text( 'flightSearch' ) ) );
+$compact_flight_search = strtoupper( preg_replace( '/[^A-Za-z0-9]/', '', $get_text( 'flightSearch' ) ) );
 $compact_origin        = '';
 $compact_destination   = '';
 $compact_depart_date   = '';
 $compact_return_date   = '';
+$compact_adults        = 1;
+$compact_children      = 0;
+$compact_infants       = 0;
+$compact_cabin         = 'economy';
+$compact_has_passengers = false;
 
 $compact_date = static function ( string $day, string $month, int $year ): string {
 	$date = DateTimeImmutable::createFromFormat( '!Y-m-d', sprintf( '%04d-%02d-%02d', $year, absint( $month ), absint( $day ) ), wp_timezone() );
@@ -52,7 +69,35 @@ $compact_date = static function ( string $day, string $month, int $year ): strin
 	return $date->format( 'Y-m-d' );
 };
 
-if ( preg_match( '/^([A-Z]{3})(\d{2})(\d{2})([A-Z]{3})(?:(\d{2})(\d{2}))?/', $compact_flight_search, $compact_matches ) ) {
+$parse_passenger_suffix = static function ( string $suffix ) use ( $cabin_options ): array {
+	$suffix = strtolower( trim( $suffix ) );
+	$cabin  = 'economy';
+
+	if ( '' !== $suffix && preg_match( '/^[cwf]/', $suffix, $class_match ) ) {
+		$cabin = array(
+			'c' => 'business',
+			'w' => 'premium_economy',
+			'f' => 'first',
+		)[ $class_match[0] ];
+		$suffix = substr( $suffix, 1 );
+	}
+
+	if ( ! preg_match( '/^\d{1,3}$/', $suffix ) ) {
+		return array( 1, 0, 0, $cabin, false );
+	}
+
+	$adults   = max( 1, min( 9, absint( $suffix[0] ) ) );
+	$children = isset( $suffix[1] ) ? max( 0, min( 8, absint( $suffix[1] ) ) ) : 0;
+	$infants  = isset( $suffix[2] ) ? max( 0, min( $adults, absint( $suffix[2] ) ) ) : 0;
+
+	if ( $adults + $children > 9 ) {
+		$children = 9 - $adults;
+	}
+
+	return array( $adults, $children, $infants, isset( $cabin_options[ $cabin ] ) ? $cabin : 'economy', true );
+};
+
+if ( preg_match( '/^([A-Z]{3})(\d{2})(\d{2})([A-Z]{3})(?:(\d{2})(\d{2}))?([CWF]?\d{1,3})?$/', $compact_flight_search, $compact_matches ) ) {
 	$compact_origin      = $normalize_iata( $compact_matches[1] );
 	$compact_destination = $normalize_iata( $compact_matches[4] );
 	$current_year        = absint( wp_date( 'Y' ) );
@@ -70,6 +115,10 @@ if ( preg_match( '/^([A-Z]{3})(\d{2})(\d{2})([A-Z]{3})(?:(\d{2})(\d{2}))?/', $co
 			$compact_return_date = $compact_date( $compact_matches[5], $compact_matches[6], $current_year + 1 );
 		}
 	}
+
+	if ( isset( $compact_matches[7] ) && '' !== $compact_matches[7] ) {
+		list( $compact_adults, $compact_children, $compact_infants, $compact_cabin, $compact_has_passengers ) = $parse_passenger_suffix( $compact_matches[7] );
+	}
 }
 
 $origin            = $normalize_iata( $get_text( 'origin' ) );
@@ -83,17 +132,57 @@ $return_date       = $normalize_date( $get_text( 'return_date' ) );
 $depart_date       = '' !== $depart_date ? $depart_date : $compact_depart_date;
 $return_date       = '' !== $return_date ? $return_date : $compact_return_date;
 $surface           = sanitize_key( $get_text( 'baf_surface' ) );
-$travelers         = isset( $_GET['travelers'] ) && is_scalar( $_GET['travelers'] ) ? absint( wp_unslash( $_GET['travelers'] ) ) : 1;
-$travelers         = min( 9, max( 1, $travelers ) );
+$legacy_travelers  = absint( $get_text( 'travelers' ) );
+$adults            = absint( $get_text( 'adults' ) );
+$children          = absint( $get_text( 'children' ) );
+$infants           = absint( $get_text( 'infants' ) );
+$adults            = $adults > 0 ? $adults : ( $compact_has_passengers ? $compact_adults : max( 1, $legacy_travelers ) );
+$children          = '' !== $get_text( 'children' ) ? $children : $compact_children;
+$infants           = '' !== $get_text( 'infants' ) ? $infants : $compact_infants;
+$adults            = max( 1, min( 9, $adults ) );
+$children          = max( 0, min( 8, $children ) );
+
+if ( $adults + $children > 9 ) {
+	$children = 9 - $adults;
+}
+
+$infants           = max( 0, min( $adults, $infants ) );
+$travelers         = $adults + $children + $infants;
 $cabin             = sanitize_key( $get_text( 'cabin' ) );
-$cabin             = isset( $cabin_options[ $cabin ] ) ? $cabin : 'economy';
+$cabin             = isset( $cabin_options[ $cabin ] ) ? $cabin : $compact_cabin;
 $travel_mode       = sanitize_key( $get_text( 'travel_mode' ) );
 $travel_focus      = sanitize_key( $get_text( 'travel_focus' ) );
 
-$has_traveler_intent = isset( $_GET['travelers'] ) || isset( $_GET['cabin'] );
+$has_traveler_intent = '' !== $get_text( 'travelers' ) || '' !== $get_text( 'adults' ) || '' !== $get_text( 'children' )
+	|| '' !== $get_text( 'infants' ) || '' !== $get_text( 'cabin' ) || $compact_has_passengers;
 $has_intent          = '' !== $origin || '' !== $destination || '' !== $origin_label || '' !== $destination_label
 	|| '' !== $depart_date || '' !== $return_date || $has_traveler_intent || '' !== $travel_mode || '' !== $travel_focus
 	|| '' !== $compact_flight_search;
+$traveler_summary_parts = array(
+	sprintf(
+		/* translators: %d: number of adults. */
+		_n( '%d adult', '%d adults', $adults, 'bookings_and_flights' ),
+		$adults
+	),
+);
+
+if ( $children > 0 ) {
+	$traveler_summary_parts[] = sprintf(
+		/* translators: %d: number of children. */
+		_n( '%d child', '%d children', $children, 'bookings_and_flights' ),
+		$children
+	);
+}
+
+if ( $infants > 0 ) {
+	$traveler_summary_parts[] = sprintf(
+		/* translators: %d: number of infants. */
+		_n( '%d infant', '%d infants', $infants, 'bookings_and_flights' ),
+		$infants
+	);
+}
+
+$traveler_summary = implode( ', ', $traveler_summary_parts ) . ', ' . $cabin_options[ $cabin ];
 
 $continuity_css = get_template_directory() . '/assets/css/white-label-continuity.css';
 if ( file_exists( $continuity_css ) ) {
@@ -131,14 +220,33 @@ if ( '' !== $return_date ) {
 }
 
 if ( $has_traveler_intent ) {
+	$traveler_parts = array(
+		sprintf(
+			/* translators: %d: number of adults. */
+			_n( '%d adult', '%d adults', $adults, 'bookings_and_flights' ),
+			$adults
+		),
+	);
+
+	if ( $children > 0 ) {
+		$traveler_parts[] = sprintf(
+			/* translators: %d: number of children. */
+			_n( '%d child', '%d children', $children, 'bookings_and_flights' ),
+			$children
+		);
+	}
+
+	if ( $infants > 0 ) {
+		$traveler_parts[] = sprintf(
+			/* translators: %d: number of infants. */
+			_n( '%d infant', '%d infants', $infants, 'bookings_and_flights' ),
+			$infants
+		);
+	}
+
 	$details[] = array(
 		'label' => __( 'Travelers', 'bookings_and_flights' ),
-		'value' => sprintf(
-			/* translators: 1: number of travelers, 2: cabin label. */
-			_n( '%1$d traveler, %2$s', '%1$d travelers, %2$s', $travelers, 'bookings_and_flights' ),
-			$travelers,
-			$cabin_options[ $cabin ]
-		),
+		'value' => implode( ', ', $traveler_parts ) . ', ' . $cabin_options[ $cabin ],
 	);
 }
 
@@ -277,20 +385,38 @@ get_header();
 						<span><?php esc_html_e( 'Return', 'bookings_and_flights' ); ?></span>
 						<input type="date" name="return_date" value="<?php echo esc_attr( $return_date ); ?>">
 					</label>
-					<label class="flight-intent__field">
-						<span><?php esc_html_e( 'Travelers', 'bookings_and_flights' ); ?></span>
-						<input type="number" name="travelers" value="<?php echo esc_attr( (string) $travelers ); ?>" min="1" max="9" inputmode="numeric">
-					</label>
-					<label class="flight-intent__field">
-						<span><?php esc_html_e( 'Cabin', 'bookings_and_flights' ); ?></span>
-						<select name="cabin">
-							<?php foreach ( $cabin_options as $cabin_key => $cabin_label ) : ?>
-								<option value="<?php echo esc_attr( $cabin_key ); ?>" <?php selected( $cabin, $cabin_key ); ?>><?php echo esc_html( $cabin_label ); ?></option>
-							<?php endforeach; ?>
-						</select>
-					</label>
+					<details class="flight-intent__passenger-picker" data-baf-passenger-picker>
+						<summary>
+							<span><?php esc_html_e( 'Travelers and cabin', 'bookings_and_flights' ); ?></span>
+							<strong data-baf-passenger-summary><?php echo esc_html( $traveler_summary ); ?></strong>
+						</summary>
+						<div class="flight-intent__passenger-panel">
+							<label class="flight-intent__field flight-intent__field--compact">
+								<span><?php esc_html_e( 'Adults', 'bookings_and_flights' ); ?></span>
+								<input type="number" name="adults" value="<?php echo esc_attr( (string) $adults ); ?>" min="1" max="9" inputmode="numeric">
+							</label>
+							<label class="flight-intent__field flight-intent__field--compact">
+								<span><?php esc_html_e( 'Children', 'bookings_and_flights' ); ?></span>
+								<input type="number" name="children" value="<?php echo esc_attr( (string) $children ); ?>" min="0" max="8" inputmode="numeric">
+							</label>
+							<label class="flight-intent__field flight-intent__field--compact">
+								<span><?php esc_html_e( 'Infants', 'bookings_and_flights' ); ?></span>
+								<input type="number" name="infants" value="<?php echo esc_attr( (string) $infants ); ?>" min="0" max="<?php echo esc_attr( (string) $adults ); ?>" inputmode="numeric">
+							</label>
+							<label class="flight-intent__field flight-intent__field--compact flight-intent__field--cabin">
+								<span><?php esc_html_e( 'Cabin', 'bookings_and_flights' ); ?></span>
+								<select name="cabin">
+									<?php foreach ( $cabin_options as $cabin_key => $cabin_label ) : ?>
+										<option value="<?php echo esc_attr( $cabin_key ); ?>" <?php selected( $cabin, $cabin_key ); ?>><?php echo esc_html( $cabin_label ); ?></option>
+									<?php endforeach; ?>
+								</select>
+							</label>
+						</div>
+					</details>
 				</div>
 
+				<input type="hidden" name="flightSearch" value="<?php echo esc_attr( $compact_flight_search ); ?>" data-baf-flight-search>
+				<input type="hidden" name="travelers" value="<?php echo esc_attr( (string) $travelers ); ?>" data-baf-passenger-total>
 				<input type="hidden" name="baf_surface" value="flights_landing">
 				<button class="flight-intent__submit" type="submit"><?php esc_html_e( 'Search flights', 'bookings_and_flights' ); ?></button>
 				<p class="flight-intent__helper"><?php esc_html_e( 'After you search, use the live results below to compare fares. Final booking, payment, changes, and support happen with the travel site you choose.', 'bookings_and_flights' ); ?></p>

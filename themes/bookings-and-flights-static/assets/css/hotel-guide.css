@@ -3,6 +3,8 @@
  * Bookings and Flights Static Theme
  */
 
+@import url('./visual-surfaces.css');
+
 .hotel-guide-page .header,
 .hotel-guide-page .header.scrolled,
 .hotel-guide-page .header.on-light:not(.scrolled) {

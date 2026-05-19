@@ -19,6 +19,10 @@ $mode             = sanitize_key( is_scalar( $ai_settings['mode'] ?? '' ) ? (str
 $live_readiness   = Provider_Factory::live_readiness( $ai_settings, $consent_settings );
 $mode_message     = 'live' === $mode ? (string) $live_readiness['message'] : __( 'Demo mode is available without live credentials or external provider calls.', 'bookings-flights-core' );
 
+if ( ! $can_run_ai ) {
+	$mode_message = __( 'Sign in with AI permission to create a trip brief.', 'bookings-flights-core' );
+}
+
 get_header();
 ?>
 
@@ -26,13 +30,27 @@ get_header();
 	<section class="baf-ai-planner" aria-labelledby="baf-ai-planner-title">
 		<div class="baf-ai-planner__shell">
 			<header class="baf-ai-planner__header">
-				<p class="baf-ai-planner__eyebrow"><?php esc_html_e( 'AI trip planner', 'bookings-flights-core' ); ?></p>
-				<h1 id="baf-ai-planner-title" class="baf-ai-planner__title"><?php esc_html_e( 'Turn travel intent into an editable trip brief', 'bookings-flights-core' ); ?></h1>
-				<p class="baf-ai-planner__lede"><?php esc_html_e( 'Describe the trip, add the practical details, and generate a structured draft. Booking, payment, availability, changes, and support stay with Travelpayouts or the partner provider.', 'bookings-flights-core' ); ?></p>
+				<div class="baf-ai-planner__hero-copy">
+					<p class="baf-ai-planner__eyebrow"><?php esc_html_e( 'AI trip planner', 'bookings-flights-core' ); ?></p>
+					<h1 id="baf-ai-planner-title" class="baf-ai-planner__title"><?php esc_html_e( 'Plan the trip before you compare flights and stays', 'bookings-flights-core' ); ?></h1>
+					<p class="baf-ai-planner__lede"><?php esc_html_e( 'Describe the route, dates, travelers, budget, and style. The planner prepares an editable WordPress trip brief while booking, payment, availability, changes, and support stay with Travelpayouts or the partner provider.', 'bookings-flights-core' ); ?></p>
+					<div class="baf-ai-planner__hero-actions" aria-label="<?php esc_attr_e( 'Planner coverage', 'bookings-flights-core' ); ?>">
+						<span><?php esc_html_e( 'Flights', 'bookings-flights-core' ); ?></span>
+						<span><?php esc_html_e( 'Hotels', 'bookings-flights-core' ); ?></span>
+						<span><?php esc_html_e( 'Transfers', 'bookings-flights-core' ); ?></span>
+						<span><?php esc_html_e( 'Events', 'bookings-flights-core' ); ?></span>
+					</div>
+				</div>
 			</header>
 
 			<div class="baf-ai-planner__workspace">
 				<form class="baf-ai-planner__form" data-baf-ai-planner-form aria-describedby="baf-ai-planner-status">
+					<div class="baf-ai-planner__panel-intro">
+						<p class="baf-ai-planner__eyebrow"><?php esc_html_e( 'Trip builder', 'bookings-flights-core' ); ?></p>
+						<h2><?php esc_html_e( 'Start with your travel brief', 'bookings-flights-core' ); ?></h2>
+						<p><?php esc_html_e( 'Use the same travel-commerce details the booking pages need later: origin, destination, dates, travelers, budget, and trip style.', 'bookings-flights-core' ); ?></p>
+					</div>
+
 					<?php if ( ! $can_run_ai ) : ?>
 						<p class="baf-ai-planner__notice baf-ai-planner__notice--error"><?php esc_html_e( 'AI planning is available to signed-in editors with AI permission in this phase.', 'bookings-flights-core' ); ?></p>
 					<?php endif; ?>
@@ -89,15 +107,19 @@ get_header();
 						</label>
 					</div>
 
-					<label class="baf-ai-planner__consent" for="baf_ai_external_consent">
-						<input id="baf_ai_external_consent" type="checkbox" name="external_ai_consent" value="1">
-						<span><?php esc_html_e( 'Allow this planner request to use the configured live AI provider if live mode is enabled. Demo mode stays inside WordPress.', 'bookings-flights-core' ); ?></span>
-					</label>
+					<?php if ( $can_run_ai ) : ?>
+						<label class="baf-ai-planner__consent" for="baf_ai_external_consent">
+							<input id="baf_ai_external_consent" type="checkbox" name="external_ai_consent" value="1">
+							<span><?php esc_html_e( 'Allow this planner request to use the configured live AI provider if live mode is enabled. Demo mode stays inside WordPress.', 'bookings-flights-core' ); ?></span>
+						</label>
 
-					<label class="baf-ai-planner__consent baf-ai-planner__save-option" for="baf_ai_save_draft">
-						<input id="baf_ai_save_draft" type="checkbox" name="save_draft" value="1" <?php disabled( ! $can_edit_content ); ?>>
-						<span><?php esc_html_e( 'Save as an editable WordPress Trip Plan draft. It will not publish automatically.', 'bookings-flights-core' ); ?></span>
-					</label>
+						<?php if ( $can_edit_content ) : ?>
+							<label class="baf-ai-planner__consent baf-ai-planner__save-option" for="baf_ai_save_draft">
+								<input id="baf_ai_save_draft" type="checkbox" name="save_draft" value="1">
+								<span><?php esc_html_e( 'Save as an editable WordPress Trip Plan draft. It will not publish automatically.', 'bookings-flights-core' ); ?></span>
+							</label>
+						<?php endif; ?>
+					<?php endif; ?>
 
 					<div class="baf-ai-planner__actions">
 						<button class="baf-ai-planner__submit" type="submit" <?php disabled( ! $can_run_ai ); ?>><?php esc_html_e( 'Create trip brief', 'bookings-flights-core' ); ?></button>
@@ -111,27 +133,40 @@ get_header();
 					<p id="baf-ai-planner-status" class="baf-ai-planner__status" data-baf-ai-planner-status role="status" aria-live="polite"></p>
 				</form>
 
-				<section class="baf-ai-planner__result" data-baf-ai-planner-result aria-labelledby="baf-ai-planner-result-title">
-					<div class="baf-ai-planner__empty" data-baf-ai-planner-empty>
-						<h2 id="baf-ai-planner-result-title"><?php esc_html_e( 'Trip brief output', 'bookings-flights-core' ); ?></h2>
-						<p><?php esc_html_e( 'Generated briefs appear here with sanitized itinerary fields and recommendation-only Travelpayouts opportunities.', 'bookings-flights-core' ); ?></p>
-					</div>
+				<div class="baf-ai-planner__side">
+					<aside class="baf-ai-planner__hero-card" aria-label="<?php esc_attr_e( 'Partner handoff reminder', 'bookings-flights-core' ); ?>">
+						<p><?php esc_html_e( 'Partner booking handoff', 'bookings-flights-core' ); ?></p>
+						<strong><?php esc_html_e( 'Ideas stay editable. Bookings continue with trusted providers.', 'bookings-flights-core' ); ?></strong>
+						<span><?php esc_html_e( 'Partner links may earn us a commission.', 'bookings-flights-core' ); ?></span>
+					</aside>
 
-					<div class="baf-ai-planner__success" data-baf-ai-planner-success hidden>
-						<p class="baf-ai-planner__eyebrow" data-baf-ai-planner-run></p>
-						<h2 data-baf-ai-planner-title></h2>
-						<p data-baf-ai-planner-summary></p>
-
-						<div class="baf-ai-planner__brief" aria-label="<?php esc_attr_e( 'Structured trip brief', 'bookings-flights-core' ); ?>">
-							<dl data-baf-ai-planner-brief></dl>
+					<section class="baf-ai-planner__result" data-baf-ai-planner-result aria-labelledby="baf-ai-planner-result-title">
+						<div class="baf-ai-planner__empty" data-baf-ai-planner-empty>
+							<h2 id="baf-ai-planner-result-title"><?php esc_html_e( 'Trip brief output', 'bookings-flights-core' ); ?></h2>
+							<p><?php esc_html_e( 'Generated briefs appear here with sanitized itinerary fields, editable planning notes, and recommendation-only Travelpayouts opportunities.', 'bookings-flights-core' ); ?></p>
+							<div class="baf-ai-planner__empty-grid" aria-label="<?php esc_attr_e( 'Output preview', 'bookings-flights-core' ); ?>">
+								<span><?php esc_html_e( 'Route context', 'bookings-flights-core' ); ?></span>
+								<span><?php esc_html_e( 'Daily itinerary', 'bookings-flights-core' ); ?></span>
+								<span><?php esc_html_e( 'Partner ideas', 'bookings-flights-core' ); ?></span>
+							</div>
 						</div>
 
-						<p class="baf-ai-planner__draft" data-baf-ai-planner-draft hidden></p>
-						<div class="baf-ai-planner__days" data-baf-ai-planner-days></div>
-						<div class="baf-ai-planner__opportunities" data-baf-ai-planner-opportunities></div>
-						<p class="baf-ai-planner__disclaimer" data-baf-ai-planner-disclaimer></p>
-					</div>
-				</section>
+						<div class="baf-ai-planner__success" data-baf-ai-planner-success hidden>
+							<p class="baf-ai-planner__eyebrow" data-baf-ai-planner-run></p>
+							<h2 data-baf-ai-planner-title></h2>
+							<p data-baf-ai-planner-summary></p>
+
+							<div class="baf-ai-planner__brief" aria-label="<?php esc_attr_e( 'Structured trip brief', 'bookings-flights-core' ); ?>">
+								<dl data-baf-ai-planner-brief></dl>
+							</div>
+
+							<p class="baf-ai-planner__draft" data-baf-ai-planner-draft hidden></p>
+							<div class="baf-ai-planner__days" data-baf-ai-planner-days></div>
+							<div class="baf-ai-planner__opportunities" data-baf-ai-planner-opportunities></div>
+							<p class="baf-ai-planner__disclaimer" data-baf-ai-planner-disclaimer></p>
+						</div>
+					</section>
+				</div>
 			</div>
 		</div>
 	</section>

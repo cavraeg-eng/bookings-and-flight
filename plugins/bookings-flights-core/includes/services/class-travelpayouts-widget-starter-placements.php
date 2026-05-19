@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 final class Travelpayouts_Widget_Starter_Placements {
 
-	public const SCHEMA_VERSION = '1.0.4';
+	public const SCHEMA_VERSION = '1.0.5';
 
 	public static function definitions(): array {
 		$settings          = Settings_Manager::get_travelpayouts();
@@ -79,7 +79,7 @@ final class Travelpayouts_Widget_Starter_Placements {
 					),
 				),
 				'status'          => 'active',
-				'public_surfaces' => array( 'flights', 'route' ),
+				'public_surfaces' => array( 'home', 'flights', 'route' ),
 				'frame'           => array(
 					'desktop_min_height' => 380,
 					'tablet_min_height'  => 420,
@@ -207,6 +207,10 @@ final class Travelpayouts_Widget_Starter_Placements {
 			$registry = self::migrate_deal_surfaces( $registry );
 		}
 
+		if ( '' === $stored_version || version_compare( $stored_version, '1.0.5', '<' ) ) {
+			$registry = self::migrate_home_popular_routes_surface( $registry );
+		}
+
 		return $registry;
 	}
 
@@ -289,6 +293,28 @@ final class Travelpayouts_Widget_Starter_Placements {
 		if ( true === $changed ) {
 			$registry['updated_at'] = self::timestamp();
 		}
+
+		return $registry;
+	}
+
+	private static function migrate_home_popular_routes_surface( array $registry ): array {
+		if ( empty( $registry['placements']['flights_popular_routes'] ) || ! is_array( $registry['placements']['flights_popular_routes'] ) ) {
+			return $registry;
+		}
+
+		$placement = $registry['placements']['flights_popular_routes'];
+		$surfaces  = self::sanitize_key_list( $placement['public_surfaces'] ?? array() );
+
+		if ( in_array( 'home', $surfaces, true ) ) {
+			return $registry;
+		}
+
+		$surfaces[] = 'home';
+
+		$placement['public_surfaces']                     = $surfaces;
+		$placement['updated_at']                          = self::timestamp();
+		$registry['updated_at']                           = self::timestamp();
+		$registry['placements']['flights_popular_routes'] = $placement;
 
 		return $registry;
 	}

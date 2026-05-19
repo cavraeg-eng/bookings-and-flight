@@ -48,7 +48,7 @@ P16.6 update: the final Phase 16 gate found and fixed one app-owned SEO bug wher
 
 Runtime hotfix update: The public Flights and Hotels widget surfaces briefly showed an app-owned WordPress `_load_textdomain_just_in_time` notice before the Travelpayouts placements when `bookings-flights-core` scheduled cron events during `plugins_loaded`. Runtime scheduling now waits until `init`, the configured widget markup remains intact, and the old notice is absent from the validated `/flights/` and `/hotels/` source.
 
-Search UX hotfix update: The Flights and Hotels intent forms were preserving provider boundaries but felt inert because `search-surface.js` stripped submitted query parameters and the forms reloaded the top of the page. Search submissions and homepage travel cards now target the provider search anchors, keep submitted intent visible, highlight the provider section, and pass flight origin/destination into the Travelpayouts White Label configuration as a best-effort prefill while provider-owned live search, booking, payment, changes, and support remain outside WordPress.
+Search UX hotfix update: The Flights and Hotels intent forms were preserving provider boundaries but felt inert because `search-surface.js` stripped submitted query parameters and the forms reloaded the top of the page. Search submissions and homepage travel cards now target the provider search anchors, keep submitted intent visible, highlight the provider section, and pass flight origin/destination into the Travelpayouts White Label configuration as a best-effort prefill while provider-owned live search, booking, payment, changes, and support remain outside WordPress. A follow-up moved the `/flights/` White Label provider block ahead of the refine form, alert signup, and discovery modules whenever submitted flight intent is present, so search-result landings no longer bury the provider surface below the page.
 
 Security watch item: GitHub push protection identified an embedded Airtable personal access token in the official plugin package during PR publication. The staged local package now redacts the hard-coded token and disables the Airtable distribution script unless a token is supplied outside Git through `TRAVELPAYOUTS_AIRTABLE_TOKEN`. Do not commit provider, analytics, or distribution tokens into the repository.
 
@@ -57,6 +57,18 @@ Compatibility watch item: Direct PHP syntax scanning of the official plugin pass
 Workaround: Treat official-plugin usage as production-cleared only for the exact flight widget path validated in Phase 11. Use Travelpayouts dashboard-generated Trip.com or other Hotels & Accommodation brand widget/link code and White Label Widget/Page code inside secured, capability-gated WordPress wrappers. Keep planned `/search/flights` and `/search/hotels` routes limited to shell/configuration, placement, consent/disclosure, SubID, missing-configuration, or handoff metadata. Do not build a custom replacement flight/hotel inventory backend or promote `platform/` search adapters as the canonical WordPress backend without a new architecture decision.
 
 Planned fix phase: Phase 13 Travelpayouts widget registry and the first real Travelpayouts account/domain setup pass.
+
+## Booking.com Program Approval Blockers
+
+Severity: High for Booking.com only; not blocking the existing Travelpayouts widget or handoff surfaces.
+
+Affected area: Travelpayouts Booking.com program approval, public production source, affiliate profile readiness, and hotel monetization options.
+
+Current issue: Booking.com is visible in the Travelpayouts program catalog but remains unavailable for the current `bookingsandflights.com` project/source after review. The public domain currently resolves to a Squarespace placeholder-style page rather than the local WordPress travel site, so reviewers do not see the WordPress About, Contact, Privacy, Terms, disclosure, Travelpayouts handoff, or travel-content surfaces. The current source also has structural Booking.com-fit risk because the domain contains `bookings` and the product is positioned as a travel discovery/search/handoff site rather than an exclusively editorial travel blog.
+
+Workaround: Do not keep resubmitting the current source to Booking.com until the production URL, ownership/contact signals, and content library are corrected. Use currently available Travelpayouts hotel, White Label, Trip.com, or other approved partner placements for the current Bookings and Flights product shape. If Booking.com is mandatory, use a separate travel-blog-only project/domain with no travel-brand term in the domain and a history of original travel content.
+
+Planned fix phase: Production launch/domain cutover and affiliate-source readiness pass before the next Booking.com review request.
 
 ## Oversized Static Theme Stylesheets
 

@@ -32,7 +32,7 @@ $baf_footer_clean_option = static function ( $key, $fallback = '' ) {
 
 $footer_description = $baf_footer_clean_option(
 	'footer_description',
-	__( 'Travel discovery, AI planning, and partner-powered booking handoffs in one WordPress-native experience.', 'bookings_and_flights' )
+	__( 'Travel discovery, planning ideas, and live search paths in one WordPress-native experience.', 'bookings_and_flights' )
 );
 $contact_address_1  = $baf_footer_clean_option( 'contact_address_1', __( 'Plan trips online', 'bookings_and_flights' ) );
 $contact_address_2  = $baf_footer_clean_option( 'contact_address_2', __( 'Bookings complete with trusted travel partners', 'bookings_and_flights' ) );
@@ -70,6 +70,7 @@ $social_links = array(
 
 <!-- Site Footer -->
 <footer class="site-footer site-footer--layout-<?php echo esc_attr( $footer_layout ); ?>">
+	<!-- Hello Travelpayouts: bookingsandflights.com project ownership verification. -->
 	<div class="site-footer__container">
 
 		<?php if ( 'columns-3' === $footer_layout ) : ?>
@@ -223,7 +224,7 @@ $social_links = array(
 
 		<div class="site-footer__compliance">
 			<p class="site-footer__disclosure">
-				<?php esc_html_e( 'Affiliate disclosure: Bookings and Flights may earn commissions from sponsored Travelpayouts or partner links. Search, availability, booking, payment, changes, and reservation support are handled by the partner provider.', 'bookings_and_flights' ); ?>
+				<?php esc_html_e( 'Affiliate disclosure: Bookings and Flights may earn commissions from sponsored searches or travel links. Live prices, booking, payment, changes, and reservation support are handled by the booking site.', 'bookings_and_flights' ); ?>
 			</p>
 			<nav class="site-footer__legal" aria-label="<?php esc_attr_e( 'Legal, support, and destination links', 'bookings_and_flights' ); ?>">
 				<?php foreach ( $footer_legal_links as $footer_link ) : ?>

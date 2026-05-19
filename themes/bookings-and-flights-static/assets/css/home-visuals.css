@@ -1,0 +1,372 @@
+/**
+ * Homepage visual media upgrades.
+ * Loaded by home.css.
+ */
+
+.home-hero {
+  align-items: center;
+  min-block-size: min(980px, 100dvh);
+  padding-block: calc(86px + var(--space-l)) var(--space-xl);
+}
+
+.home-hero__container {
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.75rem, 4vw, 3.7rem);
+}
+
+.home-hero__copy {
+  max-inline-size: 62rem;
+}
+
+.home-hero__title {
+  max-inline-size: 15ch;
+  font-size: clamp(3.15rem, 6.2vw, 6.45rem);
+}
+
+.home-search {
+  inline-size: min(100%, 1180px);
+  justify-self: center;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  border-color: hsl(42 44% 96% / 0.72);
+  background: hsl(45 44% 98% / 0.96);
+}
+
+.home-search__mast {
+  padding: clamp(1rem, 2vw, 1.35rem);
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.48fr);
+  background: hsl(45 44% 98%);
+}
+
+.home-search__tabs {
+  margin: clamp(0.85rem, 1.5vw, 1rem) clamp(1rem, 2vw, 1.35rem) 0;
+}
+
+.home-search__panels {
+  padding: clamp(0.85rem, 1.5vw, 1rem) clamp(1rem, 2vw, 1.35rem) 0;
+}
+
+.home-search__form {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.home-search__grid--flights {
+  grid-template-columns: minmax(5.25rem, 0.7fr) minmax(5.25rem, 0.7fr) minmax(9.75rem, 1fr) minmax(9.75rem, 1fr) minmax(8rem, 0.72fr);
+}
+
+.home-search__grid--flights .home-search__field:nth-child(5) {
+  grid-column: auto;
+  max-inline-size: none;
+}
+
+.home-search__grid--hotels {
+  grid-template-columns: minmax(13rem, 1.25fr) minmax(9.75rem, 1fr) minmax(9.75rem, 1fr) minmax(7.5rem, 0.72fr) minmax(7rem, 0.68fr);
+}
+
+.home-search__field--wide {
+  grid-column: auto;
+}
+
+.home-search__submit {
+  min-block-size: 54px;
+}
+
+.home-search__disclosure {
+  margin: clamp(0.85rem, 1.5vw, 1rem) clamp(1rem, 2vw, 1.35rem) clamp(1rem, 2vw, 1.35rem);
+}
+
+.home-visual-story {
+  padding-block: var(--space-l) var(--space-xl);
+}
+
+.home-rail__item {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  align-content: end;
+  min-block-size: 9.4rem;
+  background: var(--home-charcoal);
+  color: hsl(45 56% 96%);
+}
+
+.home-rail__item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(180deg, hsl(205 31% 10% / 0.08), hsl(205 31% 10% / 0.76)),
+    var(--home-rail-image) center / cover;
+  transform: scale(1.02);
+  transition: transform 700ms var(--ease-out-expo);
+}
+
+.home-rail__item:hover::before {
+  transform: scale(1.07);
+}
+
+.home-rail__item#explore {
+  --home-rail-image: url("https://pd.w.org/2022/01/12361f8511c7da9f1.74878935-1536x1152.jpg");
+}
+
+.home-rail__item#deals {
+  --home-rail-image: url("https://pd.w.org/2023/07/96964b51694579e59.54227006-1536x864.jpeg");
+}
+
+.home-rail__item#trip-planner {
+  --home-rail-image: url("https://pd.w.org/2022/10/970633c6312c0dc51.25581912-1536x1024.jpg");
+}
+
+.home-rail__item#saved-trips {
+  --home-rail-image: url("https://pd.w.org/2026/04/90669f1501d6f2f87.11965785-1536x1536.jpg");
+}
+
+.home-rail__item span,
+.home-rail__item small {
+  color: inherit;
+  text-shadow: 0 2px 14px hsl(205 31% 10% / 0.44);
+}
+
+.home-rail__item small {
+  color: hsl(45 56% 96% / 0.82);
+}
+
+.home-visual-story__container {
+  inline-size: min(100%, var(--container-max));
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: var(--space-l);
+  align-items: center;
+}
+
+.home-visual-story__copy {
+  display: grid;
+  gap: 0.75rem;
+  max-inline-size: 34rem;
+}
+
+.home-visual-story__copy h2 {
+  margin: 0;
+  color: var(--home-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.9vw, 3.4rem);
+  font-weight: 850;
+  line-height: 1.02;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.home-visual-story__copy p:not(.home-kicker) {
+  margin: 0;
+  color: var(--home-muted);
+  line-height: 1.65;
+}
+
+.home-visual-story__mosaic {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.84fr);
+  grid-template-rows: repeat(2, minmax(11rem, 1fr));
+  gap: var(--space-s);
+}
+
+.home-visual-story__tile {
+  position: relative;
+  min-block-size: 13rem;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--home-charcoal);
+  box-shadow: 0 18px 48px hsl(207 31% 12% / 0.16);
+}
+
+.home-visual-story__tile:first-child {
+  grid-row: span 2;
+  min-block-size: 29rem;
+}
+
+.home-visual-story__tile img,
+.home-discovery-card__media img,
+.home-compact-card__media img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  transition: transform 700ms var(--ease-out-expo);
+}
+
+.home-visual-story__tile::after,
+.home-discovery-card__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, hsl(205 31% 10% / 0.02), hsl(205 31% 10% / 0.62));
+  pointer-events: none;
+}
+
+.home-visual-story__tile figcaption {
+  position: absolute;
+  inset-inline: 1rem;
+  inset-block-end: 1rem;
+  z-index: 1;
+  display: grid;
+  gap: 0.25rem;
+  color: hsl(45 56% 96%);
+}
+
+.home-visual-story__tile figcaption span,
+.home-visual-story__tile figcaption strong {
+  text-shadow: 0 2px 14px hsl(205 31% 10% / 0.46);
+}
+
+.home-visual-story__tile figcaption span {
+  font-size: 0.75rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-visual-story__tile figcaption strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2vw, 1.65rem);
+  line-height: 1.05;
+}
+
+.home-visual-story__tile:hover img,
+.home-discovery-card:hover .home-discovery-card__media img,
+.home-compact-card:hover .home-compact-card__media img {
+  transform: scale(1.045);
+}
+
+.home-discovery-card {
+  overflow: hidden;
+  padding: 0;
+}
+
+.home-discovery-card__media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: var(--home-charcoal);
+}
+
+.home-card-grid--featured .home-discovery-card:first-child .home-discovery-card__media {
+  min-block-size: 15rem;
+  aspect-ratio: 1.22;
+}
+
+.home-discovery-card__body {
+  display: grid;
+  gap: 0.65rem;
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.home-discovery-card__body .home-discovery-card__action {
+  margin-block-start: var(--space-xs);
+}
+
+.home-compact-card {
+  grid-template-columns: minmax(6rem, 0.38fr) minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 0.35rem 0.85rem;
+  padding: 0.58rem;
+}
+
+.home-compact-card__media {
+  grid-row: 1 / span 2;
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+  aspect-ratio: 4 / 3;
+  background: var(--home-charcoal);
+}
+
+.home-compact-card__title,
+.home-compact-card small {
+  min-inline-size: 0;
+}
+
+@media (max-width: 60em) {
+  .home-hero__container {
+    gap: var(--space-l);
+  }
+
+  .home-search__mast {
+    grid-template-columns: 1fr;
+  }
+
+  .home-search__grid--flights,
+  .home-search__grid--hotels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-search__field--wide,
+  .home-search__grid--flights .home-search__field:nth-child(5) {
+    grid-column: 1 / -1;
+    max-inline-size: none;
+  }
+
+  .home-visual-story__container,
+  .home-visual-story__mosaic {
+    grid-template-columns: 1fr;
+  }
+
+  .home-visual-story__mosaic {
+    grid-template-rows: none;
+  }
+
+  .home-visual-story__tile:first-child {
+    grid-row: auto;
+    min-block-size: 16rem;
+  }
+}
+
+@media (max-width: 42em) {
+  .home-hero {
+    min-block-size: auto;
+  }
+
+  .home-hero__title {
+    max-inline-size: 100%;
+  }
+
+  .home-search__tabs,
+  .home-search__panels,
+  .home-search__disclosure {
+    margin-inline: 0.9rem;
+  }
+
+  .home-search__grid--flights,
+  .home-search__grid--hotels {
+    grid-template-columns: 1fr;
+  }
+
+  .home-search__grid--flights .home-search__field:nth-child(5),
+  .home-search__field--wide {
+    grid-column: auto;
+  }
+
+  .home-visual-story {
+    padding-block: var(--space-m);
+  }
+
+  .home-visual-story__tile,
+  .home-visual-story__tile:first-child {
+    min-block-size: 14rem;
+  }
+
+  .home-compact-card {
+    grid-template-columns: 1fr;
+  }
+
+  .home-compact-card__media {
+    grid-row: auto;
+    aspect-ratio: 16 / 9;
+  }
+}

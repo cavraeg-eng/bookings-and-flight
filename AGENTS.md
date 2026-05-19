@@ -27,6 +27,12 @@ WordPress remains the canonical system of record for content, editorial workflow
 
 The current workspace also contains `platform/`, a Next.js/Fastify affiliate meta-search monorepo. Treat it as an integration layer, not a replacement for the WordPress product baseline, unless a documented architecture decision changes that boundary.
 
+## Required Design Source of Truth
+
+Before designing, styling, building, or modifying any UI, component, page, layout, fragment, card, search form, booking flow, or visual copy for Booking and flights, read `DESIGN.md`.
+
+`DESIGN.md` is standalone and authoritative for the product visual and UX system. Agents must use its tokens, domain rules, component patterns, fragments, states, imagery rules, affiliate disclosure rules, and AI guardrails; do not look for an outside reference or invent a separate visual style for flights, hotels, airports, taxis, events, tours, or destination deals.
+
 ## Mandatory Pre-Implementation Research
 
 Before coding any product feature, consult the relevant official documentation and name it in the implementation summary.

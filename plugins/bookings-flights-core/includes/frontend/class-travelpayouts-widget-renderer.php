@@ -58,6 +58,7 @@ final class Travelpayouts_Widget_Renderer {
 		}
 
 		wp_enqueue_style( Frontend_Manager::ASSET_HANDLE );
+		wp_enqueue_script( Frontend_Manager::SCRIPT_HANDLE );
 
 		$subid = self::build_subid( $placement, $attributes );
 		$body  = self::render_body( $placement, $attributes, $subid );
@@ -190,7 +191,7 @@ final class Travelpayouts_Widget_Renderer {
 
 		if ( '' !== (string) $settings['white_label_results_url'] ) {
 			$configuration['resultsURL'] = Travelpayouts_Widget_Subid_Service::add_to_url(
-				(string) $settings['white_label_results_url'],
+				self::white_label_results_url( (string) $settings['white_label_results_url'], $attributes ),
 				$subid,
 				(string) $settings['marker']
 			);
@@ -244,7 +245,7 @@ final class Travelpayouts_Widget_Renderer {
 			esc_html__( 'Loading partner travel search...', 'bookings-flights-core' ),
 			esc_attr( $search_id ),
 			esc_attr( $results_id ),
-			esc_html__( 'Travel search could not load inside this page. Use the partner handoff link to continue.', 'bookings-flights-core' ),
+			esc_html__( 'Travel search could not load inside this page. Use the booking-site link to continue.', 'bookings-flights-core' ),
 			$support_markup,
 			$instance_id_json,
 			$search_id_json,
@@ -282,6 +283,48 @@ final class Travelpayouts_Widget_Renderer {
 		return $placement;
 	}
 
+	private static function white_label_results_url( string $url, array $attributes ): string {
+		$is_flights_surface = 'flights' === (string) ( $attributes['surface'] ?? '' );
+		$url                = esc_url_raw( trim( $url ) );
+		$parts              = wp_parse_url( $url );
+
+		if ( '' === $url || ! is_array( $parts ) || empty( $parts['scheme'] ) || empty( $parts['host'] ) ) {
+			return $is_flights_surface ? self::default_white_label_results_url( $attributes ) : $url;
+		}
+
+		$host = strtolower( trim( (string) $parts['host'], '[]' ) );
+
+		if ( 'localhost' === $host || '127.0.0.1' === $host || '::1' === $host || str_ends_with( $host, '.local' ) ) {
+			return $is_flights_surface ? self::default_white_label_results_url( $attributes ) : $url;
+		}
+
+		$clean_url = $parts['scheme'] . '://' . $parts['host'];
+
+		if ( ! empty( $parts['port'] ) ) {
+			$clean_url .= ':' . absint( $parts['port'] );
+		}
+
+		$clean_url .= isset( $parts['path'] ) ? (string) $parts['path'] : '/';
+
+		if ( ! empty( $parts['query'] ) ) {
+			$clean_url .= '?' . (string) $parts['query'];
+		}
+
+		if ( ! empty( $parts['fragment'] ) ) {
+			$clean_url .= '#' . (string) $parts['fragment'];
+		}
+
+		return esc_url_raw( $clean_url );
+	}
+
+	private static function default_white_label_results_url( array $attributes ): string {
+		if ( 'flights' === (string) ( $attributes['surface'] ?? '' ) ) {
+			return esc_url_raw( home_url( '/flights/' ) );
+		}
+
+		return esc_url_raw( home_url( '/' ) );
+	}
+
 	private static function render_dashboard_script( array $placement, array $attributes, string $subid ): string {
 		$embed      = (array) ( $placement['embed'] ?? array() );
 		$script_url = Travelpayouts_Widget_Subid_Service::add_to_url( (string) ( $embed['url'] ?? '' ), $subid );
@@ -302,7 +345,7 @@ final class Travelpayouts_Widget_Renderer {
 			'<div class="baf-travelpayouts-widget__provider baf-travelpayouts-widget__provider--script is-loading" id="%1$s"><p class="baf-travelpayouts-widget__loading" role="status">%2$s</p><div class="baf-travelpayouts-widget__fallback" role="status">%3$s</div>%4$s</div><script data-noptimize="1" data-cfasync="false" data-wpfc-render="false">(function(){var wrapperId=%5$s;var scriptSrc=%6$s;var wrapper=document.getElementById(wrapperId);if(!wrapper){return;}var observer=null;function update(markUnavailable){var current=document.getElementById(wrapperId);if(!current){if(observer){observer.disconnect();}return true;}var hasFrame=!!current.querySelector("iframe");current.classList.toggle("is-loaded",hasFrame);if(hasFrame){current.classList.remove("is-loading");current.classList.remove("is-unavailable");if(observer){observer.disconnect();}return true;}if(markUnavailable){current.classList.remove("is-loading");current.classList.add("is-unavailable");}else{current.classList.add("is-loading");}return false;}if("MutationObserver" in window){observer=new MutationObserver(function(){update(false);});observer.observe(wrapper,{childList:true,subtree:true});}var checks=0;var maxChecks=24;var timer=window.setInterval(function(){checks+=1;var loaded=update(checks>=maxChecks);if(loaded||checks>=maxChecks){window.clearInterval(timer);}},500);var script=document.createElement("script");script.async=true;script.src=scriptSrc;script.setAttribute("data-noptimize","1");script.setAttribute("data-cfasync","false");script.setAttribute("data-wpfc-render","false");script.addEventListener("load",function(){window.setTimeout(function(){update(false);},0);});script.addEventListener("error",function(){update(true);});wrapper.insertBefore(script,wrapper.firstChild);update(false);}());</script>',
 			esc_attr( $wrapper_id ),
 			esc_html__( 'Loading partner travel search...', 'bookings-flights-core' ),
-			esc_html__( 'Travel search could not load in this browser. Try refreshing the page or opening the partner search link.', 'bookings-flights-core' ),
+			esc_html__( 'Travel search could not load in this browser. Try refreshing the page or opening the booking-site search link.', 'bookings-flights-core' ),
 			self::render_noscript( $placement, $subid ),
 			$wrapper_id_json,
 			$script_url_json
@@ -360,7 +403,7 @@ final class Travelpayouts_Widget_Renderer {
 		$label = (string) ( $fallback['label'] ?? '' );
 
 		if ( '' === $label ) {
-			$label = __( 'Open partner search', 'bookings-flights-core' );
+			$label = __( 'Open booking-site search', 'bookings-flights-core' );
 		}
 
 		return sprintf(
@@ -451,7 +494,11 @@ final class Travelpayouts_Widget_Renderer {
 		$copy = (string) ( $disclosure['copy'] ?? '' );
 
 		if ( '' === $copy ) {
-			$copy = __( 'Sponsored travel search. Booking is completed with the partner provider.', 'bookings-flights-core' );
+			$copy = __( 'Sponsored travel search. Final booking is handled by the booking site.', 'bookings-flights-core' );
+		}
+
+		if ( 'Sponsored travel search. Booking is completed with the partner provider.' === $copy ) {
+			$copy = __( 'Sponsored travel search. Final booking is handled by the booking site.', 'bookings-flights-core' );
 		}
 
 		return sprintf(
@@ -466,7 +513,7 @@ final class Travelpayouts_Widget_Renderer {
 		if ( '' !== $handoff ) {
 			return sprintf(
 				'<noscript><div class="baf-travelpayouts-widget__noscript">%1$s%2$s</div></noscript>',
-				esc_html__( 'Enable JavaScript to load this partner travel search.', 'bookings-flights-core' ),
+				esc_html__( 'Enable JavaScript to load this travel search.', 'bookings-flights-core' ),
 				$handoff
 			);
 		}
@@ -488,7 +535,7 @@ final class Travelpayouts_Widget_Renderer {
 			return $override;
 		}
 
-		return __( 'Travel search is paused until provider request consent is enabled.', 'bookings-flights-core' );
+		return __( 'Travel search is paused until travel-site request consent is enabled.', 'bookings-flights-core' );
 	}
 
 	private static function current_surface(): string {

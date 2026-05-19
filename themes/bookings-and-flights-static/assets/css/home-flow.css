@@ -1,0 +1,367 @@
+/**
+ * Homepage guided-flow polish.
+ * Keeps embedded travel widgets feeling native in light and dark mode.
+ */
+
+.home-partner-tools {
+  background:
+    linear-gradient(180deg, hsl(42 44% 96%) 0%, hsl(0 0% 100%) 46%, hsl(42 36% 94%) 100%);
+  color: var(--home-ink);
+}
+
+.home-partner-tools::before {
+  background:
+    radial-gradient(circle at 80% 18%, hsl(176 66% 28% / 0.16), transparent 34%),
+    linear-gradient(90deg, hsl(42 44% 96% / 0.92), hsl(42 44% 96% / 0.72)),
+    url("https://pd.w.org/2023/07/96964b51694579e59.54227006-1536x864.jpeg") center / cover;
+  opacity: 1;
+}
+
+.home-partner-tools__container {
+  gap: clamp(1.5rem, 3.5vw, 3rem);
+}
+
+.home-partner-tools__intro {
+  align-items: center;
+  padding: clamp(1.2rem, 2.8vw, 2rem);
+  border: 1px solid hsl(38 24% 78% / 0.72);
+  border-radius: 8px;
+  background: hsl(0 0% 100% / 0.86);
+  box-shadow: 0 24px 70px hsl(207 31% 12% / 0.12);
+}
+
+.home-partner-tools__intro h2 {
+  max-inline-size: 15ch;
+  color: var(--home-ink);
+}
+
+.home-partner-tools__intro p:not(.home-kicker) {
+  max-inline-size: 40rem;
+  color: var(--home-muted);
+}
+
+.home-partner-tools .home-kicker--dark {
+  color: var(--home-accent-strong);
+}
+
+.home-partner-tools__grid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(0.9rem, 2vw, 1.25rem);
+}
+
+.home-partner-tools .search-placement {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid hsl(38 24% 78% / 0.78);
+  background: hsl(0 0% 100% / 0.96);
+  box-shadow: 0 20px 54px hsl(207 31% 12% / 0.11);
+}
+
+.home-partner-tools .search-placement::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 4px;
+  background: linear-gradient(90deg, var(--home-accent), hsl(35 59% 55%));
+}
+
+.home-partner-tools .search-placement--home-widget {
+  gap: 1rem;
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.home-partner-tools .search-placement__header {
+  gap: 0.35rem;
+}
+
+.home-partner-tools .search-placement--home-widget .search-placement__eyebrow {
+  color: var(--home-accent-strong);
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.home-partner-tools .search-placement--home-widget .search-placement__title {
+  max-inline-size: 25rem;
+  color: var(--home-ink);
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  text-wrap: balance;
+}
+
+.home-partner-tools .search-placement--home-widget .search-placement__description {
+  max-inline-size: 34rem;
+  color: var(--home-muted);
+}
+
+.home-partner-tools .search-placement--home-widget .search-placement__intent-item {
+  border-color: hsl(38 24% 78% / 0.72);
+  background: hsl(42 45% 97%);
+}
+
+.home-partner-tools .search-placement--home-widget .search-placement__intent dt {
+  color: hsl(176 66% 24%);
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.home-partner-tools .search-placement--home-widget .search-placement__intent dd {
+  color: var(--home-ink);
+}
+
+.home-partner-tools .search-placement--home-widget .search-placement__widget {
+  max-block-size: 20rem;
+  border: 1px solid hsl(38 24% 78% / 0.72);
+  background: hsl(45 44% 98%);
+}
+
+.home-partner-tools .search-placement--home-popular-routes {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.62fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.home-partner-tools .search-placement--home-popular-routes .search-placement__widget {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  max-block-size: 14rem;
+}
+
+.home-partner-tools .search-placement--home-widget .search-placement__support {
+  max-inline-size: 52rem;
+  color: var(--home-muted);
+}
+
+.home-program-lanes {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.8rem, 1.5vw, 1rem);
+}
+
+.home-program-card {
+  min-block-size: 13rem;
+  padding: 1rem;
+}
+
+.home-program-card__text {
+  max-inline-size: 17rem;
+}
+
+.home-partner-tools__disclosure {
+  max-inline-size: 70rem;
+  color: var(--home-muted);
+}
+
+.theme-dark .home-visual-story,
+.theme-dark .home-discovery {
+  background:
+    linear-gradient(180deg, hsl(206 24% 9%) 0%, hsl(204 20% 12%) 54%, hsl(206 24% 9%) 100%);
+  color: hsl(43 42% 94%);
+}
+
+.theme-dark .home-visual-story,
+.theme-dark .home-discovery {
+  border-block-start: 1px solid hsl(202 13% 28%);
+}
+
+.theme-dark .home-visual-story__copy h2,
+.theme-dark .home-discovery__title,
+.theme-dark .home-module__header h3 {
+  color: hsl(43 42% 94%);
+}
+
+.theme-dark .home-visual-story__copy p:not(.home-kicker),
+.theme-dark .home-discovery__summary,
+.theme-dark .home-module__header p {
+  color: hsl(41 18% 76%);
+}
+
+.theme-dark .home-discovery .home-kicker--dark,
+.theme-dark .home-visual-story .home-kicker--dark,
+.theme-dark .home-retention .home-kicker--dark {
+  color: hsl(176 54% 66%);
+}
+
+.theme-dark .home-card-grid--featured .home-discovery-card:not(:first-child),
+.theme-dark .home-card-strip .home-discovery-card,
+.theme-dark .home-compact-card {
+  border-color: hsl(202 13% 34% / 0.72);
+  background: hsl(204 20% 14%);
+  color: hsl(43 42% 94%);
+  box-shadow: 0 24px 58px hsl(206 30% 6% / 0.34);
+}
+
+.theme-dark .home-discovery-card__title,
+.theme-dark .home-compact-card__title {
+  color: hsl(43 42% 94%);
+}
+
+.theme-dark .home-discovery-card__text,
+.theme-dark .home-compact-card small {
+  color: hsl(41 18% 76%);
+}
+
+.theme-dark .home-discovery-card__meta {
+  color: hsl(35 51% 64%);
+}
+
+.theme-dark .home-discovery-card__label,
+.theme-dark .home-discovery-card__action,
+.theme-dark .home-retention-card__label,
+.theme-dark .home-retention-card__action {
+  color: hsl(176 54% 66%);
+}
+
+.theme-dark .home-discovery__disclosure {
+  border-color: hsl(35 51% 45% / 0.55);
+  background: hsl(35 36% 18%);
+  color: hsl(40 42% 88%);
+}
+
+.theme-dark .home-partner-tools {
+  background:
+    linear-gradient(180deg, hsl(206 24% 9%) 0%, hsl(205 21% 12%) 52%, hsl(204 18% 10%) 100%);
+  color: var(--home-ink);
+}
+
+.theme-dark .home-partner-tools::before {
+  background:
+    radial-gradient(circle at 82% 12%, hsl(176 54% 56% / 0.18), transparent 34%),
+    linear-gradient(90deg, hsl(206 24% 9% / 0.94), hsl(205 21% 12% / 0.82)),
+    url("https://pd.w.org/2023/07/96964b51694579e59.54227006-1536x864.jpeg") center / cover;
+}
+
+.theme-dark .home-partner-tools__intro,
+.theme-dark .home-partner-tools .search-placement {
+  border-color: hsl(202 13% 34% / 0.72);
+  background: hsl(204 20% 14% / 0.92);
+  box-shadow: 0 24px 70px hsl(206 30% 6% / 0.34);
+}
+
+.theme-dark .home-partner-tools__intro h2,
+.theme-dark .home-partner-tools .search-placement--home-widget .search-placement__title,
+.theme-dark .home-partner-tools .search-placement--home-widget .search-placement__intent dd {
+  color: hsl(43 42% 94%);
+}
+
+.theme-dark .home-partner-tools__intro p:not(.home-kicker),
+.theme-dark .home-partner-tools .search-placement--home-widget .search-placement__description,
+.theme-dark .home-partner-tools .search-placement--home-widget .search-placement__support,
+.theme-dark .home-partner-tools__disclosure {
+  color: hsl(41 15% 74%);
+}
+
+.theme-dark .home-partner-tools .home-kicker--dark,
+.theme-dark .home-partner-tools .search-placement--home-widget .search-placement__eyebrow,
+.theme-dark .home-partner-tools .search-placement--home-widget .search-placement__intent dt {
+  color: hsl(176 54% 66%);
+}
+
+.theme-dark .home-partner-tools .search-placement--home-widget .search-placement__intent-item,
+.theme-dark .home-partner-tools .search-placement--home-widget .search-placement__widget {
+  border-color: hsl(202 13% 34% / 0.72);
+  background: hsl(204 18% 18%);
+}
+
+.theme-dark .header:not(.on-light):not(.scrolled) .header__logo-light,
+.theme-dark .header:not(.on-light):not(.scrolled) .header__theme-toggle {
+  color: hsl(43 42% 94%);
+}
+
+.theme-dark .header.scrolled,
+.theme-dark .header.on-light:not(.scrolled) {
+  background-color: hsl(204 20% 14% / 0.96);
+  box-shadow: 0 14px 32px hsl(206 30% 6% / 0.38);
+}
+
+.theme-dark .header.scrolled .header__logo-light,
+.theme-dark .header.on-light .header__logo-light {
+  display: flex;
+  color: hsl(43 42% 94%);
+}
+
+.theme-dark .header.scrolled .header__logo-dark,
+.theme-dark .header.on-light .header__logo-dark {
+  display: none;
+}
+
+.theme-dark .header.scrolled .header__nav-link,
+.theme-dark .header.on-light .header__nav-link,
+.theme-dark .header.scrolled .header__theme-toggle,
+.theme-dark .header.on-light .header__theme-toggle {
+  color: hsl(43 42% 94% / 0.78);
+}
+
+.theme-dark .header.scrolled .current-menu-item > .header__nav-link,
+.theme-dark .header.on-light .current-menu-item > .header__nav-link {
+  color: hsl(176 54% 66%);
+}
+
+.theme-dark .home-search {
+  border-color: hsl(202 13% 34% / 0.72);
+  background: hsl(204 20% 14% / 0.94);
+  color: hsl(43 42% 94%);
+}
+
+.theme-dark .home-search__mast,
+.theme-dark .home-search__tabs,
+.theme-dark .home-search__form-head,
+.theme-dark .home-search__grid {
+  border-color: hsl(202 13% 34% / 0.72);
+  background: hsl(204 20% 14%);
+}
+
+.theme-dark .home-search__form-head,
+.theme-dark .home-search__grid {
+  background: hsl(43 42% 94%);
+}
+
+.theme-dark .home-search__title,
+.theme-dark .home-search__field {
+  color: hsl(43 42% 94%);
+}
+
+.theme-dark .home-search__summary,
+.theme-dark .home-search__placement {
+  color: hsl(41 15% 78%);
+}
+
+.theme-dark .home-search__form-head .home-search__placement,
+.theme-dark .home-search__grid .home-search__field {
+  color: hsl(207 31% 12%);
+}
+
+.theme-dark .home-search__tab {
+  color: hsl(41 15% 76%);
+}
+
+.theme-dark .home-search__tab.is-active {
+  background: hsl(43 42% 94%);
+  color: hsl(207 31% 12%);
+}
+
+.theme-dark .home-search__field input,
+.theme-dark .home-search__field select {
+  border-color: hsl(38 24% 68%);
+  background: hsl(0 0% 100%);
+  color: hsl(207 31% 12%);
+}
+
+.theme-dark .home-search__quick a {
+  border-color: hsl(38 24% 68%);
+  background: hsl(43 42% 94%);
+  color: hsl(207 31% 12%);
+}
+
+@media (max-width: 60em) {
+  .home-partner-tools__intro,
+  .home-partner-tools__grid,
+  .home-partner-tools .search-placement--home-popular-routes,
+  .home-program-lanes {
+    grid-template-columns: 1fr;
+  }
+
+  .home-partner-tools .search-placement--home-popular-routes .search-placement__widget {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}

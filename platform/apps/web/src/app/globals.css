@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --------------------------------------------------------------------------
+   Design tokens — exposed as CSS vars so they can be consumed by runtime
+   inline styles when Tailwind classes aren't enough.
+-------------------------------------------------------------------------- */
+@layer base {
+    :root {
+        --color-bg: #FBF6EC;            /* cream */
+        --color-bg-alt: #FEFCF7;
+        --color-ink: #0B1628;           /* deep ink */
+        --color-ink-soft: #142647;
+        --color-text: #0B1628;
+        --color-text-muted: #3A5375;
+        --color-text-dim: #5E779B;
+        --color-border: rgba(11, 22, 40, 0.1);
+        --color-border-strong: rgba(11, 22, 40, 0.18);
+        --color-accent: #F08900;        /* sunrise amber */
+        --color-accent-hover: #D27000;
+
+        --radius: 10px;
+        --radius-lg: 16px;
+    }
+
+    /* Smooth anchor scroll with header offset */
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 5rem;
+    }
+
+    body {
+        @apply bg-cream-100 text-ink-900 antialiased;
+        font-feature-settings: "ss01", "cv01", "cv02";
+    }
+
+    /* Selection */
+    ::selection {
+        background: #FFB74A;
+        color: #0B1628;
+    }
+
+    /* Focus-visible rings consistent with brand */
+    *:focus-visible {
+        outline: 2px solid #F08900;
+        outline-offset: 2px;
+        border-radius: 6px;
+    }
+
+    /* Inputs/selects via @tailwindcss/forms get baseline clean styling.
+       We further refine per-component. */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        opacity: 0.55;
+        cursor: pointer;
+        filter: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Component primitives
+-------------------------------------------------------------------------- */
+@layer components {
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200
+               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+               focus-visible:ring-amber-500 focus-visible:ring-offset-cream-100
+               disabled:opacity-50 disabled:cursor-not-allowed select-none;
+    }
+    .btn-primary {
+        @apply btn bg-ink-900 text-cream-100 hover:bg-ink-800 active:bg-ink-700
+               shadow-card hover:shadow-float hover:-translate-y-0.5;
+    }
+    .btn-accent {
+        @apply btn bg-amber-500 text-ink-900 hover:bg-amber-400 active:bg-amber-600
+               shadow-card hover:shadow-float hover:-translate-y-0.5;
+    }
+    .btn-ghost {
+        @apply btn bg-transparent text-ink-900 hover:bg-ink-900/5 border border-ink-900/15 hover:border-ink-900/30;
+    }
+    .btn-sm { @apply px-3.5 py-1.5 text-sm; }
+    .btn-md { @apply px-5 py-2.5 text-[0.95rem]; }
+    .btn-lg { @apply px-7 py-3.5 text-base; }
+
+    .field {
+        @apply flex flex-col gap-1.5;
+    }
+    .field-label {
+        @apply text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-500;
+    }
+    .field-input {
+        @apply w-full rounded-xl border border-ink-900/10 bg-white px-4 py-3 text-ink-900
+               placeholder:text-ink-400 shadow-subtle
+               focus:border-amber-400 focus:ring-2 focus:ring-amber-200/70 focus:outline-none
+               transition-all;
+    }
+    .field-input--ghost {
+        @apply border-transparent bg-ink-900/[0.035] hover:bg-ink-900/[0.06];
+    }
+
+    .chip {
+        @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[0.68rem] font-semibold
+               uppercase tracking-[0.08em];
+    }
+    .chip-amber { @apply chip bg-amber-100 text-amber-800; }
+    .chip-sky   { @apply chip bg-sky-100 text-sky-800; }
+    .chip-ink   { @apply chip bg-ink-900 text-cream-100; }
+    .chip-emerald { @apply chip bg-emerald-100 text-emerald-800; }
+
+    /* Editorial divider — thin amber line */
+    .eyebrow {
+        @apply inline-flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-ink-500;
+    }
+    .eyebrow::before {
+        content: "";
+        @apply block h-px w-8 bg-amber-500;
+    }
+
+    /* Long-form editorial prose used by ContentPage (about/privacy/terms/etc.) */
+    .prose-content {
+        @apply text-ink-700 leading-[1.75] text-[1.05rem];
+    }
+    .prose-content > * + * { @apply mt-5; }
+    .prose-content h2 {
+        @apply font-display text-3xl md:text-4xl text-ink-900 tracking-tight mt-14 mb-4 text-balance;
+    }
+    .prose-content h3 {
+        @apply font-display text-xl md:text-2xl text-ink-900 tracking-tight mt-10 mb-3;
+    }
+    .prose-content p { @apply text-ink-700; }
+    .prose-content strong { @apply text-ink-900 font-semibold; }
+    .prose-content a {
+        @apply text-amber-700 underline underline-offset-4 decoration-amber-500/40
+               hover:decoration-amber-500 hover:text-amber-800 transition-colors;
+    }
+    .prose-content ul { @apply list-disc pl-6 space-y-2 marker:text-amber-500; }
+    .prose-content ol { @apply list-decimal pl-6 space-y-2 marker:text-amber-500; }
+    .prose-content li { @apply text-ink-700 leading-relaxed; }
+    .prose-content blockquote {
+        @apply border-l-2 border-amber-500 pl-6 my-8 italic text-ink-500 font-display text-xl leading-relaxed;
+    }
+    .prose-content hr { @apply my-12 border-ink-900/10; }
+    .prose-content code {
+        @apply font-mono text-sm bg-ink-900/5 px-1.5 py-0.5 rounded text-ink-800;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Utility: departure-board mono number with tabular figures
+-------------------------------------------------------------------------- */
+@layer utilities {
+    .font-board {
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: "tnum" on, "ss01" on;
+    }
+    .mask-fade-b {
+        mask-image: linear-gradient(to bottom, black 60%, transparent);
+    }
+    .text-balance { text-wrap: balance; }
+    .text-pretty { text-wrap: pretty; }
+}

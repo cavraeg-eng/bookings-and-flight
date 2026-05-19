@@ -230,7 +230,7 @@ final class Settings_Manager {
 				self::OPTION_TRAVELPAYOUTS,
 				'white_label_results_url',
 				array(
-					'description' => __( 'Optional. Use this only when Travelpayouts results should open on a separate WordPress results page.', 'bookings-flights-core' ),
+					'description' => __( 'Optional. Use this when Travelpayouts should send White Label results to a configured public results page instead of the current embedded page.', 'bookings-flights-core' ),
 				)
 			)
 		);

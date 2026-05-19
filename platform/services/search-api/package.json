@@ -1,0 +1,32 @@
+{
+  "name": "@baf/search-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "predev": "npm run -w @baf/shared build",
+    "dev": "tsx watch --env-file=.env src/server.ts",
+    "prebuild": "npm run -w @baf/shared build",
+    "build": "tsc -p tsconfig.json",
+    "prestart": "npm run -w @baf/shared build",
+    "start": "node --env-file=.env dist/server.js",
+    "pretypecheck": "npm run -w @baf/shared build",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@baf/shared": "*",
+    "@fastify/cors": "^9.0.1",
+    "@fastify/rate-limit": "^9.1.0",
+    "@prisma/client": "^6.6.0",
+    "fastify": "^4.28.1",
+    "pino-pretty": "^11.2.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "prisma": "^6.6.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

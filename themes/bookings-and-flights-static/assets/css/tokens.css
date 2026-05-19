@@ -100,12 +100,12 @@
   /* ==========================================================================
      Surface & Text Colors
      ========================================================================== */
-  --bg-body: hsl(0, 0%, 90%);
+  --bg-body: hsl(43, 41%, 94%);
   --bg-surface: hsl(0, 0%, 100%);
-  --bg-subtle: hsl(0, 0%, 95%);
-  --bg-dark: hsl(0, 0%, 12%);
-  --text-body: hsl(0, 0%, 25%);
-  --text-title: hsl(0, 0%, 0%);
+  --bg-subtle: hsl(42, 34%, 91%);
+  --bg-dark: hsl(205, 31%, 10%);
+  --text-body: hsl(204, 12%, 32%);
+  --text-title: hsl(207, 31%, 12%);
   --text-muted: var(--text-body-l-3);
 
   /* Text body lighter ramp */
@@ -122,13 +122,13 @@
      Borders & Shadows
      ========================================================================== */
   --border-primary: hsla(0, 0%, 50%, 0.25);
-  --shadow-primary: hsla(0, 0%, 0%, 0.15);
+  --shadow-primary: hsla(207, 31%, 12%, 0.15);
 
   /* ==========================================================================
      Utility Colors — Light / Dark
      ========================================================================== */
   --light: hsl(0, 0%, 100%);
-  --dark: hsl(0, 0%, 0%);
+  --dark: hsl(207, 31%, 12%);
 
   /* Light opacity scale */
   --light-5: hsla(0, 0%, 100%, 0.05);
@@ -143,16 +143,16 @@
   --light-90: hsla(0, 0%, 100%, 0.9);
 
   /* Dark opacity scale */
-  --dark-5: hsla(0, 0%, 0%, 0.05);
-  --dark-10: hsla(0, 0%, 0%, 0.1);
-  --dark-20: hsla(0, 0%, 0%, 0.2);
-  --dark-30: hsla(0, 0%, 0%, 0.3);
-  --dark-40: hsla(0, 0%, 0%, 0.4);
-  --dark-50: hsla(0, 0%, 0%, 0.5);
-  --dark-60: hsla(0, 0%, 0%, 0.6);
-  --dark-70: hsla(0, 0%, 0%, 0.7);
-  --dark-80: hsla(0, 0%, 0%, 0.8);
-  --dark-90: hsla(0, 0%, 0%, 0.9);
+  --dark-5: hsla(207, 31%, 12%, 0.05);
+  --dark-10: hsla(207, 31%, 12%, 0.1);
+  --dark-20: hsla(207, 31%, 12%, 0.2);
+  --dark-30: hsla(207, 31%, 12%, 0.3);
+  --dark-40: hsla(207, 31%, 12%, 0.4);
+  --dark-50: hsla(207, 31%, 12%, 0.5);
+  --dark-60: hsla(207, 31%, 12%, 0.6);
+  --dark-70: hsla(207, 31%, 12%, 0.7);
+  --dark-80: hsla(207, 31%, 12%, 0.8);
+  --dark-90: hsla(207, 31%, 12%, 0.9);
 
   /* ==========================================================================
      Semantic Colors
@@ -165,8 +165,8 @@
   /* ==========================================================================
      Typography
      ========================================================================== */
-  --font-display: 'Inter', Georgia, serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Outfit', 'Avenir Next', system-ui, sans-serif;
+  --font-body: 'Outfit', 'Avenir Next', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
   /* Fluid Type Scale */
@@ -289,12 +289,12 @@
    Dark Mode Overrides
    ========================================================================== */
 .theme-dark {
-  --bg-body: hsl(0, 0%, 5%);
-  --bg-surface: hsl(0, 0%, 15%);
-  --bg-subtle: hsl(0, 0%, 10%);
-  --bg-dark: hsl(0, 0%, 3%);
-  --text-body: hsl(0, 0%, 75%);
-  --text-title: hsl(0, 0%, 100%);
+  --bg-body: hsl(206, 24%, 9%);
+  --bg-surface: hsl(204, 20%, 14%);
+  --bg-subtle: hsl(204, 18%, 18%);
+  --bg-dark: hsl(206, 30%, 8%);
+  --text-body: hsl(41, 15%, 72%);
+  --text-title: hsl(43, 42%, 94%);
   --text-muted: var(--text-body-l-3);
 
   --text-body-l-1: hsl(0, 0%, 70%);
@@ -307,20 +307,20 @@
   --text-body-l-8: hsl(0, 0%, 25%);
 
   --border-primary: hsla(0, 0%, 75%, 0.1);
-  --shadow-primary: hsla(0, 0%, 0%, 0.4);
-  --light: hsl(0, 0%, 0%);
-  --dark: hsl(0, 0%, 100%);
+  --shadow-primary: hsla(206, 30%, 6%, 0.4);
+  --light: hsl(206, 30%, 8%);
+  --dark: hsl(43, 42%, 94%);
 
-  --light-5: hsla(0, 0%, 0%, 0.05);
-  --light-10: hsla(0, 0%, 0%, 0.1);
-  --light-20: hsla(0, 0%, 0%, 0.2);
-  --light-30: hsla(0, 0%, 0%, 0.3);
-  --light-40: hsla(0, 0%, 0%, 0.4);
-  --light-50: hsla(0, 0%, 0%, 0.5);
-  --light-60: hsla(0, 0%, 0%, 0.6);
-  --light-70: hsla(0, 0%, 0%, 0.7);
-  --light-80: hsla(0, 0%, 0%, 0.8);
-  --light-90: hsla(0, 0%, 0%, 0.9);
+  --light-5: hsla(206, 30%, 8%, 0.05);
+  --light-10: hsla(206, 30%, 8%, 0.1);
+  --light-20: hsla(206, 30%, 8%, 0.2);
+  --light-30: hsla(206, 30%, 8%, 0.3);
+  --light-40: hsla(206, 30%, 8%, 0.4);
+  --light-50: hsla(206, 30%, 8%, 0.5);
+  --light-60: hsla(206, 30%, 8%, 0.6);
+  --light-70: hsla(206, 30%, 8%, 0.7);
+  --light-80: hsla(206, 30%, 8%, 0.8);
+  --light-90: hsla(206, 30%, 8%, 0.9);
 
   --dark-5: hsla(0, 0%, 100%, 0.05);
   --dark-10: hsla(0, 0%, 100%, 0.1);
@@ -341,12 +341,12 @@
    ========================================================================== */
 @media (prefers-color-scheme: dark) {
   :root:not(.theme-light) {
-    --bg-body: hsl(0, 0%, 5%);
-    --bg-surface: hsl(0, 0%, 15%);
-    --bg-subtle: hsl(0, 0%, 10%);
-    --bg-dark: hsl(0, 0%, 3%);
-    --text-body: hsl(0, 0%, 75%);
-    --text-title: hsl(0, 0%, 100%);
+    --bg-body: hsl(206, 24%, 9%);
+    --bg-surface: hsl(204, 20%, 14%);
+    --bg-subtle: hsl(204, 18%, 18%);
+    --bg-dark: hsl(206, 30%, 8%);
+    --text-body: hsl(41, 15%, 72%);
+    --text-title: hsl(43, 42%, 94%);
     --text-muted: var(--text-body-l-3);
 
     --text-body-l-1: hsl(0, 0%, 70%);
@@ -359,20 +359,20 @@
     --text-body-l-8: hsl(0, 0%, 25%);
 
     --border-primary: hsla(0, 0%, 75%, 0.1);
-    --shadow-primary: hsla(0, 0%, 0%, 0.4);
-    --light: hsl(0, 0%, 0%);
-    --dark: hsl(0, 0%, 100%);
+    --shadow-primary: hsla(206, 30%, 6%, 0.4);
+    --light: hsl(206, 30%, 8%);
+    --dark: hsl(43, 42%, 94%);
 
-    --light-5: hsla(0, 0%, 0%, 0.05);
-    --light-10: hsla(0, 0%, 0%, 0.1);
-    --light-20: hsla(0, 0%, 0%, 0.2);
-    --light-30: hsla(0, 0%, 0%, 0.3);
-    --light-40: hsla(0, 0%, 0%, 0.4);
-    --light-50: hsla(0, 0%, 0%, 0.5);
-    --light-60: hsla(0, 0%, 0%, 0.6);
-    --light-70: hsla(0, 0%, 0%, 0.7);
-    --light-80: hsla(0, 0%, 0%, 0.8);
-    --light-90: hsla(0, 0%, 0%, 0.9);
+    --light-5: hsla(206, 30%, 8%, 0.05);
+    --light-10: hsla(206, 30%, 8%, 0.1);
+    --light-20: hsla(206, 30%, 8%, 0.2);
+    --light-30: hsla(206, 30%, 8%, 0.3);
+    --light-40: hsla(206, 30%, 8%, 0.4);
+    --light-50: hsla(206, 30%, 8%, 0.5);
+    --light-60: hsla(206, 30%, 8%, 0.6);
+    --light-70: hsla(206, 30%, 8%, 0.7);
+    --light-80: hsla(206, 30%, 8%, 0.8);
+    --light-90: hsla(206, 30%, 8%, 0.9);
 
     --dark-5: hsla(0, 0%, 100%, 0.05);
     --dark-10: hsla(0, 0%, 100%, 0.1);

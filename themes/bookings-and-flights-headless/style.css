@@ -1,0 +1,11 @@
+/*
+Theme Name: Bookings and Flights — Headless
+Theme URI: https://bookings-and-flights.local/
+Author: Bookings and Flights
+Description: Headless theme. Redirects all non-admin, non-REST, non-login visitor traffic to the Next.js app. DO NOT activate until the Next.js app is reachable.
+Version: 0.1.0
+Requires at least: 6.4
+Requires PHP: 8.0
+License: Proprietary
+Text Domain: baf-headless
+*/
