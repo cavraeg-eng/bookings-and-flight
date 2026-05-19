@@ -97,6 +97,7 @@ export const travelpayoutsAdapter: SupplierAdapter = {
             req.destination,
             req.depart,
             req.return ?? "",
+            req.cabin,
             req.currency,
         );
 

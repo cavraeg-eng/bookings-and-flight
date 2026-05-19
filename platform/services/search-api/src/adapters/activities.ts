@@ -82,6 +82,7 @@ export const activitiesAdapter: SupplierAdapter = {
             req.from,
             req.to ?? "",
             String(req.adults),
+            String(req.children),
             req.currency,
         );
 

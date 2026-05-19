@@ -48,6 +48,9 @@ export const carsAdapter: SupplierAdapter = {
             req.dropoffLocation ?? "",
             req.pickupDate,
             req.dropoffDate,
+            req.pickupTime,
+            req.dropoffTime,
+            String(req.driverAge),
             req.currency,
         );
 
